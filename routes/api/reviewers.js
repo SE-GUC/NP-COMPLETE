@@ -71,7 +71,7 @@ router.post('/:id', (req, res) =>
 
     const updated = reviewers.find(r => r.id === id);
 
-    if (updated === undefined) return res.json(404, `<h3>No such ID exists</h3>`);
+    if (!updated) return res.json(404, `<h3>No such ID exists</h3>`);
 
     const schema = 
     {
@@ -95,19 +95,19 @@ router.post('/:id', (req, res) =>
 
     if (!changed) return res.json(400, `<h3>No element was changed</h3>`);
 
-    if (name !== undefined)
+    if (name)
         updated.name = name;
 
-    if (birthdate !== undefined)
+    if (birthdate)
         updated.birthdate = birthdate;
 
-    if (starting_year !== undefined)
+    if (starting_year)
         updated.starting_year = starting_year;
 
-    if (working_hours !== undefined)
+    if (working_hours)
         updated.working_hours = working_hours;
 
-    if (salary !== undefined)
+    if (salary)
         updated.salary = salary;
 
     return res.json(200, `<a href="api/reviewers/${id}">${updated.name}</a> has been updated`);
@@ -117,10 +117,10 @@ router.post('/:id', (req, res) =>
 // Delete a Reviwer
 router.delete('/:id', (req, res) => {
     const revid = req.params.id 
-    const Reviewer = reviewers.find(reviewer => reviewer.id === revid)
-    if(Reviewer !== undefined)
+    const reviewer = reviewers.find(reviewer => reviewer.id === revid)
+    if(reviewer)
     {
-        const index = reviewers.indexOf(Reviewer)
+        const index = reviewers.indexOf(reviewer)
         reviewers.splice(index,1)
         res.json(reviewers)
     }
