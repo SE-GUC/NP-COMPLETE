@@ -3,10 +3,7 @@ const app = express();
 
 app.use(express.json());
 
-const externalEntities = require('./routes/api/externalEntities');
-const admins = require('./routes/api/admins')
 const investors = require('./routes/api/investors')
-const lawyers = require('./routes/api/lawyers')
 
 
 app.get('/',(req,res) => {
@@ -18,9 +15,6 @@ app.get('/',(req,res) => {
     
   })
   // Direct routes to appropriate files 
-app.use('/api/lawyers', lawyers)
-app.use('/api/externalEntities',externalEntities);
-app.use('/api/admins', admins);
 app.use('/api/investors',investors)
 
 // Handling 404
