@@ -12,7 +12,15 @@ const admins = [
     new Admin('Hosam', 'hosam@gmail.com', '1998-06-05', 10, 150)
 ];
 
+//Read all Admins
 router.get('/', (req, res) => res.json({data:admins}));
+
+//Read specific admin
+router.get('/:id', (req, res) => {            
+    const adminId = req.params.id
+    const admin = admins.find(admins => admins.id === adminId)
+    res.send(admin)
+});
 
 router.post('/createAdmin', (req, res) => {
 
@@ -90,6 +98,15 @@ router.put('/updateAdmin/:id', (req, res) => {
                 data: admins
             });
     });
+});
+
+//Delete an Admin
+router.delete('/:id', (req, res) => {            
+    const adminId = req.params.id 
+    const admin = admins.find(admins => admins.id === adminId)
+    const index = admins.indexOf(admin)
+    admins.splice(index,1)
+    res.send(admins)
 });
 
 module.exports = router;
