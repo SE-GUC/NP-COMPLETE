@@ -78,7 +78,7 @@ router.get('/:id', (req, res) => {
  
 router.delete('/:id', (req, res) => {
     const lawyerId = req.params.id
-    const lawyer = lawyers.find_by_uuid(lawyer => lawyer.id===lawyerId)
+    const lawyer = lawyers.find(lawyer => lawyer.id===lawyerId)
     const index = lawyers.indexOf(lawyer)
     lawyers.splice(index,1)
     res.send(lawyers)
