@@ -69,14 +69,14 @@ router.put('/', (req, res) => {
 router.get('/', (req, res) => res.json({ data: lawyers }));
 
 // Get a certain lawyer using id
-router.get('/api/lawyers/:id', (req, res) => {
+router.get('/:id', (req, res) => {
     const lawyerId = req.params.id
     const lawyer = lawyers.find(lawyer => lawyer.id === lawyerId)
     res.send(lawyer)
 })
 //delete lawyer using id
  
-router.delete('/api/lawyers/:id', (req, res) => {
+router.delete('/:id', (req, res) => {
     const lawyerId = req.params.id
     const lawyer = lawyers.find_by_uuid(lawyer => lawyer.id===lawyerId)
     const index = lawyers.indexOf(lawyer)
