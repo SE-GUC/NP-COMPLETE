@@ -68,6 +68,15 @@ router.put('/', (req, res) => {
 
 })
 
+//Delete a specific investor with ID in URL. 
+router.delete('/:id', (req,res)=> 
+{   
+    const investorId = req.params.id;
+    const index = investors.findIndex(investor => investor.id === investorId);
+    investors.splice(index,1)
+    res.send(investors);
+})
+
 module.exports = router;
 
 
