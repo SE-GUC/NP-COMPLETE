@@ -17,24 +17,6 @@ const lawyers = [
 
 // Create a new lawyer
 router.post('/', (req, res) => {
-	const name = req.body.name;
-	const age = req.body.age;
-
-	if (!name) return res.status(400).send({ err: 'Name field is required' });
-	if (typeof name !== 'string') return res.status(400).send({ err: 'Invalid value for name' });
-	if (!age) return res.status(400).send({ err: 'Age field is required' });
-	if (typeof age !== 'number') return res.status(400).send({ err: 'Invalid value for age' });
-
-	const newLawyer = {
-		name,
-		age,
-		id: uuid.v4(),
-	};
-	return res.json({ data: newLawyer });
-});
-
-
-router.post('/joi', (req, res) => {
 	const name = req.body.name
 	const age = req.body.age
 
@@ -52,19 +34,44 @@ router.post('/joi', (req, res) => {
 		age,
 		id: uuid.v4(),
 	};
+	lawyers.push(newLawyer)
 	return res.json({ data: newLawyer });
+	
 });
 
-//Updating a Lawyer record.
-router.put('/', (req, res) => {
-    const id = req.body.id;
-    const newName = req.body.name;
-    const newAge = req.body.age;
-    const lawyerToBeUpdated = lawyers.find_by_uuid(Lawyer => Lawyer.id === id);
-    lawyerToBeUpdated.name = newName;
-    lawyerToBeUpdated.age = newAge;
-    res.send(lawyers);
-})
+
+router.put('/:id', (req, res) => {
+	const lawyerId=req.params.id
+	const lawyer = lawyers.find(lawyer => lawyer.id === lawyerId)
+	const updatedname = req.body.name
+	const updatedage = req.body.age
+	
+	
+	if(!(updatedname===undefined)){
+	const schemaName = {
+		name: Joi.string().min(3).required(),
+	}
+	const resultName = Joi.validate(req.body, schemaName);	
+	if (resultName.error) return res.status(400).send({ error: resultName.error.details[0].message });
+	lawyer.name=updatedname	
+	}
+
+
+	if(!(updatedage===undefined)){
+		const schemaAge = {
+		age: Joi.number().required(),
+	}
+	const resultAge = Joi.validate(req.body, schemaAge);
+
+	if (resultAge.error) return res.status(400).send({ error: resultAge.error.details[0].message });
+	lawyer.age=updatedage	
+	}
+	
+	
+	
+
+	return res.json({ data: lawyer })
+});
 //get all lawyers
 router.get('/', (req, res) => res.json({ data: lawyers }));
 
@@ -86,3 +93,18 @@ router.delete('/:id', (req, res) => {
 
 
 module.exports=router;
+//Updating a Lawyer record.
+// router.put('/:id', (req, res) => {
+// 	const lawyerId = req.params.id 
+	
+// 	const updatedname = req.body.name
+// 	const updatedage=req.body.age
+// 	const lawyer = lawyers.find(lawyer => lawyer.id === lawyerId)
+// 	if(!(updatedname===undefined)){
+// 		lawyer.name = updatedname}
+
+// 	if(!(updatedage===undefined)){
+// 		lawyer.age = updatedage}
+	
+//     res.send(lawyers)
+// })
