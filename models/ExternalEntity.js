@@ -1,9 +1,12 @@
+const uuid = require('uuid')
+
 class ExternalEntity {
-    constructor(id,name,phone,email) {
-        this.id = id;
+    constructor(name,phone,email) {
+        this.id = uuid.v4();
         this.name = name;
         this.phone = phone;
         this.email = email;
+        
     };
 }
 

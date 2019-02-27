@@ -1,4 +1,6 @@
+const uuid = require('uuid');
 const express = require('express');
+const Joi = require('joi');
 //const bodyParser=require('body-parser');
 const ExternalEntity = require('../../models/ExternalEntity');
 const router = express.Router();
@@ -64,15 +66,12 @@ const externalEntities = [
 
 // Create a new external entity
 router.post('/', (req, res) => {
-    const id = req.body.id;
-	const name = req.body.name;
+    const name = req.body.name;
     const phone = req.body.phone;
     const email = req.body.email;
     
 
-	if (!id) return res.status(400).send({ err: 'ID field is required' });
-	if (typeof id !== "number") return res.status(400).send({ err: 'Invalid value for ID' });
-    
+	
 
     if (!name) return res.status(400).send({ err: 'Name field is required' });
 	if (typeof name !== "string") return res.status(400).send({ err: 'Invalid value for Name ' });
@@ -87,23 +86,45 @@ router.post('/', (req, res) => {
     
 	
 	const newExternalEntity = {
-        id,
+        id:uuid.v4(),
         name,
 		phone,
         email,
     };
     
 
-    externalEntities.push({
-        id:req.body.id,
-        name:req.body.name,
-        phone:req.body.phone,
-        email:req.body.email
-    })
+    externalEntities.push(newExternalEntity);
 
 
     return res.json({ data: newExternalEntity });
     
+});
+
+router.post('/joi',(req,res) => {
+    const name = req.body.name;
+    const phone = req.body.phone;
+    const email = req.body.email;
+    
+    const schema = {
+        name: Joi.string().min(3).required(),
+        number: Joi.number().required(),
+        email: Joi.string().required()
+    }
+
+    const result = Joi.validate(req.body,schema);
+
+    if(result.error){
+        return res.status(400).send({error : result.error.details[0].message});
+    }
+
+    const newExternalEntity = {
+        id:uuid.v4(),
+        name,
+		phone,
+        email,
+    };
+
+    return res.json({ data: newExternalEntity });
 });
 
 
@@ -114,9 +135,15 @@ router.put('/', (req, res) => {
     const updatedPhone = req.body.phone
     const updatedEmail = req.body.email
     const externalEntity = externalEntities.find(ExternalEntity => ExternalEntity.id === externalEntityId)
-    externalEntity.name = updatedName
-    externalEntity.phone = updatedPhone
-    externalEntity.email = updatedEmail
+    if(!(updatedName===undefined)){
+        externalEntity.name = updatedName
+    }
+    if(!(updatedPhone===undefined)){
+        externalEntity.phone = updatedPhone
+    }
+    if(!(updatedEmail===undefined)){
+       externalEntity.email = updatedEmail
+    }
     res.send(externalEntities)
 })
 
