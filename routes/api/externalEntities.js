@@ -1,4 +1,6 @@
+const uuid = require('uuid');
 const express = require('express');
+const Joi = require('joi');
 //const bodyParser=require('body-parser');
 const ExternalEntity = require('../../models/ExternalEntity');
 const router = express.Router();
@@ -64,59 +66,122 @@ const externalEntities = [
 
 // Create a new external entity
 router.post('/', (req, res) => {
-    const id = req.body.id;
-	const name = req.body.name;
+    const name = req.body.name;
     const phone = req.body.phone;
     const email = req.body.email;
     
+    const schema = {
+        name: Joi.string().min(3).required(),
+        phone: Joi.number().required(),
+        email: Joi.string().required()
+    }
 
-	if (!id) return res.status(400).send({ err: 'ID field is required' });
-	if (typeof id !== "number") return res.status(400).send({ err: 'Invalid value for ID' });
-    
+    const result = Joi.validate(req.body,schema);
 
-    if (!name) return res.status(400).send({ err: 'Name field is required' });
-	if (typeof name !== "string") return res.status(400).send({ err: 'Invalid value for Name ' });
+    if(result.error){
+        return res.status(400).send({error : result.error.details[0].message});
+    }
+
 	
 
-    if (!phone) return res.status(400).send({ err: 'Phone field is required' });
-    if (typeof phone !== "number") return res.status(400).send({ err: 'Invalid value for Phone' });
+    // if (!name) return res.status(400).send({ err: 'Name field is required' });
+	// if (typeof name !== "string") return res.status(400).send({ err: 'Invalid value for Name ' });
+	
+
+    // if (!phone) return res.status(400).send({ err: 'Phone field is required' });
+    // if (typeof phone !== "number") return res.status(400).send({ err: 'Invalid value for Phone' });
     
 
-    if (!email) return res.status(400).send({ err: 'Email field is required' });
-    if (typeof email !== "string") return res.status(400).send({ err: 'Invalid value for Email' });
+    // if (!email) return res.status(400).send({ err: 'Email field is required' });
+    // if (typeof email !== "string") return res.status(400).send({ err: 'Invalid value for Email' });
     
 	
 	const newExternalEntity = {
-        id,
+        id:uuid.v4(),
         name,
 		phone,
         email,
     };
     
 
-    externalEntities.push({
-        id:req.body.id,
-        name:req.body.name,
-        phone:req.body.phone,
-        email:req.body.email
-    })
+    externalEntities.push(newExternalEntity);
 
 
     return res.json({ data: newExternalEntity });
     
 });
 
+// router.post('/joi',(req,res) => {
+//     const name = req.body.name;
+//     const phone = req.body.phone;
+//     const email = req.body.email;
+    
+//     const schema = {
+//         name: Joi.string().min(3).required(),
+//         number: Joi.number().required(),
+//         email: Joi.string().required()
+//     }
+
+//     const result = Joi.validate(req.body,schema);
+
+//     if(result.error){
+//         return res.status(400).send({error : result.error.details[0].message});
+//     }
+
+//     const newExternalEntity = {
+//         id:uuid.v4(),
+//         name,
+// 		phone,
+//         email,
+//     };
+
+//     return res.json({ data: newExternalEntity });
+// });
+
 
 // Update a external entity's name,phone & email 
-router.put('/', (req, res) => {
-    const externalEntityId = req.body.id 
+router.put('/:id', (req, res) => {
+    const externalEntityId = req.params.id 
     const updatedName = req.body.name
     const updatedPhone = req.body.phone
     const updatedEmail = req.body.email
     const externalEntity = externalEntities.find(ExternalEntity => ExternalEntity.id === externalEntityId)
-    externalEntity.name = updatedName
-    externalEntity.phone = updatedPhone
-    externalEntity.email = updatedEmail
+
+    const schema1 = {
+        name: Joi.string().min(3).required(),     
+    }
+    const schema2 = {
+        phone: Joi.number().required(),
+        
+    }
+    const schema3 = {
+        email: Joi.string().required()
+    }
+
+
+    if(!(updatedName===undefined)){
+        
+        const result = Joi.validate(req.body,schema1);
+        if(result.error){
+            return res.status(400).send({error : result.error.details[0].message});
+        }
+        externalEntity.name = updatedName;
+
+    }
+    if(!(updatedPhone===undefined)){
+        const result = Joi.validate(req.body,schema2);
+        if(result.error){
+            return res.status(400).send({error : result.error.details[0].message});
+        }
+        externalEntity.phone = updatedPhone
+    }
+    if(!(updatedEmail===undefined)){
+        const result = Joi.validate(req.body,schema3);
+        if(result.error){
+            return res.status(400).send({error : result.error.details[0].message});
+        } 
+       externalEntity.email = updatedEmail
+    }
     res.send(externalEntities)
 })
 
