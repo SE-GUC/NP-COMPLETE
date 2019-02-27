@@ -12,10 +12,20 @@ const reviewers =
 //View All
 router.get('/', (req, res) =>
 {
-    res.status(200).send(reviewers
-        .map(r => `<a href="api/reviewers/${r.id}> ${r.name} </a>`)
-        .reduce((pre, cur) => `${pre}\n<br>\n${cur}`));
+    res.json(reviewers)
 });
+
+//get certain reviewer
+router.get('/:id', (req, res) => {
+    const RevId = req.params.id
+    const Reviewer = reviewers.find(reviewer => reviewer.id === RevId)
+    if(Reviewer !== undefined)
+       res.json(Reviewer)
+    else
+       res.send(" <br><br> <h1>Sorry this user does not Exist</h1>")
+})
+
+
 
 //Create
 router.post('/', (req, res) =>
@@ -73,11 +83,11 @@ router.post('/:id', (req, res) =>
     if (result.error) return res.json(400, { error: result.error.details[0].message });
 
     let changed = false;
-    changed |= name === undefined;
-    changed |= birthdate === undefined;
-    changed |= starting_year === undefined;
-    changed |= working_hours === undefined;
-    changed |= salary === undefined;
+    changed |= name !== undefined;
+    changed |= birthdate !== undefined;
+    changed |= starting_year !== undefined;
+    changed |= working_hours !== undefined;
+    changed |= salary !== undefined;
 
     if (!changed) return res.json(400, `<h3>No element was changed</h3>`);
 
@@ -98,5 +108,23 @@ router.post('/:id', (req, res) =>
 
     return res.json(200, `<a href="api/reviewers/${id}">${updated.name}</a> has been updated`);
 });
+
+
+// Delete a Reviwer
+router.delete('/:id', (req, res) => {
+    const RevId = req.params.id 
+    const Reviewer = reviewers.find(reviewer => reviewer.id === RevId)
+    if(Reviewer !== undefined)
+    {
+        const index = reviewers.indexOf(Reviewer)
+        reviewers.splice(index,1)
+        res.json(reviewers)
+    }
+    else
+    {
+        res.send("<br><br>  <h1>I'm sorry this user does not exist</h1>")
+    }
+})
+
 
 module.exports = router;
