@@ -17,12 +17,16 @@ router.get('/', (req, res) =>
 
 //get certain reviewer
 router.get('/:id', (req, res) => {
-    const RevId = req.params.id
-    const Reviewer = reviewers.find(reviewer => reviewer.id === RevId)
-    if(Reviewer !== undefined)
-       res.json(Reviewer)
+    const revid = req.params.id
+    const reviewer = reviewers.find(reviewer => reviewer.id === revid)
+    if(!reviewer)
+        res.json(reviewer)
     else
-       res.send(" <br><br> <h1>Sorry this user does not Exist</h1>")
+        res.status(400).json({
+        status: "Error",
+        message: "Sorry, This Reviewer does not Exist!",
+        avaliablereviewers: reviewers
+    })
 })
 
 
@@ -112,8 +116,8 @@ router.post('/:id', (req, res) =>
 
 // Delete a Reviwer
 router.delete('/:id', (req, res) => {
-    const RevId = req.params.id 
-    const Reviewer = reviewers.find(reviewer => reviewer.id === RevId)
+    const revid = req.params.id 
+    const Reviewer = reviewers.find(reviewer => reviewer.id === revid)
     if(Reviewer !== undefined)
     {
         const index = reviewers.indexOf(Reviewer)
@@ -122,7 +126,11 @@ router.delete('/:id', (req, res) => {
     }
     else
     {
-        res.send("<br><br>  <h1>I'm sorry this user does not exist</h1>")
+        res.status(400).json({
+            status: "Error",
+            message: "Sorry, This Reviewer does not Exist!",
+            avaliablereviewers: reviewers
+        })
     }
 })
 
