@@ -45,14 +45,14 @@ router.delete('/:id', (req, res) => {
 
 // Create a new external entity
 router.post('/', (req, res) => {
-  const name = req.body.name
-  const phone = req.body.phone
+  const fullName = req.body.fullName
   const email = req.body.email
+  const phone = req.body.phone
 
   const schema = {
-    name: Joi.string().min(3).required(),
-    phone: Joi.number().required(),
-    email: Joi.string().required()
+    fullName: Joi.string().min(3).required(),
+    email: Joi.string().required(),
+    phone: Joi.number().required()
   }
 
   const result = Joi.validate(req.body, schema)
@@ -72,9 +72,9 @@ router.post('/', (req, res) => {
 
   const newExternalEntity = {
     id: uuid.v4(),
-    name,
-    phone,
-    email
+    fullName,
+    email,
+    phone
   }
 
   externalEntities.push(newExternalEntity)
@@ -85,42 +85,47 @@ router.post('/', (req, res) => {
 // Update a external entity's name,phone & email
 router.put('/:id', (req, res) => {
   const externalEntityId = req.params.id
-  const updatedName = req.body.name
-  const updatedPhone = req.body.phone
+  const updatedFullName = req.body.fullName
   const updatedEmail = req.body.email
+  const updatedPhone = req.body.phone
   const externalEntity = externalEntities.find(ExternalEntity => ExternalEntity.id === externalEntityId)
 
   const schema1 = {
-    name: Joi.string().min(3).required()
+    fullName: Joi.string().min(3),
+    email: Joi.string(),
+    phone: Joi.number()
   }
-  const schema2 = {
-    phone: Joi.number().required()
+  // const schema3 = {
+  //   fullName: Joi.string().min(3),
+  //   email: Joi.string(),
+  //   phone: Joi.number()
+  // }
+  // const schema2 = {
+  //   fullName: Joi.string().min(3),
+  //   email: Joi.string(),
+  //   phone: Joi.number()
+  // }
 
-  }
-  const schema3 = {
-    email: Joi.string().required()
-  }
-
-  if (!(updatedName === undefined)) {
+  if (!(updatedFullName === undefined)) {
     const result = Joi.validate(req.body, schema1)
     if (result.error) {
       return res.status(400).send({ error: result.error.details[0].message })
     }
-    externalEntity.name = updatedName
-  }
-  if (!(updatedPhone === undefined)) {
-    const result = Joi.validate(req.body, schema2)
-    if (result.error) {
-      return res.status(400).send({ error: result.error.details[0].message })
-    }
-    externalEntity.phone = updatedPhone
+    externalEntity.fullName = updatedFullName
   }
   if (!(updatedEmail === undefined)) {
-    const result = Joi.validate(req.body, schema3)
+    const result = Joi.validate(req.body, schema1)
     if (result.error) {
       return res.status(400).send({ error: result.error.details[0].message })
     }
     externalEntity.email = updatedEmail
+  }
+  if (!(updatedPhone === undefined)) {
+    const result = Joi.validate(req.body, schema1)
+    if (result.error) {
+      return res.status(400).send({ error: result.error.details[0].message })
+    }
+    externalEntity.phone = updatedPhone
   }
   res.send(externalEntities)
 })
