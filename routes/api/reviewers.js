@@ -5,7 +5,7 @@ const router = express.Router()
 const Reviewer = require('../../models/Reviewer')
 
 const reviewers = [
-  new Reviewer('Omar Ayman Abdelmagied', new Date(1998, 9, 7), new Date(2010), 6, 3000.0)
+  new Reviewer('Omar Ayman Abdelmagied', new Date(1998, 9, 7), 'omar@gmail.com', new Date(2010, 1, 1), 6, 3000.0)
 ]
 
 // Reading all reviewers
@@ -21,7 +21,7 @@ router.get('/:id', (req, res) => {
     res.status(400).json({
       status: 'Error',
       message: 'Sorry, This Reviewer does not Exist!',
-      avaliablereviewers: reviewers
+      avaliableReviewers: reviewers
     })
   }
 })
@@ -31,7 +31,7 @@ router.post('/', (req, res) => {
   const data = req.body
   const schema = Joi.object().keys({
 
-    fullName: Joi.string().min(3).max(20).alphanum().required(),
+    fullName: Joi.string().min(3).max(80).required(),
     birthdate: Joi.date().iso().max(Date.now()).required(),
     email: Joi.string().email().required(),
     startDate: Joi.date().iso().max(Date.now()),
@@ -63,7 +63,7 @@ router.put('/:id', (req, res) => {
   const data = req.body
   const schema = Joi.object().keys({
 
-    fullName: Joi.string().min(3).max(20).alphanum(),
+    fullName: Joi.string().min(3).max(80),
     birthdate: Joi.date().iso().max(Date.now()),
     email: Joi.string().email(),
     startDate: Joi.date().iso().max(Date.now()),
@@ -80,7 +80,7 @@ router.put('/:id', (req, res) => {
       })
     }
 
-    const id = req.param.id
+    const id = req.params.id
     const reviewerToUpdate = reviewers.find(reviewer => reviewer.id === id)
     if (!reviewerToUpdate) {
       return res.status(400).json({

@@ -5,7 +5,7 @@ class Reviewer {
     this.id = uuidv4()
     this.fullName = fullName
     this.birthdate = birthdate
-    this.age = Date.now - birthdate
+    this.age = Math.floor((Date.now() - birthdate.getTime()) / (1000 * 3600 * 24 * 365))
     this.email = email
     this.startDate = startDate
     this.workingHours = workingHours
