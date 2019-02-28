@@ -68,7 +68,7 @@ router.put('/:id', (req, res) => {
     const newAge = req.body.age;
     const newEmail = req.body.email;
 
-    if(!(newName === undefined))
+    if(newName)
     {
         const nameSchema = 
         {
@@ -81,7 +81,7 @@ router.put('/:id', (req, res) => {
         investorToBeUpdated.name = newName;
     }
 
-    if(!(newAge === undefined))
+    if(newAge)
     {
         const ageSchema = 
         {
@@ -95,7 +95,7 @@ router.put('/:id', (req, res) => {
 
     }
 
-    if(!(newEmail === undefined))
+    if(newEmail)
     {
         const emailSchema = 
         {
