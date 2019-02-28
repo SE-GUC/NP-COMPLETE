@@ -1,10 +1,12 @@
+const uuidv4 = require('uuid/v4')
+
 class ExternalEntity {
-    constructor(id,name,phone,email) {
-        this.id = id;
-        this.name = name;
-        this.phone = phone;
-        this.email = email;
-    };
+  constructor (fullName, email, phone) {
+    this.id = uuidv4()
+    this.fullName = fullName
+    this.email = email
+    this.phone = phone
+  }
 }
 
-module.exports = ExternalEntity;
+module.exports = ExternalEntity
