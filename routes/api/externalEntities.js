@@ -27,7 +27,7 @@ const externalEntities = [
     })
 
 // Deleting an entity  
-    router.delete('/deleteExternalEntity/:id', (req, res) => {
+    router.delete('/:id', (req, res) => {
         const externalEntityId = req.params.id
         const externalEntity = externalEntities.find(externalEntity => externalEntity.id === externalEntityId)
         if(externalEntity)
