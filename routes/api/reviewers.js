@@ -1,138 +1,124 @@
-const express = require('express');
-const joi = require('joi');
-const router = express.Router();
+const express = require('express')
+const Joi = require('joi')
+const router = express.Router()
 
-const Reviewer = require('../../models/Reviewer');
+const Reviewer = require('../../models/Reviewer')
 
-const reviewers = 
-[
-    new Reviewer(1, "Omar", new Date(1998, 9, 7), new Date(2010), 6, 3000.0)
-];
+const reviewers = [
+  new Reviewer('Omar Ayman Abdelmagied', new Date(1998, 9, 7), new Date(2010), 6, 3000.0)
+]
 
-//View All
-router.get('/', (req, res) =>
-{
-    res.json(reviewers)
-});
+// Reading all reviewers
+router.get('/', (req, res) => {
+  res.json({ data: reviewers })
+})
 
-//get certain reviewer
+// Reading a specific reviewer
 router.get('/:id', (req, res) => {
-    const revid = req.params.id
-    const reviewer = reviewers.find(reviewer => reviewer.id === revid)
-    if(!reviewer)
-        res.json(reviewer)
-    else
-        res.status(400).json({
-        status: "Error",
-        message: "Sorry, This Reviewer does not Exist!",
-        avaliablereviewers: reviewers
+  const revid = req.params.id
+  const reviewer = reviewers.find(reviewer => reviewer.id === revid)
+  if (reviewer) { res.json(reviewer) } else {
+    res.status(400).json({
+      status: 'Error',
+      message: 'Sorry, This Reviewer does not Exist!',
+      avaliablereviewers: reviewers
     })
+  }
 })
 
+// Creating a reviewer
+router.post('/', (req, res) => {
+  const data = req.body
+  const schema = Joi.object().keys({
 
+    fullName: Joi.string().min(3).max(20).alphanum().required(),
+    birthdate: Joi.date().iso().max(Date.now()).required(),
+    email: Joi.string().email().required(),
+    startDate: Joi.date().iso().max(Date.now()),
+    workingHours: Joi.number().min(3).max(12).integer(),
+    salary: Joi.number().min(500.0).max(10000.0)
+  })
 
-//Create
-router.post('/', (req, res) =>
-{
-    const name = req.body.name;
-    const birthdate = req.body.birthdate;
-    const starting_year = req.body.starting_year;
-    const working_hours = req.body.working_hours;
-    const salary = req.body.salary;
+  Joi.validate(req.body, schema, (err, value) => {
+    if (err) {
+      return res.status(400).json({
+        status: 'Error',
+        message: err.details[0].message,
+        data: data
+      })
+    }
 
-    const schema = 
-    {
-        name: joi.string().min(3).max(20).alphanum().required(),
-        birthdate: joi.date().max(Date.now()).required(),
-        starting_year: joi.date().max(Date.now()).required(),
-        working_hours: joi.number().min(3).max(12).integer().required(),
-        salary: joi.number().min(500.0).max(10000.0).required()
-    };
+    const newReviewer = new Reviewer(value.fullName, value.birthdate, value.email, value.startDate, value.workingHours, value.salary)
+    reviewers.push(newReviewer)
+    return res.json({
+      status: 'Success',
+      message: 'New Reviewer created',
+      data: newReviewer
+    })
+  })
+})
 
-    const result = joi.validate(req.body, schema);
+// Updating a reviewer
+router.put('/:id', (req, res) => {
+  const data = req.body
+  const schema = Joi.object().keys({
 
-    if (result.error) return res.status(400).send({ error: result.error.details[0].message });
+    fullName: Joi.string().min(3).max(20).alphanum(),
+    birthdate: Joi.date().iso().max(Date.now()),
+    email: Joi.string().email(),
+    startDate: Joi.date().iso().max(Date.now()),
+    workingHours: Joi.number().min(3).max(12).integer(),
+    salary: Joi.number().min(500.0).max(10000.0)
+  })
 
-    const inserted = new Reviewer(name, birthdate, starting_year, working_hours, salary);
-    reviewers.push(inserted);
+  Joi.validate(req.body, schema, (err, value) => {
+    if (err) {
+      return res.status(400).json({
+        status: 'Error',
+        message: err.details[0].message,
+        data: data
+      })
+    }
 
-    return res.json(200, `Reviewer <a href="api/reviewers/${inserted.id}">${name}</a> has ben inserted`);
-});
+    const id = req.param.id
+    const reviewerToUpdate = reviewers.find(reviewer => reviewer.id === id)
+    if (!reviewerToUpdate) {
+      return res.status(400).json({
+        status: 'Error',
+        message: 'Reviewer not found'
+      })
+    }
 
-//Update
-router.post('/:id', (req, res) =>
-{
-    const id = req.param.id;
-    const name = req.body.name;
-    const birthdate = req.body.birthdate;
-    const starting_year = req.body.starting_year;
-    const working_hours = req.body.working_hours;
-    const salary = req.body.salary;
+    if (value.hasOwnProperty('fullName')) { reviewerToUpdate.fullName = value.fullName }
+    if (value.hasOwnProperty('birthdate')) { reviewerToUpdate.birthdate = value.birthdate }
+    if (value.hasOwnProperty('email')) { reviewerToUpdate.email = value.email }
+    if (value.hasOwnProperty('startDate')) { reviewerToUpdate.startDate = value.startDate }
+    if (value.hasOwnProperty('workingHours')) { reviewerToUpdate.workingHours = value.workingHours }
+    if (value.hasOwnProperty('salary')) { reviewerToUpdate.salary = value.salary }
 
-    const updated = reviewers.find(r => r.id === id);
+    return res.json({
+      status: 'Success',
+      message: `Updated Reviewer wit id ${id}`,
+      data: reviewers
+    })
+  })
+})
 
-    if (!updated) return res.json(404, `<h3>No such ID exists</h3>`);
-
-    const schema = 
-    {
-        name: joi.string().min(3).max(20).alphanum(),
-        birthdate: joi.date().max(Date.now()),
-        starting_year: joi.date().max(Date.now()),
-        working_hours: joi.number().min(3).max(12).integer(),
-        salary: joi.number().min(500.0).max(10000.0)
-    };
-
-    const result = joi.validate(req.body, schema);
-
-    if (result.error) return res.json(400, { error: result.error.details[0].message });
-
-    let changed = false;
-    changed |= name !== undefined;
-    changed |= birthdate !== undefined;
-    changed |= starting_year !== undefined;
-    changed |= working_hours !== undefined;
-    changed |= salary !== undefined;
-
-    if (!changed) return res.json(400, `<h3>No element was changed</h3>`);
-
-    if (name)
-        updated.name = name;
-
-    if (birthdate)
-        updated.birthdate = birthdate;
-
-    if (starting_year)
-        updated.starting_year = starting_year;
-
-    if (working_hours)
-        updated.working_hours = working_hours;
-
-    if (salary)
-        updated.salary = salary;
-
-    return res.json(200, `<a href="api/reviewers/${id}">${updated.name}</a> has been updated`);
-});
-
-
-// Delete a Reviwer
+// Deleting a Reviwer
 router.delete('/:id', (req, res) => {
-    const revid = req.params.id 
-    const reviewer = reviewers.find(reviewer => reviewer.id === revid)
-    if(reviewer)
-    {
-        const index = reviewers.indexOf(reviewer)
-        reviewers.splice(index,1)
-        res.json(reviewers)
-    }
-    else
-    {
-        res.status(400).json({
-            status: "Error",
-            message: "Sorry, This Reviewer does not Exist!",
-            avaliablereviewers: reviewers
-        })
-    }
+  const revid = req.params.id
+  const reviewer = reviewers.find(reviewer => reviewer.id === revid)
+  if (reviewer) {
+    const index = reviewers.indexOf(reviewer)
+    reviewers.splice(index, 1)
+    res.json(reviewers)
+  } else {
+    res.status(400).json({
+      status: 'Error',
+      message: 'Sorry, This Reviewer does not Exist!',
+      avaliablereviewers: reviewers
+    })
+  }
 })
 
-
-module.exports = router;
+module.exports = router

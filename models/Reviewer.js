@@ -1,16 +1,16 @@
-const uuid = require('uuid');
+const uuidv4 = require('uuid/v4')
 
-class Reviewer
-{
-    constructor(name, birthdate, starting_year, working_hours, salary)
-    {
-        this.id = uuid.v4();
-        this.name = name;
-        this.birthdate = birthdate;
-        this.starting_year = starting_year;
-        this.working_hours = working_hours;
-        this.salary = salary;
-    }
+class Reviewer {
+  constructor (fullName, birthdate, email, startDate, workingHours, salary) {
+    this.id = uuidv4()
+    this.fullName = fullName
+    this.birthdate = birthdate
+    this.age = Date.now - birthdate
+    this.email = email
+    this.startDate = startDate
+    this.workingHours = workingHours
+    this.salary = salary
+  }
 }
 
-module.exports = Reviewer;
+module.exports = Reviewer
