@@ -112,7 +112,7 @@ router.put('/:id', (req, res) => {
 
 })
 
-//Delete a specific investor with ID in URL. 
+//Delete a specific investor with ID in URL 
 router.delete('/:id', (req,res)=> 
 {   
     const investorId = req.params.id;
