@@ -11,8 +11,21 @@ const companies = [
   new Company('NIKE', 'SSC', '1990-12-20'),
   new Company('PUMA', 'SSC', '2008-08-19')
 ]
-// get all companies
+// read all companies
 router.get('/', (req, res) => res.json({ data: companies }))
+
+// Read specific company
+router.get('/:id', (req, res) => {
+  const companyId = req.params.id
+  const company = companies.find(company => company.id === companyId)
+  if (company) {
+    res.json({ data: company })
+  } else {
+    res.status(400).json({ status: 'error',
+      message: 'Company not found',
+      data: companies })
+  }
+})
 
 // create a company
 router.post('/', (req, res) => {
@@ -93,4 +106,22 @@ router.put('/:id', (req, res) => {
     })
   })
 })
+
+// delete company
+router.delete('/:id', (req, res) => {
+  const companyId = req.params.id
+  const company = companies.find(company => company.id === companyId)
+  if (!company) {
+    return res.status(400).json({ status: 'error',
+      message: 'Company not found',
+      availableCompanies: companies })
+  }
+  const index = companies.indexOf(company)
+  companies.splice(index, 1)
+  res.json({ status: 'success',
+    message: `Deleted company with id ${companyId} successfully`,
+    remainingCompanies: companies
+  })
+})
+
 module.exports = router
