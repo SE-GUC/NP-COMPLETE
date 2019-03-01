@@ -97,24 +97,12 @@ router.put('/:id', (req, res) => {
         message: 'Error admin not found'
       })
     }
-    if (value.hasOwnProperty('fullName')) {
-      adminToUpdate.fullName = value.fullName
-    }
-    if (value.hasOwnProperty('email')) {
-      adminToUpdate.email = value.email
-    }
-    if (value.hasOwnProperty('birthDate')) {
-      adminToUpdate.birthDate = value.birthDate
-    }
-    if (value.hasOwnProperty('startDate')) {
-      adminToUpdate.startDate = value.startDate
-    }
-    if (value.hasOwnProperty('workingHours')) {
-      adminToUpdate.workingHours = value.workingHours
-    }
-    if (value.hasOwnProperty('salary')) {
-      adminToUpdate.salary = value.salary
-    }
+
+    Object.keys(value).forEach(key => {
+      if (value[key]) {
+        adminToUpdate[key] = value[key]
+      }
+    })
 
     return res.json({
       status: 'success',
