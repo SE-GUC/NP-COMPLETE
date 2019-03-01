@@ -20,7 +20,7 @@ router.get('/:id', (req, res) => {
   if (reviewer) { res.json(reviewer) } else {
     res.status(400).json({
       status: 'Error',
-      message: 'Sorry, This Reviewer does not Exist!',
+      message: 'Reviewer not found',
       avaliableReviewers: reviewers
     })
   }
@@ -61,6 +61,13 @@ router.post('/', (req, res) => {
 // Updating a reviewer
 router.put('/:id', (req, res) => {
   const data = req.body
+  if (Object.keys(req.body).length === 0) {
+    return res.status(400).json({
+      status: 'Error',
+      message: 'No data to update'
+    })
+  }
+
   const schema = Joi.object().keys({
 
     fullName: Joi.string().min(3).max(80),
@@ -82,6 +89,7 @@ router.put('/:id', (req, res) => {
 
     const id = req.params.id
     const reviewerToUpdate = reviewers.find(reviewer => reviewer.id === id)
+
     if (!reviewerToUpdate) {
       return res.status(400).json({
         status: 'Error',
@@ -89,12 +97,11 @@ router.put('/:id', (req, res) => {
       })
     }
 
-    if (value.hasOwnProperty('fullName')) { reviewerToUpdate.fullName = value.fullName }
-    if (value.hasOwnProperty('birthdate')) { reviewerToUpdate.birthdate = value.birthdate }
-    if (value.hasOwnProperty('email')) { reviewerToUpdate.email = value.email }
-    if (value.hasOwnProperty('startDate')) { reviewerToUpdate.startDate = value.startDate }
-    if (value.hasOwnProperty('workingHours')) { reviewerToUpdate.workingHours = value.workingHours }
-    if (value.hasOwnProperty('salary')) { reviewerToUpdate.salary = value.salary }
+    Object.keys(value).forEach(key => {
+      if (value[key]) {
+        reviewerToUpdate[key] = value[key]
+      }
+    })
 
     return res.json({
       status: 'Success',
