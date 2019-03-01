@@ -1,13 +1,12 @@
 const express = require('express')
-const app = express()
-
-app.use(express.json())
-
 const externalEntities = require('./routes/api/externalEntities')
 const admins = require('./routes/api/admins')
 const investors = require('./routes/api/investors')
 const lawyers = require('./routes/api/lawyers')
 const reviewers = require('./routes/api/reviewers')
+
+const app = express()
+app.use(express.json())
 
 app.get('/', (req, res) => {
   res.send(`<h1>WelcomeEE</h1>
