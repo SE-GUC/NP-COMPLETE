@@ -9,7 +9,7 @@ const app = express()
 app.use(express.json())
 
 app.get('/', (req, res) => {
-  res.send(`<h1>WelcomeEE</h1>
+  res.send(`<h1>Welcome</h1>
     <a href="/api/externalEntities">EE</a></br>
     <a href="/api/admins">Admins</a></br>
     <a href="/api/lawyers">lawyers</a></br>
