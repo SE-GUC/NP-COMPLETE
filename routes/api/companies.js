@@ -46,4 +46,51 @@ router.post('/', (req, res) => {
     })
   })
 })
+// update a lawyer
+router.put('/:id', (req, res) => {
+  const data = req.body
+  if (Object.keys(req.body).length === 0) {
+    return res.status(400).json({
+      status: 'error',
+      message: 'No data to update'
+    })
+  }
+
+  const schema = Joi.object().keys({
+    name: Joi.string(),
+    type: Joi.string(),
+    establishmentDate: Joi.date().iso()
+  })
+
+  Joi.validate(data, schema, (err, value) => {
+    if (err) {
+      return res.status(400).json({
+        status: 'error',
+        message: err.details[0].message,
+        data: data
+      })
+    }
+    const companyId = req.params.id
+    console.log(companyId)
+    const companyToUpdate = companies.find(company => company.id === companyId)
+
+    if (!companyToUpdate) {
+      return res.status(400).json({
+        status: 'error',
+        message: 'Error company not found'
+      })
+    }
+    Object.keys(value).forEach(key => {
+      if (value[key]) {
+        companyToUpdate[key] = value[key]
+      }
+    })
+
+    return res.json({
+      status: 'success',
+      message: `Updated admin with id ${companyId}`,
+      data: companyToUpdate
+    })
+  })
+})
 module.exports = router
