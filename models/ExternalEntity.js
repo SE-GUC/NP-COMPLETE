@@ -8,5 +8,4 @@ class ExternalEntity {
     this.phone = phone
   }
 }
-
 module.exports = ExternalEntity

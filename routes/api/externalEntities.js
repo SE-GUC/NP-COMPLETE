@@ -1,7 +1,7 @@
 const uuidv4 = require('uuid/v4')
 const express = require('express')
 const Joi = require('joi')
-// const bodyParser=require('body-parser');
+
 const ExternalEntity = require('../../models/ExternalEntity')
 const router = express.Router()
 
@@ -74,7 +74,7 @@ router.post('/', (req, res) => {
     data: newExternalEntity })
 })
 
-// Update a external entity's name,phone & email
+// Update a external entity's name,phone & email.
 router.put('/:id', (req, res) => {
   const id = req.params.id
   const fullName = req.body.fullName

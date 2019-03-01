@@ -1,9 +1,9 @@
 const express = require('express')
 const app = express()
+const externalEntities = require('./routes/api/externalEntities')
 
 app.use(express.json())
 
-const externalEntities = require('./routes/api/externalEntities')
 
 app.get('/', (req, res) => {
   res.send(`<h1>WelcomeEE</h1>`)
