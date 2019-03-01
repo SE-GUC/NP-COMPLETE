@@ -19,7 +19,13 @@ router.get('/', (req, res) => res.json({ data: admins }))
 router.get('/:id', (req, res) => {
   const adminId = req.params.id
   const admin = admins.find(admins => admins.id === adminId)
-  res.send(admin)
+  if (admin) {
+    res.json({ data: admin })
+  } else {
+    res.status(400).json({ status: 'error',
+      message: 'Admin not found',
+      data: admins })
+  }
 })
 
 // create an admin
