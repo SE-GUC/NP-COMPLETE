@@ -11,8 +11,8 @@ app.use(express.json())
 app.get('/', (req, res) => {
   res.send(`<h1>WelcomeEE</h1>
     <a href="/api/externalEntities">EE</a></br>
-    <a href="/api/admins">Admins</a>
-    <a href="/api/lawyers">lawyers</a></br>,
+    <a href="/api/admins">Admins</a></br>
+    <a href="/api/lawyers">lawyers</a></br>
     <a href="/api/investors">Investors</a></br>
     <a href="/api/reviewers">Reviewers</a></br>`)
 })
