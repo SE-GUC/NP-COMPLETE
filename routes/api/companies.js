@@ -46,7 +46,7 @@ router.post('/', (req, res) => {
     })
   })
 })
-// update a lawyer
+// update a company
 router.put('/:id', (req, res) => {
   const data = req.body
   if (Object.keys(req.body).length === 0) {
