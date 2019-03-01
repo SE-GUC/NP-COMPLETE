@@ -8,8 +8,8 @@ const Admin = require('../../models/Admin')
 
 // temporary data (to act as a mock database)
 const admins = [
-  new Admin('Lujine', 'lujine@gmail.com', '1998-22-01', 6, 100),
-  new Admin('Hosam', 'hosam@gmail.com', '1998-06-05', 10, 150)
+  new Admin('Lujine Elfeky', 'lujine@gmail.com', '1998-01-22', '2019-01-01', 6, 100),
+  new Admin('Mohamed Hosam', 'hosam@gmail.com', '1998-06-05', '2018-05-03', 10, 150)
 ]
 
 // Read all Admins
@@ -26,9 +26,10 @@ router.get('/:id', (req, res) => {
 router.post('/', (req, res) => {
   const data = req.body
   const schema = Joi.object().keys({
-    name: Joi.string().required(),
+    fullName: Joi.string().required(),
     email: Joi.string().email().required(),
-    dateOfBirth: Joi.date().required().iso(),
+    birthDate: Joi.date().required().iso(),
+    startDate: Joi.date().iso().required(),
     workingHours: Joi.number().min(5),
     salary: Joi.number()
   })
@@ -43,16 +44,17 @@ router.post('/', (req, res) => {
     }
 
     const newAdmin = new Admin(
-      value.name,
+      value.fullName,
       value.email,
-      value.dateOfBirth,
+      value.birthDate,
+      value.startDate,
       value.workingHours,
       value.salary
     )
     admins.push(newAdmin)
     return res.json({
       status: 'success',
-      message: 'New Admin created',
+      message: `New Admin created with id ${newAdmin.id}`,
       data: newAdmin
     })
   })
@@ -69,9 +71,10 @@ router.put('/:id', (req, res) => {
   }
 
   const schema = Joi.object().keys({
-    name: Joi.string(),
+    fullName: Joi.string(),
     email: Joi.string().email(),
-    dateOfBirth: Joi.date().iso(),
+    birthDate: Joi.date().iso(),
+    startDate: Joi.date().iso(),
     workingHours: Joi.number().min(5),
     salary: Joi.number()
   })
@@ -94,14 +97,17 @@ router.put('/:id', (req, res) => {
         message: 'Error admin not found'
       })
     }
-    if (value.hasOwnProperty('name')) {
-      adminToUpdate.name = value.name
+    if (value.hasOwnProperty('fullName')) {
+      adminToUpdate.fullName = value.fullName
     }
     if (value.hasOwnProperty('email')) {
       adminToUpdate.email = value.email
     }
-    if (value.hasOwnProperty('dateOfBirth')) {
-      adminToUpdate.dateOfBirth = value.dateOfBirth
+    if (value.hasOwnProperty('birthDate')) {
+      adminToUpdate.birthDate = value.birthDate
+    }
+    if (value.hasOwnProperty('startDate')) {
+      adminToUpdate.startDate = value.startDate
     }
     if (value.hasOwnProperty('workingHours')) {
       adminToUpdate.workingHours = value.workingHours
@@ -111,6 +117,7 @@ router.put('/:id', (req, res) => {
     }
 
     return res.json({
+      status: 'success',
       message: `Updated admin with id ${id}`,
       data: adminToUpdate
     })
