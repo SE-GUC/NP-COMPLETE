@@ -1,9 +1,10 @@
 const uuidv4 = require('uuid/v4');
 
 class Investor {
-    constructor(name, age, email) {
-        this.name = name;
-        this.age = age;
+    constructor(fullName, birthDate, age, email) {
+        this.fullName = fullName;
+        this.birthDate = birthDate;
+        this.age = this.age = (new Date()).getFullYear() - (new Date(birthDate)).getFullYear();
         this.email = email;
         this.id = uuidv4();
         
