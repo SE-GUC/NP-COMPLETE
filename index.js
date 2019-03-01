@@ -4,6 +4,7 @@ const admins = require('./routes/api/admins')
 const investors = require('./routes/api/investors')
 const lawyers = require('./routes/api/lawyers')
 const reviewers = require('./routes/api/reviewers')
+const tasks = require('./routes/api/tasks')
 
 const app = express()
 app.use(express.json())
@@ -11,10 +12,11 @@ app.use(express.json())
 app.get('/', (req, res) => {
   res.send(`<h1>WelcomeEE</h1>
     <a href="/api/externalEntities">EE</a></br>
-    <a href="/api/admins">Admins</a>
+    <a href="/api/admins">Admins</a></br>
     <a href="/api/lawyers">lawyers</a></br>,
     <a href="/api/investors">Investors</a></br>
-    <a href="/api/reviewers">Reviewers</a></br>`)
+    <a href="/api/reviewers">Reviewers</a></br>
+    <a href="/api/tasks">Tasks</a></br>`)
 })
 
 // Direct routes to appropriate files
@@ -23,6 +25,7 @@ app.use('/api/admins', admins)
 app.use('/api/investors', investors)
 app.use('/api/reviewers', reviewers)
 app.use('/api/lawyers', lawyers)
+app.use('/api/tasks', tasks)
 
 // Handling 404
 app.use((req, res) => {
