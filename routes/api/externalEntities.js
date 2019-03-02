@@ -20,11 +20,11 @@ router.get('/', (req, res) => res.json({ data: externalEntities }))
 // Create a new External Entity
 router.post('/', (req, res) => {
   const data = req.body
-  const schema = {
+  const schema = Joi.object().keys({
     name: Joi.string().min(3).required(),
     email: Joi.string().email().required(),
     phone: Joi.number().required()
-  }
+  })
 
   Joi.validate(data, schema, (err, value) => {
     if (err) {
@@ -74,11 +74,11 @@ router.put('/:id', (req, res) => {
     })
   }
 
-  const schema = {
+  const schema = Joi.object().keys({
     name: Joi.string().min(3),
     email: Joi.string().email(),
     phone: Joi.number()
-  }
+  })
 
   Joi.validate(data, schema, (err, value) => {
     if (err) {
