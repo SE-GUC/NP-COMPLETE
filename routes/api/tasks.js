@@ -20,7 +20,7 @@ router.post('/', (req, res) => {
   const data = req.body
   const schema = Joi.object().keys({
     handler: Joi.string().required(),
-    creationDate: Joi.date().required().iso(),
+    creationDate: Joi.date().required().iso().required(),
     deadline: Joi.date().required().iso()
   })
 

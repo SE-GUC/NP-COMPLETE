@@ -81,7 +81,7 @@ router.put('/:id', (req, res) => {
 
   const schema = Joi.object().keys({
     fullName: Joi.string().min(3).max(80),
-    birthdate: Joi.date().iso().max(Date.now()),
+    birthdate: Joi.date().iso().max(Date.now()).required(),
     email: Joi.string().email(),
     startDate: Joi.date().iso().max(Date.now()),
     workingHours: Joi.number().min(5),

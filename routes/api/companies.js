@@ -8,9 +8,9 @@ const Company = require('../../models/Company')
 
 // Temporary data created (acts as a mock database)
 const companies = [
-  new Company('BMW', 'SSC', '2000-05-16'),
-  new Company('NIKE', 'SSC', '1990-12-20'),
-  new Company('PUMA', 'SSC', '2008-08-19')
+  new Company('BMW', 'SSC', '2000-05-16', 'pending'),
+  new Company('NIKE', 'SSC', '1990-12-20', 'established'),
+  new Company('PUMA', 'SSC', '2008-08-19', 'pending')
 ]
 
 // Read all Companies (Default route)
@@ -22,7 +22,8 @@ router.post('/', (req, res) => {
   const schema = Joi.object().keys({
     name: Joi.string().required(),
     type: Joi.string().required(),
-    establishmentDate: Joi.date().iso().required()
+    establishmentDate: Joi.date().iso().required(),
+    state: Joi.string().required()
   })
 
   Joi.validate(data, schema, (err, value) => {
@@ -76,7 +77,8 @@ router.put('/:id', (req, res) => {
   const schema = Joi.object().keys({
     name: Joi.string(),
     type: Joi.string(),
-    establishmentDate: Joi.date().iso()
+    establishmentDate: Joi.date().iso(),
+    state: Joi.string()
   })
 
   Joi.validate(data, schema, (err, value) => {
