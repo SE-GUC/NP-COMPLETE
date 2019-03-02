@@ -5,7 +5,7 @@ class Company {
     this.id = uuidv4()
     this.name = name
     this.type = type
-    this.establishment_date = establishmentDate
+    this.establishmentDate = establishmentDate
   };
 }
 
