@@ -8,9 +8,9 @@ const Investor = require('../../models/Investor')
 
 // Temporary data created (acts as a mock database)
 const investors = [
-  new Investor('Mohamed Ayman', '1998-10-16', 20, 'mohamedAyman@gmail.com'),
-  new Investor('Mohamed Farid', '1998-12-18', 20, 'mohamedFarid@hotmail.com'),
-  new Investor('Bill Marks', '1990-05-21', 28, 'billMarks@outlook.com')
+  new Investor('Mohamed Ayman', '1998-10-16', 'mohamedAyman@gmail.com'),
+  new Investor('Mohamed Farid', '1998-12-18', 'mohamedFarid@hotmail.com'),
+  new Investor('Bill Marks', '1990-05-21', 'billMarks@outlook.com')
 ]
 
 // Read all Investors (Default route)
