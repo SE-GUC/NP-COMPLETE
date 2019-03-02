@@ -22,7 +22,7 @@ router.post('/', (req, res) => {
   const schema = Joi.object().keys({
     name: Joi.string().required(),
     type: Joi.string().required(),
-    establishmentDate: Joi.date().iso().required(),
+    establishmentDate: Joi.date().iso().max(Date.now()).required(),
     state: Joi.string().required()
   })
 
@@ -78,7 +78,7 @@ router.put('/:id', (req, res) => {
   const schema = Joi.object().keys({
     name: Joi.string(),
     type: Joi.string(),
-    establishmentDate: Joi.date().iso(),
+    establishmentDate: Joi.date().iso().max(Date.now()),
     state: Joi.string()
   })
 

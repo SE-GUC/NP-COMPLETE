@@ -8,9 +8,9 @@ const Lawyer = require('../../models/Lawyer')
 
 // Temporary data created (acts as a mock database)
 const lawyers = [
-  new Lawyer('Barney', '2000-05-5', 'burney@gmail.com'),
-  new Lawyer('Ahmed', '1990-05-5', 'ahmed@gmail.com'),
-  new Lawyer('Mariam', '1995-1-1', 'mariam@gmail.com', '2005-5-5', 8, 5000)
+  new Lawyer('Barney', '2000-05-5', 'burney@gmail.com', '2006-05-05'),
+  new Lawyer('Ahmed', '1990-05-5', 'ahmed@gmail.com', '2007-05-05'),
+  new Lawyer('Mariam', '1995-1-1', 'mariam@gmail.com', '2005-05-05', 8, 5000)
 ]
 
 // Read all Lawyers (Default route)
