@@ -20,7 +20,13 @@ router.get('/', (req, res) => res.json({ data: externalEntities }))
 router.get('/:id', (req, res) => {
   const externalEntityId = req.params.id
   const externalEntity = externalEntities.find(externalEntity => externalEntity.id === externalEntityId)
-  res.json({ data: externalEntity })
+  if (externalEntity) {
+    res.json({ data: externalEntity })
+  } else {
+    res.status(400).json({ status: 'error',
+      message: 'External entity not found',
+      data: externalEntities })
+  }
 })
 
 // Deleting an entity
