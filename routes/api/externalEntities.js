@@ -1,116 +1,145 @@
-const uuidv4 = require('uuid/v4')
+// Load modules
 const express = require('express')
 const Joi = require('joi')
-
-const ExternalEntity = require('../../models/ExternalEntity')
 const router = express.Router()
 
-// router.use(bodyParser.urlencoded({extended:true}))
+// ExternalEntity model
+const ExternalEntity = require('../../models/ExternalEntity')
 
+// Temporary data created (acts as a mock database)
 const externalEntities = [
   new ExternalEntity('Taxes', '@1', 1122),
   new ExternalEntity('Insurance', '@11', 221100),
   new ExternalEntity('Defense', '@111', 123),
   new ExternalEntity('Security', '@1111', 112200)
 ]
-// Reading all external entities
+
+// Read all External Entities (Default route)
 router.get('/', (req, res) => res.json({ data: externalEntities }))
 
-// Read a specific external entity
+// Create a new External Entity
+router.post('/', (req, res) => {
+  const data = req.body
+  const schema = {
+    fullName: Joi.string().min(3).required(),
+    email: Joi.string().email().required(),
+    phone: Joi.number().required()
+  }
+
+  Joi.validate(data, schema, (err, value) => {
+    if (err) {
+      return res.status(400).json({
+        status: 'Error',
+        message: err.details[0].message,
+        data: data
+      })
+    }
+
+    const newExternalEntity = new ExternalEntity(
+      value.fullName,
+      value.email,
+      value.phone
+    )
+    externalEntities.push(newExternalEntity)
+    return res.json({
+      status: 'Success',
+      message: `New external entity created with id ${newExternalEntity.id}`,
+      data: newExternalEntity
+    })
+  })
+})
+
+// Read a specific External Entity given id in URL
 router.get('/:id', (req, res) => {
   const externalEntityId = req.params.id
   const externalEntity = externalEntities.find(externalEntity => externalEntity.id === externalEntityId)
-  res.json({ data: externalEntity })
+  if (externalEntity) {
+    res.json({ data: externalEntity })
+  } else {
+    res.status(400).json({
+      status: 'Error',
+      message: 'External entity not found',
+      data: externalEntities
+    })
+  }
 })
 
-// Deleting an entity
+// Update an existing External Entity given id in URL
+router.put('/:id', (req, res) => {
+  const data = req.body
+  if (Object.keys(data).length === 0) {
+    return res.status(400).json({
+      status: 'Error',
+      message: 'No data to update'
+    })
+  }
+
+  const schema = {
+    fullName: Joi.string().min(3),
+    email: Joi.string().email(),
+    phone: Joi.number()
+  }
+
+  Joi.validate(data, schema, (err, value) => {
+    if (err) {
+      return res.status(400).json({
+        status: 'Error',
+        message: err.details[0].message,
+        data: data
+      })
+    }
+
+    const externalEntityId = req.params.id
+    const externalEntityToUpdate = externalEntities.find(externalEntity => externalEntity.id === externalEntityId)
+
+    if (!externalEntityToUpdate) {
+      return res.status(400).json({
+        status: 'Error',
+        message: 'External entity not found'
+      })
+    }
+
+    let x = 0
+    Object.keys(value).forEach(key => {
+      if (value[key]) {
+        externalEntityToUpdate[key] = value[key]
+        x++
+      }
+    })
+    if (x === 0) {
+      return res.status(400).send({
+        status: 'Error',
+        message: 'Wrong data was sent',
+        data: data
+      })
+    }
+
+    return res.json({
+      status: 'Success',
+      message: `Updated external entity with id ${externalEntityId}`,
+      data: externalEntityToUpdate
+    })
+  })
+})
+
+// Delete a specific External Entity given ID in URL
 router.delete('/:id', (req, res) => {
   const externalEntityId = req.params.id
   const externalEntity = externalEntities.find(externalEntity => externalEntity.id === externalEntityId)
   if (externalEntity) {
     const index = externalEntities.indexOf(externalEntity)
     externalEntities.splice(index, 1)
-    res.json(externalEntities)
+    res.json({
+      status: 'Success',
+      message: `Deleted external entity with id ${externalEntityId}`,
+      remainingExternalEntities: externalEntities
+    })
   } else {
     res.status(400).json({
       status: 'Error',
-      message: 'Sorry, This External Entity does not exist!',
+      message: 'External entity not found',
       availableExternalEntities: externalEntities
-
     })
-  }
-})
-
-// router.get('/', (req, res) => res.json({ data: externalEntities }))
-
-// Create a new external entity
-router.post('/', (req, res) => {
-  const fullName = req.body.fullName
-  const email = req.body.email
-  const phone = req.body.phone
-
-  const schema = {
-    fullName: Joi.string().min(3).required(),
-    email: Joi.string().required(),
-    phone: Joi.number().required()
-  }
-
-  const result = Joi.validate(req.body, schema)
-
-  if (result.error) {
-    return res.status(400).send({ error: result.error.details[0].message })
-  }
-  const newExternalEntity = {
-    id: uuidv4(),
-    fullName,
-    email,
-    phone
-  }
-
-  externalEntities.push(newExternalEntity)
-
-  return res.json({ status: 'success',
-    message: `New External Entity created with id ${newExternalEntity.id}`,
-    data: newExternalEntity })
-})
-
-// Update a external entity's name,phone & email.
-router.put('/:id', (req, res) => {
-  const id = req.params.id
-  const fullName = req.body.fullName
-  const email = req.body.email
-  const phone = req.body.phone
-  const externalEntity = externalEntities.find(ExternalEntity => ExternalEntity.id === id)
-
-  const schema = {
-    fullName: Joi.string().min(3),
-    email: Joi.string(),
-    phone: Joi.number()
-  }
-  const result = Joi.validate(req.body, schema)
-  if (result.error) {
-    return res.status(400).send({ error: result.error.details[0].message })
-  }
-  const newExternalEntity = {
-    id,
-    fullName,
-    email,
-    phone
-  }
-  var x = 0
-
-  Object.keys(externalEntity).forEach(function (key) {
-    if (newExternalEntity[key]) {
-      x++
-      externalEntity[key] = newExternalEntity[key]
-    }
-  })
-  if (x === 1) {
-    return res.status(400).send({ error: 'el body fady ya ahbal' })
-  } else {
-    return res.json({ status: 'success',
-      message: `Updated External Entity with id ${newExternalEntity.id}`,
-      data: newExternalEntity })
   }
 })
 

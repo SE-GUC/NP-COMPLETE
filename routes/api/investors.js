@@ -1,4 +1,4 @@
-// Dependancies
+// Load modules
 const express = require('express')
 const Joi = require('joi')
 const router = express.Router()
@@ -6,94 +6,117 @@ const router = express.Router()
 // Investor model
 const Investor = require('../../models/Investor')
 
-// Temporary data created as if it was pulled out of the database
+// Temporary data created (acts as a mock database)
 const investors = [
   new Investor('Mohamed Ayman', '1998-10-16', 20, 'mohamedAyman@gmail.com'),
   new Investor('Mohamed Farid', '1998-12-18', 20, 'mohamedFarid@hotmail.com'),
   new Investor('Bill Marks', '1990-05-21', 28, 'billMarks@outlook.com')
 ]
 
-// Default route ..returns all Investors in the array.
+// Read all Investors (Default route)
 router.get('/', (req, res) => res.json({ data: investors }))
 
 // Create a new Investor
 router.post('/', (req, res) => {
   const data = req.body
   const schema = Joi.object().keys({
-
-    fullName: Joi.string().min(4).required(),
-    birthDate: Joi.date().required().iso(),
+    fullName: Joi.string().min(3).max(80).required(),
+    birthdate: Joi.date().iso().required(),
     email: Joi.string().email().required()
-
   })
 
-  Joi.validate(data, schema, (error, value) => {
-    if (error) {
+  Joi.validate(data, schema, (err, value) => {
+    if (err) {
       return res.status(400).json({
-        status: 'error',
-        message: error.details[0].message,
+        status: 'Error',
+        message: err.details[0].message,
         data: data
       })
     }
-    const newInvestor = new Investor(value.fullName, value.birthDate, value.email)
+
+    const newInvestor = new Investor(
+      value.fullName,
+      value.birthdate,
+      value.email
+    )
     investors.push(newInvestor)
     return res.json({
-      status: 'success',
-      message: `New Investor created with id ${newInvestor.id}`,
+      status: 'Success',
+      message: `New investor created with id ${newInvestor.id}`,
       data: newInvestor
     })
   })
 })
 
-// Reads a specific Investor given id in URL.
+// Reads a specific Investor given id in URL
 router.get('/:id', (req, res) => {
   const investorId = req.params.id
   const investor = investors.find(investor => investor.id === investorId)
   if (investor) {
     res.json({ data: investor })
   } else {
-    res.status(400).json({ status: 'error',
+    res.status(400).json({
+      status: 'Error',
       message: 'Investor not found',
-      data: investors })
+      data: investors
+    })
   }
 })
 
-// Update an existing Investor with joi validation
+// Update an existing Investor given id in URL
 router.put('/:id', (req, res) => {
   const data = req.body
-  if (Object.keys(data).length === 0) { return res.status(400).json({ status: 'error', message: 'No data to update' }) }
+  if (Object.keys(data).length === 0) {
+    return res.status(400).json({
+      status: 'Error',
+      message: 'No data to update'
+    })
+  }
 
   const schema = Joi.object().keys({
-
-    fullName: Joi.string().min(4),
-    birthDate: Joi.date().iso(),
+    fullName: Joi.string().min(3).max(80),
+    birthdate: Joi.date().iso(),
     email: Joi.string().email()
   })
 
-  Joi.validate(data, schema, (error, value) => {
-    if (error) {
+  Joi.validate(data, schema, (err, value) => {
+    if (err) {
       return res.status(400).json({
-        status: 'error',
-        message: error.details[0].message,
+        status: 'Error',
+        message: err.details[0].message,
         data: data
       })
     }
 
-    const id = req.params.id
-    const investorToBeUpdated = investors.find(Investor => Investor.id === id)
+    const investorId = req.params.id
+    const investorToUpdate = investors.find(investor => investor.id === investorId)
 
-    if (!investorToBeUpdated) { res.status(400).json({ status: 'error', message: 'No investor was found with this ID' }) }
+    if (!investorToUpdate) {
+      return res.status(400).json({
+        status: 'Error',
+        message: 'Investor not found'
+      })
+    }
 
+    let x = 0
     Object.keys(value).forEach(key => {
       if (value[key]) {
-        investorToBeUpdated[key] = value[key]
+        investorToUpdate[key] = value[key]
+        x++
       }
     })
+    if (x === 0) {
+      return res.status(400).send({
+        status: 'Error',
+        message: 'Wrong data was sent',
+        data: data
+      })
+    }
 
     return res.json({
-      status: 'success',
-      message: `Updated investor with id ${id}`,
-      data: investorToBeUpdated
+      status: 'Success',
+      message: `Updated investor with id ${investorId}`,
+      data: investorToUpdate
     })
   })
 })
@@ -105,17 +128,18 @@ router.delete('/:id', (req, res) => {
   if (investor) {
     const index = investors.indexOf(investor)
     investors.splice(index, 1)
-    res.json({ data: investors })
+    res.json({
+      status: 'Success',
+      message: `Deleted investor with id ${investorId}`,
+      remainingInvestors: investors
+    })
   } else {
-    res.status(400).json({ status: 'error',
+    res.status(400).json({
+      status: 'Error',
       message: 'Investor not found',
-      data: investors })
+      availableInvestors: investors
+    })
   }
-})
-
-//! Error route needed
-router.use((req, res) => {
-  res.status(404).send({ err: 'We can not find what you are looking for' })
 })
 
 module.exports = router
