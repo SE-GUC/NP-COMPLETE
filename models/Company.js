@@ -1,3 +1,4 @@
+// The Company model
 const uuidv4 = require('uuid/v4')
 
 class Company {

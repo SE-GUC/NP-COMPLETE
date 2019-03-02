@@ -1,3 +1,4 @@
+// The external entity model
 const uuidv4 = require('uuid/v4')
 
 class ExternalEntity {
