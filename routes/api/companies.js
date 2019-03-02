@@ -38,7 +38,8 @@ router.post('/', (req, res) => {
     const newCompany = new Company(
       value.name,
       value.type,
-      value.establishmentDate
+      value.establishmentDate,
+      value.state
     )
     companies.push(newCompany)
     return res.json({
