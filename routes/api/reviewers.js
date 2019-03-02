@@ -7,7 +7,7 @@ const router = express.Router()
 const Reviewer = require('../../models/Reviewer')
 
 const reviewers = [
-  new Reviewer('Omar Ayman Abdelmagied', new Date(1998, 9, 7), 'omar@gmail.com', new Date(2010, 1, 1), 6, 3000.0)
+  new Reviewer('Omar Ayman Abdelmagied', '1998-09-07', 'omar@gmail.com', '2010-01-01', 6, 3000)
 ]
 
 // Read all Reviewers (Default route)
