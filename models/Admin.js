@@ -7,7 +7,6 @@ class Admin {
     this.fullName = fullName
     this.email = email
     this.birthDate = birthDate
-    this.age = (new Date()).getFullYear() - (new Date(birthDate)).getFullYear()
     this.startDate = startDate
     this.workingHours = workingHours
     this.salary = salary
