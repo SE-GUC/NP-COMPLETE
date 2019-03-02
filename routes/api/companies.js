@@ -125,7 +125,7 @@ router.put('/:id', (req, res) => {
 router.delete('/:id', (req, res) => {
   const companyId = req.params.id
   const company = companies.find(company => company.id === companyId)
-  if (!company) {
+  if (company) {
     const index = companies.indexOf(company)
     companies.splice(index, 1)
     res.json({
