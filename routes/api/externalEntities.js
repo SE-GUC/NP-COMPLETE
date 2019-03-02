@@ -21,7 +21,7 @@ router.get('/', (req, res) => res.json({ data: externalEntities }))
 router.post('/', (req, res) => {
   const data = req.body
   const schema = {
-    fullName: Joi.string().min(3).required(),
+    name: Joi.string().min(3).required(),
     email: Joi.string().email().required(),
     phone: Joi.number().required()
   }
@@ -36,7 +36,7 @@ router.post('/', (req, res) => {
     }
 
     const newExternalEntity = new ExternalEntity(
-      value.fullName,
+      value.name,
       value.email,
       value.phone
     )
@@ -75,7 +75,7 @@ router.put('/:id', (req, res) => {
   }
 
   const schema = {
-    fullName: Joi.string().min(3),
+    name: Joi.string().min(3),
     email: Joi.string().email(),
     phone: Joi.number()
   }
