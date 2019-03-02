@@ -2,11 +2,11 @@
 const uuidv4 = require('uuid/v4')
 
 class Admin {
-  constructor (fullName, email, birthdate, startDate, workingHours, salary) {
+  constructor (fullName, birthdate, email, startDate, workingHours, salary) {
     this.id = uuidv4()
     this.fullName = fullName
-    this.email = email
     this.birthdate = birthdate
+    this.email = email
     this.startDate = startDate
     this.workingHours = workingHours
     this.salary = salary

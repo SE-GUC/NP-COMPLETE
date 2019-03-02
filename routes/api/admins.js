@@ -8,8 +8,8 @@ const Admin = require('../../models/Admin')
 
 // Temporary data created (acts as a mock database)
 const admins = [
-  new Admin('Lujine Elfeky', 'lujine@gmail.com', '1998-01-22', '2019-01-01', 6, 100),
-  new Admin('Mohamed Hosam', 'hosam@gmail.com', '1998-06-05', '2018-05-03', 10, 150)
+  new Admin('Lujine Elfeky', '1998-01-22', 'lujine@gmail.com', '2019-01-01', 6, 100),
+  new Admin('Mohamed Hosam', '1998-06-05', 'hosam@gmail.com', '2018-05-03', 10, 150)
 ]
 
 // Read all Admins (Default route)
