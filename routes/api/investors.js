@@ -21,7 +21,7 @@ router.post('/', (req, res) => {
   const data = req.body
   const schema = Joi.object().keys({
     fullName: Joi.string().min(3).max(80).required(),
-    birthdate: Joi.date().iso().required(),
+    birthdate: Joi.date().iso().max(Date.now()).required(),
     email: Joi.string().email().required()
   })
 
@@ -58,7 +58,7 @@ router.get('/:id', (req, res) => {
     res.status(400).json({
       status: 'Error',
       message: 'Investor not found',
-      data: investors
+      availableInvestors: investors
     })
   }
 })
@@ -75,7 +75,7 @@ router.put('/:id', (req, res) => {
 
   const schema = Joi.object().keys({
     fullName: Joi.string().min(3).max(80),
-    birthdate: Joi.date().iso(),
+    birthdate: Joi.date().iso().max(Date.now()),
     email: Joi.string().email()
   })
 

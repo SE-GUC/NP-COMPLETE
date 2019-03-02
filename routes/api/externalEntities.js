@@ -59,7 +59,7 @@ router.get('/:id', (req, res) => {
     res.status(400).json({
       status: 'Error',
       message: 'External entity not found',
-      data: externalEntities
+      availableExternalEntities: externalEntities
     })
   }
 })
