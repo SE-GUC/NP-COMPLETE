@@ -8,9 +8,9 @@ const Company = require('../../models/Company')
 
 // Temporary data created (acts as a mock database)
 const companies = [
-  new Company('BMW', 'SSC', '2000-05-16'),
-  new Company('NIKE', 'SSC', '1990-12-20'),
-  new Company('PUMA', 'SSC', '2008-08-19')
+  new Company('BMW', 'SSC', '2000-05-16', 'pending'),
+  new Company('NIKE', 'SSC', '1990-12-20', 'established'),
+  new Company('PUMA', 'SSC', '2008-08-19', 'pending')
 ]
 
 // Read all Companies (Default route)
@@ -22,7 +22,8 @@ router.post('/', (req, res) => {
   const schema = Joi.object().keys({
     name: Joi.string().required(),
     type: Joi.string().required(),
-    establishmentDate: Joi.date().iso().required()
+    establishmentDate: Joi.date().iso().required(),
+    state: Joi.string().required()
   })
 
   Joi.validate(data, schema, (err, value) => {
@@ -37,7 +38,8 @@ router.post('/', (req, res) => {
     const newCompany = new Company(
       value.name,
       value.type,
-      value.establishmentDate
+      value.establishmentDate,
+      value.state
     )
     companies.push(newCompany)
     return res.json({
@@ -76,7 +78,8 @@ router.put('/:id', (req, res) => {
   const schema = Joi.object().keys({
     name: Joi.string(),
     type: Joi.string(),
-    establishmentDate: Joi.date().iso()
+    establishmentDate: Joi.date().iso(),
+    state: Joi.string()
   })
 
   Joi.validate(data, schema, (err, value) => {
@@ -94,24 +97,16 @@ router.put('/:id', (req, res) => {
     if (!companyToUpdate) {
       return res.status(400).json({
         status: 'Error',
-        message: 'Company not found'
+        message: 'Company not found',
+        availableCompanies: companies
       })
     }
 
-    let x = 0
     Object.keys(value).forEach(key => {
       if (value[key]) {
         companyToUpdate[key] = value[key]
-        x++
       }
     })
-    if (x === 0) {
-      return res.status(400).send({
-        status: 'Error',
-        message: 'Wrong data was sent',
-        data: data
-      })
-    }
 
     return res.json({
       status: 'Success',
@@ -125,7 +120,7 @@ router.put('/:id', (req, res) => {
 router.delete('/:id', (req, res) => {
   const companyId = req.params.id
   const company = companies.find(company => company.id === companyId)
-  if (!company) {
+  if (company) {
     const index = companies.indexOf(company)
     companies.splice(index, 1)
     res.json({

@@ -12,13 +12,13 @@ app.use(express.json())
 
 app.get('/', (req, res) => {
   res.send(`<h1>Welcome</h1>
-    <a href="/api/externalEntities">EE</a></br>
-    <a href="/api/admins">Admins</a></br>
-    <a href="/api/lawyers">lawyers</a></br>
-    <a href="/api/investors">Investors</a></br>
-    <a href="/api/reviewers">Reviewers</a></br>
-    <a href="/api/companies">Companies</a></br>
-    <a href="/api/tasks">Tasks</a></br>`)
+  <a href="/api/admins">Admins</a></br>
+  <a href="/api/companies">Companies</a></br>
+  <a href="/api/externalEntities">External Entities</a></br>
+  <a href="/api/investors">Investors</a></br>
+  <a href="/api/lawyers">lawyers</a></br>
+  <a href="/api/reviewers">Reviewers</a></br>
+<a href="/api/tasks">Tasks</a></br>`)
 })
 
 // Direct routes to appropriate files

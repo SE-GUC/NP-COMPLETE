@@ -20,7 +20,7 @@ router.post('/', (req, res) => {
   const data = req.body
   const schema = Joi.object().keys({
     handler: Joi.string().required(),
-    creationDate: Joi.date().required().iso(),
+    creationDate: Joi.date().required().iso().required(),
     deadline: Joi.date().required().iso()
   })
 
@@ -93,24 +93,16 @@ router.put('/:id', (req, res) => {
     if (!taskToUpdate) {
       return res.status(400).json({
         status: 'Error',
-        message: 'Task not found'
+        message: 'Task not found',
+        availableTasks: tasks
       })
     }
 
-    let x = 0
     Object.keys(value).forEach(key => {
       if (value[key]) {
         taskToUpdate[key] = value[key]
-        x++
       }
     })
-    if (x === 0) {
-      return res.status(400).send({
-        status: 'Error',
-        message: 'Wrong data was sent',
-        data: data
-      })
-    }
 
     return res.json({
       status: 'Success',

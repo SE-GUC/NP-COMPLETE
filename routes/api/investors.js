@@ -8,9 +8,9 @@ const Investor = require('../../models/Investor')
 
 // Temporary data created (acts as a mock database)
 const investors = [
-  new Investor('Mohamed Ayman', '1998-10-16', 20, 'mohamedAyman@gmail.com'),
-  new Investor('Mohamed Farid', '1998-12-18', 20, 'mohamedFarid@hotmail.com'),
-  new Investor('Bill Marks', '1990-05-21', 28, 'billMarks@outlook.com')
+  new Investor('Mohamed Ayman', '1998-10-16', 'mohamedAyman@gmail.com'),
+  new Investor('Mohamed Farid', '1998-12-18', 'mohamedFarid@hotmail.com'),
+  new Investor('Bill Marks', '1990-05-21', 'billMarks@outlook.com')
 ]
 
 // Read all Investors (Default route)
@@ -94,24 +94,16 @@ router.put('/:id', (req, res) => {
     if (!investorToUpdate) {
       return res.status(400).json({
         status: 'Error',
-        message: 'Investor not found'
+        message: 'Investor not found',
+        availableInvestors: investors
       })
     }
 
-    let x = 0
     Object.keys(value).forEach(key => {
       if (value[key]) {
         investorToUpdate[key] = value[key]
-        x++
       }
     })
-    if (x === 0) {
-      return res.status(400).send({
-        status: 'Error',
-        message: 'Wrong data was sent',
-        data: data
-      })
-    }
 
     return res.json({
       status: 'Success',

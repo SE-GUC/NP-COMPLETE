@@ -7,7 +7,7 @@ const router = express.Router()
 const Reviewer = require('../../models/Reviewer')
 
 const reviewers = [
-  new Reviewer('Omar Ayman Abdelmagied', new Date(1998, 9, 7), 'omar@gmail.com', new Date(2010, 1, 1), 6, 3000.0)
+  new Reviewer('Omar Ayman Abdelmagied', '1998-09-07', 'omar@gmail.com', '2010-01-01', 6, 3000)
 ]
 
 // Read all Reviewers (Default route)
@@ -61,7 +61,7 @@ router.get('/:id', (req, res) => {
     res.status(400).json({
       status: 'Error',
       message: 'Reviewer not found',
-      avaliableReviewers: reviewers
+      availableReviewers: reviewers
     })
   }
 })
@@ -78,7 +78,7 @@ router.put('/:id', (req, res) => {
 
   const schema = Joi.object().keys({
     fullName: Joi.string().min(3).max(80),
-    birthdate: Joi.date().iso().max(Date.now()),
+    birthdate: Joi.date().iso().max(Date.now()).required(),
     email: Joi.string().email(),
     startDate: Joi.date().iso().max(Date.now()),
     workingHours: Joi.number().min(3).integer(),
@@ -100,24 +100,16 @@ router.put('/:id', (req, res) => {
     if (!reviewerToUpdate) {
       return res.status(400).json({
         status: 'Error',
-        message: 'Reviewer not found'
+        message: 'Reviewer not found',
+        availableReviewers: reviewers
       })
     }
 
-    let x = 0
     Object.keys(value).forEach(key => {
       if (value[key]) {
         reviewerToUpdate[key] = value[key]
-        x++
       }
     })
-    if (x === 0) {
-      return res.status(400).send({
-        status: 'Error',
-        message: 'Wrong data was sent',
-        data: data
-      })
-    }
 
     return res.json({
       status: 'Success',
@@ -143,7 +135,7 @@ router.delete('/:id', (req, res) => {
     res.status(400).json({
       status: 'Error',
       message: 'Reviewer not found',
-      avaliableReviewers: reviewers
+      availableReviewers: reviewers
     })
   }
 })

@@ -8,10 +8,10 @@ const ExternalEntity = require('../../models/ExternalEntity')
 
 // Temporary data created (acts as a mock database)
 const externalEntities = [
-  new ExternalEntity('Taxes', '@1', 1122),
-  new ExternalEntity('Insurance', '@11', 221100),
-  new ExternalEntity('Defense', '@111', 123),
-  new ExternalEntity('Security', '@1111', 112200)
+  new ExternalEntity('Taxes', 'taxes@yahoo.com', 1122),
+  new ExternalEntity('Insurance', 'insurance@yahoo.com', 221100),
+  new ExternalEntity('Defense', 'defense@gmail.com', 123),
+  new ExternalEntity('Security', 'security@hotmail.com', 112200)
 ]
 
 // Read all External Entities (Default route)
@@ -20,11 +20,11 @@ router.get('/', (req, res) => res.json({ data: externalEntities }))
 // Create a new External Entity
 router.post('/', (req, res) => {
   const data = req.body
-  const schema = {
-    fullName: Joi.string().min(3).required(),
+  const schema = Joi.object().keys({
+    name: Joi.string().min(3).required(),
     email: Joi.string().email().required(),
     phone: Joi.number().required()
-  }
+  })
 
   Joi.validate(data, schema, (err, value) => {
     if (err) {
@@ -36,7 +36,7 @@ router.post('/', (req, res) => {
     }
 
     const newExternalEntity = new ExternalEntity(
-      value.fullName,
+      value.name,
       value.email,
       value.phone
     )
@@ -74,11 +74,11 @@ router.put('/:id', (req, res) => {
     })
   }
 
-  const schema = {
-    fullName: Joi.string().min(3),
+  const schema = Joi.object().keys({
+    name: Joi.string().min(3),
     email: Joi.string().email(),
     phone: Joi.number()
-  }
+  })
 
   Joi.validate(data, schema, (err, value) => {
     if (err) {
@@ -95,24 +95,16 @@ router.put('/:id', (req, res) => {
     if (!externalEntityToUpdate) {
       return res.status(400).json({
         status: 'Error',
-        message: 'External entity not found'
+        message: 'External entity not found',
+        availableExternalEntities: externalEntities
       })
     }
 
-    let x = 0
     Object.keys(value).forEach(key => {
       if (value[key]) {
         externalEntityToUpdate[key] = value[key]
-        x++
       }
     })
-    if (x === 0) {
-      return res.status(400).send({
-        status: 'Error',
-        message: 'Wrong data was sent',
-        data: data
-      })
-    }
 
     return res.json({
       status: 'Success',

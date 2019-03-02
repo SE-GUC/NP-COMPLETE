@@ -8,8 +8,8 @@ const Admin = require('../../models/Admin')
 
 // Temporary data created (acts as a mock database)
 const admins = [
-  new Admin('Lujine Elfeky', 'lujine@gmail.com', '1998-01-22', '2019-01-01', 6, 100),
-  new Admin('Mohamed Hosam', 'hosam@gmail.com', '1998-06-05', '2018-05-03', 10, 150)
+  new Admin('Lujine Elfeky', '1998-01-22', 'lujine@gmail.com', '2019-01-01', 6, 100),
+  new Admin('Mohamed Hosam', '1998-06-05', 'hosam@gmail.com', '2018-05-03', 10, 150)
 ]
 
 // Read all Admins (Default route)
@@ -102,24 +102,16 @@ router.put('/:id', (req, res) => {
     if (!adminToUpdate) {
       return res.status(400).json({
         status: 'Error',
-        message: 'Admin not found'
+        message: 'Admin not found',
+        availableAdmins: admins
       })
     }
 
-    let x = 0
     Object.keys(value).forEach(key => {
       if (value[key]) {
         adminToUpdate[key] = value[key]
-        x++
       }
     })
-    if (x === 0) {
-      return res.status(400).send({
-        status: 'Error',
-        message: 'Wrong data was sent',
-        data: data
-      })
-    }
 
     return res.json({
       status: 'Success',
@@ -139,7 +131,7 @@ router.delete('/:id', (req, res) => {
     res.json({
       status: 'Success',
       message: `Deleted admin with id ${adminId}`,
-      remainingCompanies: admins
+      remainingAdmins: admins
     })
   } else {
     res.status(400).json({
