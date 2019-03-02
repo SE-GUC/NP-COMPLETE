@@ -94,7 +94,8 @@ router.put('/:id', (req, res) => {
     if (!investorToUpdate) {
       return res.status(400).json({
         status: 'Error',
-        message: 'Investor not found'
+        message: 'Investor not found',
+        availableInvestors: investors
       })
     }
 

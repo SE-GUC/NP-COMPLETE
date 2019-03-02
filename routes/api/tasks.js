@@ -93,7 +93,8 @@ router.put('/:id', (req, res) => {
     if (!taskToUpdate) {
       return res.status(400).json({
         status: 'Error',
-        message: 'Task not found'
+        message: 'Task not found',
+        availableTasks: tasks
       })
     }
 

@@ -102,7 +102,8 @@ router.put('/:id', (req, res) => {
     if (!adminToUpdate) {
       return res.status(400).json({
         status: 'Error',
-        message: 'Admin not found'
+        message: 'Admin not found',
+        availableAdmins: admins
       })
     }
 
@@ -130,7 +131,7 @@ router.delete('/:id', (req, res) => {
     res.json({
       status: 'Success',
       message: `Deleted admin with id ${adminId}`,
-      remainingCompanies: admins
+      remainingAdmins: admins
     })
   } else {
     res.status(400).json({

@@ -95,7 +95,8 @@ router.put('/:id', (req, res) => {
     if (!externalEntityToUpdate) {
       return res.status(400).json({
         status: 'Error',
-        message: 'External entity not found'
+        message: 'External entity not found',
+        availableExternalEntities: externalEntities
       })
     }
 

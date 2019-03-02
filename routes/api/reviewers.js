@@ -61,7 +61,7 @@ router.get('/:id', (req, res) => {
     res.status(400).json({
       status: 'Error',
       message: 'Reviewer not found',
-      avaliableReviewers: reviewers
+      availableReviewers: reviewers
     })
   }
 })
@@ -100,7 +100,8 @@ router.put('/:id', (req, res) => {
     if (!reviewerToUpdate) {
       return res.status(400).json({
         status: 'Error',
-        message: 'Reviewer not found'
+        message: 'Reviewer not found',
+        availableReviewers: reviewers
       })
     }
 
@@ -134,7 +135,7 @@ router.delete('/:id', (req, res) => {
     res.status(400).json({
       status: 'Error',
       message: 'Reviewer not found',
-      avaliableReviewers: reviewers
+      availableReviewers: reviewers
     })
   }
 })

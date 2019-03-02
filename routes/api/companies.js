@@ -97,7 +97,8 @@ router.put('/:id', (req, res) => {
     if (!companyToUpdate) {
       return res.status(400).json({
         status: 'Error',
-        message: 'Company not found'
+        message: 'Company not found',
+        availableCompanies: companies
       })
     }
 

@@ -103,7 +103,8 @@ router.put('/:id', (req, res) => {
     if (!lawyerToUpdate) {
       return res.status(400).json({
         status: 'Error',
-        message: 'Lawyer not found'
+        message: 'Lawyer not found',
+        availableLawyers: lawyers
       })
     }
 
@@ -132,12 +133,12 @@ router.delete('/:id', (req, res) => {
     res.json({
       status: 'Success',
       message: `Deleted lawyer with id ${lawyerId}`,
-      remainingLwayers: lawyers
+      remainingLawyers: lawyers
     })
   } else {
     res.status(400).json({
       status: 'Error',
-      message: 'Lwayer not found',
+      message: 'Lawyer not found',
       availableLawyers: lawyers
     })
   }
