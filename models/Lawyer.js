@@ -10,7 +10,7 @@ class Lawyer {
     this.startDate = startDate
     this.workingHours = workingHours
     this.salary = salary
-  };
+  }
 }
 
 module.exports = Lawyer
