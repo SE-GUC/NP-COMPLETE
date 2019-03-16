@@ -1,45 +1,31 @@
+// Load modules
 const express = require('express')
 const Joi = require('joi')
 const router = express.Router()
 
+// Reviewer model
 const Reviewer = require('../../models/Reviewer')
 
 const reviewers = [
-  new Reviewer('Omar Ayman Abdelmagied', new Date(1998, 9, 7), 'omar@gmail.com', new Date(2010, 1, 1), 6, 3000.0)
+  new Reviewer('Omar Ayman Abdelmagied', '1998-09-07', 'omar@gmail.com', '2010-01-01', 6, 3000)
 ]
 
-// Reading all reviewers
-router.get('/', (req, res) => {
-  res.json({ data: reviewers })
-})
+// Read all Reviewers (Default route)
+router.get('/', (req, res) => res.json({ data: reviewers }))
 
-// Reading a specific reviewer
-router.get('/:id', (req, res) => {
-  const revid = req.params.id
-  const reviewer = reviewers.find(reviewer => reviewer.id === revid)
-  if (reviewer) { res.json(reviewer) } else {
-    res.status(400).json({
-      status: 'Error',
-      message: 'Reviewer not found',
-      avaliableReviewers: reviewers
-    })
-  }
-})
-
-// Creating a reviewer
+// Creating a new Reviewer
 router.post('/', (req, res) => {
   const data = req.body
   const schema = Joi.object().keys({
-
     fullName: Joi.string().min(3).max(80).required(),
     birthdate: Joi.date().iso().max(Date.now()).required(),
     email: Joi.string().email().required(),
     startDate: Joi.date().iso().max(Date.now()),
-    workingHours: Joi.number().min(3).max(12).integer(),
-    salary: Joi.number().min(500.0).max(10000.0)
+    workingHours: Joi.number().min(3).integer(),
+    salary: Joi.number()
   })
 
-  Joi.validate(req.body, schema, (err, value) => {
+  Joi.validate(data, schema, (err, value) => {
     if (err) {
       return res.status(400).json({
         status: 'Error',
@@ -48,20 +34,42 @@ router.post('/', (req, res) => {
       })
     }
 
-    const newReviewer = new Reviewer(value.fullName, value.birthdate, value.email, value.startDate, value.workingHours, value.salary)
+    const newReviewer = new Reviewer(
+      value.fullName,
+      value.birthdate,
+      value.email,
+      value.startDate,
+      value.workingHours,
+      value.salary
+    )
     reviewers.push(newReviewer)
     return res.json({
       status: 'Success',
-      message: 'New Reviewer created',
+      message: `New reviewer created with id ${newReviewer.id}`,
       data: newReviewer
     })
   })
 })
 
-// Updating a reviewer
+// Reading a specific Reviewer given id in URL
+router.get('/:id', (req, res) => {
+  const revid = req.params.id
+  const reviewer = reviewers.find(reviewer => reviewer.id === revid)
+  if (reviewer) {
+    res.json({ data: reviewer })
+  } else {
+    res.status(400).json({
+      status: 'Error',
+      message: 'Reviewer not found',
+      availableReviewers: reviewers
+    })
+  }
+})
+
+// Update an existing Reviewer given id in URL
 router.put('/:id', (req, res) => {
   const data = req.body
-  if (Object.keys(req.body).length === 0) {
+  if (Object.keys(data).length === 0) {
     return res.status(400).json({
       status: 'Error',
       message: 'No data to update'
@@ -69,16 +77,15 @@ router.put('/:id', (req, res) => {
   }
 
   const schema = Joi.object().keys({
-
     fullName: Joi.string().min(3).max(80),
     birthdate: Joi.date().iso().max(Date.now()),
     email: Joi.string().email(),
     startDate: Joi.date().iso().max(Date.now()),
-    workingHours: Joi.number().min(3).max(12).integer(),
-    salary: Joi.number().min(500.0).max(10000.0)
+    workingHours: Joi.number().min(3).integer(),
+    salary: Joi.number()
   })
 
-  Joi.validate(req.body, schema, (err, value) => {
+  Joi.validate(data, schema, (err, value) => {
     if (err) {
       return res.status(400).json({
         status: 'Error',
@@ -87,13 +94,14 @@ router.put('/:id', (req, res) => {
       })
     }
 
-    const id = req.params.id
-    const reviewerToUpdate = reviewers.find(reviewer => reviewer.id === id)
+    const reviewerId = req.params.id
+    const reviewerToUpdate = reviewers.find(reviewer => reviewer.id === reviewerId)
 
     if (!reviewerToUpdate) {
       return res.status(400).json({
         status: 'Error',
-        message: 'Reviewer not found'
+        message: 'Reviewer not found',
+        availableReviewers: reviewers
       })
     }
 
@@ -105,25 +113,29 @@ router.put('/:id', (req, res) => {
 
     return res.json({
       status: 'Success',
-      message: `Updated Reviewer wit id ${id}`,
-      data: reviewers
+      message: `Updated Reviewer wit id ${reviewerId}`,
+      data: reviewerToUpdate
     })
   })
 })
 
-// Deleting a Reviwer
+// Delete a specific Reviewer given ID in URL
 router.delete('/:id', (req, res) => {
-  const revid = req.params.id
-  const reviewer = reviewers.find(reviewer => reviewer.id === revid)
+  const reviewerId = req.params.id
+  const reviewer = reviewers.find(reviewer => reviewer.id === reviewerId)
   if (reviewer) {
     const index = reviewers.indexOf(reviewer)
     reviewers.splice(index, 1)
-    res.json(reviewers)
+    res.json({
+      status: 'Success',
+      message: `Deleted reviewer with id ${reviewerId}`,
+      remainingReviewers: reviewers
+    })
   } else {
     res.status(400).json({
       status: 'Error',
-      message: 'Sorry, This Reviewer does not Exist!',
-      avaliablereviewers: reviewers
+      message: 'Reviewer not found',
+      availableReviewers: reviewers
     })
   }
 })
