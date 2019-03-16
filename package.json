@@ -1,0 +1,27 @@
+{
+  "name": "np-complete",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "express": "^4.16.4",
+    "joi": "^14.3.1",
+    "uuid": "^3.3.2"
+  },
+  "devDependencies": {
+    "standard": "^12.0.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SE-GUC/NP-COMPLETE.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SE-GUC/NP-COMPLETE/issues"
+  },
+  "homepage": "https://github.com/SE-GUC/NP-COMPLETE#readme"
+}

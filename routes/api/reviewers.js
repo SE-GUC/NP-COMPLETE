@@ -3,28 +3,25 @@ const express = require('express')
 const Joi = require('joi')
 const router = express.Router()
 
-// Lawyer models
-const Lawyer = require('../../models/Lawyer')
+// Reviewer model
+const Reviewer = require('../../models/Reviewer')
 
-// Temporary data created (acts as a mock database)
-const lawyers = [
-  new Lawyer('Barney', '2000-05-05', 'burney@gmail.com', '2006-05-05'),
-  new Lawyer('Ahmed', '1990-05-05', 'ahmed@gmail.com', '2007-05-05'),
-  new Lawyer('Mariam', '1995-01-01', 'mariam@gmail.com', '2005-05-05', 8, 5000)
+const reviewers = [
+  new Reviewer('Omar Ayman Abdelmagied', '1998-09-07', 'omar@gmail.com', '2010-01-01', 6, 3000)
 ]
 
-// Read all Lawyers (Default route)
-router.get('/', (req, res) => res.json({ data: lawyers }))
+// Read all Reviewers (Default route)
+router.get('/', (req, res) => res.json({ data: reviewers }))
 
-// Create a new Lawyer
+// Creating a new Reviewer
 router.post('/', (req, res) => {
   const data = req.body
   const schema = Joi.object().keys({
     fullName: Joi.string().min(3).max(80).required(),
     birthdate: Joi.date().iso().max(Date.now()).required(),
     email: Joi.string().email().required(),
-    startDate: Joi.date().iso().max(Date.now()).required(),
-    workingHours: Joi.number().min(5),
+    startDate: Joi.date().iso().max(Date.now()),
+    workingHours: Joi.number().min(3).integer(),
     salary: Joi.number()
   })
 
@@ -37,7 +34,7 @@ router.post('/', (req, res) => {
       })
     }
 
-    const newLawyer = new Lawyer(
+    const newReviewer = new Reviewer(
       value.fullName,
       value.birthdate,
       value.email,
@@ -45,31 +42,31 @@ router.post('/', (req, res) => {
       value.workingHours,
       value.salary
     )
-    lawyers.push(newLawyer)
+    reviewers.push(newReviewer)
     return res.json({
       status: 'Success',
-      message: `New lawyer created with id ${newLawyer.id}`,
-      data: newLawyer
+      message: `New reviewer created with id ${newReviewer.id}`,
+      data: newReviewer
     })
   })
 })
 
-// Reads a specific Lawyer given id in URL
+// Reading a specific Reviewer given id in URL
 router.get('/:id', (req, res) => {
-  const lawyerId = req.params.id
-  const lawyer = lawyers.find(lawyer => lawyer.id === lawyerId)
-  if (lawyer) {
-    res.json({ data: lawyer })
+  const revid = req.params.id
+  const reviewer = reviewers.find(reviewer => reviewer.id === revid)
+  if (reviewer) {
+    res.json({ data: reviewer })
   } else {
     res.status(400).json({
       status: 'Error',
-      message: 'Lawyer not found',
-      availableLawyers: lawyers
+      message: 'Reviewer not found',
+      availableReviewers: reviewers
     })
   }
 })
 
-// Update an existing Lawyer given id in URL
+// Update an existing Reviewer given id in URL
 router.put('/:id', (req, res) => {
   const data = req.body
   if (Object.keys(data).length === 0) {
@@ -84,7 +81,7 @@ router.put('/:id', (req, res) => {
     birthdate: Joi.date().iso().max(Date.now()),
     email: Joi.string().email(),
     startDate: Joi.date().iso().max(Date.now()),
-    workingHours: Joi.number().min(5),
+    workingHours: Joi.number().min(3).integer(),
     salary: Joi.number()
   })
 
@@ -97,49 +94,48 @@ router.put('/:id', (req, res) => {
       })
     }
 
-    const lawyerId = req.params.id
-    const lawyerToUpdate = lawyers.find(lawyer => lawyer.id === lawyerId)
+    const reviewerId = req.params.id
+    const reviewerToUpdate = reviewers.find(reviewer => reviewer.id === reviewerId)
 
-    if (!lawyerToUpdate) {
+    if (!reviewerToUpdate) {
       return res.status(400).json({
         status: 'Error',
-        message: 'Lawyer not found',
-        availableLawyers: lawyers
+        message: 'Reviewer not found',
+        availableReviewers: reviewers
       })
     }
 
     Object.keys(value).forEach(key => {
       if (value[key]) {
-        lawyerToUpdate[key] = value[key]
+        reviewerToUpdate[key] = value[key]
       }
     })
 
     return res.json({
       status: 'Success',
-      message: `Updated lawyer with id ${lawyerId}`,
-      data: lawyerToUpdate
+      message: `Updated Reviewer wit id ${reviewerId}`,
+      data: reviewerToUpdate
     })
   })
 })
 
-// Delete a specific Lawyer given ID in URL
-
+// Delete a specific Reviewer given ID in URL
 router.delete('/:id', (req, res) => {
-  const lawyerId = req.params.id
-  const lawyer = lawyers.find(lawyer => lawyer.id === lawyerId)
-  if (lawyer) {
-    const index = lawyers.indexOf(lawyer)
-    lawyers.splice(index, 1)
+  const reviewerId = req.params.id
+  const reviewer = reviewers.find(reviewer => reviewer.id === reviewerId)
+  if (reviewer) {
+    const index = reviewers.indexOf(reviewer)
+    reviewers.splice(index, 1)
     res.json({
       status: 'Success',
-      message: `Deleted lawyer with id ${lawyerId}`,
-      remainingLawyers: lawyers
+      message: `Deleted reviewer with id ${reviewerId}`,
+      remainingReviewers: reviewers
     })
   } else {
     res.status(400).json({
       status: 'Error',
-      message: 'Lawyer not found',
-      availableLawyers: lawyers
+      message: 'Reviewer not found',
+      availableReviewers: reviewers
     })
   }
 })
