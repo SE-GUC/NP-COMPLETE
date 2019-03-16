@@ -1,0 +1,147 @@
+// Load modules
+const express = require('express')
+const Joi = require('joi')
+const router = express.Router()
+
+// Lawyer models
+const Lawyer = require('../../models/Lawyer')
+
+// Temporary data created (acts as a mock database)
+const lawyers = [
+  new Lawyer('Barney', '2000-05-05', 'burney@gmail.com', '2006-05-05'),
+  new Lawyer('Ahmed', '1990-05-05', 'ahmed@gmail.com', '2007-05-05'),
+  new Lawyer('Mariam', '1995-01-01', 'mariam@gmail.com', '2005-05-05', 8, 5000)
+]
+
+// Read all Lawyers (Default route)
+router.get('/', (req, res) => res.json({ data: lawyers }))
+
+// Create a new Lawyer
+router.post('/', (req, res) => {
+  const data = req.body
+  const schema = Joi.object().keys({
+    fullName: Joi.string().min(3).max(80).required(),
+    birthdate: Joi.date().iso().max(Date.now()).required(),
+    email: Joi.string().email().required(),
+    startDate: Joi.date().iso().max(Date.now()).required(),
+    workingHours: Joi.number().min(5),
+    salary: Joi.number()
+  })
+
+  Joi.validate(data, schema, (err, value) => {
+    if (err) {
+      return res.status(400).json({
+        status: 'Error',
+        message: err.details[0].message,
+        data: data
+      })
+    }
+
+    const newLawyer = new Lawyer(
+      value.fullName,
+      value.birthdate,
+      value.email,
+      value.startDate,
+      value.workingHours,
+      value.salary
+    )
+    lawyers.push(newLawyer)
+    return res.json({
+      status: 'Success',
+      message: `New lawyer created with id ${newLawyer.id}`,
+      data: newLawyer
+    })
+  })
+})
+
+// Reads a specific Lawyer given id in URL
+router.get('/:id', (req, res) => {
+  const lawyerId = req.params.id
+  const lawyer = lawyers.find(lawyer => lawyer.id === lawyerId)
+  if (lawyer) {
+    res.json({ data: lawyer })
+  } else {
+    res.status(400).json({
+      status: 'Error',
+      message: 'Lawyer not found',
+      availableLawyers: lawyers
+    })
+  }
+})
+
+// Update an existing Lawyer given id in URL
+router.put('/:id', (req, res) => {
+  const data = req.body
+  if (Object.keys(data).length === 0) {
+    return res.status(400).json({
+      status: 'Error',
+      message: 'No data to update'
+    })
+  }
+
+  const schema = Joi.object().keys({
+    fullName: Joi.string().min(3).max(80),
+    birthdate: Joi.date().iso().max(Date.now()),
+    email: Joi.string().email(),
+    startDate: Joi.date().iso().max(Date.now()),
+    workingHours: Joi.number().min(5),
+    salary: Joi.number()
+  })
+
+  Joi.validate(data, schema, (err, value) => {
+    if (err) {
+      return res.status(400).json({
+        status: 'Error',
+        message: err.details[0].message,
+        data: data
+      })
+    }
+
+    const lawyerId = req.params.id
+    const lawyerToUpdate = lawyers.find(lawyer => lawyer.id === lawyerId)
+
+    if (!lawyerToUpdate) {
+      return res.status(400).json({
+        status: 'Error',
+        message: 'Lawyer not found',
+        availableLawyers: lawyers
+      })
+    }
+
+    Object.keys(value).forEach(key => {
+      if (value[key]) {
+        lawyerToUpdate[key] = value[key]
+      }
+    })
+
+    return res.json({
+      status: 'Success',
+      message: `Updated lawyer with id ${lawyerId}`,
+      data: lawyerToUpdate
+    })
+  })
+})
+
+// Delete a specific Lawyer given ID in URL
+
+router.delete('/:id', (req, res) => {
+  const lawyerId = req.params.id
+  const lawyer = lawyers.find(lawyer => lawyer.id === lawyerId)
+  if (lawyer) {
+    const index = lawyers.indexOf(lawyer)
+    lawyers.splice(index, 1)
+    res.json({
+      status: 'Success',
+      message: `Deleted lawyer with id ${lawyerId}`,
+      remainingLawyers: lawyers
+    })
+  } else {
+    res.status(400).json({
+      status: 'Error',
+      message: 'Lawyer not found',
+      availableLawyers: lawyers
+    })
+  }
+})
+
+module.exports = router
