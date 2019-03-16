@@ -1,7 +1,7 @@
-// The admin model
+// The lawyer model
 const uuidv4 = require('uuid/v4')
 
-class Admin {
+class Lawyer {
   constructor (fullName, birthdate, email, startDate, workingHours, salary) {
     this.id = uuidv4()
     this.fullName = fullName
@@ -13,4 +13,4 @@ class Admin {
   }
 }
 
-module.exports = Admin
+module.exports = Lawyer

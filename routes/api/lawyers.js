@@ -3,19 +3,20 @@ const express = require('express')
 const Joi = require('joi')
 const router = express.Router()
 
-// Admin model
-const Admin = require('../../models/Admin')
+// Lawyer models
+const Lawyer = require('../../models/Lawyer')
 
 // Temporary data created (acts as a mock database)
-const admins = [
-  new Admin('Lujine Elfeky', '1998-01-22', 'lujine@gmail.com', '2019-01-01', 6, 100),
-  new Admin('Mohamed Hosam', '1998-06-05', 'hosam@gmail.com', '2018-05-03', 10, 150)
+const lawyers = [
+  new Lawyer('Barney', '2000-05-05', 'burney@gmail.com', '2006-05-05'),
+  new Lawyer('Ahmed', '1990-05-05', 'ahmed@gmail.com', '2007-05-05'),
+  new Lawyer('Mariam', '1995-01-01', 'mariam@gmail.com', '2005-05-05', 8, 5000)
 ]
 
-// Read all Admins (Default route)
-router.get('/', (req, res) => res.json({ data: admins }))
+// Read all Lawyers (Default route)
+router.get('/', (req, res) => res.json({ data: lawyers }))
 
-// Create a new Admin
+// Create a new Lawyer
 router.post('/', (req, res) => {
   const data = req.body
   const schema = Joi.object().keys({
@@ -36,7 +37,7 @@ router.post('/', (req, res) => {
       })
     }
 
-    const newAdmin = new Admin(
+    const newLawyer = new Lawyer(
       value.fullName,
       value.birthdate,
       value.email,
@@ -44,31 +45,31 @@ router.post('/', (req, res) => {
       value.workingHours,
       value.salary
     )
-    admins.push(newAdmin)
+    lawyers.push(newLawyer)
     return res.json({
       status: 'Success',
-      message: `New admin created with id ${newAdmin.id}`,
-      data: newAdmin
+      message: `New lawyer created with id ${newLawyer.id}`,
+      data: newLawyer
     })
   })
 })
 
-// Reads a specific Admin given id in URL
+// Reads a specific Lawyer given id in URL
 router.get('/:id', (req, res) => {
-  const adminId = req.params.id
-  const admin = admins.find(admin => admin.id === adminId)
-  if (admin) {
-    res.json({ data: admin })
+  const lawyerId = req.params.id
+  const lawyer = lawyers.find(lawyer => lawyer.id === lawyerId)
+  if (lawyer) {
+    res.json({ data: lawyer })
   } else {
     res.status(400).json({
       status: 'Error',
-      message: 'Admin not found',
-      availableAdmins: admins
+      message: 'Lawyer not found',
+      availableLawyers: lawyers
     })
   }
 })
 
-// Update an existing Admin given id in URL
+// Update an existing Lawyer given id in URL
 router.put('/:id', (req, res) => {
   const data = req.body
   if (Object.keys(data).length === 0) {
@@ -96,48 +97,49 @@ router.put('/:id', (req, res) => {
       })
     }
 
-    const adminId = req.params.id
-    const adminToUpdate = admins.find(admin => admin.id === adminId)
+    const lawyerId = req.params.id
+    const lawyerToUpdate = lawyers.find(lawyer => lawyer.id === lawyerId)
 
-    if (!adminToUpdate) {
+    if (!lawyerToUpdate) {
       return res.status(400).json({
         status: 'Error',
-        message: 'Admin not found',
-        availableAdmins: admins
+        message: 'Lawyer not found',
+        availableLawyers: lawyers
       })
     }
 
     Object.keys(value).forEach(key => {
       if (value[key]) {
-        adminToUpdate[key] = value[key]
+        lawyerToUpdate[key] = value[key]
       }
     })
 
     return res.json({
       status: 'Success',
-      message: `Updated admin with id ${adminId}`,
-      data: adminToUpdate
+      message: `Updated lawyer with id ${lawyerId}`,
+      data: lawyerToUpdate
     })
   })
 })
 
-// Delete a specific Admin given ID in URL
+// Delete a specific Lawyer given ID in URL
+
 router.delete('/:id', (req, res) => {
-  const adminId = req.params.id
-  const admin = admins.find(admins => admins.id === adminId)
-  if (admin) {
-    const index = admins.indexOf(admin)
-    admins.splice(index, 1)
+  const lawyerId = req.params.id
+  const lawyer = lawyers.find(lawyer => lawyer.id === lawyerId)
+  if (lawyer) {
+    const index = lawyers.indexOf(lawyer)
+    lawyers.splice(index, 1)
     res.json({
       status: 'Success',
-      message: `Deleted admin with id ${adminId}`,
-      remainingAdmins: admins
+      message: `Deleted lawyer with id ${lawyerId}`,
+      remainingLawyers: lawyers
     })
   } else {
     res.status(400).json({
       status: 'Error',
-      message: 'Admin not found',
-      availableAdmins: admins
+      message: 'Lawyer not found',
+      availableLawyers: lawyers
     })
   }
 })
