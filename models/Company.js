@@ -8,7 +8,7 @@ class Company {
     this.type = type
     this.establishmentDate = establishmentDate
     this.state = state
-  };
+  }
 }
 
 module.exports = Company
