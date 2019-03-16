@@ -8,6 +8,7 @@ const ExternalEntity = require('../../models/ExternalEntity')
 
 // Temporary data created (acts as a mock database)
 const externalEntities = [
+  
   new ExternalEntity('Taxes', 'taxes@yahoo.com', 1122),
   new ExternalEntity('Insurance', 'insurance@yahoo.com', 221100),
   new ExternalEntity('Defense', 'defense@gmail.com', 123),
