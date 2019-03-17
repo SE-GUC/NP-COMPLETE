@@ -8,17 +8,15 @@ const Admin = require('../../models/Admin')
 // Validator
 const validator = require('../../validations/adminValidations')
 
-// Temporary data created (acts as a mock database)
-const admins = [
-  new Admin('Lujine Elfeky', '1998-01-22', 'lujine@gmail.com', '2019-01-01', 6, 100),
-  new Admin('Mohamed Hosam', '1998-06-05', 'hosam@gmail.com', '2018-05-03', 10, 150)
-]
-
+//! async await needed?
 // Read all Admins (Default route)
-router.get('/', (req, res) => res.json({ data: admins }))
+router.get('/', async (req, res) => {
+  const admins = await Admin.find()
+  res.json({ data: admins })
+})
 
 // Create a new Admin
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
   const data = req.body
 
   //! Removed Joi.validate(data, schema, (err, value)
@@ -33,44 +31,37 @@ router.post('/', (req, res) => {
         data: data
       })
     }
-    //! Issue with using data vs. value as before
-    const newAdmin = new Admin(
-      data.fullName,
-      data.birthdate,
-      data.email,
-      data.startDate,
-      data.workingHours,
-      data.salary
-    )
-    admins.push(newAdmin)
+    //! ! Issue with using data vs. value as before
+
+    //! Untested
+    const newAdmin = await Admin.create(data)
     return res.json({
       status: 'Success',
       message: `New admin created with id ${newAdmin.id}`,
       data: newAdmin
     })
-  } catch (error) {
+  } catch (err) {
     //! Error handling required
-    console.log(error)
+    console.log(err)
   }
 })
 
 // Reads a specific Admin given id in URL
-router.get('/:id', (req, res) => {
+router.get('/:id', async (req, res) => {
   const adminId = req.params.id
-  const admin = admins.find(admin => admin.id === adminId)
-  if (admin) {
-    res.json({ data: admin })
-  } else {
-    res.status(400).json({
+  const admin = await Admin.findOne({ adminId })
+  if (!admin) {
+    return res.status(400).json({
       status: 'Error',
       message: 'Admin not found',
-      availableAdmins: admins
+      availableAdmins: await Admin.find()
     })
   }
+  res.json({ data: admin })
 })
 
 // Update an existing Admin given id in URL
-router.put('/:id', (req, res) => {
+router.put('/:id', async (req, res) => {
   const data = req.body
   if (Object.keys(data).length === 0) {
     return res.status(400).json({
@@ -80,7 +71,7 @@ router.put('/:id', (req, res) => {
   }
 
   try {
-    const isValidated = validator.updateValidation(req.body)
+    const isValidated = validator.updateValidation(data)
     if (isValidated.error) {
       return res.status(400).json({
         status: 'Error',
@@ -88,51 +79,41 @@ router.put('/:id', (req, res) => {
         data: data
       })
     }
-  } catch (error) {
-    console.log(error)
+  } catch (err) {
+    console.log(err)
   }
   const adminId = req.params.id
-  const adminToUpdate = admins.find(admin => admin.id === adminId)
+  const adminToUpdate = await Admin.findOne({ adminId })
 
   if (!adminToUpdate) {
     return res.status(400).json({
       status: 'Error',
       message: 'Admin not found',
-      availableAdmins: admins
+      availableAdmins: await Admin.find()
     })
   }
-
-  Object.keys(data).forEach(key => {
-    if (data[key]) {
-      adminToUpdate[key] = data[key]
-    }
-  })
-
+  const updatedAdmin = await Admin.updateOne(data)
   return res.json({
     status: 'Success',
     message: `Updated admin with id ${adminId}`,
-    data: adminToUpdate
+    data: updatedAdmin
   })
 })
 
 // Delete a specific Admin given ID in URL
-router.delete('/:id', (req, res) => {
-  const adminId = req.params.id
-  const admin = admins.find(admins => admins.id === adminId)
-  if (admin) {
-    const index = admins.indexOf(admin)
-    admins.splice(index, 1)
+router.delete('/:id', async (req, res) => {
+  //! Delete first, ask questions later
+  try {
+    const adminId = req.params.id
+    const deletedAdmin = await Admin.findByIdAndRemove(adminId)
     res.json({
       status: 'Success',
       message: `Deleted admin with id ${adminId}`,
-      remainingAdmins: admins
+      deletedAdmin: deletedAdmin,
+      remainingAdmins: await Admin.find()
     })
-  } else {
-    res.status(400).json({
-      status: 'Error',
-      message: 'Admin not found',
-      availableAdmins: admins
-    })
+  } catch (err) {
+    console.log(err)
   }
 })
 
