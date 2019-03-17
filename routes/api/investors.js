@@ -37,7 +37,7 @@ router.post('/', async (req, res) => {
 // Reads a specific Investor given id in URL
 router.get('/:id', async (req, res) => {
   const investorId = req.params.id
-  const investor = await Investor.findOne(investorId)
+  const investor = await Investor.findById(investorId)
   if (investor) {
     res.json({ data: investor })
   } else {
@@ -53,7 +53,7 @@ router.get('/:id', async (req, res) => {
 router.put('/:id', async (req, res) => {
   try {
     const id = req.params.id
-    const currentInvestor = await Investor.findOne({ id })
+    const currentInvestor = await Investor.findById({ id })
     if (!currentInvestor) {
       return res.status(400).json({
         status: 'Error',
