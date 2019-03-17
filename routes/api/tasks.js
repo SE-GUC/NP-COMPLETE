@@ -1,7 +1,6 @@
 // Load modules
 const express = require('express')
 const router = express.Router()
-const mongoose = require('mongoose')
 
 // Task model
 const Task = require('../../models/Task')
@@ -79,7 +78,7 @@ router.put('/:id', async (req, res) => {
     const taskId = req.params.id
     const task = await Task.findOne({ _id: taskId })
     if (!task) return res.status(404).send({ error: 'Task does not exist' })
-    const updatedTask = await Task.updateOne(req.body)
+    await Task.updateOne(req.body)
     res.json({ msg: 'Task updated successfully' })
   } catch (error) {
     console.log(error)
@@ -139,7 +138,7 @@ router.put('/:id', async (req, res) => {
 router.delete('/:id', async (req, res) => {
   try {
     const taskId = req.params.id
-    const deletedTask = await Task.findByIdAndRemove({ _id: taskId })
+    await Task.findByIdAndRemove({ _id: taskId })
   } catch (error) {
     console.log(error)
   }
