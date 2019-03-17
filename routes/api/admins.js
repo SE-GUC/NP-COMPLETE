@@ -49,7 +49,7 @@ router.post('/', async (req, res) => {
 // Reads a specific Admin given id in URL
 router.get('/:id', async (req, res) => {
   const adminId = req.params.id
-  const admin = await Admin.findOne({ adminId })
+  const admin = await Admin.findOne({ _id: adminId })
   if (!admin) {
     return res.status(400).json({
       status: 'Error',
@@ -83,7 +83,7 @@ router.put('/:id', async (req, res) => {
     console.log(err)
   }
   const adminId = req.params.id
-  const adminToUpdate = await Admin.findOne({ adminId })
+  const adminToUpdate = await Admin.findOne({ _id: adminId })
 
   if (!adminToUpdate) {
     return res.status(400).json({
@@ -92,7 +92,8 @@ router.put('/:id', async (req, res) => {
       availableAdmins: await Admin.find()
     })
   }
-  const updatedAdmin = await Admin.updateOne(data)
+  await Admin.updateOne(data)
+  const updatedAdmin = await Admin.findOne({ _id: adminId })
   return res.json({
     status: 'Success',
     message: `Updated admin with id ${adminId}`,
