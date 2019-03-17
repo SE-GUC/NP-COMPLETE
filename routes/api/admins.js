@@ -1,10 +1,12 @@
 // Load modules
 const express = require('express')
-const Joi = require('joi')
 const router = express.Router()
 
 // Admin model
 const Admin = require('../../models/Admin')
+
+// Validator
+const validator = require('../../validations/adminValidations')
 
 // Temporary data created (acts as a mock database)
 const admins = [
@@ -18,31 +20,27 @@ router.get('/', (req, res) => res.json({ data: admins }))
 // Create a new Admin
 router.post('/', (req, res) => {
   const data = req.body
-  const schema = Joi.object().keys({
-    fullName: Joi.string().min(3).max(80).required(),
-    birthdate: Joi.date().iso().max(Date.now()).required(),
-    email: Joi.string().email().required(),
-    startDate: Joi.date().iso().max(Date.now()).required(),
-    workingHours: Joi.number().min(5),
-    salary: Joi.number()
-  })
 
-  Joi.validate(data, schema, (err, value) => {
-    if (err) {
+  //! Removed Joi.validate(data, schema, (err, value)
+
+  try {
+    //! Are try-catch blocks needed? Do we need it to cover all?
+    const isValidated = validator.createValidation(data)
+    if (isValidated.error) {
       return res.status(400).json({
         status: 'Error',
-        message: err.details[0].message,
+        message: isValidated.error.details[0].message,
         data: data
       })
     }
-
+    //! Issue with using data vs. value as before
     const newAdmin = new Admin(
-      value.fullName,
-      value.birthdate,
-      value.email,
-      value.startDate,
-      value.workingHours,
-      value.salary
+      data.fullName,
+      data.birthdate,
+      data.email,
+      data.startDate,
+      data.workingHours,
+      data.salary
     )
     admins.push(newAdmin)
     return res.json({
@@ -50,7 +48,10 @@ router.post('/', (req, res) => {
       message: `New admin created with id ${newAdmin.id}`,
       data: newAdmin
     })
-  })
+  } catch (error) {
+    //! Error handling required
+    console.log(error)
+  }
 })
 
 // Reads a specific Admin given id in URL
@@ -78,46 +79,39 @@ router.put('/:id', (req, res) => {
     })
   }
 
-  const schema = Joi.object().keys({
-    fullName: Joi.string().min(3).max(80),
-    birthdate: Joi.date().iso().max(Date.now()),
-    email: Joi.string().email(),
-    startDate: Joi.date().iso().max(Date.now()),
-    workingHours: Joi.number().min(5),
-    salary: Joi.number()
-  })
-
-  Joi.validate(data, schema, (err, value) => {
-    if (err) {
+  try {
+    const isValidated = validator.updateValidation(req.body)
+    if (isValidated.error) {
       return res.status(400).json({
         status: 'Error',
-        message: err.details[0].message,
+        message: isValidated.error.details[0].message,
         data: data
       })
     }
+  } catch (error) {
+    console.log(error)
+  }
+  const adminId = req.params.id
+  const adminToUpdate = admins.find(admin => admin.id === adminId)
 
-    const adminId = req.params.id
-    const adminToUpdate = admins.find(admin => admin.id === adminId)
+  if (!adminToUpdate) {
+    return res.status(400).json({
+      status: 'Error',
+      message: 'Admin not found',
+      availableAdmins: admins
+    })
+  }
 
-    if (!adminToUpdate) {
-      return res.status(400).json({
-        status: 'Error',
-        message: 'Admin not found',
-        availableAdmins: admins
-      })
+  Object.keys(data).forEach(key => {
+    if (data[key]) {
+      adminToUpdate[key] = data[key]
     }
+  })
 
-    Object.keys(value).forEach(key => {
-      if (value[key]) {
-        adminToUpdate[key] = value[key]
-      }
-    })
-
-    return res.json({
-      status: 'Success',
-      message: `Updated admin with id ${adminId}`,
-      data: adminToUpdate
-    })
+  return res.json({
+    status: 'Success',
+    message: `Updated admin with id ${adminId}`,
+    data: adminToUpdate
   })
 })
 
