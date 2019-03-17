@@ -7,13 +7,6 @@ const router = express.Router()
 const Investor = require('../../models/Investor')
 const validator = require('../../validations/investorValidations')
 
-// Temporary data created (acts as a mock database)
-const investors = [
-  new Investor('Mohamed Ayman', new Date('1998-10-16'), 'mohamedAyman@gmail.com'),
-  new Investor('Mohamed Farid', new Date('1998-12-18'), 'mohamedFarid@hotmail.com'),
-  new Investor('Bill Marks', new Date('1990-05-21'), 'billMarks@outlook.com')
-]
-
 // Read all Investors (Default route)
 router.get('/', async (req, res) => {
   const investors = await Investor.find()
@@ -43,14 +36,14 @@ router.post('/', async (req, res) => {
 // Reads a specific Investor given id in URL
 router.get('/:id', async (req, res) => {
   const investorId = req.params.id
-  const investor = await investors.find(investor => investor.id === investorId)
+  const investor = await Investor.find(investor => investor.id === investorId)
   if (investor) {
     res.json({ data: investor })
   } else {
     res.status(400).json({
       status: 'Error',
       message: 'Investor not found',
-      availableInvestors: investors
+      availableInvestors: Investor
     })
   }
 })
@@ -64,7 +57,7 @@ router.put('/:id', async (req, res) => {
       return res.status(400).json({
         status: 'Error',
         message: 'could not find Investor you are looking for',
-        availableInvestors: investors
+        availableInvestors: Investor
       })
     }
     const isValidated = validator.updateValidation(req.body)
@@ -74,7 +67,7 @@ router.put('/:id', async (req, res) => {
         message: isValidated.error.details[0].message
       })
     }
-    const updatedInvestor = await investors.updateOne(req.body)
+    const updatedInvestor = await Investor.updateOne(req.body)
     return res.json({
       status: 'Success',
       message: `Updated investor with id ${updatedInvestor.id}`,
