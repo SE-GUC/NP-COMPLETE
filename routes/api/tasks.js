@@ -15,9 +15,9 @@ router.get('/', async (req, res) => {
 // Read specific task
 router.get('/:id', async (req, res) => {
   const taskId = req.params.id
-  const task = await Task.findOne({ taskId })
+  const task = await Task.findOne({ _id: taskId })
   if (!task) {
-    return res.status(404).send({ error: 'Book does not exist' })
+    return res.status(404).send({ error: 'Task does not exist' })
   } else {
     res.json({ data: task })
   }
@@ -76,7 +76,7 @@ router.post('/', async (req, res) => {
 router.put('/:id', async (req, res) => {
   try {
     const taskId = req.params.id
-    const task = await Task.findOne({ taskId })
+    const task = await Task.findOne({ _id: taskId })
     if (!task) return res.status(404).send({ error: 'Task does not exist' })
     const updatedTask = await Task.updateOne(req.body)
     res.json({ msg: 'Task updated successfully' })
@@ -137,7 +137,7 @@ router.put('/:id', async (req, res) => {
 router.delete('/:id', async (req, res) => {
   try {
     const taskId = req.params.id
-    const deletedTask = await Task.findByIdAndRemove(taskId)
+    const deletedTask = await Task.findByIdAndRemove({ _id: taskId })
   } catch (error) {
     console.log(error)
   }
