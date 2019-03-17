@@ -16,5 +16,4 @@ const investorSchema = new Schema({
     required: true
   }
 })
-const Investor = mongoose.model('investors', investorSchema)
-module.exports = Investor
+module.exports = mongoose.model('investors', investorSchema)

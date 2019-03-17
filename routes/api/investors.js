@@ -1,7 +1,8 @@
 // Load modules
 const express = require('express')
 const router = express.Router()
-// const mongoose = require('mongoose')
+const mongoose = require('mongoose')
+console.log(mongoose)
 
 // Investor model and validator
 const Investor = require('../../models/Investor')
@@ -36,7 +37,7 @@ router.post('/', async (req, res) => {
 // Reads a specific Investor given id in URL
 router.get('/:id', async (req, res) => {
   const investorId = req.params.id
-  const investor = await Investor.find(investor => investor.id === investorId)
+  const investor = await Investor.findOne(investorId)
   if (investor) {
     res.json({ data: investor })
   } else {
