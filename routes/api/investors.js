@@ -94,7 +94,7 @@ router.delete('/:id', async (req, res) => {
       status: 'Success',
       message: `Deleted investor with id ${id}`,
       deletedInvestor: investorToBeDeleted,
-      remainingReviewers: Investor
+      remainingInvestors: Investor
     })
   } catch (error) {
     console.log(error)
