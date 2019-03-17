@@ -1,72 +1,56 @@
 // Load modules
 const express = require('express')
-const Joi = require('joi')
 const router = express.Router()
+const mongoose = require('mongoose')
 
-// ExternalEntity model
+// ExternalEntity model and validator
 const ExternalEntity = require('../../models/ExternalEntity')
-
-// Temporary data created (acts as a mock database)
-const externalEntities = [
-  
-  new ExternalEntity('Taxes', 'taxes@yahoo.com', 1122),
-  new ExternalEntity('Insurance', 'insurance@yahoo.com', 221100),
-  new ExternalEntity('Defense', 'defense@gmail.com', 123),
-  new ExternalEntity('Security', 'security@hotmail.com', 112200)
-]
+const validator = require('../../validations/externalEntitiesValidation')
 
 // Read all External Entities (Default route)
-router.get('/', (req, res) => res.json({ data: externalEntities }))
+router.get('/', async (req, res) => {
+  const externalEntities = await ExternalEntity.find()
+  res.json({ data: externalEntities })
+})
 
 // Create a new External Entity
-router.post('/', (req, res) => {
-  const data = req.body
-  const schema = Joi.object().keys({
-    name: Joi.string().min(3).required(),
-    email: Joi.string().email().required(),
-    phone: Joi.number().required()
-  })
-
-  Joi.validate(data, schema, (err, value) => {
-    if (err) {
+router.post('/', async (req, res) => {
+  try {
+    const isValidated = validator.createValidation(req.body)
+    if (isValidated.error) {
       return res.status(400).json({
         status: 'Error',
-        message: err.details[0].message,
-        data: data
+        message: isValidated.error.details[0].message
       })
     }
-
-    const newExternalEntity = new ExternalEntity(
-      value.name,
-      value.email,
-      value.phone
-    )
-    externalEntities.push(newExternalEntity)
+    const newExternalEntity = await ExternalEntity.create(req.body)
     return res.json({
       status: 'Success',
       message: `New external entity created with id ${newExternalEntity.id}`,
       data: newExternalEntity
     })
-  })
+  } catch (error) {
+    console.log(error)
+  }
 })
 
 // Read a specific External Entity given id in URL
-router.get('/:id', (req, res) => {
+router.get('/:id', async (req, res) => {
   const externalEntityId = req.params.id
-  const externalEntity = externalEntities.find(externalEntity => externalEntity.id === externalEntityId)
+  const externalEntity = await ExternalEntity.findById(externalEntityId)
   if (externalEntity) {
     res.json({ data: externalEntity })
   } else {
     res.status(400).json({
       status: 'Error',
       message: 'External entity not found',
-      availableExternalEntities: externalEntities
+      availableExternalEntities: ExternalEntity
     })
   }
 })
 
 // Update an existing External Entity given id in URL
-router.put('/:id', (req, res) => {
+router.put('/:id', async (req, res) => {
   const data = req.body
   if (Object.keys(data).length === 0) {
     return res.status(400).json({
@@ -75,64 +59,47 @@ router.put('/:id', (req, res) => {
     })
   }
 
-  const schema = Joi.object().keys({
-    name: Joi.string().min(3),
-    email: Joi.string().email(),
-    phone: Joi.number()
-  })
-
-  Joi.validate(data, schema, (err, value) => {
-    if (err) {
-      return res.status(400).json({
+  try {
+    const id = req.params.id
+    const externalEntity = await ExternalEntity.findOne({ id })
+    if (!externalEntity) {
+      return res.status(404).json({
         status: 'Error',
-        message: err.details[0].message,
-        data: data
+        message: 'External entity does not exist',
+        availableExternalEntities: ExternalEntity
       })
     }
-
-    const externalEntityId = req.params.id
-    const externalEntityToUpdate = externalEntities.find(externalEntity => externalEntity.id === externalEntityId)
-
-    if (!externalEntityToUpdate) {
+    const isValidated = validator.updateValidation(req.body)
+    if (isValidated.error) {
       return res.status(400).json({
         status: 'Error',
-        message: 'External entity not found',
-        availableExternalEntities: externalEntities
+        message: isValidated.error.details[0].message
       })
     }
-
-    Object.keys(value).forEach(key => {
-      if (value[key]) {
-        externalEntityToUpdate[key] = value[key]
-      }
-    })
-
+    const updatedExternalEntity = await ExternalEntity.updateOne(req.body)
     return res.json({
       status: 'Success',
-      message: `Updated external entity with id ${externalEntityId}`,
-      data: externalEntityToUpdate
+      message: `Successfully Updated external entity with id ${id}`,
+      data: updatedExternalEntity
     })
-  })
+  } catch (error) {
+    console.log(error)
+  }
 })
 
 // Delete a specific External Entity given ID in URL
-router.delete('/:id', (req, res) => {
-  const externalEntityId = req.params.id
-  const externalEntity = externalEntities.find(externalEntity => externalEntity.id === externalEntityId)
-  if (externalEntity) {
-    const index = externalEntities.indexOf(externalEntity)
-    externalEntities.splice(index, 1)
+router.delete('/:id', async (req, res) => {
+  try {
+    const id = req.params.id
+    const deletedExternalEntity = ExternalEntity.findByIdAndRemove(id)
     res.json({
       status: 'Success',
-      message: `Deleted external entity with id ${externalEntityId}`,
-      remainingExternalEntities: externalEntities
+      message: `Succesfully deleted external entity with id ${id}`,
+      data: deletedExternalEntity,
+      remainingExternalEntities: ExternalEntity
     })
-  } else {
-    res.status(400).json({
-      status: 'Error',
-      message: 'External entity not found',
-      availableExternalEntities: externalEntities
-    })
+  } catch (error) {
+    console.log(error)
   }
 })
 
