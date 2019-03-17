@@ -1,3 +1,4 @@
+// Load modules
 const express = require('express')
 const router = express.Router()
 const mongoose = require('mongoose')
@@ -45,14 +46,14 @@ router.post('/', async (req, res) => {
   const data = req.body
   const schema = Joi.object().keys({
     handler: Joi.string().required(),
-    creationDate: Joi.date().required().iso(),
+    creationDate: Joi.date().iso().required(),
     deadline: Joi.date().required().iso()
   })
 
   Joi.validate(data, schema, (err, value) => {
     if (err) {
       return res.status(400).json({
-        status: 'error',
+        status: 'Error',
         message: err.details[0].message,
         data: data
       })
@@ -86,9 +87,9 @@ router.put('/:id', async (req, res) => {
 })
 /* router.put('/:id', (req, res) => {
   const data = req.body
-  if (Object.keys(req.body).length === 0) {
+  if (Object.keys(data).length === 0) {
     return res.status(400).json({
-      status: 'error',
+      status: 'Error',
       message: 'No data to update'
     })
   }
@@ -102,7 +103,7 @@ router.put('/:id', async (req, res) => {
   Joi.validate(data, schema, (err, value) => {
     if (err) {
       return res.status(400).json({
-        status: 'error',
+        status: 'Error',
         message: err.details[0].message,
         data: data
       })
@@ -113,8 +114,9 @@ router.put('/:id', async (req, res) => {
 
     if (!taskToUpdate) {
       return res.status(400).json({
-        status: 'error',
-        message: 'Error task not found'
+        status: 'Error',
+        message: 'Task not found',
+        availableTasks: tasks
       })
     }
 
@@ -125,7 +127,7 @@ router.put('/:id', async (req, res) => {
     })
 
     return res.json({
-      status: 'success',
+      status: 'Success',
       message: `Updated task with id ${id}`,
       data: taskToUpdate
     })
