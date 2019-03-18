@@ -68,11 +68,12 @@ router.put('/:id', async (req, res) => {
         message: isValidated.error.details[0].message
       })
     }
-    const updatedInvestor = await Investor.updateOne(req.body)
+    await Investor.updateOne(req.body)
+    const All = await Investor.find()
     return res.json({
       status: 'Success',
-      message: `Updated investor with id ${updatedInvestor.id}`,
-      data: updatedInvestor
+      message: `Updated investor successfully`,
+      data: All
     })
   } catch (error) {
     console.log('error')
