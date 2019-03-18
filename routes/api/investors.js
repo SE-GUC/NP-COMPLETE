@@ -53,7 +53,7 @@ router.get('/:id', async (req, res) => {
 router.put('/:id', async (req, res) => {
   try {
     const id = req.params.id
-    const currentInvestor = await Investor.findById({ id })
+    const currentInvestor = await Investor.findById(id)
     if (!currentInvestor) {
       return res.status(400).json({
         status: 'Error',
