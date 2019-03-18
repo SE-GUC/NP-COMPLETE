@@ -1,13 +1,18 @@
-// The investor model
-const uuidv4 = require('uuid/v4')
+const mongoose = require('mongoose')
+const Schema = mongoose.Schema
 
-class Investor {
-  constructor (fullName, birthdate, email) {
-    this.id = uuidv4()
-    this.fullName = fullName
-    this.birthdate = birthdate
-    this.email = email
+const investorSchema = new Schema({
+  fullName: {
+    type: String,
+    required: true
+  },
+  birthdate: {
+    type: Date,
+    required: true
+  },
+  email: {
+    type: String,
+    required: true
   }
-}
-
-module.exports = Investor
+})
+module.exports = mongoose.model('investors', investorSchema)
