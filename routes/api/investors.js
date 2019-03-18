@@ -85,11 +85,19 @@ router.delete('/:id', async (req, res) => {
   try {
     const id = req.params.id
     const investorToBeDeleted = await Investor.findByIdAndRemove(id)
+    const AllInvestors = await Investor.find()
+    if (!investorToBeDeleted) {
+      return res.status(400).json({
+        status: 'Error',
+        message: 'could not find Investor you are looking for',
+        availableInvestors: AllInvestors
+      })
+    }
     return res.json({
       status: 'Success',
       message: `Deleted investor with id ${id}`,
       deletedInvestor: investorToBeDeleted,
-      remainingInvestors: Investor
+      remainingInvestors: AllInvestors
     })
   } catch (error) {
     console.log(error)
