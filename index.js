@@ -1,5 +1,8 @@
 const express = require('express')
 const mongoose = require('mongoose')
+
+// Require Router Handlers
+
 const externalEntities = require('./routes/api/externalEntities')
 const admins = require('./routes/api/admins')
 const investors = require('./routes/api/investors')
@@ -9,6 +12,15 @@ const companies = require('./routes/api/companies')
 const tasks = require('./routes/api/tasks')
 
 const app = express()
+
+// DB Config
+const db = require('./config/keys').mongoURI
+// Connect to mongo
+mongoose
+  .connect(db)
+  .then(() => console.log('Connected to MongoDB'))
+  .catch(err => console.log(err))
+
 app.use(express.json())
 
 // DB Config

@@ -1,13 +1,22 @@
-// The task model
-const uuidv4 = require('uuid/v4')
+// Load mongoose Schema
+const mongoose = require('mongoose')
+const Schema = mongoose.Schema
 
-class Task {
-  constructor (handler, creationDate, deadline) {
-    this.id = uuidv4()
-    this.handler = handler
-    this.creationDate = creationDate
-    this.deadline = deadline
+// Create the schema
+const TaskSchema = new Schema({
+  handler: {
+    type: String,
+    required: true
+  },
+  creationDate: {
+    type: Date,
+    required: true
+  },
+  deadline: {
+    type: Date,
+    required: true
   }
-}
 
-module.exports = Task
+})
+
+module.exports = mongoose.model('Task', TaskSchema)
