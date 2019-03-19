@@ -53,6 +53,12 @@ router.get('/:id', async (req, res) => {
 router.put('/:id', async (req, res) => {
   try {
     const id = req.params.id
+    if (Object.keys(req.body).length === 0) {
+      return res.status(400).json({
+        status: 'Error',
+        message: 'No data to update'
+      })
+    }
     const currentInvestor = await Investor.findById(id)
     if (!currentInvestor) {
       return res.status(400).json({
@@ -68,12 +74,13 @@ router.put('/:id', async (req, res) => {
         message: isValidated.error.details[0].message
       })
     }
-    await Investor.updateOne(req.body)
-    const All = await Investor.find()
+    const query = { '_id': id }
+    const updatedInvestor = await Investor.findByIdAndUpdate(query, req.body)
+
     return res.json({
       status: 'Success',
       message: `Updated investor successfully`,
-      data: All
+      data: updatedInvestor
     })
   } catch (error) {
     console.log('error')
