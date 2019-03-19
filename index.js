@@ -43,6 +43,7 @@ mongoose
   .then(() => console.log('Connected to MongoDB'))
   .catch(err => console.log(err))
 
+
 app.get('/', (req, res) => {
   res.send(`<h1>Welcome</h1>
   <a href="/api/admins">Admins</a></br>
