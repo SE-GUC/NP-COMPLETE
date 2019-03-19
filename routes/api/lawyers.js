@@ -98,23 +98,27 @@ router.put('/:id', async (req, res) => {
 // Delete a specific Lawyer given ID in URL
 
 router.delete('/:id', async (req, res) => {
+  //! Delete first, ask questions later
   try {
     const lawyerId = req.params.id
     const deletedLawyer = await Lawyer.findByIdAndRemove(lawyerId)
-    if (deletedLawyer) {
-      res.json({
-        status: 'Success',
-        message: `Deleted lawyer with id ${lawyerId}`
-      })
-    } else {
-      res.status(400).json({
+
+    if (!deletedLawyer) {
+      return res.status(400).json({
         status: 'Error',
-        message: 'Lawyer not found'
+        message: 'lawyer not found',
+        availableLawyers: await Lawyer.find()
       })
     }
-  } catch (error) {
-    console.log(error)
+
+    res.json({
+      status: 'Success',
+      message: `Deleted lawyer with id ${lawyerId}`,
+      deletedLawyer: deletedLawyer,
+      remainingLawyers: await Lawyer.find()
+    })
+  } catch (err) {
+    console.log(err)
   }
 })
-
 module.exports = router
