@@ -11,7 +11,7 @@ const tasks = require('./routes/api/tasks')
 
 const app = express()
 // DB Config
-const db = require('./config/keys_dev').mongoURI
+const db = require('./config/keys').mongoURI
 
 // Connect to mongo
 mongoose
