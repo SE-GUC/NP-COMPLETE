@@ -68,7 +68,7 @@ router.put('/:id', async (req, res) => {
       })
     }
     const id = req.params.id
-    const lawyer = await Lawyer.findOne({ id })
+    const lawyer = await Lawyer.findById(id)
 
     if (!lawyer) {
       return res.status(400).json({
@@ -84,7 +84,8 @@ router.put('/:id', async (req, res) => {
         data: data
       })
     }
-    const updatedLawyer = await Lawyer.updateOne(req.body)
+    const query = { '_id': id }
+    const updatedLawyer = await Lawyer.findByIdAndUpdate(query, req.body)
     return res.json({
       status: 'Success',
       message: `Updated lawyer with id ${id}`,
