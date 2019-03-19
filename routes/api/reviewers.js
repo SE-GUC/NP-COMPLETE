@@ -56,11 +56,24 @@ router.put('/:id', async (req, res) => {
 router.delete('/:id', async (req, res) => {
   try {
     const reviewerId = req.params.id
+    const reviewerToBeDeleted = await Reviewer.findByIdAndRemove(reviewerId)
+    const AllInvestors = await Reviewer.find()
     await Reviewer.findByIdAndRemove({ _id: reviewerId })
-    res.json({ msg: 'Reviewer deleted successfully' })
+    if (!reviewerToBeDeleted) {
+      return res.status(400).json({
+        status: 'Error',
+        message: 'Reviewer not found',
+        availableReviewers: await Reviewer.find()
+      })
+    }
+    return res.json({
+      status: 'Success',
+      message: `Deleted reviewer with id ${reviewerId}`,
+      deletedReviewer: reviewerToBeDeleted,
+      remainingReviewers: AllInvestors
+    })
   } catch (error) {
     console.log(error)
   }
 })
-
 module.exports = router
