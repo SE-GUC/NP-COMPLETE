@@ -17,3 +17,4 @@ const investorSchema = new Schema({
   }
 })
 module.exports = mongoose.model('investors', investorSchema)
+
