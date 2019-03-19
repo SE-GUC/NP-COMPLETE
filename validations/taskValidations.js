@@ -11,7 +11,7 @@ module.exports = {
     return Joi.validate(request, createSchema)
   },
 
-  updatevalidation: request => {
+  updateValidation: request => {
     const updateSchema = {
       handler: Joi.string(),
       creationDate: Joi.date().iso(),

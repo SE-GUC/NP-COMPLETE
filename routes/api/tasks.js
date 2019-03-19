@@ -6,7 +6,7 @@ const router = express.Router()
 const Task = require('../../models/Task')
 const validator = require('../../validations/taskValidations')
 
-// Read all Tasks
+// Read all Tasks (Default route)
 router.get('/', async (req, res) => {
   const tasks = await Task.find()
   res.json({ data: tasks })
@@ -15,21 +15,34 @@ router.get('/', async (req, res) => {
 // Read specific task
 router.get('/:id', async (req, res) => {
   const taskId = req.params.id
-  const task = await Task.findOne({ _id: taskId })
+  const task = await Task.findById(taskId)
   if (!task) {
-    return res.status(404).send({ error: 'Task does not exist' })
-  } else {
-    res.json({ data: task })
+    return res.status(404).json({
+      status: 'Error',
+      message: 'Task does not exist'
+    })
   }
+  res.json({
+    status: 'Success',
+    data: task
+  })
 })
 
 // create a task
 router.post('/', async (req, res) => {
   try {
     const isValidated = validator.createValidation(req.body)
-    if (isValidated.error) return res.status(400).send({ error: isValidated.error.details[0].message })
+    if (isValidated.error) {
+      return res.status(400).json({
+        status: 'Error',
+        error: isValidated.error.details[0].message })
+    }
+
     const newTask = await Task.create(req.body)
-    res.json({ msg: 'Task was created successfully', data: newTask })
+    res.json({
+      status: 'Success',
+      message: 'Task was created successfully',
+      data: newTask })
   } catch (error) {
     console.log(error)
   }
@@ -37,12 +50,39 @@ router.post('/', async (req, res) => {
 
 // update a task
 router.put('/:id', async (req, res) => {
+  const data = req.body
+  const taskId = req.params.id
+  if (Object.keys(data).length === 0) {
+    return res.status(400).json({
+      status: 'Error',
+      message: 'No data to update'
+    })
+  }
+
   try {
-    const taskId = req.params.id
-    const task = await Task.findOne({ _id: taskId })
-    if (!task) return res.status(404).send({ error: 'Task does not exist' })
-    await Task.updateOne(req.body)
-    res.json({ msg: 'Task updated successfully' })
+    const isValidated = validator.updateValidation(data)
+    if (isValidated.error) {
+      return res.status(400).json({
+        status: 'Error',
+        message: isValidated.error.details[0].message
+      })
+    }
+    const task = await Task.findById(taskId)
+
+    if (!task) {
+      return res.status(404).json({
+        status: 'Error',
+        error: 'Task does not exist'
+      })
+    }
+    const query = { '_id': taskId }
+    const updatedTask = await Task.findOneAndUpdate(query, data)
+
+    res.json({
+      status: 'Success',
+      message: `Updated Task with id ${taskId}`,
+      data: updatedTask
+    })
   } catch (error) {
     console.log(error)
   }
@@ -52,8 +92,18 @@ router.put('/:id', async (req, res) => {
 router.delete('/:id', async (req, res) => {
   try {
     const taskId = req.params.id
-    await Task.findByIdAndRemove({ _id: taskId })
-    res.json({ msg: 'Task deleted successfully' })
+    const taskToDelete = await Task.findByIdAndRemove({ _id: taskId })
+    if (!taskToDelete) {
+      return res.status(400).json({
+        status: 'Error',
+        message: `Task not found`
+      })
+    }
+    res.json({
+      status: 'Success',
+      message: `Deleted task with id ${taskToDelete}`,
+      data: taskId
+    })
   } catch (error) {
     console.log(error)
   }
