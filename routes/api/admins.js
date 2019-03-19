@@ -107,6 +107,15 @@ router.delete('/:id', async (req, res) => {
   try {
     const adminId = req.params.id
     const deletedAdmin = await Admin.findByIdAndRemove(adminId)
+
+    if (!deletedAdmin) {
+      return res.status(400).json({
+        status: 'Error',
+        message: 'Admin not found',
+        availableAdmins: await Admin.find()
+      })
+    }
+
     res.json({
       status: 'Success',
       message: `Deleted admin with id ${adminId}`,
