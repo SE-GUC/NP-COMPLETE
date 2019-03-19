@@ -15,6 +15,7 @@ const app = express()
 
 // DB Config
 const db = require('./config/keys').mongoURI
+
 // Connect to mongo
 mongoose
   .connect(db)
@@ -22,6 +23,7 @@ mongoose
   .catch(err => console.log(err))
 
 app.use(express.json())
+app.use(express.urlencoded({ extended: false }))
 
 // DB Config
 const db = require('./config/keys').mongoURI
