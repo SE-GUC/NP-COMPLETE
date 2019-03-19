@@ -43,10 +43,27 @@ router.get('/:id', async (req, res) => {
 router.put('/:id', async (req, res) => {
   try {
     const reviewerId = req.params.id
-    const reviewer = await Reviewer.findOne({ _id: reviewerId })
-    if (!reviewer) return res.status(404).send({ error: 'Reviewer does not exist' })
-    await Reviewer.updateOne(req.body)
-    res.json({ msg: 'Task updated successfully' })
+    if (Object.keys(req.body).length === 0) {
+      return res.status(400).json({
+        status: 'Error',
+        message: 'No data to update'
+      })
+    }
+    const reviewer = await Reviewer.findById(reviewerId)
+    if (!reviewer) {
+      return res.status(404).json({
+        status: 'Error',
+        message: 'Reviewer does not exist'
+      })
+    }
+
+    const query = { '_id': reviewerId }
+    const updatedReviewer = await Reviewer.findByIdAndUpdate(query, req.body)
+    res.json({
+      status: 'Success',
+      message: 'Task updated successfully',
+      data: updatedReviewer
+    })
   } catch (error) {
     console.log(error)
   }
