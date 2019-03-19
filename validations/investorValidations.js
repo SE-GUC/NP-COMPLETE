@@ -13,7 +13,7 @@ module.exports = {
 
   updateValidation: request => {
     const updateSchema = {
-      fullName: Joi.string().min(3).max(80),
+      fullName: Joi.string().min(3).max(90),
       birthdate: Joi.date().iso().max(Date.now()),
       email: Joi.string().email()
     }

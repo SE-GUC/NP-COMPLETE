@@ -53,7 +53,7 @@ router.get('/:id', async (req, res) => {
 router.put('/:id', async (req, res) => {
   try {
     const id = req.params.id
-    const currentInvestor = await Investor.findById({ id })
+    const currentInvestor = await Investor.findById(id)
     if (!currentInvestor) {
       return res.status(400).json({
         status: 'Error',
@@ -68,11 +68,12 @@ router.put('/:id', async (req, res) => {
         message: isValidated.error.details[0].message
       })
     }
-    const updatedInvestor = await Investor.updateOne(req.body)
+    await Investor.updateOne(req.body)
+    const All = await Investor.find()
     return res.json({
       status: 'Success',
-      message: `Updated investor with id ${updatedInvestor.id}`,
-      data: updatedInvestor
+      message: `Updated investor successfully`,
+      data: All
     })
   } catch (error) {
     console.log('error')
@@ -84,11 +85,19 @@ router.delete('/:id', async (req, res) => {
   try {
     const id = req.params.id
     const investorToBeDeleted = await Investor.findByIdAndRemove(id)
+    const AllInvestors = await Investor.find()
+    if (!investorToBeDeleted) {
+      return res.status(400).json({
+        status: 'Error',
+        message: 'could not find Investor you are looking for',
+        availableInvestors: AllInvestors
+      })
+    }
     return res.json({
       status: 'Success',
       message: `Deleted investor with id ${id}`,
       deletedInvestor: investorToBeDeleted,
-      remainingInvestors: Investor
+      remainingInvestors: AllInvestors
     })
   } catch (error) {
     console.log(error)
