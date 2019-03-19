@@ -1,7 +1,6 @@
 // Load modules
 const express = require('express')
 const router = express.Router()
-const mongoose = require('mongoose')
 
 // ExternalEntity model and validator
 const ExternalEntity = require('../../models/ExternalEntity')
@@ -10,7 +9,9 @@ const validator = require('../../validations/externalEntitiesValidation')
 // Read all External Entities (Default route)
 router.get('/', async (req, res) => {
   const externalEntities = await ExternalEntity.find()
-  res.json({ data: externalEntities })
+  res.json({
+    status: 'Success',
+    data: externalEntities })
 })
 
 // Create a new External Entity
@@ -39,12 +40,13 @@ router.get('/:id', async (req, res) => {
   const externalEntityId = req.params.id
   const externalEntity = await ExternalEntity.findById(externalEntityId)
   if (externalEntity) {
-    res.json({ data: externalEntity })
+    res.json({
+      status: 'Success',
+      data: externalEntity })
   } else {
     res.status(400).json({
       status: 'Error',
-      message: 'External entity not found',
-      availableExternalEntities: ExternalEntity
+      message: 'External entity not found'
     })
   }
 })
@@ -61,12 +63,11 @@ router.put('/:id', async (req, res) => {
 
   try {
     const id = req.params.id
-    const externalEntity = await ExternalEntity.findOne({ id })
+    const externalEntity = await ExternalEntity.findById(id)
     if (!externalEntity) {
       return res.status(404).json({
         status: 'Error',
-        message: 'External entity does not exist',
-        availableExternalEntities: ExternalEntity
+        message: 'External entity does not exist'
       })
     }
     const isValidated = validator.updateValidation(req.body)
@@ -76,7 +77,8 @@ router.put('/:id', async (req, res) => {
         message: isValidated.error.details[0].message
       })
     }
-    const updatedExternalEntity = await ExternalEntity.updateOne(req.body)
+    const query = { '_id': id }
+    const updatedExternalEntity = await ExternalEntity.findOneAndUpdate(query, req.body)
     return res.json({
       status: 'Success',
       message: `Updated external entity with id ${id}`,
@@ -91,12 +93,18 @@ router.put('/:id', async (req, res) => {
 router.delete('/:id', async (req, res) => {
   try {
     const id = req.params.id
-    const deletedExternalEntity = ExternalEntity.findByIdAndRemove(id)
+    const deletedExternalEntity = await ExternalEntity.findByIdAndRemove(id)
+    if (!deletedExternalEntity) {
+      return res.status(400).json({
+        status: 'Error',
+        Message: 'External Entity not found'
+      })
+    }
+
     res.json({
       status: 'Success',
       message: `Deleted external entity with id ${id}`,
-      deletedRecord: deletedExternalEntity,
-      remainingExternalEntities: ExternalEntity
+      deletedRecord: deletedExternalEntity
     })
   } catch (error) {
     console.log(error)
