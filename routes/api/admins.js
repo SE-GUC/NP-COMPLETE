@@ -8,7 +8,6 @@ const Admin = require('../../models/Admin')
 // Validator
 const validator = require('../../validations/adminValidations')
 
-//! async await needed?
 // Read all Admins (Default route)
 router.get('/', async (req, res) => {
   const admins = await Admin.find()
@@ -71,6 +70,17 @@ router.put('/:id', async (req, res) => {
   }
 
   try {
+    const adminId = req.params.id
+    const adminToUpdate = await Admin.findOne({ _id: adminId })
+
+    if (!adminToUpdate) {
+      return res.status(400).json({
+        status: 'Error',
+        message: 'Admin not found',
+        availableAdmins: await Admin.find()
+      })
+    }
+
     const isValidated = validator.updateValidation(data)
     if (isValidated.error) {
       return res.status(400).json({
@@ -79,26 +89,17 @@ router.put('/:id', async (req, res) => {
         data: data
       })
     }
+
+    const query = { '_id': adminId }
+    const updatedAdmin = await Admin.findByIdAndUpdate(query, data)
+    return res.json({
+      status: 'Success',
+      message: `Updated admin with id ${adminId}`,
+      data: updatedAdmin
+    })
   } catch (err) {
     console.log(err)
   }
-  const adminId = req.params.id
-  const adminToUpdate = await Admin.findOne({ _id: adminId })
-
-  if (!adminToUpdate) {
-    return res.status(400).json({
-      status: 'Error',
-      message: 'Admin not found',
-      availableAdmins: await Admin.find()
-    })
-  }
-  await Admin.updateOne(data)
-  const updatedAdmin = await Admin.findOne({ _id: adminId })
-  return res.json({
-    status: 'Success',
-    message: `Updated admin with id ${adminId}`,
-    data: updatedAdmin
-  })
 })
 
 // Delete a specific Admin given ID in URL
