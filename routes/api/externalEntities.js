@@ -79,7 +79,7 @@ router.put('/:id', async (req, res) => {
     const updatedExternalEntity = await ExternalEntity.updateOne(req.body)
     return res.json({
       status: 'Success',
-      message: `Successfully Updated external entity with id ${id}`,
+      message: `Updated external entity with id ${id}`,
       data: updatedExternalEntity
     })
   } catch (error) {
@@ -94,8 +94,8 @@ router.delete('/:id', async (req, res) => {
     const deletedExternalEntity = ExternalEntity.findByIdAndRemove(id)
     res.json({
       status: 'Success',
-      message: `Succesfully deleted external entity with id ${id}`,
-      data: deletedExternalEntity,
+      message: `Deleted external entity with id ${id}`,
+      deletedRecord: deletedExternalEntity,
       remainingExternalEntities: ExternalEntity
     })
   } catch (error) {
