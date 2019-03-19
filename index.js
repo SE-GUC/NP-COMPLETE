@@ -13,15 +13,7 @@ const tasks = require('./routes/api/tasks')
 
 const app = express()
 
-// DB Config
-const db = require('./config/keys').mongoURI
-
-// Connect to mongo
-mongoose
-  .connect(db)
-  .then(() => console.log('Connected to MongoDB'))
-  .catch(err => console.log(err))
-
+// Init middleware
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
@@ -33,16 +25,6 @@ mongoose
   .connect(db)
   .then(() => console.log('Connected to MongoDB'))
   .catch(err => console.log(err))
-
-// DB Config
-const db = require('./config/keys').mongoURI
-
-// Connect to mongo
-mongoose
-  .connect(db)
-  .then(() => console.log('Connected to MongoDB'))
-  .catch(err => console.log(err))
-
 
 app.get('/', (req, res) => {
   res.send(`<h1>Welcome</h1>
