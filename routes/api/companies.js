@@ -54,7 +54,7 @@ router.get('/:id', async (req, res) => {
 router.put('/:id', async (req, res) => {
   try {
     const id = req.params.id
-    const currentCompany = await Company.findById({ id })
+    const currentCompany = await Company.findById( id )
     if (!currentCompany) {
       return res.status(400).json({
         status: 'Error',
@@ -71,11 +71,12 @@ router.put('/:id', async (req, res) => {
       })
     }
 
-    const updatedCompany = await Company.updateOne(req.body)
+    await Company.updateOne(req.body)
+    const All = await Company.find()
     return res.json({
       status: 'Success',
-      message: `Updated company with id ${updatedCompany.id}`,
-      data: updatedCompany
+      message: `Updated company successfully`,
+      data: All
     })
   } catch (error) {
     console.log('error')
@@ -87,11 +88,19 @@ router.delete('/:id', async (req, res) => {
   try {
     const id = req.params.id
     const companyToBeDeleted = await Company.findByIdAndRemove(id)
+    const AllCompanies = await Company.find()
+    if (!companyToBeDeleted) {
+      return res.status(400).json({
+        status: 'Error',
+        message: 'could not find Company you are looking for',
+        availableCompaniess: AllCompanies
+      })
+    }
     return res.json({
       status: 'Success',
       message: `Deleted company with id ${id}`,
       deletedCompany: companyToBeDeleted,
-      remainingCompanies: Company
+      remainingCompanies: AllCompanies
     })
   } catch (error) {
     console.log(error)
