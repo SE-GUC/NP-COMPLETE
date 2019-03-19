@@ -1,75 +1,66 @@
 // Load modules
 const express = require('express')
-const Joi = require('joi')
 const router = express.Router()
 
 // Admin model
 const Admin = require('../../models/Admin')
 
-// Temporary data created (acts as a mock database)
-const admins = [
-  new Admin('Lujine Elfeky', '1998-01-22', 'lujine@gmail.com', '2019-01-01', 6, 100),
-  new Admin('Mohamed Hosam', '1998-06-05', 'hosam@gmail.com', '2018-05-03', 10, 150)
-]
+// Validator
+const validator = require('../../validations/adminValidations')
 
 // Read all Admins (Default route)
-router.get('/', (req, res) => res.json({ data: admins }))
+router.get('/', async (req, res) => {
+  const admins = await Admin.find()
+  res.json({ data: admins })
+})
 
 // Create a new Admin
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
   const data = req.body
-  const schema = Joi.object().keys({
-    fullName: Joi.string().min(3).max(80).required(),
-    birthdate: Joi.date().iso().max(Date.now()).required(),
-    email: Joi.string().email().required(),
-    startDate: Joi.date().iso().max(Date.now()).required(),
-    workingHours: Joi.number().min(5),
-    salary: Joi.number()
-  })
 
-  Joi.validate(data, schema, (err, value) => {
-    if (err) {
+  //! Removed Joi.validate(data, schema, (err, value)
+
+  try {
+    //! Are try-catch blocks needed? Do we need it to cover all?
+    const isValidated = validator.createValidation(data)
+    if (isValidated.error) {
       return res.status(400).json({
         status: 'Error',
-        message: err.details[0].message,
+        message: isValidated.error.details[0].message,
         data: data
       })
     }
+    //! ! Issue with using data vs. value as before
 
-    const newAdmin = new Admin(
-      value.fullName,
-      value.birthdate,
-      value.email,
-      value.startDate,
-      value.workingHours,
-      value.salary
-    )
-    admins.push(newAdmin)
+    //! Untested
+    const newAdmin = await Admin.create(data)
     return res.json({
       status: 'Success',
       message: `New admin created with id ${newAdmin.id}`,
       data: newAdmin
     })
-  })
-})
-
-// Reads a specific Admin given id in URL
-router.get('/:id', (req, res) => {
-  const adminId = req.params.id
-  const admin = admins.find(admin => admin.id === adminId)
-  if (admin) {
-    res.json({ data: admin })
-  } else {
-    res.status(400).json({
-      status: 'Error',
-      message: 'Admin not found',
-      availableAdmins: admins
-    })
+  } catch (err) {
+    //! Error handling required
+    console.log(err)
   }
 })
 
+// Reads a specific Admin given id in URL
+router.get('/:id', async (req, res) => {
+  const adminId = req.params.id
+  const admin = await Admin.findOne({ _id: adminId })
+  if (!admin) {
+    return res.status(400).json({
+      status: 'Error',
+      message: 'Admin not found',
+      availableAdmins: await Admin.find()
+    })
+  }
+  res.json({ data: admin })
+})
+
 // Update an existing Admin given id in URL
-router.put('/:id', (req, res) => {
+router.put('/:id', async (req, res) => {
   const data = req.body
   if (Object.keys(data).length === 0) {
     return res.status(400).json({
@@ -78,67 +69,62 @@ router.put('/:id', (req, res) => {
     })
   }
 
-  const schema = Joi.object().keys({
-    fullName: Joi.string().min(3).max(80),
-    birthdate: Joi.date().iso().max(Date.now()),
-    email: Joi.string().email(),
-    startDate: Joi.date().iso().max(Date.now()),
-    workingHours: Joi.number().min(5),
-    salary: Joi.number()
-  })
-
-  Joi.validate(data, schema, (err, value) => {
-    if (err) {
-      return res.status(400).json({
-        status: 'Error',
-        message: err.details[0].message,
-        data: data
-      })
-    }
-
+  try {
     const adminId = req.params.id
-    const adminToUpdate = admins.find(admin => admin.id === adminId)
+    const adminToUpdate = await Admin.findOne({ _id: adminId })
 
     if (!adminToUpdate) {
       return res.status(400).json({
         status: 'Error',
         message: 'Admin not found',
-        availableAdmins: admins
+        availableAdmins: await Admin.find()
       })
     }
 
-    Object.keys(value).forEach(key => {
-      if (value[key]) {
-        adminToUpdate[key] = value[key]
-      }
-    })
+    const isValidated = validator.updateValidation(data)
+    if (isValidated.error) {
+      return res.status(400).json({
+        status: 'Error',
+        message: isValidated.error.details[0].message,
+        data: data
+      })
+    }
 
+    const query = { '_id': adminId }
+    const updatedAdmin = await Admin.findByIdAndUpdate(query, data)
     return res.json({
       status: 'Success',
       message: `Updated admin with id ${adminId}`,
-      data: adminToUpdate
+      data: updatedAdmin
     })
-  })
+  } catch (err) {
+    console.log(err)
+  }
 })
 
 // Delete a specific Admin given ID in URL
-router.delete('/:id', (req, res) => {
-  const adminId = req.params.id
-  const admin = admins.find(admins => admins.id === adminId)
-  if (admin) {
-    const index = admins.indexOf(admin)
-    admins.splice(index, 1)
+router.delete('/:id', async (req, res) => {
+  //! Delete first, ask questions later
+  try {
+    const adminId = req.params.id
+    const deletedAdmin = await Admin.findByIdAndRemove(adminId)
+
+    if (!deletedAdmin) {
+      return res.status(400).json({
+        status: 'Error',
+        message: 'Admin not found',
+        availableAdmins: await Admin.find()
+      })
+    }
+
     res.json({
       status: 'Success',
       message: `Deleted admin with id ${adminId}`,
-      remainingAdmins: admins
+      deletedAdmin: deletedAdmin,
+      remainingAdmins: await Admin.find()
     })
-  } else {
-    res.status(400).json({
-      status: 'Error',
-      message: 'Admin not found',
-      availableAdmins: admins
-    })
+  } catch (err) {
+    console.log(err)
   }
 })
 

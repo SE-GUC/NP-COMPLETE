@@ -2,6 +2,7 @@ const express = require('express')
 const mongoose = require('mongoose')
 
 // Require Router Handlers
+
 const externalEntities = require('./routes/api/externalEntities')
 const admins = require('./routes/api/admins')
 const investors = require('./routes/api/investors')
@@ -21,6 +22,15 @@ mongoose
   .catch(err => console.log(err))
 
 app.use(express.json())
+
+// DB Config
+const db = require('./config/keys').mongoURI
+
+// Connect to mongo
+mongoose
+  .connect(db)
+  .then(() => console.log('Connected to MongoDB'))
+  .catch(err => console.log(err))
 
 app.get('/', (req, res) => {
   res.send(`<h1>Welcome</h1>
