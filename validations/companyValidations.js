@@ -14,10 +14,10 @@ module.exports = {
 
   updateValidation: request => {
     const updateSchema = {
-        name: Joi.string().min(3).max(90),
-        establishmentDate: Joi.date().iso().max(Date.now()),
-        type: Joi.string(),
-        state: Joi.string()
+      name: Joi.string().min(3).max(90),
+      establishmentDate: Joi.date().iso().max(Date.now()),
+      type: Joi.string(),
+      state: Joi.string()
     }
 
     return Joi.validate(request, updateSchema)

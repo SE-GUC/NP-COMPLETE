@@ -1,8 +1,6 @@
 // Load modules
 const express = require('express')
 const router = express.Router()
-const mongoose = require('mongoose')
-console.log(mongoose)
 
 // Company model and validator
 const Company = require('../../models/Company')
@@ -11,7 +9,10 @@ const validator = require('../../validations/companyValidations')
 // Read all Companies (Default route)
 router.get('/', async (req, res) => {
   const companies = await Company.find()
-  res.json({ data: companies })
+  res.json({
+    status: 'Success',
+    data: companies
+  })
 })
 // Create a new Company
 router.post('/', async (req, res) => {
@@ -39,7 +40,10 @@ router.get('/:id', async (req, res) => {
   const companyId = req.params.id
   const company = await Company.findById(companyId)
   if (company) {
-    res.json({ data: company })
+    res.json({
+      status: 'Success',
+      data: company
+    })
   } else {
     res.status(400).json({
       status: 'Error',
@@ -54,12 +58,17 @@ router.get('/:id', async (req, res) => {
 router.put('/:id', async (req, res) => {
   try {
     const id = req.params.id
-    const currentCompany = await Company.findById( id )
+    if (Object.keys(req.body).length === 0) {
+      return res.status(400).json({
+        status: 'Error',
+        message: 'No data to update'
+      })
+    }
+    const currentCompany = await Company.findById(id)
     if (!currentCompany) {
       return res.status(400).json({
         status: 'Error',
-        message: 'could not find Company you are looking for',
-        availableCompany: Company
+        message: 'Could not find the Company you are looking for'
       })
     }
 
@@ -71,12 +80,12 @@ router.put('/:id', async (req, res) => {
       })
     }
 
-    await Company.updateOne(req.body)
-    const All = await Company.find()
+    const query = { '_id': id }
+    const updatedCompany = await Company.findOneAndUpdate(query, req.body)
     return res.json({
       status: 'Success',
       message: `Updated company successfully`,
-      data: All
+      data: updatedCompany
     })
   } catch (error) {
     console.log('error')
@@ -88,19 +97,16 @@ router.delete('/:id', async (req, res) => {
   try {
     const id = req.params.id
     const companyToBeDeleted = await Company.findByIdAndRemove(id)
-    const AllCompanies = await Company.find()
     if (!companyToBeDeleted) {
       return res.status(400).json({
         status: 'Error',
-        message: 'could not find Company you are looking for',
-        availableCompaniess: AllCompanies
+        message: 'could not find Company you are looking for'
       })
     }
     return res.json({
       status: 'Success',
       message: `Deleted company with id ${id}`,
-      deletedCompany: companyToBeDeleted,
-      remainingCompanies: AllCompanies
+      deletedCompany: companyToBeDeleted
     })
   } catch (error) {
     console.log(error)
