@@ -112,4 +112,37 @@ router.delete('/:id', async (req, res) => {
     console.log(error)
   }
 })
+
+router.put('/edit_form/:id', async (req, res) => {
+  try {
+    const companyId = req.params.id
+    const companyToBeUpdated = await Company.findById(companyId)
+    if (!companyToBeUpdated) {
+      return res.status(400).json({
+        status: 'Error',
+        message: 'could not find Form you are looking for'
+      })
+    }
+
+    const isValidated = validator.editFormValidation(req.body)
+    if (isValidated.error) {
+      return res.status(400).json({
+        status: 'Error',
+        message: isValidated.error.details[0].message
+      })
+    }
+
+    companyToBeUpdated.form.data = req.body.data
+    companyToBeUpdated.form.acceptedByLawyer = true
+    const query = { '_id': companyId }
+    const updatedCompany = await Company.findOneAndUpdate(query, companyToBeUpdated)
+    return res.json({
+      status: 'Success',
+      message: `Rewrote Form of Company with id ${companyId}`,
+      updatedCompany: updatedCompany
+    })
+  } catch (error) {
+    console.log(error)
+  }
+})
 module.exports = router
