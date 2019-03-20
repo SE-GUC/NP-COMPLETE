@@ -9,8 +9,8 @@ module.exports = {
       accepted: Joi.bool().required(),
       state: Joi.string().required(),
       form: Joi.object().keys({
-        data: Joi.array,
-        comment: Joi.string,
+        data: Joi.array(),
+        comment: Joi.string(),
         acceptedByLawyer: Joi.number().min(-1).max(1).integer(),
         acceptedByReviewer: Joi.number().min(-1).max(1).integer(),
         filledByLawyer: Joi.boolean().required(),
