@@ -18,6 +18,20 @@ const companySchema = new Schema({
   state: {
     type: String,
     required: true
+  },
+  accepted: {
+    type: Boolean,
+    required: true
+  },
+  form: {
+    data: [],
+    comment: String,
+    acceptedByLawyer: Number,
+    acceptedByReviewer: Number,
+    filledByLawyer: Boolean,
+    paid: Boolean,
+    lawyerID: String,
+    reviewerID: String
   }
 
 })

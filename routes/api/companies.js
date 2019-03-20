@@ -31,7 +31,7 @@ router.post('/', async (req, res) => {
       data: newCompany
     })
   } catch (error) {
-    console.log('error')
+    console.log(error)
   }
 })
 
