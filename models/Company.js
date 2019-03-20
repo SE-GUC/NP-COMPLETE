@@ -24,14 +24,14 @@ const companySchema = new Schema({
     required: true
   },
   form: {
-    data: Object,
+    data: [],
     comment: String,
     acceptedByLawyer: Number,
     acceptedByReviewer: Number,
     filledByLawyer: Boolean,
     paid: Boolean,
-    lawyerID: { type: Schema.Types.ObjectId, ref: 'Lawyer' },
-    reviewerID: { type: Schema.Types.ObjectId, ref: 'Reviewer' }
+    lawyerID: Schema.Types.ObjectId,
+    reviewerID: Schema.Types.ObjectId
   }
 
 })

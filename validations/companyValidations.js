@@ -9,14 +9,14 @@ module.exports = {
       accepted: Joi.bool().required(),
       state: Joi.string().required(),
       form: Joi.required().object.keys({
-        data: Joi.object,
-        comment: Joi.string.min(10),
+        data: Joi.array,
+        comment: Joi.string,
         acceptedByLawyer: Joi.number().min(-1).max(1).integer(),
         acceptedByReviewer: Joi.number().min(-1).max(1).integer(),
         filledByLawyer: Joi.boolean().required(),
         paid: Joi.boolean().required(),
-        lawyerID: Joi.object,
-        reviewerID: Joi.object
+        lawyerID: Joi.objectId(),
+        reviewerID: Joi.objectId()
       })
     }
 
@@ -31,14 +31,14 @@ module.exports = {
       type: Joi.string(),
       state: Joi.string(),
       form: Joi.object.keys({
-        data: Joi.object,
-        comment: Joi.string.min(10).required(),
+        data: Joi.array,
+        comment: Joi.string.min(5).required(),
         acceptedByLawyer: Joi.number().min(-1).max(1).integer(),
         acceptedByReviewer: Joi.number().min(-1).max(1).integer(),
-        filledByLawyer: Joi.boolean().required(),
-        paid: Joi.boolean().required(),
-        lawyerID: Joi.object,
-        reviewerID: Joi.object
+        filledByLawyer: Joi.boolean(),
+        paid: Joi.boolean(),
+        lawyerID: Joi.objectId(),
+        reviewerID: Joi.objectId()
       })
     }
 
