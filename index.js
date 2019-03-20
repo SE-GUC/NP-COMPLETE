@@ -13,7 +13,6 @@ const tasks = require('./routes/api/tasks')
 
 const app = express()
 
-// Init middleware
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 

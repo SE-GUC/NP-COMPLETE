@@ -4,6 +4,7 @@ const router = express.Router()
 
 // Admin model
 const Admin = require('../../models/Admin')
+const Company = require('../../models/Company')
 
 // Validator
 const validator = require('../../validations/adminValidations')
@@ -126,6 +127,15 @@ router.delete('/:id', async (req, res) => {
   } catch (err) {
     console.log(err)
   }
+})
+
+// View All cases (Companies) on the system
+router.get('/viewCases/:id', async (req, res) => {
+  const cases = await Company.find()
+  res.json({
+    status: 'success',
+    data: cases
+  })
 })
 
 module.exports = router
