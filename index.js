@@ -13,6 +13,9 @@ const tasks = require('./routes/api/tasks')
 
 const app = express()
 
+app.use(express.json())
+app.use(express.urlencoded({ extended: false }))
+
 // DB Config
 const db = require('./config/keys').mongoURI
 
@@ -21,9 +24,6 @@ mongoose
   .connect(db)
   .then(() => console.log('Connected to MongoDB'))
   .catch(err => console.log(err))
-
-app.use(express.json())
-app.use(express.urlencoded({ extended: false }))
 
 app.get('/', (req, res) => {
   res.send(`<h1>Welcome</h1>
