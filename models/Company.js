@@ -30,8 +30,8 @@ const companySchema = new Schema({
     acceptedByReviewer: Number,
     filledByLawyer: Boolean,
     paid: Boolean,
-    lawyerID: Schema.Types.ObjectId,
-    reviewerID: Schema.Types.ObjectId
+    lawyerID: String,
+    reviewerID: String
   }
 
 })

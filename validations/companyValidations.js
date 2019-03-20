@@ -8,16 +8,16 @@ module.exports = {
       establishmentDate: Joi.date().iso().max(Date.now()).required(),
       accepted: Joi.bool().required(),
       state: Joi.string().required(),
-      form: Joi.required().object.keys({
+      form: Joi.object().keys({
         data: Joi.array,
         comment: Joi.string,
         acceptedByLawyer: Joi.number().min(-1).max(1).integer(),
         acceptedByReviewer: Joi.number().min(-1).max(1).integer(),
         filledByLawyer: Joi.boolean().required(),
         paid: Joi.boolean().required(),
-        lawyerID: Joi.objectId(),
-        reviewerID: Joi.objectId()
-      })
+        lawyerID: Joi.string(),
+        reviewerID: Joi.string()
+      }).required()
     }
 
     return Joi.validate(request, createSchema)
@@ -30,7 +30,7 @@ module.exports = {
       establishmentDate: Joi.date().iso().max(Date.now()),
       type: Joi.string(),
       state: Joi.string(),
-      form: Joi.object.keys({
+      form: Joi.object().keys({
         data: Joi.array,
         comment: Joi.string.min(5).required(),
         acceptedByLawyer: Joi.number().min(-1).max(1).integer(),
