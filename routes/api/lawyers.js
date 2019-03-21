@@ -4,6 +4,7 @@ const router = express.Router()
 
 // Lawyer models
 const Lawyer = require('../../models/Lawyer')
+const Company = require('../../models/Company')
 
 // Lawyer validators
 const validator = require('../../validations/lawyerValidations')
@@ -134,4 +135,55 @@ router.post('/newForm', async (req, res) => {
   res.redirect(307, '/api/companies/')
 })
 
+// As a lawyer I should be able to accept or reject forms filled by the investor, so that further action can be taken.
+router.put('/Review/:id', async (req, res) => {
+  try {
+    // Check if the body is empty
+    if (Object.keys(req.body).length === 0) {
+      return res.status(400).json({
+        status: 'Error',
+        message: 'No data to put a review'
+      })
+    }
+    // check if the lawyer exists
+    const lawyer = await Lawyer.findById(req.body.lawyerID)
+    if (!lawyer) {
+      return res.status(400).json({
+        status: 'Error',
+        message: 'This lawyer doesnt exist'
+      })
+    }
+    // check if the company exists
+    const company = await Company.findById(req.params.id)
+    if (!company) {
+      return res.status(400).json({
+        status: 'Error',
+        message: 'This company doesnt exist'
+      })
+    }
+    // JOI Validation
+    const isValidated = validator.reviewFormValidation(req.body)
+    if (isValidated.error) {
+      return res.status(400).json({
+        status: 'Error',
+        message: isValidated.error.details[0].message,
+        data: req.body
+      })
+    }
+    // Changing value to the new value
+    company.form.lawyerId = req.body.lawyerId
+    company.form.acceptedByLawyer = req.body.acceptedByLawyer
+    company.form.comment = req.body.comment
+
+    const query = { '_id': req.params.id }
+    const reviewedCompany = await Company.findOneAndUpdate(query, company)
+    return res.json({
+      status: 'Success',
+      message: `Reviewed Form of Company with id ${req.params.id}`,
+      reviewedCompany: reviewedCompany
+    })
+  } catch (error) {
+    console.log(error)
+  }
+})
 module.exports = router
