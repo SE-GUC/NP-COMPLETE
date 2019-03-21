@@ -5,7 +5,7 @@ const router = express.Router()
 // Reviewer model
 const Reviewer = require('../../models/Reviewer')
 const validator = require('../../validations/reviewerValidations')
-
+const Company = require('../../models/Company')
 // Read all Reviewers (Default route)
 router.get('/', async (req, res) => {
   const reviewers = await Reviewer.find()
@@ -74,7 +74,7 @@ router.delete('/:id', async (req, res) => {
   try {
     const reviewerId = req.params.id
     const reviewerToBeDeleted = await Reviewer.findByIdAndRemove(reviewerId)
-    const AllInvestors = await Reviewer.find()
+    const AllReviewers = await Reviewer.find()
     await Reviewer.findByIdAndRemove({ _id: reviewerId })
     if (!reviewerToBeDeleted) {
       return res.status(400).json({
@@ -87,10 +87,23 @@ router.delete('/:id', async (req, res) => {
       status: 'Success',
       message: `Deleted reviewer with id ${reviewerId}`,
       deletedReviewer: reviewerToBeDeleted,
-      remainingReviewers: AllInvestors
+      remainingReviewers: AllReviewers
     })
   } catch (error) {
     console.log(error)
   }
 })
+
+router.get('/formstoReview', async (req, res) => {
+  // const reviewerId = req.params.id
+  const companies = await Company.find({ 'form.AcceptedByLawyer': 1, 'forms.AcceptedByReviewer': 0 })
+  if (companies == null) {
+    return res.json({
+      message: 'No forms available to review'
+    })
+  }
+  const forms = companies.forms.data
+  res.json({ data: forms })
+})
+
 module.exports = router
