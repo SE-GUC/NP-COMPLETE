@@ -132,7 +132,7 @@ router.delete('/:id', async (req, res) => {
 router.get('/viewCases/:id', async (req, res) => {
   try {
     const adminId = req.params.id
-    const admin = await Admin.findById(adminId)
+    const admin = await Admin.findOne({ _id: adminId })
     if (!admin) { // makes sure that the one accessing the data is an admin
       return res.status(400).json({
         status: 'Error',
