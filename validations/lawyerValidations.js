@@ -13,7 +13,6 @@ module.exports = {
 
     return Joi.validate(request, createSchema)
   },
-
   updateValidation: request => {
     const updateSchema = {
       fullName: Joi.string().min(3).max(80),
@@ -26,7 +25,6 @@ module.exports = {
 
     return Joi.validate(request, updateSchema)
   },
-
   reviewFormValidation: request => {
     const reviewSchema = {
       comment: Joi.string().min(5),
@@ -35,5 +33,12 @@ module.exports = {
     }
 
     return Joi.validate(request, reviewSchema)
+  },
+  editFormValidation: request => {
+    const formDataSchema = {
+      data: Joi.array()
+    }
+
+    return Joi.validate(request, formDataSchema)
   }
 }
