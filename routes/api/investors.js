@@ -7,6 +7,7 @@ console.log(mongoose)
 // Investor model and validator
 const Investor = require('../../models/Investor')
 const validator = require('../../validations/investorValidations')
+const Company = require('../../models/Company')
 
 // Read all Investors (Default route)
 router.get('/', async (req, res) => {
@@ -106,6 +107,33 @@ router.delete('/:id', async (req, res) => {
       deletedInvestor: investorToBeDeleted,
       remainingInvestors: AllInvestors
     })
+  } catch (error) {
+    console.log(error)
+  }
+})
+// view rejected forms with comments by the lawyer
+router.get('/viewRejected/:id', async (req, res) => {
+  try {
+    const investorId = req.params.id
+    const query = { 'investorId': investorId }
+    const companies = await Company.find(query)
+    if (!companies) {
+      res.status(400).json({
+        status: 'Error',
+        message: 'company not found'
+      })
+    }
+
+    var x = ''
+    var i
+    for (i = 0; i < companies.length; i++) { // to check all the investor's companies
+      if (companies[i].form.acceptedByLawyer === -1) {
+        x = x + companies[i].form + '\n'
+      } else {
+        x = x + companies[i].name + 'is not rejected' + '\n'
+      }
+    }
+    res.json({ data: x })
   } catch (error) {
     console.log(error)
   }
