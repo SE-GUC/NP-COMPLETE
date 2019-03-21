@@ -14,6 +14,10 @@ const companyTypeSchema = new Schema({
   types: {
     type: [String],
     required: true
+  },
+  validations: {
+    type: [String],
+    required: true
   }
 })
 module.exports = mongoose.model('companyType', companyTypeSchema)
