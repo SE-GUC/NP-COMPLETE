@@ -1,12 +1,21 @@
 // The external entity model
-const uuidv4 = require('uuid/v4')
+const mongoose = require('mongoose')
+const Schema = mongoose.Schema
 
-class ExternalEntity {
-  constructor (name, email, phone) {
-    this.id = uuidv4()
-    this.name = name
-    this.email = email
-    this.phone = phone
+// Create the schema
+const ExternalEntitySchema = new Schema({
+  name: {
+    type: String,
+    required: true
+  },
+  email: {
+    type: String,
+    required: true
+  },
+  phone: {
+    type: Number,
+    required: true
   }
-}
-module.exports = ExternalEntity
+})
+
+module.exports = mongoose.model('externalEntities', ExternalEntitySchema)

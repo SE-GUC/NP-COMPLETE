@@ -1,143 +1,96 @@
 // Load modules
 const express = require('express')
-const Joi = require('joi')
 const router = express.Router()
 
 // Reviewer model
 const Reviewer = require('../../models/Reviewer')
-
-const reviewers = [
-  new Reviewer('Omar Ayman Abdelmagied', '1998-09-07', 'omar@gmail.com', '2010-01-01', 6, 3000)
-]
+const validator = require('../../validations/reviewerValidations')
 
 // Read all Reviewers (Default route)
-router.get('/', (req, res) => res.json({ data: reviewers }))
+router.get('/', async (req, res) => {
+  const reviewers = await Reviewer.find()
+  res.json({ data: reviewers })
+})
 
 // Creating a new Reviewer
-router.post('/', (req, res) => {
-  const data = req.body
-  const schema = Joi.object().keys({
-    fullName: Joi.string().min(3).max(80).required(),
-    birthdate: Joi.date().iso().max(Date.now()).required(),
-    email: Joi.string().email().required(),
-    startDate: Joi.date().iso().max(Date.now()),
-    workingHours: Joi.number().min(3).integer(),
-    salary: Joi.number()
-  })
-
-  Joi.validate(data, schema, (err, value) => {
-    if (err) {
-      return res.status(400).json({
-        status: 'Error',
-        message: err.details[0].message,
-        data: data
-      })
-    }
-
-    const newReviewer = new Reviewer(
-      value.fullName,
-      value.birthdate,
-      value.email,
-      value.startDate,
-      value.workingHours,
-      value.salary
-    )
-    reviewers.push(newReviewer)
-    return res.json({
-      status: 'Success',
-      message: `New reviewer created with id ${newReviewer.id}`,
-      data: newReviewer
-    })
-  })
+router.post('/', async (req, res) => {
+  try {
+    const isValidated = validator.createValidation(req.body)
+    if (isValidated.error) return res.status(400).send({ error: isValidated.error.details[0].message })
+    const newReviewer = await Reviewer.create(req.body)
+    res.json({ msg: 'Reviewer was created successfully', data: newReviewer })
+  } catch (error) {
+    console.log(error)
+  }
 })
 
 // Reading a specific Reviewer given id in URL
-router.get('/:id', (req, res) => {
-  const revid = req.params.id
-  const reviewer = reviewers.find(reviewer => reviewer.id === revid)
+router.get('/:id', async (req, res) => {
+  const revId = req.params.id
+  const reviewer = await Reviewer.findOne({ _id: revId })
   if (reviewer) {
     res.json({ data: reviewer })
   } else {
-    res.status(400).json({
+    return res.status(400).json({
       status: 'Error',
       message: 'Reviewer not found',
-      availableReviewers: reviewers
+      availableAdmins: await Reviewer.find()
     })
   }
 })
 
 // Update an existing Reviewer given id in URL
-router.put('/:id', (req, res) => {
-  const data = req.body
-  if (Object.keys(data).length === 0) {
-    return res.status(400).json({
-      status: 'Error',
-      message: 'No data to update'
-    })
-  }
-
-  const schema = Joi.object().keys({
-    fullName: Joi.string().min(3).max(80),
-    birthdate: Joi.date().iso().max(Date.now()),
-    email: Joi.string().email(),
-    startDate: Joi.date().iso().max(Date.now()),
-    workingHours: Joi.number().min(3).integer(),
-    salary: Joi.number()
-  })
-
-  Joi.validate(data, schema, (err, value) => {
-    if (err) {
-      return res.status(400).json({
-        status: 'Error',
-        message: err.details[0].message,
-        data: data
-      })
-    }
-
+router.put('/:id', async (req, res) => {
+  try {
     const reviewerId = req.params.id
-    const reviewerToUpdate = reviewers.find(reviewer => reviewer.id === reviewerId)
-
-    if (!reviewerToUpdate) {
+    if (Object.keys(req.body).length === 0) {
       return res.status(400).json({
         status: 'Error',
-        message: 'Reviewer not found',
-        availableReviewers: reviewers
+        message: 'No data to update'
+      })
+    }
+    const reviewer = await Reviewer.findById(reviewerId)
+    if (!reviewer) {
+      return res.status(404).json({
+        status: 'Error',
+        message: 'Reviewer does not exist'
       })
     }
 
-    Object.keys(value).forEach(key => {
-      if (value[key]) {
-        reviewerToUpdate[key] = value[key]
-      }
-    })
-
-    return res.json({
+    const query = { '_id': reviewerId }
+    const updatedReviewer = await Reviewer.findByIdAndUpdate(query, req.body)
+    res.json({
       status: 'Success',
-      message: `Updated Reviewer wit id ${reviewerId}`,
-      data: reviewerToUpdate
+      message: 'Task updated successfully',
+      data: updatedReviewer
     })
-  })
+  } catch (error) {
+    console.log(error)
+  }
 })
 
 // Delete a specific Reviewer given ID in URL
-router.delete('/:id', (req, res) => {
-  const reviewerId = req.params.id
-  const reviewer = reviewers.find(reviewer => reviewer.id === reviewerId)
-  if (reviewer) {
-    const index = reviewers.indexOf(reviewer)
-    reviewers.splice(index, 1)
-    res.json({
+router.delete('/:id', async (req, res) => {
+  try {
+    const reviewerId = req.params.id
+    const reviewerToBeDeleted = await Reviewer.findByIdAndRemove(reviewerId)
+    const AllInvestors = await Reviewer.find()
+    await Reviewer.findByIdAndRemove({ _id: reviewerId })
+    if (!reviewerToBeDeleted) {
+      return res.status(400).json({
+        status: 'Error',
+        message: 'Reviewer not found',
+        availableReviewers: await Reviewer.find()
+      })
+    }
+    return res.json({
       status: 'Success',
       message: `Deleted reviewer with id ${reviewerId}`,
-      remainingReviewers: reviewers
+      deletedReviewer: reviewerToBeDeleted,
+      remainingReviewers: AllInvestors
     })
-  } else {
-    res.status(400).json({
-      status: 'Error',
-      message: 'Reviewer not found',
-      availableReviewers: reviewers
-    })
+  } catch (error) {
+    console.log(error)
   }
 })
-
 module.exports = router
