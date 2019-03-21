@@ -8,6 +8,7 @@ module.exports = {
       establishmentDate: Joi.date().iso().max(Date.now()).required(),
       accepted: Joi.bool().required(),
       state: Joi.string().required(),
+      investorId: Joi.string().required(),
       form: Joi.object().keys({
         data: Joi.array(),
         comment: Joi.string(),
