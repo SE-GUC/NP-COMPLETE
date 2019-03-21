@@ -4,7 +4,6 @@ const router = express.Router()
 
 // Admin model
 const Admin = require('../../models/Admin')
-const Company = require('../../models/Company')
 
 // Validator
 const validator = require('../../validations/adminValidations')
