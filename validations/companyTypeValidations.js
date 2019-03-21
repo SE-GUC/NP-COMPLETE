@@ -4,7 +4,7 @@ module.exports = {
   createValidation: request => {
     const createSchema = {
       companyType: Joi.string().required(),
-      fileds: Joi.array().required(),
+      fields: Joi.array().required(),
       types: Joi.array().required(),
       validations: Joi.array().required()
     }
@@ -14,6 +14,10 @@ module.exports = {
 
   updateValidation: request => {
     const updateSchema = {
+      companyType: Joi.string(),
+      fields: Joi.array(),
+      types: Joi.array(),
+      validations: Joi.array()
 
     }
 

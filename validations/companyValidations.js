@@ -31,6 +31,7 @@ module.exports = {
       establishmentDate: Joi.date().iso().max(Date.now()),
       type: Joi.string(),
       state: Joi.string(),
+      investorId: Joi.string(),
       form: Joi.object().keys({
         data: Joi.array,
         comment: Joi.string.min(5).required(),

@@ -114,7 +114,7 @@ router.delete('/:id', async (req, res) => {
     if (!deletedCompanyType) {
       return res.status(400).json({
         status: 'Error',
-        message: 'Company Type not found',
+        message: 'Company Type not found'
       })
     }
 
