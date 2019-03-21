@@ -2,8 +2,9 @@
 const express = require('express')
 const router = express.Router()
 
-// Lawyer models
+// required models
 const Lawyer = require('../../models/Lawyer')
+const Investor = require('../../models/Investor')
 
 // Lawyer validators
 const validator = require('../../validations/lawyerValidations')
@@ -132,6 +133,13 @@ router.post('/newForm', async (req, res) => {
     })
   }
   res.redirect(307, '/api/companies/')
+})
+// As a lawyer I should be able to review forms filled by an investor, so that I can ensure their validity.
+router.get('/viewForm/:id', async (req, res) => {
+  const investorId = req.params.id
+  const query = { '_id': investorId }
+  const investor = await Investor.find(query)
+
 })
 
 module.exports = router
