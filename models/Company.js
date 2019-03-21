@@ -1,14 +1,38 @@
 // The Company model
-const uuidv4 = require('uuid/v4')
+const mongoose = require('mongoose')
+const Schema = mongoose.Schema
 
-class Company {
-  constructor (name, type, establishmentDate, state) {
-    this.id = uuidv4()
-    this.name = name
-    this.type = type
-    this.establishmentDate = establishmentDate
-    this.state = state
+const companySchema = new Schema({
+  name: {
+    type: String,
+    required: true
+  },
+  establishmentDate: {
+    type: Date,
+    required: true
+  },
+  type: {
+    type: String,
+    required: true
+  },
+  state: {
+    type: String,
+    required: true
+  },
+  accepted: {
+    type: Boolean,
+    required: true
+  },
+  form: {
+    data: [],
+    comment: String,
+    acceptedByLawyer: Number,
+    acceptedByReviewer: Number,
+    filledByLawyer: Boolean,
+    paid: Boolean,
+    lawyerID: String,
+    reviewerID: String
   }
-}
 
-module.exports = Company
+})
+module.exports = mongoose.model('company', companySchema)

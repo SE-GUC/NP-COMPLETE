@@ -6,6 +6,7 @@ console.log(mongoose)
 
 // Investor model and validator
 const Investor = require('../../models/Investor')
+const Company = require('../../models/Company')
 const validator = require('../../validations/investorValidations')
 
 // Read all Investors (Default route)
@@ -105,6 +106,44 @@ router.delete('/:id', async (req, res) => {
       message: `Deleted investor with id ${id}`,
       deletedInvestor: investorToBeDeleted,
       remainingInvestors: AllInvestors
+    })
+  } catch (error) {
+    console.log(error)
+  }
+})
+
+// as an investor i should be able to update forms rejected by the lawyer
+router.put('/editForm/:id', async (req, res) => {
+  try {
+    const companyId = req.params.id
+    const companyToBeUpdated = await Company.findById(companyId)
+    if (!companyToBeUpdated) {
+      return res.status(400).json({
+        status: 'Error',
+        message: 'could not find Form you are looking for'
+      })
+    }
+    if (companyToBeUpdated.form.filledByLawyer === true || companyToBeUpdated.form.acceptedByLawyer === 1) {
+      return res.status(400).json({
+        status: 'error',
+        message: 'can not update a from that has been filled or accepted by a lawyer'
+      })
+    }
+    const isValidated = validator.editFormValidation(req.body)
+    if (isValidated.error) { // we need to add more checks depending on company type
+      return res.status(400).json({
+        status: 'Error',
+        message: isValidated.error.details[0].message
+      })
+    }
+
+    companyToBeUpdated.form.data = req.body.data
+    const query = { '_id': companyId }
+    const updatedCompany = await Company.findOneAndUpdate(query, companyToBeUpdated)
+    return res.json({
+      status: 'Success',
+      message: `Edited Form of Company with id ${companyId}`,
+      updatedCompany: updatedCompany
     })
   } catch (error) {
     console.log(error)
