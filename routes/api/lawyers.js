@@ -122,4 +122,16 @@ router.delete('/:id', async (req, res) => {
     console.log(err)
   }
 })
+
+// As a lawyer i should be able to fill forms delegated to me by an investor (creating company with its form)
+router.post('/newForm', async (req, res) => {
+  if (req.body.form.filledByLawyer !== true || req.body.form.acceptedByLawyer !== true) {
+    return res.status(400).json({
+      status: 'error',
+      message: 'the filled/accepted by lawyer field must be true'
+    })
+  }
+  res.redirect(307, '/api/companies/')
+})
+
 module.exports = router
