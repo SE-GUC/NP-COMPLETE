@@ -5,6 +5,9 @@ const router = express.Router()
 // Lawyer models
 const Lawyer = require('../../models/Lawyer')
 
+// Company models
+const Company = require('../../models/Company')
+
 // Lawyer validators
 const validator = require('../../validations/lawyerValidations')
 
@@ -134,4 +137,42 @@ router.post('/newForm', async (req, res) => {
   res.redirect(307, '/api/companies/')
 })
 
+// As a lawyer I should be able to edit forms declined by the reviewer and regenerate documents,
+// so that I can update the forms and continue with the process
+router.put('/edit_form/:id', async (req, res) => {
+  try {
+    const companyId = req.params.id
+
+    const isValidated = validator.editFormValidation(req.body)
+    if (isValidated.error) {
+      return res.status(400).json({
+        status: 'Error',
+        message: isValidated.error.details[0].message
+      })
+    }
+
+    const query = { '_id': companyId }
+    const update = {
+      form: {
+        data: req.body.data,
+        acceptedByLawyer: 1
+      }
+    }
+    const updatedCompany = await Company.findOneAndUpdate(query, update)
+    if (!updatedCompany) {
+      return res.status(400).json({
+        status: 'Error',
+        message: 'could not find Form you are looking for'
+      })
+    } else {
+      return res.json({
+        status: 'Success',
+        message: `Rewrote Form of Company with id ${companyId}`,
+        updatedCompany: updatedCompany
+      })
+    }
+  } catch (error) {
+    console.log(error)
+  }
+})
 module.exports = router
