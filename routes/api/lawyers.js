@@ -6,9 +6,6 @@ const router = express.Router()
 const Lawyer = require('../../models/Lawyer')
 const Company = require('../../models/Company')
 
-// Company models
-const Company = require('../../models/Company')
-
 // Lawyer validators
 const validator = require('../../validations/lawyerValidations')
 
@@ -143,13 +140,17 @@ router.get('/viewForm/:id', async (req, res) => {
     const companyId = req.params.id
     const query = { '_id': companyId }
     const companies = await Company.find(query)
+    console.log(companies)
     if (!companies) {
       return res.status(404).json({
         status: 'error',
         message: 'Form not found'
       })
+    } else {
+      res.json({
+        data: companies[0].form.data
+      })
     }
-    res.json({ data: companies[0].form.data })
   } catch (error) {
     console.log(error)
   }
