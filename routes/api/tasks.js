@@ -60,23 +60,6 @@ router.get('/:id', async (req, res) => {
     data: task
   })
 })
-// !- drax nl3b f el schema w body wla params w type
-// Read specific task by department
-// router.get('/department', async (req, res) => {
-//   const department = req.params.department
-//   const query = { '_department': department }
-//   const task = await Task.findOne(query)
-//   if (!task) {
-//     return res.status(404).json({
-//       status: 'Error',
-//       message: 'Task does not exist'
-//     })
-//   }
-//   res.json({
-//     status: 'Success',
-//     data: task
-//   })
-// })
 
 // create a task
 router.post('/', async (req, res) => {
