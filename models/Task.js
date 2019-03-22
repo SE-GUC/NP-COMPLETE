@@ -4,7 +4,7 @@ const Schema = mongoose.Schema
 
 // Create the schema
 const TaskSchema = new Schema({
-  handler: {
+  department: {
     type: String,
     required: true
   },
@@ -15,6 +15,18 @@ const TaskSchema = new Schema({
   deadline: {
     type: Date,
     required: true
+  },
+  assigned: {
+    type: Boolean,
+    required: false
+  },
+  done: {
+    type: Boolean,
+    required: false
+  },
+  handler: {
+    type: [],
+    required: false
   }
 
 })
