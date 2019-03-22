@@ -6,9 +6,6 @@ const router = express.Router()
 const Reviewer = require('../../models/Reviewer')
 const validator = require('../../validations/reviewerValidations')
 
-// Company model
-const Company = require('../../models/Company')
-
 // Read all Reviewers (Default route)
 router.get('/', async (req, res) => {
   const reviewers = await Reviewer.find()
@@ -37,7 +34,7 @@ router.get('/:id', async (req, res) => {
     return res.status(400).json({
       status: 'Error',
       message: 'Reviewer not found',
-      availableReviewers: await Reviewer.find()
+      availableAdmins: await Reviewer.find()
     })
   }
 })
@@ -77,7 +74,7 @@ router.delete('/:id', async (req, res) => {
   try {
     const reviewerId = req.params.id
     const reviewerToBeDeleted = await Reviewer.findByIdAndRemove(reviewerId)
-    const AllReviewers = await Reviewer.find()
+    const AllInvestors = await Reviewer.find()
     await Reviewer.findByIdAndRemove({ _id: reviewerId })
     if (!reviewerToBeDeleted) {
       return res.status(400).json({
@@ -90,140 +87,10 @@ router.delete('/:id', async (req, res) => {
       status: 'Success',
       message: `Deleted reviewer with id ${reviewerId}`,
       deletedReviewer: reviewerToBeDeleted,
-      remainingReviewers: AllReviewers
+      remainingReviewers: AllInvestors
     })
   } catch (error) {
     console.log(error)
   }
 })
-
-router.get('/formsToReview/:id', async (req, res) => {
-  try {
-    const reviewerId = req.params.id
-    const reviewer = await Reviewer.findOne({ _id: reviewerId })
-    if (!reviewer) { // Restrict access to reviewers only.
-      return res.status(400).json({
-        status: 'Error',
-        message: 'Only reviewers have access to this page',
-        availableReviewers: await Reviewer.find()
-      })
-    }
-    const query = { 'form.acceptedByLawyer': 1, 'form.acceptedByReviewer': 0 } // We want the forms accepted by the lawyer but not reviewed yet.
-    const companies = await Company.find(query) // query the database to retrieve all available cases
-    if (!companies) { // if no cases in the system
-      return res.json({
-        message: 'No forms available to review'
-      })
-    }
-    var forms = ''
-    for (var i = 0; i < companies.length; i++) {
-      forms += companies[i].form + '\n' // extract form attribute only
-    }
-    res.json({ data: forms })
-  } catch (error) {
-    console.log(error)
-  }
-})
-
-router.get('/casesPage/:id', async (req, res) => {
-  try {
-    const reviewerId = req.params.id
-    const reviewer = await Reviewer.findOne({ _id: reviewerId })
-    if (!reviewer) { // make sure that the one accessing the page is a reviewer
-      return res.status(400).json({
-        status: 'Error',
-        message: 'Reviewer access required'
-      })
-    }
-    res.redirect(307, '/api/companies/') // redirect to companies get route.
-  } catch (error) {
-    console.log(error)
-  }
-})
-
-// As a reviewer I should be able to accept or reject an application, so that the application goes to the next stage or go back to the updating stage accordingly.
-router.put('/decideAnApplication/:reviewerId/:companyId', async (req, res) => {
-  const reviewerId = req.params.reviewerId
-  const companyId = req.params.companyId
-  const decision = req.body.decision
-  if (typeof decison === 'boolean') {
-    return res.status(400).json({
-      status: 'Error',
-      message: 'Variable decision needs to be a boolean type'
-    })
-  }
-  try {
-    const reviewer = await Reviewer.findById(reviewerId)
-    if (!reviewer) {
-      return res.status(400).json({
-        status: 'Error',
-        message: 'Access denied'
-      })
-    }
-
-    const company = await Company.findById(companyId)
-    if (!company) {
-      return res.status(404).json({
-        status: 'Error',
-        message: 'Form not found'
-      })
-    }
-
-    if (company.form.acceptedByLawyer !== 1) {
-      return res.status(404).json({
-        status: 'Error',
-        message: 'Form not accepted by lawyer'
-      })
-    }
-
-    if (company.form.acceptedByReviewer === 1) {
-      return res.status(404).json({
-        status: 'Error',
-        message: 'Form already accepted by reviewer'
-      })
-    }
-
-    let acceptedbyReviewer
-    if (decision === true) {
-      acceptedbyReviewer = 1
-    } else {
-      acceptedbyReviewer = 0
-    }
-
-    const query = { '_id': companyId }
-    const newData = { 'form.acceptedByReviewer': acceptedbyReviewer, 'form.reviewerID': reviewerId }
-    const updatedCompany = await Company.findByIdAndUpdate(query, newData, { new: true })
-
-    res.json({
-      status: 'Success',
-      message: `Form acceptance by reviewer status is: ${decision}`,
-      data: updatedCompany.form
-    })
-  } catch (err) {
-    console.log(err)
-  }
-})
-
-// As a reviewer I should be able to add comments on rejected forms, so that the lawyers can know what to update.
-router.put('/addComment/:reviewerID/:companyID', async (req, res) => {
-  const reviewerID = req.params.reviewerID
-  const companyID = req.params.companyID
-  Company
-    .findOneAndUpdate({
-      _id: companyID,
-      form: {
-        acceptedByReviewer: -1,
-        reviewerID: reviewerID }
-    },
-    {//! No Joi validation?
-      comment: req.body.comment
-    },
-    { new: true,
-      runValidators: true
-    })
-    .catch(err => {
-      console.error(err)
-    })
-})
-
 module.exports = router
