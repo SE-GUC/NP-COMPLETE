@@ -223,6 +223,7 @@ router.get('/viewCases/:id', async (req, res) => {
         availableAdmins: await Admin.find()
       })
     } else {
+      
       res.redirect(307, '/api/companies/') // redirect to companies get all route
     }
   } catch (error) {
