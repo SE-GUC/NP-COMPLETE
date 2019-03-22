@@ -14,6 +14,7 @@ const companyTypes = require('./routes/api/companyTypes')
 
 const app = express()
 
+// Init middleware
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
