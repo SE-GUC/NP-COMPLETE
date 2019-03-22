@@ -36,7 +36,7 @@ module.exports = {
   },
   editFormValidation: request => {
     const formDataSchema = {
-      data: Joi.array()
+      data: Joi.array().required()
     }
 
     return Joi.validate(request, formDataSchema)
