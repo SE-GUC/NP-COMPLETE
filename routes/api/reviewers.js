@@ -94,7 +94,7 @@ router.delete('/:id', async (req, res) => {
   }
 })
 
-router.get('/:id/formsToReview', async (req, res) => {
+router.get('/formsToReview/:id', async (req, res) => {
   try {
     const reviewerId = req.params.id
     const reviewer = await Reviewer.findOne({ _id: reviewerId })
@@ -122,7 +122,7 @@ router.get('/:id/formsToReview', async (req, res) => {
   }
 })
 
-router.get('/:id/casesPage', async (req, res) => {
+router.get('/casesPage/:id', async (req, res) => {
   try {
     const reviewerId = req.params.id
     const reviewer = await Reviewer.findOne({ _id: reviewerId })
