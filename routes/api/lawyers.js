@@ -2,8 +2,9 @@
 const express = require('express')
 const router = express.Router()
 
-// Lawyer models
+// required models
 const Lawyer = require('../../models/Lawyer')
+const Company = require('../../models/Company')
 
 // Company model
 const Company = require('../../models/Company')
@@ -126,6 +127,7 @@ router.delete('/:id', async (req, res) => {
   }
 })
 
+
 router.get('/casesPage/:id', async (req, res) => {
   try {
     const lawyerId = req.params.id
@@ -137,8 +139,183 @@ router.get('/casesPage/:id', async (req, res) => {
       })
     }
     res.redirect(307, '/api/companies/') // redirect to companies get route.
+
+// As a lawyer i should be able to fill forms delegated to me by an investor (creating company with its form)
+router.post('/newForm', async (req, res) => {
+  if (req.body.form.filledByLawyer !== true || req.body.form.acceptedByLawyer !== true) {
+    return res.status(400).json({
+      status: 'error',
+      message: 'the filled/accepted by lawyer field must be true'
+    })
+  }
+  res.redirect(307, '/api/companies/')
+})
+// As a lawyer I should be able to review forms filled by an investor, so that I can ensure their validity.
+router.get('/viewForm/:id', async (req, res) => {
+  try {
+    const companyId = req.params.id
+    const query = { '_id': companyId }
+    const companies = await Company.find(query)
+    console.log(companies)
+    if (!companies) {
+      return res.status(404).json({
+        status: 'error',
+        message: 'Form not found'
+      })
+    } else {
+      res.json({
+        data: companies[0].form.data
+      })
+    }
   } catch (error) {
     console.log(error)
+  }
+})
+
+// As a lawyer I should be able to accept or reject forms filled by the investor, so that further action can be taken.
+router.put('/Review/:id', async (req, res) => {
+  try {
+    // Check if the body is empty
+    if (Object.keys(req.body).length === 0) {
+      return res.status(400).json({
+        status: 'Error',
+        message: 'No data to put a review'
+      })
+    }
+    // check if the lawyer exists
+    const lawyer = await Lawyer.findById(req.body.lawyerID)
+    if (!lawyer) {
+      return res.status(400).json({
+        status: 'Error',
+        message: 'This lawyer doesnt exist'
+      })
+    }
+    // check if the company exists
+    const company = await Company.findById(req.params.id)
+    if (!company) {
+      return res.status(400).json({
+        status: 'Error',
+        message: 'This company doesnt exist'
+      })
+    }
+    // JOI Validation
+    const isValidated = validator.reviewFormValidation(req.body)
+    if (isValidated.error) {
+      return res.status(400).json({
+        status: 'Error',
+        message: isValidated.error.details[0].message,
+        data: req.body
+      })
+    }
+    // Changing value to the new value
+    company.form.lawyerId = req.body.lawyerId
+    company.form.acceptedByLawyer = req.body.acceptedByLawyer
+    company.form.comment = req.body.comment
+
+    const query = { '_id': req.params.id }
+    const reviewedCompany = await Company.findOneAndUpdate(query, company)
+    return res.json({
+      status: 'Success',
+      message: `Reviewed Form of Company with id ${req.params.id}`,
+      reviewedCompany: reviewedCompany
+    })
+  } catch (error) {
+    console.log(error)
+  }
+})
+
+// As a lawyer I should be able to edit forms declined by the reviewer and regenerate documents,
+// so that I can update the forms and continue with the process
+router.put('/edit_form/:id', async (req, res) => {
+  try {
+    const companyId = req.params.id
+
+    const isValidated = validator.editFormValidation(req.body)
+    if (isValidated.error) {
+      return res.status(400).json({
+        status: 'Error',
+        message: isValidated.error.details[0].message
+      })
+    }
+
+    const query = { '_id': companyId }
+    const update = {
+      $set: {
+        'form.data': req.body.data,
+        'form.acceptedByLawyer': 1
+      }
+    }
+    const updatedCompany = await Company.findOneAndUpdate(query, update, { new: true })
+    if (!updatedCompany) {
+      return res.status(400).json({
+        status: 'Error',
+        message: 'could not find Form you are looking for'
+      })
+    } else {
+      return res.json({
+        status: 'Success',
+        message: `Edited requested formm of Company with id ${companyId}`,
+        updatedCompany: updatedCompany
+      })
+    }
+
+  } catch (error) {
+    console.log(error)
+  }
+})
+
+// As a lawyer I should be able to send back rejected forms attached with comments to the investor, so that they can be updated appropriately.
+router.put('/addComment/:lawyerId/:companyId', async (res, req) => {
+  const lawyerId = req.params.lawyerId
+  const companyId = req.params.companyId
+  const comment = req.body.comment
+  if (!comment) {
+    return res.status(400).json({
+      status: 'Error',
+      message: 'Variable comment is required'
+    })
+  }
+  if (typeof comment === 'string') {
+    return res.status(400).json({
+      status: 'Error',
+      message: 'Variable comment needs to be a boolean string'
+    })
+  }
+  try {
+    const lawyer = await Lawyer.findById(lawyerId)
+    if (!lawyer) {
+      return res.status(400).json({
+        status: 'Error',
+        message: 'Access denied'
+      })
+    }
+
+    const company = await Company.findById(companyId)
+    if (!company) {
+      return res.status(404).json({
+        status: 'Error',
+        message: 'Form not found'
+      })
+    }
+
+    if (company.form.acceptedByLawyer !== 0) {
+      return res.status(404).json({
+        status: 'Error',
+        message: 'Form not rejected by lawyer'
+      })
+    }
+
+    const query = { '_id': companyId }
+    const newData = { 'form.comment': comment }
+    const updatedCompany = await Company.findByIdAndUpdate(query, newData, { new: true })
+
+    res.json({
+      status: 'Success',
+      message: `Added comment: ${comment} to form of company with id: ${companyId}`,
+      data: updatedCompany.form
+    })
+  } catch (err) {
+    console.log(err)
   }
 })
 

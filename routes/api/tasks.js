@@ -6,13 +6,46 @@ const router = express.Router()
 const Task = require('../../models/Task')
 const validator = require('../../validations/taskValidations')
 
-// Read all Tasks (Default route)
+//                                !-Shiko was here-!
+
+// Read all Tasks (Default route) or specfic department tasks (if given a valid department in the body)
 router.get('/', async (req, res) => {
-  const tasks = await Task.find()
-  res.json({ data: tasks })
+  const data = req.body
+  // if there is no body given then veiw all tasks
+  if (Object.keys(data).length === 0) {
+    const tasks = await Task.find()
+    res.json({ data: tasks })
+  } else {
+    const department = req.body.department
+    // check that the given department in the body is valid
+    if (department === 'Lawyer' || department === 'Reviewer' || department === 'Admin' || department === 'External Entity') {
+      const query = { 'department': department }
+      const task = await Task.find(query)
+      // check if there exist such task
+      if (!task) {
+        return res.status(404).json({
+          status: 'Error',
+          message: 'Task does not exist'
+        })
+      }
+      // view the tasks of the given depratment
+      res.json({
+        status: 'Success',
+        data: task
+      })
+    } else {
+      // the given department was not valid
+      const validDepartment = { Department1: 'Lawyer', Department2: 'Admin', Department3: 'Reviewer', Department4: 'External Entity' }
+      return res.status(404).json({
+        status: 'Error',
+        message: 'There is no such department',
+        validDepartments: validDepartment
+      })
+    }
+  }
 })
 
-// Read specific task
+// Read specific task by id
 router.get('/:id', async (req, res) => {
   const taskId = req.params.id
   const task = await Task.findById(taskId)

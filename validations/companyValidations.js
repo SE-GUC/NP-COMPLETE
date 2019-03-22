@@ -8,6 +8,7 @@ module.exports = {
       establishmentDate: Joi.date().iso().max(Date.now()).required(),
       accepted: Joi.bool().required(),
       state: Joi.string().required(),
+      investorId: Joi.string().required(),
       form: Joi.object().keys({
         data: Joi.array(),
         comment: Joi.string(),
@@ -30,6 +31,7 @@ module.exports = {
       establishmentDate: Joi.date().iso().max(Date.now()),
       type: Joi.string(),
       state: Joi.string(),
+      investorId: Joi.string(),
       form: Joi.object().keys({
         data: Joi.array,
         comment: Joi.string.min(5).required(),
@@ -43,5 +45,15 @@ module.exports = {
     }
 
     return Joi.validate(request, updateSchema)
+<<<<<<< HEAD
+=======
+  },
+  editFormValidation: request => {
+    const formDataSchema = {
+      data: Joi.array()
+    }
+
+    return Joi.validate(request, formDataSchema)
+>>>>>>> c5a00be2eded40fac4018ddb74425c3a2e3af2d9
   }
 }
