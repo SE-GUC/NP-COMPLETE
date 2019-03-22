@@ -129,7 +129,7 @@ router.get('/:id/casesPage', async (req, res) => {
     if (!reviewer) { // make sure that the one accessing the page is a reviewer
       return res.status(400).json({
         status: 'Error',
-        message: 'You do not have access to this page'
+        message: 'Reviewer access required'
       })
     }
     res.redirect(307, '/api/companies/') // redirect to companies get route.

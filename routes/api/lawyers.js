@@ -133,7 +133,7 @@ router.get('/:id/casesPage', async (req, res) => {
     if (!lawyer) { // make sure that the one accessing the page is a lawyer
       return res.status(400).json({
         status: 'Error',
-        message: 'You do not have access to this page'
+        message: 'lawyer access required'
       })
     }
     res.redirect(307, '/api/companies/') // redirect to companies get route.
