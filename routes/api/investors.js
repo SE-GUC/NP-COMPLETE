@@ -4,6 +4,7 @@ const router = express.Router()
 
 // Investor model and validator
 const Investor = require('../../models/Investor')
+const Company = require('../../models/Company')
 const validator = require('../../validations/investorValidations')
 
 // Read all Investors (Default route)
@@ -107,6 +108,61 @@ router.delete('/:id', async (req, res) => {
   } catch (error) {
     console.log(error)
   }
+})
+
+// as an investor i should be able to update forms rejected by the lawyer
+router.put('/editForm/:id', async (req, res) => {
+  try {
+    const companyId = req.params.id
+    const companyToBeUpdated = await Company.findById(companyId)
+    if (!companyToBeUpdated) {
+      return res.status(400).json({
+        status: 'Error',
+        message: 'could not find Form you are looking for'
+      })
+    }
+    if (companyToBeUpdated.form.filledByLawyer === true || companyToBeUpdated.form.acceptedByLawyer === 1) {
+      return res.status(400).json({
+        status: 'error',
+        message: 'can not update a from that has been filled or accepted by a lawyer'
+      })
+    }
+    const isValidated = validator.editFormValidation(req.body)
+    if (isValidated.error) { // we need to add more checks depending on company type
+      return res.status(400).json({
+        status: 'Error',
+        message: isValidated.error.details[0].message
+      })
+    }
+
+    companyToBeUpdated.form.data = req.body.data
+    const query = { '_id': companyId }
+    const updatedCompany = await Company.findOneAndUpdate(query, companyToBeUpdated)
+    return res.json({
+      status: 'Success',
+      message: `Edited Form of Company with id ${companyId}`,
+      updatedCompany: updatedCompany
+    })
+  } catch (error) {
+    console.log(error)
+  }
+})
+
+// As an investor I should be able to keep track of my application, so that I can see which state my application is at.
+router.get('/trackApplication/:id', async (req, res) => {
+  const id = req.params.id
+  Company
+    .find({
+      investorId: id
+    })
+    .then(result => res.json({
+      status: 'Success',
+      message: `Companies for investor ${id}`,
+      companies: result
+    }))
+    .catch(err => {
+      console.error(err)
+    })
 })
 
 module.exports = router
