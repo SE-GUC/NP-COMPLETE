@@ -6,6 +6,7 @@ const router = express.Router()
 const Investor = require('../../models/Investor')
 const Company = require('../../models/Company')
 const validator = require('../../validations/investorValidations')
+const Company = require('../../models/Company')
 
 // Read all Investors (Default route)
 router.get('/', async (req, res) => {
@@ -105,6 +106,45 @@ router.delete('/:id', async (req, res) => {
       deletedInvestor: investorToBeDeleted,
       remainingInvestors: AllInvestors
     })
+  } catch (error) {
+    console.log(error)
+  }
+})
+// view rejected forms with comments by the lawyer
+router.get('/viewRejected/:investorId/:companyId', async (req, res) => {
+  try {
+    const investorId = req.params.investorId
+    const companyId = req.params.companyId
+    const investor = await Investor.findById(investorId)
+    if (!investor) {
+      res.status(400).json({
+        status: 'Error',
+        message: 'Investor not found'
+      })
+    } else {
+      const company = await Company.findById(companyId)
+      if (!company) {
+        res.status(400).json({
+          status: 'Error',
+          message: 'company not found'
+        })
+      } else if (company.investorId !== investorId) {
+        res.status(400).json({
+          status: 'Error',
+          message: 'This company does not belong to you'
+        })
+      } else if (company.form.acceptedByLawyer !== -1) {
+        res.status(400).json({
+          status: 'Error',
+          message: 'This form is not rejected'
+        })
+      } else {
+        res.json({
+          data: company.form.data,
+          comments: company.form.comment
+        })
+      }
+    }
   } catch (error) {
     console.log(error)
   }
