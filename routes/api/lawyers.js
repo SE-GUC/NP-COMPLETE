@@ -224,12 +224,12 @@ router.put('/edit_form/:id', async (req, res) => {
 
     const query = { '_id': companyId }
     const update = {
-      form: {
-        data: req.body.data,
-        acceptedByLawyer: 1
+      $set: {
+        'form.data': req.body.data,
+        'form.acceptedByLawyer': 1
       }
     }
-    const updatedCompany = await Company.findOneAndUpdate(query, update)
+    const updatedCompany = await Company.findOneAndUpdate(query, update, { new: true })
     if (!updatedCompany) {
       return res.status(400).json({
         status: 'Error',
