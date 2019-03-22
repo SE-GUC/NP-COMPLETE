@@ -1,8 +1,6 @@
 // Load modules
 const express = require('express')
 const router = express.Router()
-const mongoose = require('mongoose')
-console.log(mongoose)
 
 // Investor model and validator
 const Investor = require('../../models/Investor')
