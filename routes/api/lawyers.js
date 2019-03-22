@@ -6,6 +6,9 @@ const router = express.Router()
 const Lawyer = require('../../models/Lawyer')
 const Company = require('../../models/Company')
 
+// Company model
+const Company = require('../../models/Company')
+
 // Lawyer validators
 const validator = require('../../validations/lawyerValidations')
 
@@ -123,6 +126,19 @@ router.delete('/:id', async (req, res) => {
     console.log(err)
   }
 })
+
+
+router.get('/casesPage/:id', async (req, res) => {
+  try {
+    const lawyerId = req.params.id
+    const lawyer = await Lawyer.findOne({ _id: lawyerId })
+    if (!lawyer) { // make sure that the one accessing the page is a lawyer
+      return res.status(400).json({
+        status: 'Error',
+        message: 'Lawyer access required'
+      })
+    }
+    res.redirect(307, '/api/companies/') // redirect to companies get route.
 
 // As a lawyer i should be able to fill forms delegated to me by an investor (creating company with its form)
 router.post('/newForm', async (req, res) => {
@@ -242,6 +258,7 @@ router.put('/edit_form/:id', async (req, res) => {
         updatedCompany: updatedCompany
       })
     }
+
   } catch (error) {
     console.log(error)
   }
