@@ -34,7 +34,7 @@ router.get('/:id', async (req, res) => {
     return res.status(400).json({
       status: 'Error',
       message: 'Reviewer not found',
-      availableAdmins: await Reviewer.find()
+      availableReviewers: await Reviewer.find()
     })
   }
 })
@@ -94,16 +94,48 @@ router.delete('/:id', async (req, res) => {
   }
 })
 
-router.get('/formstoReview', async (req, res) => {
-  // const reviewerId = req.params.id
-  const companies = await Company.find({ 'form.AcceptedByLawyer': 1, 'forms.AcceptedByReviewer': 0 })
-  if (companies == null) {
-    return res.json({
-      message: 'No forms available to review'
-    })
+router.get('/:id/formsToReview', async (req, res) => {
+  try {
+    const reviewerId = req.params.id
+    const reviewer = await Reviewer.findOne({ _id: reviewerId })
+    if (!reviewer) { // Restrict access to reviewers only.
+      return res.status(400).json({
+        status: 'Error',
+        message: 'Only reviewers have access to this page',
+        availableReviewers: await Reviewer.find()
+      })
+    }
+    const query = { 'form.acceptedByLawyer': 1, 'form.acceptedByReviewer': 0 } // We want the forms accepted by the lawyer but not reviewed yet.
+    const companies = await Company.find(query) // query the database to retrieve all available cases
+    if (!companies) { // if no cases in the system
+      return res.json({
+        message: 'No forms available to review'
+      })
+    }
+    var forms = ''
+    for (var i = 0; i < companies.length; i++) {
+      forms += companies[i].form + '\n' // extract form attribute only
+    }
+    res.json({ data: forms })
+  } catch (error) {
+    console.log(error)
   }
-  const forms = companies.forms.data
-  res.json({ data: forms })
+})
+
+router.get('/:id/casesPage', async (req, res) => {
+  try {
+    const reviewerId = req.params.id
+    const reviewer = await Reviewer.findOne({ _id: reviewerId })
+    if (!reviewer) { // make sure that the one accessing the page is a reviewer
+      return res.status(400).json({
+        status: 'Error',
+        message: 'You do not have access to this page'
+      })
+    }
+    res.redirect(307, '/api/companies/') // redirect to companies get route.
+  } catch (error) {
+    console.log(error)
+  }
 })
 
 module.exports = router

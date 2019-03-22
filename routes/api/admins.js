@@ -5,6 +5,9 @@ const router = express.Router()
 // Admin model
 const Admin = require('../../models/Admin')
 
+// Company model
+const Company = require('../../models/Company')
+
 // Validator
 const validator = require('../../validations/adminValidations')
 
@@ -125,6 +128,22 @@ router.delete('/:id', async (req, res) => {
     })
   } catch (err) {
     console.log(err)
+  }
+})
+
+router.get('/:id/casesPage', async (req, res) => {
+  try {
+    const adminId = req.params.id
+    const admin = await Admin.findOne({ _id: adminId })
+    if (!admin) { // makes sure that the one accessing the data is a reviewer
+      return res.status(400).json({
+        status: 'Error',
+        message: 'You do not have access to this page'
+      })
+    }
+    res.redirect(307, '/api/companies/') // redirect to companies get route.
+  } catch (error) {
+    console.log(error)
   }
 })
 
