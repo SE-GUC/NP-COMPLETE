@@ -5,7 +5,11 @@ const router = express.Router()
 // Reviewer model
 const Reviewer = require('../../models/Reviewer')
 const validator = require('../../validations/reviewerValidations')
+
+// Company model and validator
 const Company = require('../../models/Company')
+const companyValidator = require('../../validations/companyValidations')
+
 // Read all Reviewers (Default route)
 router.get('/', async (req, res) => {
   const reviewers = await Reviewer.find()
