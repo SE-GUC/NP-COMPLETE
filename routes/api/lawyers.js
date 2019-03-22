@@ -246,4 +246,60 @@ router.put('/edit_form/:id', async (req, res) => {
     console.log(error)
   }
 })
+
+// As a lawyer I should be able to send back rejected forms attached with comments to the investor, so that they can be updated appropriately.
+router.put('/addComment/:lawyerId/:companyId', async (res, req) => {
+  const lawyerId = req.params.lawyerId
+  const companyId = req.params.companyId
+  const comment = req.body.comment
+  if (!comment) {
+    return res.status(400).json({
+      status: 'Error',
+      message: 'Variable comment is required'
+    })
+  }
+  if (typeof comment === 'string') {
+    return res.status(400).json({
+      status: 'Error',
+      message: 'Variable comment needs to be a boolean string'
+    })
+  }
+  try {
+    const lawyer = await Lawyer.findById(lawyerId)
+    if (!lawyer) {
+      return res.status(400).json({
+        status: 'Error',
+        message: 'Access denied'
+      })
+    }
+
+    const company = await Company.findById(companyId)
+    if (!company) {
+      return res.status(404).json({
+        status: 'Error',
+        message: 'Form not found'
+      })
+    }
+
+    if (company.form.acceptedByLawyer !== 0) {
+      return res.status(404).json({
+        status: 'Error',
+        message: 'Form not rejected by lawyer'
+      })
+    }
+
+    const query = { '_id': companyId }
+    const newData = { 'form.comment': comment }
+    const updatedCompany = await Company.findByIdAndUpdate(query, newData, { new: true })
+
+    res.json({
+      status: 'Success',
+      message: `Added comment: ${comment} to form of company with id: ${companyId}`,
+      data: updatedCompany.form
+    })
+  } catch (err) {
+    console.log(err)
+  }
+})
+
 module.exports = router
