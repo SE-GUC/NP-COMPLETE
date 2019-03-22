@@ -131,14 +131,14 @@ router.delete('/:id', async (req, res) => {
   }
 })
 
-router.get('/:id/casesPage', async (req, res) => {
+router.get('/casesPage/:id', async (req, res) => {
   try {
     const adminId = req.params.id
     const admin = await Admin.findOne({ _id: adminId })
-    if (!admin) { // makes sure that the one accessing the data is a reviewer
+    if (!admin) { // makes sure that the one accessing the data is an admin
       return res.status(400).json({
         status: 'Error',
-        message: 'You do not have access to this page'
+        message: 'Admin access required'
       })
     }
     res.redirect(307, '/api/companies/') // redirect to companies get route.

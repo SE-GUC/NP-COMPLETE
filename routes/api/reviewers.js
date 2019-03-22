@@ -5,7 +5,10 @@ const router = express.Router()
 // Reviewer model
 const Reviewer = require('../../models/Reviewer')
 const validator = require('../../validations/reviewerValidations')
+
+// Company model
 const Company = require('../../models/Company')
+
 // Read all Reviewers (Default route)
 router.get('/', async (req, res) => {
   const reviewers = await Reviewer.find()
@@ -94,7 +97,7 @@ router.delete('/:id', async (req, res) => {
   }
 })
 
-router.get('/:id/formsToReview', async (req, res) => {
+router.get('/formsToReview/:id', async (req, res) => {
   try {
     const reviewerId = req.params.id
     const reviewer = await Reviewer.findOne({ _id: reviewerId })
@@ -122,14 +125,14 @@ router.get('/:id/formsToReview', async (req, res) => {
   }
 })
 
-router.get('/:id/casesPage', async (req, res) => {
+router.get('/casesPage/:id', async (req, res) => {
   try {
     const reviewerId = req.params.id
     const reviewer = await Reviewer.findOne({ _id: reviewerId })
     if (!reviewer) { // make sure that the one accessing the page is a reviewer
       return res.status(400).json({
         status: 'Error',
-        message: 'You do not have access to this page'
+        message: 'Reviewer access required'
       })
     }
     res.redirect(307, '/api/companies/') // redirect to companies get route.
@@ -199,6 +202,28 @@ router.put('/decideAnApplication/:reviewerId/:companyId', async (req, res) => {
   } catch (err) {
     console.log(err)
   }
+})
+
+// As a reviewer I should be able to add comments on rejected forms, so that the lawyers can know what to update.
+router.put('/addComment/:reviewerID/:companyID', async (req, res) => {
+  const reviewerID = req.params.reviewerID
+  const companyID = req.params.companyID
+  Company
+    .findOneAndUpdate({
+      _id: companyID,
+      form: {
+        acceptedByReviewer: -1,
+        reviewerID: reviewerID }
+    },
+    {//! No Joi validation?
+      comment: req.body.comment
+    },
+    { new: true,
+      runValidators: true
+    })
+    .catch(err => {
+      console.error(err)
+    })
 })
 
 module.exports = router
