@@ -238,7 +238,7 @@ router.put('/edit_form/:id', async (req, res) => {
     } else {
       return res.json({
         status: 'Success',
-        message: `Rewrote Form of Company with id ${companyId}`,
+        message: `Edited requested formm of Company with id ${companyId}`,
         updatedCompany: updatedCompany
       })
     }
