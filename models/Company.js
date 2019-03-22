@@ -23,6 +23,10 @@ const companySchema = new Schema({
     type: Boolean,
     required: true
   },
+  investorId: {
+    type: String,
+    required: true
+  },
   form: {
     data: [],
     comment: String,

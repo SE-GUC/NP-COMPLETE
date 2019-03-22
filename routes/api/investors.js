@@ -150,4 +150,21 @@ router.put('/editForm/:id', async (req, res) => {
   }
 })
 
+// As an investor I should be able to keep track of my application, so that I can see which state my application is at.
+router.get('/trackApplication/:id', async (req, res) => {
+  const id = req.params.id
+  Company
+    .find({
+      investorId: id
+    })
+    .then(result => res.json({
+      status: 'Success',
+      message: `Companies for investor ${id}`,
+      companies: result
+    }))
+    .catch(err => {
+      console.error(err)
+    })
+})
+
 module.exports = router
