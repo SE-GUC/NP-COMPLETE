@@ -145,11 +145,6 @@ router.get('/viewCases/:id', async (req, res) => {
   } catch (error) {
     console.log(error)
   }
-  /* const cases = await Company.find()
-  res.json({
-    status: 'success',
-    data: cases
-  }) */
 })
 
 module.exports = router
