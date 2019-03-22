@@ -6,9 +6,8 @@ const router = express.Router()
 const Reviewer = require('../../models/Reviewer')
 const validator = require('../../validations/reviewerValidations')
 
-// Company model and validator
+// Company model
 const Company = require('../../models/Company')
-const companyValidator = require('../../validations/companyValidations')
 
 // Read all Reviewers (Default route)
 router.get('/', async (req, res) => {
@@ -140,6 +139,28 @@ router.get('/:id/casesPage', async (req, res) => {
   } catch (error) {
     console.log(error)
   }
+})
+
+// As a reviewer I should be able to add comments on rejected forms, so that the lawyers can know what to update.
+router.put('/addComment/:reviewerID/:companyID', async (req, res) => {
+  const reviewerID = req.params.reviewerID
+  const companyID = req.params.companyID
+  Company
+    .findOneAndUpdate({
+      _id: companyID,
+      form: {
+        acceptedByReviewer: -1,
+        reviewerID: reviewerID }
+    },
+    {//! No Joi validation?
+      comment: req.body.comment
+    },
+    { new: true,
+      runValidators: true
+    })
+    .catch(err => {
+      console.error(err)
+    })
 })
 
 module.exports = router
