@@ -4,7 +4,7 @@ const router = express.Router()
 
 // Required models
 const Admin = require('../../models/Admin')
-
+const Task = require('../../models/Task')
 // Validator
 const validator = require('../../validations/adminValidations')
 
@@ -58,10 +58,54 @@ router.get('/:id', async (req, res) => {
   }
   res.json({ data: admin })
 })
+//                                !-Shiko was here-!
 
+// update the deadline of a specfic task given the task id and the new deadline in the body
+router.put('/updateDeadline/:id', async (req, res) => {
+  const data = req.body
+  // check if the body is empty
+  if (Object.keys(data).length === 0) {
+    return res.status(400).json({
+      status: 'Error',
+      message: 'No data to update'
+    })
+  }
+  try {
+    const adminId = req.params.id
+    const adminToUpdate = await Admin.findById(adminId)
+    // check if there is no such admin
+    if (!adminToUpdate) {
+      return res.status(400).json({
+        status: 'Error',
+        message: 'Admin not found',
+        availableAdmins: await Admin.find()
+      })
+    }
+    const taskID = req.body.TaskID
+    const task = await Task.findById(taskID)
+    // check if there exist such tasj
+    if (!task) {
+      return res.status(404).json({
+        status: 'Error',
+        error: 'Task does not exist'
+      })
+    }
+    // update the deadline (if given in the body)
+    const query = { '_id': taskID }
+    const updatedTask = await Task.findOneAndUpdate(query, req.body)
+    console.log(updatedTask)
+    res.json({
+      status: 'Success',
+      message: `Updated Task with id ${taskID}`,
+      data: updatedTask
+    })
+  } catch (err) {
+    console.log(err)
+  }
+})
 // Update an existing Admin given id in URL
 router.put('/:id', async (req, res) => {
-  const data = req.body
+  var data = req.body
   if (Object.keys(data).length === 0) {
     return res.status(400).json({
       status: 'Error',
@@ -71,7 +115,7 @@ router.put('/:id', async (req, res) => {
 
   try {
     const adminId = req.params.id
-    const adminToUpdate = await Admin.findOne({ _id: adminId })
+    const adminToUpdate = await Admin.findById(adminId)
 
     if (!adminToUpdate) {
       return res.status(400).json({
@@ -92,6 +136,7 @@ router.put('/:id', async (req, res) => {
 
     const query = { '_id': adminId }
     const updatedAdmin = await Admin.findByIdAndUpdate(query, data)
+    data = updatedAdmin.body
     return res.json({
       status: 'Success',
       message: `Updated admin with id ${adminId}`,

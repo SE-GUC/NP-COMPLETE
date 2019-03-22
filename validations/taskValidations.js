@@ -3,19 +3,24 @@ const Joi = require('joi')
 module.exports = {
   createValidation: request => {
     const createSchema = {
-      handler: Joi.string().required(),
+      department: Joi.string().valid('Lawyer', 'Reviewer', 'Admin', 'External Entity').required(),
       creationDate: Joi.date().required().iso(),
-      deadline: Joi.date().required().iso()
+      deadline: Joi.date().iso().required(),
+      assigned: Joi.boolean(),
+      done: Joi.boolean(),
+      handler: Joi.array()
     }
-
     return Joi.validate(request, createSchema)
   },
 
   updateValidation: request => {
     const updateSchema = {
-      handler: Joi.string(),
+      department: Joi.string().valid('Lawyer', 'Reviewer', 'Admin', 'External Entity'),
       creationDate: Joi.date().iso(),
-      deadline: Joi.date().iso()
+      deadline: Joi.date().iso(),
+      assigned: Joi.boolean(),
+      done: Joi.boolean(),
+      handler: Joi.array()
     }
 
     return Joi.validate(request, updateSchema)
