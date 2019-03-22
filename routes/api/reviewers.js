@@ -138,4 +138,67 @@ router.get('/:id/casesPage', async (req, res) => {
   }
 })
 
+// As a reviewer I should be able to accept or reject an application, so that the application goes to the next stage or go back to the updating stage accordingly.
+router.put('/decideAnApplication/:reviewerId/:companyId', async (req, res) => {
+  const reviewerId = req.params.reviewerId
+  const companyId = req.params.companyId
+  const decision = req.body.decision
+  if (typeof decison === 'boolean') {
+    return res.status(400).json({
+      status: 'Error',
+      message: 'Variable decision needs to be a boolean type'
+    })
+  }
+  try {
+    const reviewer = await Reviewer.findById(reviewerId)
+    if (!reviewer) {
+      return res.status(400).json({
+        status: 'Error',
+        message: 'Access denied'
+      })
+    }
+
+    const company = await Company.findById(companyId)
+    if (!company) {
+      return res.status(404).json({
+        status: 'Error',
+        message: 'Form not found'
+      })
+    }
+
+    if (company.form.acceptedByLawyer !== 1) {
+      return res.status(404).json({
+        status: 'Error',
+        message: 'Form not accepted by lawyer'
+      })
+    }
+
+    if (company.form.acceptedByReviewer === 1) {
+      return res.status(404).json({
+        status: 'Error',
+        message: 'Form already accepted by reviewer'
+      })
+    }
+
+    let acceptedbyReviewer
+    if (decision === true) {
+      acceptedbyReviewer = 1
+    } else {
+      acceptedbyReviewer = 0
+    }
+
+    const query = { '_id': companyId }
+    const newData = { 'form.acceptedByReviewer': acceptedbyReviewer, 'form.reviewerID': reviewerId }
+    const updatedCompany = await Company.findByIdAndUpdate(query, newData, { new: true })
+
+    res.json({
+      status: 'Success',
+      message: `Form acceptance by reviewer status is: ${decision}`,
+      data: updatedCompany.form
+    })
+  } catch (err) {
+    console.log(err)
+  }
+})
+
 module.exports = router
