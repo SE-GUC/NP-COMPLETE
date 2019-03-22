@@ -4,9 +4,7 @@ const router = express.Router()
 
 // Required models
 const Admin = require('../../models/Admin')
-const Company = require('../../models/Company')
 const Task = require('../../models/Task')
-
 // Validator
 const validator = require('../../validations/adminValidations')
 
@@ -172,42 +170,6 @@ router.delete('/:id', async (req, res) => {
     })
   } catch (err) {
     console.log(err)
-  }
-})
-// Publish established companies details
-router.put('/establishCompany/:id', async (req, res) => {
-  try {
-    const id = req.params.id
-    const currentCompany = await Company.findById(id)
-    if (!currentCompany) { // check if the company exists
-      return res.status(400).json({
-        status: 'Error',
-        message: 'Could not find the Company you are looking for'
-      })
-    }
-    if (!(currentCompany.accepted === true)) { // check if the company is accepted
-      return res.status(400).json({
-        status: 'Error',
-        message: 'The company is not accepted yet'
-      })
-    }
-    if (currentCompany.form.paid === true) { // check if the investor had paid the fees
-      const query = { '_id': id }
-      const data = { 'state': 'published', 'establishmentDate': Date.now() }
-      const updatedCompany = await Company.findByIdAndUpdate(query, data, { new: true })
-      return res.json({
-        status: 'Success',
-        message: `Updated company successfully`,
-        data: updatedCompany
-      })
-    } else {
-      return res.status(400).json({
-        status: 'Error',
-        message: 'The investor did not pay the fees'
-      })
-    }
-  } catch (error) {
-    console.log('error')
   }
 })
 
