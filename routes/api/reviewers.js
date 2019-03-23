@@ -64,7 +64,7 @@ router.put('/:id', async (req, res) => {
     const updatedReviewer = await Reviewer.findByIdAndUpdate(query, req.body)
     res.json({
       status: 'Success',
-      message: 'Task updated successfully',
+      message: 'Reviewer updated successfully',
       data: updatedReviewer
     })
   } catch (error) {
