@@ -164,7 +164,7 @@ router.get('/viewForm/:id', async (req, res) => {
 })
 
 // As a lawyer I should be able to accept or reject forms filled by the investor, so that further action can be taken.
-router.put('/Review/:id', async (req, res) => {
+router.put('/review/:id', async (req, res) => {
   try {
     // Check if the body is empty
     if (Object.keys(req.body).length === 0) {
@@ -189,6 +189,13 @@ router.put('/Review/:id', async (req, res) => {
         message: 'This company doesnt exist'
       })
     }
+
+    if (company.acceptedByLawyer !== -1) {
+      return res.status(400).json({
+        status: 'Error',
+        message: 'This form is already reviewed'
+      })
+    }
     // JOI Validation
     const isValidated = validator.reviewFormValidation(req.body)
     if (isValidated.error) {
@@ -201,7 +208,9 @@ router.put('/Review/:id', async (req, res) => {
     // Changing value to the new value
     company.form.lawyerId = req.body.lawyerId
     company.form.acceptedByLawyer = req.body.acceptedByLawyer
-    company.form.comment = req.body.comment
+    if (company.form.acceptedByLawyer === 0) {
+      company.form.comment = req.body.comment
+    }
 
     const query = { '_id': req.params.id }
     const reviewedCompany = await Company.findOneAndUpdate(query, company, { new: true })
