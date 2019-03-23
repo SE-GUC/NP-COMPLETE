@@ -211,7 +211,7 @@ router.put('/Review/:id', async (req, res) => {
 
 // As a lawyer I should be able to edit forms declined by the reviewer and regenerate documents,
 // so that I can update the forms and continue with the process
-router.put('/edit_form/:id', async (req, res) => {
+router.put('/editForm/:id', async (req, res) => {
   try {
     const companyId = req.params.id
 
@@ -234,7 +234,7 @@ router.put('/edit_form/:id', async (req, res) => {
     if (!updatedCompany) {
       return res.status(400).json({
         status: 'Error',
-        message: 'could not find Form you are looking for'
+        message: 'Could not find Form you are looking for'
       })
     } else {
       return res.json({
