@@ -78,7 +78,7 @@ router.put('/:id', async (req, res) => {
       })
     }
     const query = { '_id': id }
-    const updatedExternalEntity = await ExternalEntity.findOneAndUpdate(query, req.body)
+    const updatedExternalEntity = await ExternalEntity.findOneAndUpdate(query, req.body, { new: true })
     return res.json({
       status: 'Success',
       message: `Updated external entity with id ${id}`,

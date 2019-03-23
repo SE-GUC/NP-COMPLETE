@@ -109,7 +109,7 @@ router.put('/:id', async (req, res) => {
       })
     }
     const query = { '_id': taskId }
-    const updatedTask = await Task.findOneAndUpdate(query, data)
+    const updatedTask = await Task.findOneAndUpdate(query, data, { new: true })
 
     res.json({
       status: 'Success',

@@ -5,10 +5,10 @@ module.exports = {
     const createSchema = {
       name: Joi.string().min(3).max(90).required(),
       type: Joi.string().required(),
-      establishmentDate: Joi.date().iso().max(Date.now()).required(),
-      accepted: Joi.bool().required(),
-      state: Joi.string().required(),
-      investorId: Joi.string().required(),
+      establishmentDate: Joi.date().iso().max(Date.now()),
+      accepted: Joi.bool(),
+      state: Joi.string(),
+      investorId: Joi.string(),
       form: Joi.object().keys({
         data: Joi.array(),
         comment: Joi.string(),

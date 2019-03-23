@@ -86,7 +86,7 @@ router.put('/:id', async (req, res) => {
       })
     }
     const query = { '_id': id }
-    const updatedLawyer = await Lawyer.findByIdAndUpdate(query, req.body)
+    const updatedLawyer = await Lawyer.findByIdAndUpdate(query, req.body, { new: true })
     return res.json({
       status: 'Success',
       message: `Updated lawyer with id ${id}`,
@@ -198,7 +198,7 @@ router.put('/Review/:id', async (req, res) => {
     company.form.comment = req.body.comment
 
     const query = { '_id': req.params.id }
-    const reviewedCompany = await Company.findOneAndUpdate(query, company)
+    const reviewedCompany = await Company.findOneAndUpdate(query, company, { new: true })
     return res.json({
       status: 'Success',
       message: `Reviewed Form of Company with id ${req.params.id}`,
@@ -211,7 +211,7 @@ router.put('/Review/:id', async (req, res) => {
 
 // As a lawyer I should be able to edit forms declined by the reviewer and regenerate documents,
 // so that I can update the forms and continue with the process
-router.put('/edit_form/:id', async (req, res) => {
+router.put('/editForm/:id', async (req, res) => {
   try {
     const companyId = req.params.id
 
@@ -234,7 +234,7 @@ router.put('/edit_form/:id', async (req, res) => {
     if (!updatedCompany) {
       return res.status(400).json({
         status: 'Error',
-        message: 'could not find Form you are looking for'
+        message: 'Could not find Form you are looking for'
       })
     } else {
       return res.json({
@@ -248,10 +248,11 @@ router.put('/edit_form/:id', async (req, res) => {
   }
 })
 
+// As an Internal User I should be able to view all the cases in the system so that I can open them and check their details
 router.get('/casesPage/:id', async (req, res) => {
   try {
     const lawyerId = req.params.id
-    const lawyer = await Lawyer.findOne({ _id: lawyerId })
+    const lawyer = await Lawyer.findById(lawyerId)
     if (!lawyer) { // make sure that the one accessing the page is a lawyer
       return res.status(400).json({
         status: 'Error',

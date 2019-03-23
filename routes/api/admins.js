@@ -50,7 +50,7 @@ router.post('/', async (req, res) => {
 // Reads a specific Admin given id in URL
 router.get('/:id', async (req, res) => {
   const adminId = req.params.id
-  const admin = await Admin.findOne({ _id: adminId })
+  const admin = await Admin.findById(adminId)
   if (!admin) {
     return res.status(400).json({
       status: 'Error',
@@ -93,7 +93,7 @@ router.put('/:id', async (req, res) => {
     }
 
     const query = { '_id': adminId }
-    const updatedAdmin = await Admin.findByIdAndUpdate(query, data)
+    const updatedAdmin = await Admin.findByIdAndUpdate(query, data, { new: true })
     data = updatedAdmin.body
     return res.json({
       status: 'Success',
@@ -165,7 +165,7 @@ router.put('/updateDeadline/:id', async (req, res) => {
     }
     // update the deadline (if given in the body)
     const query = { '_id': taskID }
-    const updatedTask = await Task.findOneAndUpdate(query, req.body)
+    const updatedTask = await Task.findOneAndUpdate(query, req.body, { new: true })
     console.log(updatedTask)
     res.json({
       status: 'Success',
@@ -177,10 +177,11 @@ router.put('/updateDeadline/:id', async (req, res) => {
   }
 })
 
+// As an Internal User I should be able to view all the cases in the system so that I can open them and check their details
 router.get('/casesPage/:id', async (req, res) => {
   try {
     const adminId = req.params.id
-    const admin = await Admin.findOne({ _id: adminId })
+    const admin = await Admin.findById(adminId)
     if (!admin) { // makes sure that the one accessing the data is an admin
       return res.status(400).json({
         status: 'Error',
@@ -193,7 +194,7 @@ router.get('/casesPage/:id', async (req, res) => {
   }
 })
 
-// Publish established companies details
+// As an admin I should be able to publish established companies details on portal, so that their details are available online.
 router.put('/establishCompany/:id', async (req, res) => {
   try {
     const id = req.params.id
@@ -229,4 +230,24 @@ router.put('/establishCompany/:id', async (req, res) => {
     console.log('error')
   }
 })
+
+// View All cases (Companies) on the system
+router.get('/viewCases/:id', async (req, res) => {
+  try {
+    const adminId = req.params.id
+    const admin = await Admin.findById({ adminId })
+    if (!admin) { // makes sure that the one accessing the data is an admin
+      return res.status(400).json({
+        status: 'Error',
+        message: 'Admin access required',
+        availableAdmins: await Admin.find()
+      })
+    } else {
+      res.redirect(307, '/api/companies/') // redirect to companies get all route
+    }
+  } catch (error) {
+    console.log(error)
+  }
+})
+
 module.exports = router

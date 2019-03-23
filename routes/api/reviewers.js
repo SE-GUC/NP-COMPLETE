@@ -30,7 +30,7 @@ router.post('/', async (req, res) => {
 // Reading a specific Reviewer given id in URL
 router.get('/:id', async (req, res) => {
   const revId = req.params.id
-  const reviewer = await Reviewer.findOne({ _id: revId })
+  const reviewer = await Reviewer.findById(revId)
   if (reviewer) {
     res.json({ data: reviewer })
   } else {
@@ -61,10 +61,10 @@ router.put('/:id', async (req, res) => {
     }
 
     const query = { '_id': reviewerId }
-    const updatedReviewer = await Reviewer.findByIdAndUpdate(query, req.body)
+    const updatedReviewer = await Reviewer.findByIdAndUpdate(query, req.body, { new: true })
     res.json({
       status: 'Success',
-      message: 'Task updated successfully',
+      message: 'Reviewer updated successfully',
       data: updatedReviewer
     })
   } catch (error) {
@@ -100,7 +100,7 @@ router.delete('/:id', async (req, res) => {
 router.get('/formsToReview/:id', async (req, res) => {
   try {
     const reviewerId = req.params.id
-    const reviewer = await Reviewer.findOne({ _id: reviewerId })
+    const reviewer = await Reviewer.findById(reviewerId)
     if (!reviewer) { // Restrict access to reviewers only.
       return res.status(400).json({
         status: 'Error',
@@ -125,10 +125,11 @@ router.get('/formsToReview/:id', async (req, res) => {
   }
 })
 
+// As an Internal User I should be able to view all the cases in the system so that I can open them and check their details
 router.get('/casesPage/:id', async (req, res) => {
   try {
     const reviewerId = req.params.id
-    const reviewer = await Reviewer.findOne({ _id: reviewerId })
+    const reviewer = await Reviewer.findById(reviewerId)
     if (!reviewer) { // make sure that the one accessing the page is a reviewer
       return res.status(400).json({
         status: 'Error',
@@ -212,7 +213,7 @@ router.put('/addComment/:reviewerID/:companyID', async (req, res) => {
     .findOneAndUpdate({
       _id: companyID,
       form: {
-        acceptedByReviewer: -1,
+        acceptedByReviewer: 0,
         reviewerID: reviewerID }
     },
     {//! No Joi validation?

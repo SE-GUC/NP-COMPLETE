@@ -76,7 +76,7 @@ router.put('/:id', async (req, res) => {
       })
     }
     const query = { '_id': id }
-    const updatedInvestor = await Investor.findByIdAndUpdate(query, req.body)
+    const updatedInvestor = await Investor.findByIdAndUpdate(query, req.body, { new: true })
 
     return res.json({
       status: 'Success',
@@ -111,7 +111,8 @@ router.delete('/:id', async (req, res) => {
     console.log(error)
   }
 })
-// view rejected forms with comments by the lawyer
+
+// As an investor I should be able to view rejected forms with the lawyer's comments, so that I can know which data to update.
 router.get('/viewRejected/:id', async (req, res) => {
   try {
     const investorId = req.params.id
@@ -134,7 +135,7 @@ router.get('/viewRejected/:id', async (req, res) => {
         var x = ''
         var i
         for (i = 0; i < companies.length; i++) { // to check all the investor's companies
-          if (companies[i].form.acceptedByLawyer === -1) {
+          if (companies[i].form.acceptedByLawyer === 0) {
             x = x + companies[i].form + '\n'
           }
         }
@@ -180,7 +181,7 @@ router.put('/editForm/:id', async (req, res) => {
 
     companyToBeUpdated.form.data = req.body.data
     const query = { '_id': companyId }
-    const updatedCompany = await Company.findOneAndUpdate(query, companyToBeUpdated)
+    const updatedCompany = await Company.findOneAndUpdate(query, companyToBeUpdated, { new: true })
     return res.json({
       status: 'Success',
       message: `Edited Form of Company with id ${companyId}`,
