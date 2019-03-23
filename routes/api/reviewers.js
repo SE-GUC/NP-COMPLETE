@@ -125,6 +125,7 @@ router.get('/formsToReview/:id', async (req, res) => {
   }
 })
 
+// As an Internal User I should be able to view all the cases in the system so that I can open them and check their details
 router.get('/casesPage/:id', async (req, res) => {
   try {
     const reviewerId = req.params.id

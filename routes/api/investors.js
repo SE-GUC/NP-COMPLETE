@@ -111,7 +111,8 @@ router.delete('/:id', async (req, res) => {
     console.log(error)
   }
 })
-// view rejected forms with comments by the lawyer
+
+// As an investor I should be able to view rejected forms with the lawyer's comments, so that I can know which data to update.
 router.get('/viewRejected/:id', async (req, res) => {
   try {
     const investorId = req.params.id

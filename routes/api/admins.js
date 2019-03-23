@@ -177,6 +177,7 @@ router.put('/updateDeadline/:id', async (req, res) => {
   }
 })
 
+// As an Internal User I should be able to view all the cases in the system so that I can open them and check their details
 router.get('/casesPage/:id', async (req, res) => {
   try {
     const adminId = req.params.id
@@ -193,7 +194,7 @@ router.get('/casesPage/:id', async (req, res) => {
   }
 })
 
-// Publish established companies details
+// As an admin I should be able to publish established companies details on portal, so that their details are available online.
 router.put('/establishCompany/:id', async (req, res) => {
   try {
     const id = req.params.id
