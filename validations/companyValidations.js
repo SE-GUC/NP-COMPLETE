@@ -45,8 +45,6 @@ module.exports = {
     }
 
     return Joi.validate(request, updateSchema)
-<<<<<<< HEAD
-=======
   },
   editFormValidation: request => {
     const formDataSchema = {
@@ -54,6 +52,5 @@ module.exports = {
     }
 
     return Joi.validate(request, formDataSchema)
->>>>>>> c5a00be2eded40fac4018ddb74425c3a2e3af2d9
   }
 }
