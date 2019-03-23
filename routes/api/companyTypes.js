@@ -94,7 +94,7 @@ router.put('/:id', async (req, res) => {
     }
 
     const query = { '_id': companyTypeId }
-    const updatedcompanyType = await CompanyType.findByIdAndUpdate(query, data)
+    const updatedcompanyType = await CompanyType.findByIdAndUpdate(query, data, { new: true })
     return res.json({
       status: 'Success',
       message: `Updated company Type with id ${companyTypeId}`,
