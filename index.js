@@ -23,7 +23,7 @@ const db = require('./config/keys').mongoURI
 
 // Connect to mongo
 mongoose
-  .connect(db)
+  .connect(db, { useNewUrlParser: true })
   .then(() => console.log('Connected to MongoDB'))
   .catch(err => console.log(err))
 
@@ -53,5 +53,5 @@ app.use((req, res) => {
   res.status(404).send({ err: 'We can not find what you are looking for' })
 })
 
-const port = process.env.port | 8000
+const port = process.env.port || 8000
 app.listen(port, () => { console.log(`Server is up and running on port ${port}`) })

@@ -81,7 +81,7 @@ router.put('/:id', async (req, res) => {
     }
 
     const query = { '_id': id }
-    const updatedCompany = await Company.findOneAndUpdate(query, req.body)
+    const updatedCompany = await Company.findOneAndUpdate(query, req.body, { new: true })
     return res.json({
       status: 'Success',
       message: `Updated company successfully`,

@@ -8,24 +8,20 @@ const companySchema = new Schema({
     required: true
   },
   establishmentDate: {
-    type: Date,
-    required: true
+    type: Date
   },
   type: {
     type: String,
     required: true
   },
   state: {
-    type: String,
-    required: true
+    type: String
   },
   accepted: {
-    type: Boolean,
-    required: true
+    type: Boolean
   },
   investorId: {
-    type: String,
-    required: true
+    type: String
   },
   form: {
     data: [],
