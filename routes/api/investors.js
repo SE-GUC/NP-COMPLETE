@@ -111,6 +111,47 @@ router.delete('/:id', async (req, res) => {
     console.log(error)
   }
 })
+// view rejected forms with comments by the lawyer
+router.get('/viewRejected/:id', async (req, res) => {
+  try {
+    const investorId = req.params.id
+    const query1 = { '_id': investorId }
+    const investor = await Investor.find(query1)
+    if (!investor[0]) {
+      res.status(400).json({
+        status: 'Error',
+        message: 'Investor not found'
+      })
+    } else {
+      const query = { 'investorId': investorId }
+      const companies = await Company.find(query)
+      if (!companies[0]) {
+        res.status(400).json({
+          status: 'Error',
+          message: 'company not found'
+        })
+      } else {
+        var x = ''
+        var i
+        for (i = 0; i < companies.length; i++) { // to check all the investor's companies
+          if (companies[i].form.acceptedByLawyer === -1) {
+            x = x + companies[i].form + '\n'
+          }
+        }
+        if (x === '') {
+          res.status(400).json({
+            status: 'Error',
+            message: 'There is no rejected company yet'
+          })
+        } else {
+          res.json({ data: x })
+        }
+      }
+    }
+  } catch (error) {
+    console.log(error)
+  }
+})
 
 // as an investor i should be able to update forms rejected by the lawyer
 router.put('/editForm/:id', async (req, res) => {
