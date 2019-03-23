@@ -217,22 +217,44 @@ router.put('/decideAnApplication/:reviewerId/:companyId', async (req, res) => {
 router.put('/addComment/:reviewerID/:companyID', async (req, res) => {
   const reviewerID = req.params.reviewerID
   const companyID = req.params.companyID
-  Company
-    .findOneAndUpdate({
-      _id: companyID,
-      form: {
-        acceptedByReviewer: 0,
-        reviewerID: reviewerID }
-    },
-    {//! No Joi validation?
-      comment: req.body.comment
-    },
-    { new: true,
-      runValidators: true
+
+  try {
+    const query = { '_id': companyID, 'form.acceptedByReviewer': 0, 'form.reviewerID': reviewerID }
+    const newData = { 'form': { 'comment': req.body.comment } }
+    const companyEdited = await Company.findOneAndUpdate(query, newData, { new: true })
+    console.log(companyEdited)
+    if (!companyEdited) {
+      return res.status(400).json({
+        status: 'Error',
+        message: 'Failed to find company'
+      })
+    }
+
+    res.json({
+      status: 'Success',
+      message: 'Added comment to form',
+      data: companyEdited
     })
-    .catch(err => {
-      console.error(err)
-    })
+  } catch (err) {
+    console.log(err)
+  }
+
+  // Company
+  //   .findOneAndUpdate({
+  //     _id: companyID,
+  //     form: {
+  //       acceptedByReviewer: 0,
+  //       reviewerID: reviewerID }
+  //   },
+  //   {//! No Joi validation?
+  //     comment: req.body.comment
+  //   },
+  //   { new: true,
+  //     runValidators: true
+  //   })
+  //   .catch(err => {
+  //     console.error(err)
+  //   })
 })
 
 module.exports = router
