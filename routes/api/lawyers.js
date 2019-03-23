@@ -5,6 +5,7 @@ const router = express.Router()
 // required models
 const Lawyer = require('../../models/Lawyer')
 const Company = require('../../models/Company')
+const Task = require('../../models/Task')
 
 // Lawyer validators
 const validator = require('../../validations/lawyerValidations')
@@ -319,4 +320,41 @@ router.put('/addComment/:lawyerId/:companyId', async (res, req) => {
     console.log(err)
   }
 })
+
+// As an Internal User I should have a Work page which lists the tasks due for me as a logged in user so that I can perform my work tasks
+router.get('/workPage/:id', async (req, res) => {
+  try {
+    const lawyerId = req.params.id
+    const lawyer = await Lawyer.findOne({ _id: lawyerId })
+    if (!lawyer) { // Restrict access to reviewers only.
+      return res.status(400).json({
+        status: 'Error',
+        message: 'Only Internal Users have access to this page',
+        availableReviewers: await Lawyer.find()
+      })
+    }
+    const tasksAssigned = await Task.find() // query the database to retrieve all available tasks
+    if (!tasksAssigned) { // no tasks
+      return res.json({
+        message: 'No tasks available'
+      })
+    }
+    var tasks = ''
+    for (var i = 0; i < tasksAssigned.length; i++) {
+      for (var j = 0; j < tasksAssigned[i].handler.length; j++) {
+        if (tasksAssigned[i].handler[j] === req.params.id) {
+          tasks += tasksAssigned[i]
+        }
+      }
+    }
+    res.json({
+      status: 'Success',
+      data: tasks
+      // tasksAssigned[0].data ???
+    })
+  } catch (error) {
+    console.log(error)
+  }
+})
+
 module.exports = router
