@@ -250,4 +250,40 @@ router.get('/viewCases/:id', async (req, res) => {
   }
 })
 
+// As an Internal User I should have a Work page which lists the tasks due for me as a logged in user so that I can perform my work tasks
+router.get('/workPage/:id', async (req, res) => {
+  try {
+    const adminId = req.params.id
+    const admin = await Admin.findOne({ _id: adminId })
+    if (!admin) { // Restrict access to reviewers only.
+      return res.status(400).json({
+        status: 'Error',
+        message: 'Only Internal Users have access to this page',
+        availableReviewers: await Admin.find()
+      })
+    }
+    const tasksAssigned = await Task.find() // query the database to retrieve all available tasks
+    if (!tasksAssigned) { // no tasks
+      return res.json({
+        message: 'No tasks available'
+      })
+    }
+    var tasks = ''
+    for (var i = 0; i < tasksAssigned.length; i++) {
+      for (var j = 0; j < tasksAssigned[i].handler.length; j++) {
+        if (tasksAssigned[i].handler[j] === req.params.id) {
+          tasks += tasksAssigned[i]
+        }
+      }
+    }
+    res.json({
+      status: 'Success',
+      data: tasks
+      // tasksAssigned[0].data ???
+    })
+  } catch (error) {
+    console.log(error)
+  }
+})
+
 module.exports = router

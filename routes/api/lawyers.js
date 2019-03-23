@@ -5,6 +5,7 @@ const router = express.Router()
 // required models
 const Lawyer = require('../../models/Lawyer')
 const Company = require('../../models/Company')
+const Task = require('../../models/Task')
 
 // Lawyer validators
 const validator = require('../../validations/lawyerValidations')
@@ -126,7 +127,7 @@ router.delete('/:id', async (req, res) => {
 
 // As a lawyer i should be able to fill forms delegated to me by an investor (creating company with its form)
 router.post('/newForm', async (req, res) => {
-  if (req.body.form.filledByLawyer !== true || req.body.form.acceptedByLawyer !== true) {
+  if (req.body.form.filledByLawyer !== true || req.body.form.acceptedByLawyer !== 1) {
     return res.status(400).json({
       status: 'error',
       message: 'the filled/accepted by lawyer field must be true'
@@ -138,8 +139,8 @@ router.post('/newForm', async (req, res) => {
 // As a lawyer I should be able to review forms filled by an investor, so that I can ensure their validity.
 router.get('/viewForm/:id', async (req, res) => {
   try {
-    const companyId = req.params.id
-    const query = { '_id': companyId }
+    const investorId = req.params.id
+    const query = { 'investorId': investorId }
     const companies = await Company.find(query)
     console.log(companies)
     if (!companies) {
@@ -148,8 +149,13 @@ router.get('/viewForm/:id', async (req, res) => {
         message: 'Form not found'
       })
     } else {
+      var i
+      var x = ''
+      for (i = 0; i < companies.length; i++) {
+        x += `Company: ${companies[i].name} has form: ${companies[i].form.data}, `
+      }
       res.json({
-        data: companies[0].form.data
+        data: x
       })
     }
   } catch (error) {
@@ -158,7 +164,7 @@ router.get('/viewForm/:id', async (req, res) => {
 })
 
 // As a lawyer I should be able to accept or reject forms filled by the investor, so that further action can be taken.
-router.put('/Review/:id', async (req, res) => {
+router.put('/review/:id', async (req, res) => {
   try {
     // Check if the body is empty
     if (Object.keys(req.body).length === 0) {
@@ -183,6 +189,13 @@ router.put('/Review/:id', async (req, res) => {
         message: 'This company doesnt exist'
       })
     }
+
+    if (company.acceptedByLawyer !== -1) {
+      return res.status(400).json({
+        status: 'Error',
+        message: 'This form is already reviewed'
+      })
+    }
     // JOI Validation
     const isValidated = validator.reviewFormValidation(req.body)
     if (isValidated.error) {
@@ -195,7 +208,9 @@ router.put('/Review/:id', async (req, res) => {
     // Changing value to the new value
     company.form.lawyerId = req.body.lawyerId
     company.form.acceptedByLawyer = req.body.acceptedByLawyer
-    company.form.comment = req.body.comment
+    if (company.form.acceptedByLawyer === 0) {
+      company.form.comment = req.body.comment
+    }
 
     const query = { '_id': req.params.id }
     const reviewedCompany = await Company.findOneAndUpdate(query, company, { new: true })
@@ -319,4 +334,41 @@ router.put('/addComment/:lawyerId/:companyId', async (req, res) => {
     console.log(err)
   }
 })
+
+// As an Internal User I should have a Work page which lists the tasks due for me as a logged in user so that I can perform my work tasks
+router.get('/workPage/:id', async (req, res) => {
+  try {
+    const lawyerId = req.params.id
+    const lawyer = await Lawyer.findOne({ _id: lawyerId })
+    if (!lawyer) { // Restrict access to reviewers only.
+      return res.status(400).json({
+        status: 'Error',
+        message: 'Only Internal Users have access to this page',
+        availableReviewers: await Lawyer.find()
+      })
+    }
+    const tasksAssigned = await Task.find() // query the database to retrieve all available tasks
+    if (!tasksAssigned) { // no tasks
+      return res.json({
+        message: 'No tasks available'
+      })
+    }
+    var tasks = ''
+    for (var i = 0; i < tasksAssigned.length; i++) {
+      for (var j = 0; j < tasksAssigned[i].handler.length; j++) {
+        if (tasksAssigned[i].handler[j] === req.params.id) {
+          tasks += tasksAssigned[i]
+        }
+      }
+    }
+    res.json({
+      status: 'Success',
+      data: tasks
+      // tasksAssigned[0].data ???
+    })
+  } catch (error) {
+    console.log(error)
+  }
+})
+
 module.exports = router
