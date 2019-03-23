@@ -155,10 +155,10 @@ router.put('/decideAnApplication/:reviewerId/:companyId', async (req, res) => {
     })
   }
 
-  if (typeof decison !== 'boolean') {
+  if (typeof decision !== 'boolean') {
     return res.status(400).json({
       status: 'Error',
-      message: 'Variable decision needs to be a boolean type'
+      message: 'Variable decision needs to be a boolean type '
     })
   }
   try {
