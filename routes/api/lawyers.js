@@ -138,8 +138,8 @@ router.post('/newForm', async (req, res) => {
 // As a lawyer I should be able to review forms filled by an investor, so that I can ensure their validity.
 router.get('/viewForm/:id', async (req, res) => {
   try {
-    const companyId = req.params.id
-    const query = { '_id': companyId }
+    const investorId = req.params.id
+    const query = { 'investorId': investorId }
     const companies = await Company.find(query)
     console.log(companies)
     if (!companies) {
@@ -148,8 +148,13 @@ router.get('/viewForm/:id', async (req, res) => {
         message: 'Form not found'
       })
     } else {
+      var i
+      var x = ''
+      for (i = 0; i < companies.length; i++) {
+        x += `Company: ${companies[i].name} has form: ${companies[i].form.data}, `
+      }
       res.json({
-        data: companies[0].form.data
+        data: x
       })
     }
   } catch (error) {
