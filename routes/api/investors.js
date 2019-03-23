@@ -31,7 +31,7 @@ router.post('/', async (req, res) => {
       data: newInvestor
     })
   } catch (error) {
-    console.log('error')
+    console.log(error)
   }
 })
 
@@ -84,7 +84,7 @@ router.put('/:id', async (req, res) => {
       data: updatedInvestor
     })
   } catch (error) {
-    console.log('error')
+    console.log(error)
   }
 })
 
@@ -212,19 +212,20 @@ router.put('/editForm/:id', async (req, res) => {
 
 // As an investor I should be able to keep track of my application, so that I can see which state my application is at.
 router.get('/trackApplication/:id', async (req, res) => {
-  const id = req.params.id
-  Company
-    .find({
-      investorId: id
-    })
-    .then(result => res.json({
-      status: 'Success',
-      message: `Companies for investor ${id}`,
-      companies: result
-    }))
-    .catch(err => {
-      console.error(err)
-    })
+  try {
+    const id = req.params.id
+    Company
+      .find({
+        investorId: id
+      })
+      .then(result => res.json({
+        status: 'Success',
+        message: `Companies for investor ${id}`,
+        companies: result
+      }))
+  } catch (error) {
+    console.error(error)
+  }
 })
 // As an investor I should be able to view a list of my current or pending companies, so that I can access their details.
 router.get('/getCompanies/:id', async (req, res) => {
@@ -238,7 +239,7 @@ router.get('/getCompanies/:id', async (req, res) => {
       data: companies
     })
   } catch (error) {
-    console.log('error')
+    console.log(error)
   }
 })
 // As an investor I should be able to fill an application form, so that I can establish a company.
@@ -285,7 +286,7 @@ router.post('/fillForm/:id', async (req, res) => {
       data: updateCompany
     })
   } catch (error) {
-    console.log('error')
+    console.log(error)
   }
 })
 const isValidDate = stringDate => {

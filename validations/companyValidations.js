@@ -6,7 +6,7 @@ module.exports = {
       name: Joi.string().min(3).max(90).required(),
       type: Joi.string().required(),
       establishmentDate: Joi.date().iso().max(Date.now()),
-      accepted: Joi.bool(),
+      accepted: Joi.boolean(),
       state: Joi.string(),
       investorId: Joi.string(),
       form: Joi.object().keys({
@@ -27,7 +27,7 @@ module.exports = {
   updateValidation: request => {
     const updateSchema = {
       name: Joi.string().min(3).max(90),
-      accepted: Joi.bool(),
+      accepted: Joi.boolean(),
       establishmentDate: Joi.date().iso().max(Date.now()),
       type: Joi.string(),
       state: Joi.string(),

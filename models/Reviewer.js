@@ -6,13 +6,10 @@ const Schema = mongoose.Schema
 const ReviewerSchema = new Schema({
   fullName: {
     type: String,
-    minlength: 3,
-    maxlength: 80,
     required: true
   },
   birthdate: {
     type: Date,
-    max: Date.now(),
     required: true
   },
   email: {
@@ -21,12 +18,10 @@ const ReviewerSchema = new Schema({
   },
   startDate: {
     type: Date,
-    max: Date.now(),
     required: true
   },
   workingHours: {
-    type: Number,
-    min: 3
+    type: Number
   },
   salary: {
     type: Number

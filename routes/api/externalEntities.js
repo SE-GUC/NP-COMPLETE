@@ -37,17 +37,21 @@ router.post('/', async (req, res) => {
 
 // Read a specific External Entity given id in URL
 router.get('/:id', async (req, res) => {
-  const externalEntityId = req.params.id
-  const externalEntity = await ExternalEntity.findById(externalEntityId)
-  if (externalEntity) {
-    res.json({
-      status: 'Success',
-      data: externalEntity })
-  } else {
-    res.status(400).json({
-      status: 'Error',
-      message: 'External entity not found'
-    })
+  try {
+    const externalEntityId = req.params.id
+    const externalEntity = await ExternalEntity.findById(externalEntityId)
+    if (externalEntity) {
+      res.json({
+        status: 'Success',
+        data: externalEntity })
+    } else {
+      res.status(400).json({
+        status: 'Error',
+        message: 'External entity not found'
+      })
+    }
+  } catch (error) {
+    console.log(error)
   }
 })
 

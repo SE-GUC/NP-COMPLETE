@@ -10,12 +10,10 @@ router.get('/', async (req, res) => {
   try {
     const tasks = await Task.find()
     res.json({ data: tasks })
-  } catch (err) {
-    console.log(err)
+  } catch (error) {
+    console.log(error)
   }
 })
-
-//                                !-Shiko was here-!
 
 // Read all Tasks (Default route) or specfic department tasks (if given a valid department in the body)
 router.get('/viewDepartmentTask', async (req, res) => {

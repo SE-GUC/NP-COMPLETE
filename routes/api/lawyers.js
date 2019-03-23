@@ -101,7 +101,6 @@ router.put('/:id', async (req, res) => {
 // Delete a specific Lawyer given ID in URL
 
 router.delete('/:id', async (req, res) => {
-  //! Delete first, ask questions later
   try {
     const lawyerId = req.params.id
     const deletedLawyer = await Lawyer.findByIdAndRemove(lawyerId)
@@ -120,8 +119,8 @@ router.delete('/:id', async (req, res) => {
       deletedLawyer: deletedLawyer,
       remainingLawyers: await Lawyer.find()
     })
-  } catch (err) {
-    console.log(err)
+  } catch (error) {
+    console.log(error)
   }
 })
 
@@ -330,8 +329,8 @@ router.put('/addComment/:lawyerId/:companyId', async (res, req) => {
       message: `Added comment: ${comment} to form of company with id: ${companyId}`,
       data: updatedCompany.form
     })
-  } catch (err) {
-    console.log(err)
+  } catch (error) {
+    console.log(error)
   }
 })
 
@@ -348,7 +347,7 @@ router.get('/workPage/:id', async (req, res) => {
       })
     }
     const tasksAssigned = await Task.find() // query the database to retrieve all available tasks
-    if (!tasksAssigned) { // no tasks
+    if (!tasksAssigned) { // check if there's no tasks
       return res.json({
         message: 'No tasks available'
       })
@@ -364,7 +363,6 @@ router.get('/workPage/:id', async (req, res) => {
     res.json({
       status: 'Success',
       data: tasks
-      // tasksAssigned[0].data ???
     })
   } catch (error) {
     console.log(error)
