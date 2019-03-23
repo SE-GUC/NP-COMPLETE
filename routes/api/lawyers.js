@@ -266,7 +266,7 @@ router.get('/casesPage/:id', async (req, res) => {
 })
 
 // As a lawyer I should be able to send back rejected forms attached with comments to the investor, so that they can be updated appropriately.
-router.put('/addComment/:lawyerId/:companyId', async (res, req) => {
+router.put('/addComment/:lawyerId/:companyId', async (req, res) => {
   const lawyerId = req.params.lawyerId
   const companyId = req.params.companyId
   const comment = req.body.comment
@@ -276,10 +276,10 @@ router.put('/addComment/:lawyerId/:companyId', async (res, req) => {
       message: 'Variable comment is required'
     })
   }
-  if (typeof comment === 'string') {
+  if (typeof comment !== 'string') {
     return res.status(400).json({
       status: 'Error',
-      message: 'Variable comment needs to be a boolean string'
+      message: 'Variable comment needs to be a string'
     })
   }
   try {
