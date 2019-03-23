@@ -226,6 +226,7 @@ router.get('/getCompanies/:id', async (req, res) => {
 // As an investor I should be able to fill an application form, so that I can establish a company.
 router.post('/fillForm/:id', async (req, res) => {
   try {
+    const investorId = req.params.id
     const isValidated = companyValidator.createValidation(req.body)
     if (isValidated.error) {
       return res.status(400).json({
@@ -251,9 +252,19 @@ router.post('/fillForm/:id', async (req, res) => {
       }
     }
     const newCompany = await Company.create(req.body)
+    const companyId = newCompany._id
+    const query2 = { '_id': companyId }
+    const data2 = { 'state': 'pending',
+      'accepted': false,
+      'investorId': investorId,
+      'form.acceptedByLawyer': -1,
+      'form.acceptedByReviewer': -1,
+      'form.filledByLawyer': false,
+      'form.paid': false }
+    const updateCompany = await Company.findByIdAndUpdate(query2, data2, { new: true })
     return res.json({
       status: 'You applied for establishing a new copmany',
-      data: newCompany
+      data: updateCompany
     })
   } catch (error) {
     console.log('error')

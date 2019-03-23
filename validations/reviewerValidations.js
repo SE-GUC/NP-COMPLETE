@@ -6,7 +6,7 @@ module.exports = {
       fullName: Joi.string().min(3).max(80).required(),
       birthdate: Joi.date().iso().max(Date.now()).required(),
       email: Joi.string().email().required(),
-      startDate: Joi.date().iso().max(Date.now()),
+      startDate: Joi.date().iso().max(Date.now()).required(),
       workingHours: Joi.number().min(3).integer(),
       salary: Joi.number()
     }
