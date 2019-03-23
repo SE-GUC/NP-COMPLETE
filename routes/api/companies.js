@@ -1,140 +1,114 @@
 // Load modules
 const express = require('express')
-const Joi = require('joi')
 const router = express.Router()
 
-// Company model
+// Company model and validator
 const Company = require('../../models/Company')
-
-// Temporary data created (acts as a mock database)
-const companies = [
-  new Company('BMW', 'SSC', '2000-05-16', 'pending'),
-  new Company('NIKE', 'SSC', '1990-12-20', 'established'),
-  new Company('PUMA', 'SSC', '2008-08-19', 'pending')
-]
+const validator = require('../../validations/companyValidations')
 
 // Read all Companies (Default route)
-router.get('/', (req, res) => res.json({ data: companies }))
-
-// Create a new Company
-router.post('/', (req, res) => {
-  const data = req.body
-  const schema = Joi.object().keys({
-    name: Joi.string().required(),
-    type: Joi.string().required(),
-    establishmentDate: Joi.date().iso().max(Date.now()).required(),
-    state: Joi.string().required()
+router.get('/', async (req, res) => {
+  const companies = await Company.find()
+  res.json({
+    status: 'Success',
+    data: companies
   })
-
-  Joi.validate(data, schema, (err, value) => {
-    if (err) {
+})
+// Create a new Company
+router.post('/', async (req, res) => {
+  try {
+    const isValidated = validator.createValidation(req.body)
+    if (isValidated.error) {
       return res.status(400).json({
         status: 'Error',
-        message: err.details[0].message,
-        data: data
+        message: isValidated.error.details[0].message
       })
     }
-
-    const newCompany = new Company(
-      value.name,
-      value.type,
-      value.establishmentDate,
-      value.state
-    )
-    companies.push(newCompany)
+    const newCompany = await Company.create(req.body)
     return res.json({
       status: 'Success',
       message: `New company created with id ${newCompany.id}`,
       data: newCompany
     })
-  })
+  } catch (error) {
+    console.log(error)
+  }
 })
 
 // Reads a specific Company given id in URL
-router.get('/:id', (req, res) => {
+router.get('/:id', async (req, res) => {
   const companyId = req.params.id
-  const company = companies.find(company => company.id === companyId)
+  const company = await Company.findById(companyId)
   if (company) {
-    res.json({ data: company })
+    res.json({
+      status: 'Success',
+      data: company
+    })
   } else {
     res.status(400).json({
       status: 'Error',
       message: 'Company not found',
-      availableCompanies: companies
+      availableCompanies: Company
     })
   }
 })
 
 // Update an existing Company given id in URL
-router.put('/:id', (req, res) => {
-  const data = req.body
-  if (Object.keys(data).length === 0) {
-    return res.status(400).json({
-      status: 'Error',
-      message: 'No data to update'
-    })
-  }
-
-  const schema = Joi.object().keys({
-    name: Joi.string(),
-    type: Joi.string(),
-    establishmentDate: Joi.date().iso().max(Date.now()),
-    state: Joi.string()
-  })
-
-  Joi.validate(data, schema, (err, value) => {
-    if (err) {
+router.put('/:id', async (req, res) => {
+  try {
+    const id = req.params.id
+    if (Object.keys(req.body).length === 0) {
       return res.status(400).json({
         status: 'Error',
-        message: err.details[0].message,
-        data: data
+        message: 'No data to update'
+      })
+    }
+    const currentCompany = await Company.findById(id)
+    if (!currentCompany) {
+      return res.status(400).json({
+        status: 'Error',
+        message: 'Could not find the Company you are looking for'
       })
     }
 
-    const companyId = req.params.id
-    const companyToUpdate = companies.find(company => company.id === companyId)
-
-    if (!companyToUpdate) {
+    const isValidated = validator.updateValidation(req.body)
+    if (isValidated.error) {
       return res.status(400).json({
         status: 'Error',
-        message: 'Company not found',
-        availableCompanies: companies
+        message: isValidated.error.details[0].message
       })
     }
 
-    Object.keys(value).forEach(key => {
-      if (value[key]) {
-        companyToUpdate[key] = value[key]
-      }
-    })
-
+    const query = { '_id': id }
+    const updatedCompany = await Company.findOneAndUpdate(query, req.body, { new: true })
     return res.json({
       status: 'Success',
-      message: `Updated company with id ${companyId}`,
-      data: companyToUpdate
+      message: `Updated company successfully`,
+      data: updatedCompany
     })
-  })
+  } catch (error) {
+    console.log('error')
+  }
 })
 
 // Delete a specific Company given ID in URL
-router.delete('/:id', (req, res) => {
-  const companyId = req.params.id
-  const company = companies.find(company => company.id === companyId)
-  if (company) {
-    const index = companies.indexOf(company)
-    companies.splice(index, 1)
-    res.json({
+router.delete('/:id', async (req, res) => {
+  try {
+    const id = req.params.id
+    const companyToBeDeleted = await Company.findByIdAndRemove(id)
+    if (!companyToBeDeleted) {
+      return res.status(400).json({
+        status: 'Error',
+        message: 'could not find Company you are looking for'
+      })
+    }
+    return res.json({
       status: 'Success',
-      message: `Deleted company with id ${companyId}`,
-      remainingCompanies: companies
+      message: `Deleted company with id ${id}`,
+      deletedCompany: companyToBeDeleted
     })
-  } else {
-    res.status(400).json({
-      status: 'Error',
-      message: 'Company not found',
-      availableCompanies: companies
-    })
+  } catch (error) {
+    console.log(error)
   }
 })
-
 module.exports = router

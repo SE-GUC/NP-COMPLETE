@@ -1,16 +1,32 @@
-// The reviewer model
-const uuidv4 = require('uuid/v4')
+// Load mongoose Schema
+const mongoose = require('mongoose')
+const Schema = mongoose.Schema
 
-class Reviewer {
-  constructor (fullName, birthdate, email, startDate, workingHours, salary) {
-    this.id = uuidv4()
-    this.fullName = fullName
-    this.birthdate = birthdate
-    this.email = email
-    this.startDate = startDate
-    this.workingHours = workingHours
-    this.salary = salary
+// Create the schema
+const ReviewerSchema = new Schema({
+  fullName: {
+    type: String,
+    required: true
+  },
+  birthdate: {
+    type: Date,
+    required: true
+  },
+  email: {
+    type: String,
+    required: true
+  },
+  startDate: {
+    type: Date,
+    required: true
+  },
+  workingHours: {
+    type: Number
+  },
+  salary: {
+    type: Number
   }
-}
 
-module.exports = Reviewer
+})
+
+module.exports = mongoose.model('Reviewer', ReviewerSchema)
