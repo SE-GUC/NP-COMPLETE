@@ -135,7 +135,7 @@ router.get('/viewRejected/:id', async (req, res) => {
         var x = ''
         var i
         for (i = 0; i < companies.length; i++) { // to check all the investor's companies
-          if (companies[i].form.acceptedByLawyer === -1) {
+          if (companies[i].form.acceptedByLawyer === 0) {
             x = x + companies[i].form + '\n'
           }
         }
