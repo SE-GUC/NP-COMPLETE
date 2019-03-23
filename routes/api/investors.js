@@ -76,7 +76,7 @@ router.put('/:id', async (req, res) => {
       })
     }
     const query = { '_id': id }
-    const updatedInvestor = await Investor.findByIdAndUpdate(query, req.body)
+    const updatedInvestor = await Investor.findByIdAndUpdate(query, req.body, { new: true })
 
     return res.json({
       status: 'Success',
@@ -181,7 +181,7 @@ router.put('/editForm/:id', async (req, res) => {
 
     companyToBeUpdated.form.data = req.body.data
     const query = { '_id': companyId }
-    const updatedCompany = await Company.findOneAndUpdate(query, companyToBeUpdated)
+    const updatedCompany = await Company.findOneAndUpdate(query, companyToBeUpdated, { new: true })
     return res.json({
       status: 'Success',
       message: `Edited Form of Company with id ${companyId}`,

@@ -50,7 +50,7 @@ router.post('/', async (req, res) => {
 // Reads a specific Admin given id in URL
 router.get('/:id', async (req, res) => {
   const adminId = req.params.id
-  const admin = await Admin.findOne({ _id: adminId })
+  const admin = await Admin.findById(adminId)
   if (!admin) {
     return res.status(400).json({
       status: 'Error',
@@ -93,7 +93,7 @@ router.put('/:id', async (req, res) => {
     }
 
     const query = { '_id': adminId }
-    const updatedAdmin = await Admin.findByIdAndUpdate(query, data)
+    const updatedAdmin = await Admin.findByIdAndUpdate(query, data, { new: true })
     data = updatedAdmin.body
     return res.json({
       status: 'Success',
@@ -165,7 +165,7 @@ router.put('/updateDeadline/:id', async (req, res) => {
     }
     // update the deadline (if given in the body)
     const query = { '_id': taskID }
-    const updatedTask = await Task.findOneAndUpdate(query, req.body)
+    const updatedTask = await Task.findOneAndUpdate(query, req.body, { new: true })
     console.log(updatedTask)
     res.json({
       status: 'Success',
@@ -181,7 +181,7 @@ router.put('/updateDeadline/:id', async (req, res) => {
 router.get('/casesPage/:id', async (req, res) => {
   try {
     const adminId = req.params.id
-    const admin = await Admin.findOne({ _id: adminId })
+    const admin = await Admin.findById(adminId)
     if (!admin) { // makes sure that the one accessing the data is an admin
       return res.status(400).json({
         status: 'Error',

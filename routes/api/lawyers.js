@@ -86,7 +86,7 @@ router.put('/:id', async (req, res) => {
       })
     }
     const query = { '_id': id }
-    const updatedLawyer = await Lawyer.findByIdAndUpdate(query, req.body)
+    const updatedLawyer = await Lawyer.findByIdAndUpdate(query, req.body, { new: true })
     return res.json({
       status: 'Success',
       message: `Updated lawyer with id ${id}`,
@@ -198,7 +198,7 @@ router.put('/Review/:id', async (req, res) => {
     company.form.comment = req.body.comment
 
     const query = { '_id': req.params.id }
-    const reviewedCompany = await Company.findOneAndUpdate(query, company)
+    const reviewedCompany = await Company.findOneAndUpdate(query, company, { new: true })
     return res.json({
       status: 'Success',
       message: `Reviewed Form of Company with id ${req.params.id}`,
@@ -252,7 +252,7 @@ router.put('/editForm/:id', async (req, res) => {
 router.get('/casesPage/:id', async (req, res) => {
   try {
     const lawyerId = req.params.id
-    const lawyer = await Lawyer.findOne({ _id: lawyerId })
+    const lawyer = await Lawyer.findById(lawyerId)
     if (!lawyer) { // make sure that the one accessing the page is a lawyer
       return res.status(400).json({
         status: 'Error',
