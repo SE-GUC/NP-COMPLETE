@@ -147,6 +147,14 @@ router.put('/decideAnApplication/:reviewerId/:companyId', async (req, res) => {
   const reviewerId = req.params.reviewerId
   const companyId = req.params.companyId
   const decision = req.body.decision
+
+  if (!decision) {
+    res.status(400).json({
+      status: 'Error',
+      message: 'Decision not given'
+    })
+  }
+
   if (typeof decison === 'boolean') {
     return res.status(400).json({
       status: 'Error',
