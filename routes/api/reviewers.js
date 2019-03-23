@@ -9,6 +9,8 @@ const validator = require('../../validations/reviewerValidations')
 // Company model
 const Company = require('../../models/Company')
 
+const Task = require('../../models/Task')
+
 // Read all Reviewers (Default route)
 router.get('/', async (req, res) => {
   const reviewers = await Reviewer.find()
@@ -156,10 +158,10 @@ router.put('/decideAnApplication/:reviewerId/:companyId', async (req, res) => {
     })
   }
 
-  if (typeof decison !== 'boolean') {
+  if (typeof decision !== 'boolean') {
     return res.status(400).json({
       status: 'Error',
-      message: 'Variable decision needs to be a boolean type'
+      message: 'Variable decision needs to be a boolean type '
     })
   }
   try {
@@ -218,22 +220,80 @@ router.put('/decideAnApplication/:reviewerId/:companyId', async (req, res) => {
 router.put('/addComment/:reviewerID/:companyID', async (req, res) => {
   const reviewerID = req.params.reviewerID
   const companyID = req.params.companyID
-  Company
-    .findOneAndUpdate({
-      _id: companyID,
-      form: {
-        acceptedByReviewer: 0,
-        reviewerID: reviewerID }
-    },
-    {//! No Joi validation?
-      comment: req.body.comment
-    },
-    { new: true,
-      runValidators: true
+
+  try {
+    const query = { '_id': companyID, 'form.acceptedByReviewer': 0, 'form.reviewerID': reviewerID }
+    const newData = { 'form': { 'comment': req.body.comment } }
+    const companyEdited = await Company.findOneAndUpdate(query, newData, { new: true })
+    console.log(companyEdited)
+    if (!companyEdited) {
+      return res.status(400).json({
+        status: 'Error',
+        message: 'Failed to find company'
+      })
+    }
+
+    res.json({
+      status: 'Success',
+      message: 'Added comment to form',
+      data: companyEdited
     })
-    .catch(err => {
-      console.error(err)
+  } catch (err) {
+    console.log(err)
+  }
+
+  // Company
+  //   .findOneAndUpdate({
+  //     _id: companyID,
+  //     form: {
+  //       acceptedByReviewer: 0,
+  //       reviewerID: reviewerID }
+  //   },
+  //   {//! No Joi validation?
+  //     comment: req.body.comment
+  //   },
+  //   { new: true,
+  //     runValidators: true
+  //   })
+  //   .catch(err => {
+  //     console.error(err)
+  //   })
+})
+
+// As an Internal User I should have a Work page which lists the tasks due for me as a logged in user so that I can perform my work tasks
+router.get('/workPage/:id', async (req, res) => {
+  try {
+    const reviewerId = req.params.id
+    const reviewer = await Reviewer.findOne({ _id: reviewerId })
+    if (!reviewer) { // Restrict access to reviewers only.
+      return res.status(400).json({
+        status: 'Error',
+        message: 'Only Internal Users have access to this page',
+        availableReviewers: await Reviewer.find()
+      })
+    }
+    const tasksAssigned = await Task.find() // query the database to retrieve all available tasks
+    if (!tasksAssigned) { // no tasks
+      return res.json({
+        message: 'No tasks available'
+      })
+    }
+    var tasks = ''
+    for (var i = 0; i < tasksAssigned.length; i++) {
+      for (var j = 0; j < tasksAssigned[i].handler.length; j++) {
+        if (tasksAssigned[i].handler[j] === req.params.id) {
+          tasks += tasksAssigned[i]
+        }
+      }
+    }
+    res.json({
+      status: 'Success',
+      data: tasks
+      // tasksAssigned[0].data ???
     })
+  } catch (error) {
+    console.log(error)
+  }
 })
 
 module.exports = router
