@@ -1,7 +1,8 @@
 // Load modules
 const express = require('express')
 const router = express.Router()
-// Admin model
+
+// Required models
 const Admin = require('../../models/Admin')
 const Task = require('../../models/Task')
 // Validator
@@ -169,6 +170,25 @@ router.delete('/:id', async (req, res) => {
     })
   } catch (err) {
     console.log(err)
+  }
+})
+
+// View All cases (Companies) on the system
+router.get('/viewCases/:id', async (req, res) => {
+  try {
+    const adminId = req.params.id
+    const admin = await Admin.findOne({ _id: adminId })
+    if (!admin) { // makes sure that the one accessing the data is an admin
+      return res.status(400).json({
+        status: 'Error',
+        message: 'Admin access required',
+        availableAdmins: await Admin.find()
+      })
+    } else {
+      res.redirect(307, '/api/companies/') // redirect to companies get all route
+    }
+  } catch (error) {
+    console.log(error)
   }
 })
 
