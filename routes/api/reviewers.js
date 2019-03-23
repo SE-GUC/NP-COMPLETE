@@ -99,6 +99,7 @@ router.delete('/:id', async (req, res) => {
   }
 })
 
+// As a reviewer I should be able to preview (read only) applications, so that I can decide whether to accept or reject
 router.get('/formsToReview/:id', async (req, res) => {
   try {
     const reviewerId = req.params.id
@@ -110,9 +111,9 @@ router.get('/formsToReview/:id', async (req, res) => {
         availableReviewers: await Reviewer.find()
       })
     }
-    const query = { 'form.acceptedByLawyer': 1, 'form.acceptedByReviewer': 0 } // We want the forms accepted by the lawyer but not reviewed yet.
+    const query = { 'form.acceptedByLawyer': 1, 'form.acceptedByReviewer': -1 } // We want the forms accepted by the lawyer but not reviewed yet.
     const companies = await Company.find(query) // query the database to retrieve all available cases
-    if (!companies) { // if no cases in the system
+    if (!companies) { // if no cases in th.e system
       return res.json({
         message: 'No forms available to review'
       })
@@ -157,7 +158,7 @@ router.put('/decideAnApplication/:reviewerId/:companyId', async (req, res) => {
     })
   }
 
-  if (typeof decison === 'boolean') {
+  if (typeof decison !== 'boolean') {
     return res.status(400).json({
       status: 'Error',
       message: 'Variable decision needs to be a boolean type'

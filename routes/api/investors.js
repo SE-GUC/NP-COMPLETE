@@ -171,17 +171,35 @@ router.put('/editForm/:id', async (req, res) => {
         message: 'can not update a from that has been filled or accepted by a lawyer'
       })
     }
-    const isValidated = validator.editFormValidation(req.body)
-    if (isValidated.error) { // we need to add more checks depending on company type
+    const isValidated = companyValidator.editFormValidation(req.body)
+    if (isValidated.error) {
       return res.status(400).json({
         status: 'Error',
         message: isValidated.error.details[0].message
       })
     }
+    const type = companyToBeUpdated.type
+    const query = { 'companyType': type }
+    const companyTypeTemp = await companyType.find(query)
+    const fieldsTemp = companyTypeTemp[0].fields
+    const dataTypesArray = companyTypeTemp[0].types
+    const data = req.body.data
+
+    for (let i = 0; i < dataTypesArray.length; i++) {
+      const dataType = typeof (data[i])
+      if (!(dataType === dataTypesArray[i])) {
+        if (!(dataTypesArray[i] === 'date' && isValidDate(data[i]))) {
+          return res.status(400).json({
+            status: 'Error',
+            message: 'wrong data type: ' + fieldsTemp[i] + ' should be ' + dataTypesArray[i]
+          })
+        }
+      }
+    }
 
     companyToBeUpdated.form.data = req.body.data
-    const query = { '_id': companyId }
-    const updatedCompany = await Company.findOneAndUpdate(query, companyToBeUpdated, { new: true })
+    const query1 = { '_id': companyId }
+    const updatedCompany = await Company.findOneAndUpdate(query1, companyToBeUpdated, { new: true })
     return res.json({
       status: 'Success',
       message: `Edited Form of Company with id ${companyId}`,
