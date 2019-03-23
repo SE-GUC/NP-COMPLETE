@@ -5,6 +5,9 @@ const router = express.Router()
 // Lawyer models
 const Lawyer = require('../../models/Lawyer')
 
+// Company model
+const Company = require('../../models/Company')
+
 // Lawyer validators
 const validator = require('../../validations/lawyerValidations')
 
@@ -122,4 +125,21 @@ router.delete('/:id', async (req, res) => {
     console.log(err)
   }
 })
+
+router.get('/casesPage/:id', async (req, res) => {
+  try {
+    const lawyerId = req.params.id
+    const lawyer = await Lawyer.findOne({ _id: lawyerId })
+    if (!lawyer) { // make sure that the one accessing the page is a lawyer
+      return res.status(400).json({
+        status: 'Error',
+        message: 'Lawyer access required'
+      })
+    }
+    res.redirect(307, '/api/companies/') // redirect to companies get route.
+  } catch (error) {
+    console.log(error)
+  }
+})
+
 module.exports = router
