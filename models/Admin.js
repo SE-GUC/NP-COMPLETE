@@ -2,14 +2,10 @@
 // Load mongoose Schema
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
-//! ID removed
-//! Adding custom validators
-//! Adding defaults
+
 const AdminSchema = new Schema({
   fullName: {
     type: String,
-    minlength: 3,
-    maxlength: 80,
     required: true
   },
   birthdate: {
@@ -25,8 +21,7 @@ const AdminSchema = new Schema({
     required: true
   },
   workingHours: {
-    type: Number,
-    min: 5
+    type: Number
   },
   salary: {
     type: Number

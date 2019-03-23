@@ -14,14 +14,13 @@ router.get('/', async (req, res) => {
     const companyTypes = await CompanyType.find()
     res.json({ data: companyTypes })
   } catch (error) {
-    console.log('error')
+    console.log(error)
   }
 })
 
 // Create a new company type
 router.post('/', async (req, res) => {
   const data = req.body
-
   try {
     const isValidated = validator.createValidation(data)
     if (isValidated.error) {
@@ -38,8 +37,8 @@ router.post('/', async (req, res) => {
       message: `New company type created with id ${newCompanyType.id}`,
       data: newCompanyType
     })
-  } catch (err) {
-    console.log(err)
+  } catch (error) {
+    console.log(error)
   }
 })
 
@@ -59,7 +58,7 @@ router.get('/:id', async (req, res) => {
       data: companyType
     })
   } catch (error) {
-    console.log('error')
+    console.log(error)
   }
 })
 
@@ -100,8 +99,8 @@ router.put('/:id', async (req, res) => {
       message: `Updated company Type with id ${companyTypeId}`,
       data: updatedcompanyType
     })
-  } catch (err) {
-    console.log(err)
+  } catch (error) {
+    console.log(error)
   }
 })
 
@@ -124,7 +123,7 @@ router.delete('/:id', async (req, res) => {
       deletedCompanyType: deletedCompanyType
     })
   } catch (error) {
-    console.log('error')
+    console.log(error)
   }
 })
 

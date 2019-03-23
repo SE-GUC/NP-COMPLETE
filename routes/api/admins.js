@@ -20,10 +20,7 @@ router.get('/', async (req, res) => {
 router.post('/', async (req, res) => {
   const data = req.body
 
-  //! Removed Joi.validate(data, schema, (err, value)
-
   try {
-    //! Are try-catch blocks needed? Do we need it to cover all?
     const isValidated = validator.createValidation(data)
     if (isValidated.error) {
       return res.status(400).json({
@@ -32,18 +29,15 @@ router.post('/', async (req, res) => {
         data: data
       })
     }
-    //! ! Issue with using data vs. value as before
 
-    //! Untested
     const newAdmin = await Admin.create(data)
     return res.json({
       status: 'Success',
       message: `New admin created with id ${newAdmin.id}`,
       data: newAdmin
     })
-  } catch (err) {
-    //! Error handling required
-    console.log(err)
+  } catch (error) {
+    console.log(error)
   }
 })
 
@@ -100,8 +94,8 @@ router.put('/:id', async (req, res) => {
       message: `Updated admin with id ${adminId}`,
       data: updatedAdmin
     })
-  } catch (err) {
-    console.log(err)
+  } catch (error) {
+    console.log(error)
   }
 })
 
@@ -126,8 +120,8 @@ router.delete('/:id', async (req, res) => {
       deletedAdmin: deletedAdmin,
       remainingAdmins: await Admin.find()
     })
-  } catch (err) {
-    console.log(err)
+  } catch (error) {
+    console.log(error)
   }
 })
 
@@ -225,7 +219,7 @@ router.put('/establishCompany/:id', async (req, res) => {
       })
     }
   } catch (error) {
-    console.log('error')
+    console.log(error)
   }
 })
 
@@ -277,7 +271,6 @@ router.get('/workPage/:id', async (req, res) => {
     res.json({
       status: 'Success',
       data: tasks
-      // tasksAssigned[0].data ???
     })
   } catch (error) {
     console.log(error)

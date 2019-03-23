@@ -10,8 +10,8 @@ router.get('/', async (req, res) => {
   try {
     const tasks = await Task.find()
     res.json({ data: tasks })
-  } catch (err) {
-    console.log(err)
+  } catch (error) {
+    console.log(error)
   }
 })
 

@@ -54,7 +54,6 @@ router.get('/:id', async (req, res) => {
 })
 
 // Update an existing Company given id in URL
-
 router.put('/:id', async (req, res) => {
   try {
     const id = req.params.id

@@ -112,7 +112,7 @@ router.get('/formsToReview/:id', async (req, res) => {
     }
     const query = { 'form.acceptedByLawyer': 1, 'form.acceptedByReviewer': -1 } // We want the forms accepted by the lawyer but not reviewed yet.
     const companies = await Company.find(query) // query the database to retrieve all available cases
-    if (!companies) { // if no cases in th.e system
+    if (!companies) { // if no cases in the system
       return res.json({
         message: 'No forms available to review'
       })
@@ -210,8 +210,8 @@ router.put('/decideAnApplication/:reviewerId/:companyId', async (req, res) => {
       message: `Form acceptance by reviewer status is: ${decision}`,
       data: updatedCompany.form
     })
-  } catch (err) {
-    console.log(err)
+  } catch (error) {
+    console.log(error)
   }
 })
 
@@ -237,26 +237,9 @@ router.put('/addComment/:reviewerID/:companyID', async (req, res) => {
       message: 'Added comment to form',
       data: companyEdited
     })
-  } catch (err) {
-    console.log(err)
+  } catch (error) {
+    console.log(error)
   }
-
-  // Company
-  //   .findOneAndUpdate({
-  //     _id: companyID,
-  //     form: {
-  //       acceptedByReviewer: 0,
-  //       reviewerID: reviewerID }
-  //   },
-  //   {//! No Joi validation?
-  //     comment: req.body.comment
-  //   },
-  //   { new: true,
-  //     runValidators: true
-  //   })
-  //   .catch(err => {
-  //     console.error(err)
-  //   })
 })
 
 // As an Internal User I should have a Work page which lists the tasks due for me as a logged in user so that I can perform my work tasks
@@ -272,7 +255,7 @@ router.get('/workPage/:id', async (req, res) => {
       })
     }
     const tasksAssigned = await Task.find() // query the database to retrieve all available tasks
-    if (!tasksAssigned) { // no tasks
+    if (!tasksAssigned) { // check if there's no tasks
       return res.json({
         message: 'No tasks available'
       })
@@ -288,7 +271,6 @@ router.get('/workPage/:id', async (req, res) => {
     res.json({
       status: 'Success',
       data: tasks
-      // tasksAssigned[0].data ???
     })
   } catch (error) {
     console.log(error)

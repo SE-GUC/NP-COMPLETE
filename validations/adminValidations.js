@@ -2,7 +2,6 @@ const Joi = require('joi')
 
 module.exports = {
   createValidation: req => {
-    //! Removed Joi.object().keys(
     const createSchema = {
       fullName: Joi.string().min(3).max(80).required(),
       birthdate: Joi.date().iso().max(Date.now()).required(),
