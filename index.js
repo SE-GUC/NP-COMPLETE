@@ -19,7 +19,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
 // DB Config
-const db = require('./config/keys').mongoURI
+const db = process.env.NODE_ENV = 'development' ? process.env.MONGO.URI : require('./config/config.json').MONGO_URI // require('./config/keys').mongoURI
 
 // Connect to mongo
 mongoose
