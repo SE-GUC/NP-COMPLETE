@@ -5,7 +5,7 @@ const investor = require('./investor')
 
 test('Read-an-Investor exists', async () => {
   expect.assertions(1)
-  return expect(investor.readInvestor).toBeDefined()
+  return expect(typeof (investor.readInvestor)).toBe('function')
 })
 
 test('Read an Investor by id', async () => {
@@ -25,8 +25,9 @@ test('Read an Investor by id', async () => {
 
 test('Delete-an-Investor exists', async () => {
   expect.assertions(1)
-  return expect(investor.deleteInvestor).toBeDefined()
-})
+  return expect(typeof (investor.deleteInvestor)).toBe('function')
+},
+10000)
 
 test('Delete an Investor by id', async () => {
   const data = {
