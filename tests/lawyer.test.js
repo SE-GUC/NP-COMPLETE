@@ -1,4 +1,5 @@
 const lawyer = require('./lawyer')
+const company = require('./company')
 
 //! Needs to test Default
 
@@ -43,4 +44,32 @@ test('Delete a Lawyer by id', async () => {
   const deletedData = deleted.data.deletedLawyer
   expect.assertions(1)
   return expect(deletedData).toEqual(createdData)
+})
+
+test('Fill a form by lawyer exists', async () => {
+  expect.assertions(1)
+  return expect(typeof (lawyer.FillForm)).toBe('function')
+},
+10000)
+
+test('Filling form by lawyer', async () => {
+  const data = {
+    form: {
+      data: ['cairo', 23, 5555],
+      acceptedByLawyer: 1,
+      acceptedByReviewer: -1,
+      filledByLawyer: true,
+      paid: false
+    },
+    name: 'test',
+    type: 'SSC',
+    accepted: false
+  }
+  const created = await lawyer.FillForm(data)
+  const createdData = created.data.data
+  const id = createdData['_id']
+  const newCompany = await company.readCompany(id)
+  const newcompanyData = newCompany.data.data
+  expect.assertions(1)
+  return expect(newcompanyData).toEqual(createdData)
 })
