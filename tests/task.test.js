@@ -5,7 +5,7 @@ test('Read-multiple-Tasks exists', async () => {
   return expect(typeof (task.default)).toBe('function')
 })
 
-test('Read multiple Tasks by id', async () => {
+test('Read multiple Tasks', async () => {
   const data = {
     department: 'Lawyer',
     creationDate: '1837-02-15',
