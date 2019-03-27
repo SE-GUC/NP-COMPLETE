@@ -1,5 +1,10 @@
 const admin = require('./admin')
 
+test('Create-an-Admin exists', async () => {
+  expect.assertions(1)
+  return expect(typeof (admin.createAdmin)).toBe('function')
+})
+
 test('Create an admin', async () => {
   const data = {
     fullName: 'Jane Doe',
@@ -13,7 +18,12 @@ test('Create an admin', async () => {
   return expect(createdData).toMatchObject(data)
 })
 
-test('Update a Reviewer by id', async () => {
+test('Create-an-Admin exists', async () => {
+  expect.assertions(1)
+  return expect(typeof (admin.updateAdmin)).toBe('function')
+})
+
+test('Update an Admin by id', async () => {
   const data = {
     fullName: 'Jane Doe',
     birthdate: '1995-05-05',
