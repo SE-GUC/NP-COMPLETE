@@ -4,9 +4,7 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
-    "axios": "^0.18.0",
     "express": "^4.16.4",
-    "jest": "^24.5.0",
     "joi": "^14.3.1",
     "mon": "0.0.8",
     "mongoose": "^5.4.19",
@@ -19,8 +17,7 @@
   },
   "scripts": {
     "start": "node index.js",
-    "test": "jest",
-    "testWatch": "jest --watchall"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
@@ -31,13 +28,5 @@
   "bugs": {
     "url": "https://github.com/SE-GUC/NP-COMPLETE/issues"
   },
-  "homepage": "https://github.com/SE-GUC/NP-COMPLETE#readme",
-  "standard": {
-    "env": [
-      "jest"
-    ]
-  },
-  "jest": {
-    "testEnvironment": "node"
-  }
+  "homepage": "https://github.com/SE-GUC/NP-COMPLETE#readme"
 }
