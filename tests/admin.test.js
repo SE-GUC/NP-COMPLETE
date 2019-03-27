@@ -1,5 +1,10 @@
 const admin = require('./admin')
 
+test('read-multiple-Admins exists', async () => {
+  expect.assertions(1)
+  return expect(typeof (admin.default)).toBe('function')
+})
+
 test('Create-an-Admin exists', async () => {
   expect.assertions(1)
   return expect(typeof (admin.createAdmin)).toBe('function')
