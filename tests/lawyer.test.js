@@ -77,7 +77,7 @@ test('Filling form by lawyer', async () => {
 
 test('Create-a-Lawyer exists', async () => {
   expect.assertions(1)
-  return expect(typeof (lawyer.createLawyer)).toBe('function')
+  expect(typeof (lawyer.createLawyer)).toBe('function')
 })
 
 test('Create a lawyer', async () => {
@@ -90,12 +90,12 @@ test('Create a lawyer', async () => {
   const created = await lawyer.createLawyer(data)
   const createdData = created.data.data
   expect.assertions(1)
-  return expect(createdData).toMatchObject(data)
+  expect(createdData).toMatchObject(data)
 })
 
 test('Update-a-Lawyer exists', async () => {
   expect.assertions(1)
-  return expect(typeof (lawyer.updateLawyer)).toBe('function')
+  expect(typeof (lawyer.updateLawyer)).toBe('function')
 })
 
 test('Update a Lawyer by id', async () => {
@@ -123,7 +123,7 @@ test('Update a Lawyer by id', async () => {
   const updated = await lawyer.updateLawyer(id, dataToUpdate)
   const updatedData = updated.data.data
   expect.assertions(1)
-  return expect(updatedData).toMatchObject(dataUpdated)
+  expect(updatedData).toMatchObject(dataUpdated)
 })
 
 test('View-a-form exists', async () => {
