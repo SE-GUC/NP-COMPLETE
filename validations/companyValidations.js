@@ -14,8 +14,8 @@ module.exports = {
         comment: Joi.string(),
         acceptedByLawyer: Joi.number().min(-1).max(1).integer(),
         acceptedByReviewer: Joi.number().min(-1).max(1).integer(),
-        filledByLawyer: Joi.boolean().required(),
-        paid: Joi.boolean().required(),
+        filledByLawyer: Joi.boolean(),
+        paid: Joi.boolean(),
         lawyerID: Joi.string(),
         reviewerID: Joi.string()
       }).required()
