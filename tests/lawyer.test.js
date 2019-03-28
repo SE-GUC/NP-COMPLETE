@@ -88,9 +88,9 @@ test('Accepting a form by company id, not reviewed before', async () => {
 
   const form = await lawyer.decideAForm(companyId, data)
   const reviewed = form.data.data['acceptedByLawyer']
-  //const id = form.data.data['lawyerID']
+  // const id = form.data.data['lawyerID']
   expect.assertions(1)
-  //expect(id).toEqual(lawyerId)
+  // expect(id).toEqual(lawyerId)
   expect(reviewed).toEqual(1)
 }, 20000)
 
@@ -131,10 +131,10 @@ test('Rejecting an application by company id', async () => {
   console.log(form.data.data)
   const reviewed = form.data.data['acceptedByLawyer']
   console.log(reviewed)
-  //const id = form.data.data['lawyerID']
-  //console.log(id)
+  // const id = form.data.data['lawyerID']
+  // console.log(id)
   expect.assertions(1)
-  //expect(id).toEqual(lawyerId)
+  // expect(id).toEqual(lawyerId)
   expect(reviewed).toBe(0)
 }, 20000)
 
@@ -296,14 +296,28 @@ test('View a form by investor id', async () => {
     type: 'SSC',
     accepted: false
   }
-  const createdCompany = await company.createCompany(companyData)
-  const createdCompanyData = createdCompany.data.data
-  const returnedData = await lawyer.viewForm(id)
+  await company.createCompany(companyData)
 
-  const expectedResult = `Company: myCo has form: ['cairo', 23, 5555], `
-  console.log(returnedData)
+  const companyData2 = {
+    form: {
+      data: ['cairo', 23, 5555],
+      acceptedByLawyer: -1,
+      acceptedByReviewer: -1,
+      filledByLawyer: false,
+      paid: false
+    },
+    investorId: id,
+    name: 'myCo2',
+    type: 'SSC',
+    accepted: false
+  }
+  await company.createCompany(companyData2)
+  const returnedData = await lawyer.viewForm(id)
+  const returnedFormsData = returnedData.data.data
+  const expectedResult = `Company: myCo has form: cairo,23,5555, Company: myCo2 has form: cairo,23,5555, `
+  console.log(returnedFormsData)
   console.log(expectedResult)
-  return expect(returnedData).toEqual(expectedResult)
+  expect(expectedResult).toEqual(returnedFormsData)
 }, 10000)
 
 // User story 5.06 - update profile
