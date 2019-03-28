@@ -23,6 +23,7 @@ const investor = {
   },
   fillForm: async (data, id) => {
     return axios.post(`http://localhost:8000/api/investors/fillForm/${id}`, data)
+  },
   trackApplication: async (id) => {
     return axios.get(`http://localhost:8000/api/investors/trackApplication/${id}`)
   }
