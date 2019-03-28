@@ -113,7 +113,59 @@ router.delete('/:id', async (req, res) => {
     console.log(error)
   }
 })
+//        #---Shiko was here---#
 
+// As an investor I should be able to cancel an unreviewed application, so that I can stop the process of establishing a company I don't want anymore.
+router.delete('/CancelApplication/:id', async (req, res) => {
+  try{
+    const id = req.params.id
+    const currentInvestor = await Investor.findById(id)
+    const AllInvestors = await Investor.find()
+    if (!currentInvestor) {
+      return res.status(400).json({
+        status: 'Error',
+        message: 'could not find Investor you are looking for',
+        availableInvestors: AllInvestors
+      })
+    }
+    if (Object.keys(req.body).length === 0) {
+      return res.status(400).json({
+        status: 'Error',
+        message: 'You did not enter an id'
+      })
+    }
+    const appId = req.body.id
+    const myCompany = await Company.findById(appId)
+    if (!myCompany) {
+      return res.status(400).json({
+        status: 'Error',
+        message: 'could not find the Company you are looking for'
+      })
+    }
+    if(!(myCompany.investorId===id)){
+      return res.status(400).json({
+        status: 'Error',
+        message: 'This is not your company'
+      })
+    }
+    if(!(myCompany.form.acceptedByReviewer===-1)){
+      return res.status(400).json({
+        status: 'Error',
+        message: 'You can not cancel a reviewed application'
+      })
+    }
+    const deletedApp = await Company.findByIdAndRemove(appId)
+    return res.json({
+      status: 'Success',
+      message: `Cancelled the Application with id ${appId}`,
+      deletedApplication: deletedApp
+    })
+  } catch(error){
+    console.log(error)
+  }
+})
+
+//        #---Shiko was here---#
 // As an investor I should be able to view rejected forms with the lawyer's comments, so that I can know which data to update.
 router.get('/viewRejected/:id', async (req, res) => {
   try {
