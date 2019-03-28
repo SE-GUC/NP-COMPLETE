@@ -391,4 +391,21 @@ router.get('/payFees/:id', async (req, res) => {
   }
 })
 
+// As an investor I should be able to read a description of the form,
+// so that I can understand what to fill in each field
+router.get('/readDescription/:id', async (req, res) => {
+  const companyId = req.params.id
+  const company = await Company.findById(companyId)
+  if (company) {
+    res.json({
+      description: company.form.description
+    })
+  } else {
+    res.status(400).json({
+      status: 'Error',
+      message: 'Company not found'
+    })
+  }
+})
+
 module.exports = router
