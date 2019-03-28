@@ -17,6 +17,31 @@ test('Create an External Entity', async () => {
   return expect(createdData).toMatchObject(data)
 })
 
+test('Read-all-External-Entities exists', async () => {
+  expect.assertions(1)
+  return expect(typeof (externalEntity.default)).toBe('function')
+})
+
+test('Read-an-External-Entity exists', async () => {
+  expect.assertions(1)
+  return expect(typeof (externalEntity.readExternalEntity)).toBe('function')
+})
+
+test('Read an External entity', async () => {
+  const data = {
+    name: 'El masatil',
+    email: 'mastol@kokowawa.com',
+    phone: 12121212
+  }
+  const created = await externalEntity.createExternalEntity(data)
+  const createdData = created.data.data
+  const id = createdData['_id']
+  const read = await externalEntity.readExternalEntity(id)
+  const readData = read.data.data
+  expect.assertions(1)
+  return expect(readData).toEqual(createdData)
+})
+
 test('Update-an-External-Entity exists', async () => {
   expect.assertions(1)
   return expect(typeof (externalEntity.updateExternalEntity)).toBe('function')
@@ -46,4 +71,44 @@ test('Update an External Entity by id', async () => {
   const updatedData = updated.data.data
   expect.assertions(1)
   return expect(updatedData).toMatchObject(dataUpdated)
+})
+
+test('Delete-an-External-Entity exists', async () => {
+  expect.assertions(1)
+  return expect(typeof (externalEntity.default)).toBe('function')
+})
+
+/*
+test('Delete an External Entity by id', async () => {
+  const data = {
+    name: 'Unlucky one',
+    email: 'unlucky@kokowawa.com',
+    phone: 1331313
+  }
+  const created = await externalEntity.createExternalEntity(data)
+  const createdData = created.data.data
+  const id = createdData['_id']
+  const deleted = await externalEntity.deleteExternalEntity(id)
+  const deletedData = deleted.data.deleteExternalEntity
+  expect.assertions(1)
+  return expect(createdData).toEqual(deletedData)
+})
+*/
+
+test('Delete an External Entity by id', async () => {
+  const data = {
+    name: 'Unlucky one',
+    email: 'unlucky@kokowawa.com',
+    phone: 1331313
+  }
+  const created = await externalEntity.createExternalEntity(data)
+  const createdData = created.data.data
+  const id = createdData['_id']
+  const deleted = await externalEntity.deleteExternalEntity(id)
+  const deletedData = deleted.data.deletedExternalEntity
+  console.log(deleted)
+  console.log(deleted.data)
+  console.log(deleted.data.deletedExternalEntity)
+  expect.assertions(1)
+  return expect(deletedData).toEqual(createdData)
 })
