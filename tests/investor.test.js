@@ -327,3 +327,56 @@ const partialJSONEquality = (partialJSON, completeJSON) => {
 const isObject = value => {
   return value && typeof value === 'object' && value.constructor === Object
 }
+
+// user story 1.04 part 1
+test('viewRejected-form-by-Lawyer exists', async () => {
+  expect.assertions(1)
+  expect(typeof (investor.editForm)).toBe('function')
+})
+
+// user story 1.04 part 2
+
+test('viewRejected form by an Investor ', async () => {
+  const investorData = {
+    fullName: 'Anothony Martial',
+    birthdate: '1996-12-20',
+    email: 'hey@everyone.com'
+  }
+  const createdInvestor = await investor.createInvestor(investorData)
+  const createdInvestorData = createdInvestor.data.data
+  const investorId = createdInvestorData['_id']
+
+  const companyData = {
+    name: 'Nike',
+    establishmentDate: '1837-02-15',
+    type: 'SSC',
+    state: 'established',
+    accepted: true,
+    investorId: `${investorId}`,
+    form: {
+      data: [],
+      comment: 'good company',
+      acceptedByLawyer: 0,
+      acceptedByReviewer: 1,
+      filledByLawyer: false,
+      paid: true,
+      lawyerID: '5c9a6888bca2114a80a5c124',
+      reviewerID: '5c9660e5e008212d705efd15'
+    }
+  }
+  const createdCompanyForm = companyData['form']
+  await company.createCompany(companyData)
+  // const createdCompanyData = createdCompany.data.data
+  // const companyId = createdCompanyData['_id']
+
+  const rejectedCompany = await investor.viewRejected(investorId)
+  const rejectedCompanyForm = rejectedCompany.data.data[0]
+  // const rejectedCompanyForm = rejectedCompanyData['form']
+  // const investorIdOfRejectedCompany = rejectedCompanyData['investorId']
+
+  // const investorId = createdData['investorId']
+  // const read = await investor.readCompany(companyId)
+  // const readData = read.data.data
+  expect.assertions(1)
+  expect(rejectedCompanyForm).toEqual(createdCompanyForm)
+})

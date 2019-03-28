@@ -117,7 +117,7 @@ router.delete('/:id', async (req, res) => {
 
 // As an investor I should be able to cancel an unreviewed application, so that I can stop the process of establishing a company I don't want anymore.
 router.delete('/CancelApplication/:id', async (req, res) => {
-  try{
+  try {
     const id = req.params.id
     const currentInvestor = await Investor.findById(id)
     const AllInvestors = await Investor.find()
@@ -142,13 +142,13 @@ router.delete('/CancelApplication/:id', async (req, res) => {
         message: 'could not find the Company you are looking for'
       })
     }
-    if(!(myCompany.investorId===id)){
+    if (!(myCompany.investorId === id)) {
       return res.status(400).json({
         status: 'Error',
         message: 'This is not your company'
       })
     }
-    if(!(myCompany.form.acceptedByReviewer===-1)){
+    if (!(myCompany.form.acceptedByReviewer === -1)) {
       return res.status(400).json({
         status: 'Error',
         message: 'You can not cancel a reviewed application'
@@ -160,7 +160,7 @@ router.delete('/CancelApplication/:id', async (req, res) => {
       message: `Cancelled the Application with id ${appId}`,
       deletedApplication: deletedApp
     })
-  } catch(error){
+  } catch (error) {
     console.log(error)
   }
 })
@@ -193,7 +193,7 @@ router.get('/viewRejected/:id', async (req, res) => {
             x.push(companies[i].form)
           }
         }
-        if (x === '') {
+        if (!x[0]) {
           res.status(400).json({
             status: 'Error',
             message: 'There is no rejected company yet'
