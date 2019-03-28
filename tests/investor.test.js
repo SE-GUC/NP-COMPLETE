@@ -6,7 +6,7 @@ const company = require('./company')
 
 test('Read-an-Investor exists', async () => {
   expect.assertions(1)
-  return expect(typeof (investor.readInvestor)).toBe('function')
+  expect(typeof (investor.readInvestor)).toBe('function')
 })
 
 test('Read an Investor by id', async () => {
@@ -21,12 +21,12 @@ test('Read an Investor by id', async () => {
   const read = await investor.readInvestor(id)
   const readData = read.data.data
   expect.assertions(1)
-  return expect(readData).toEqual(createdData)
+  expect(readData).toEqual(createdData)
 })
 
 test('Delete-an-Investor exists', async () => {
   expect.assertions(1)
-  return expect(typeof (investor.deleteInvestor)).toBe('function')
+  expect(typeof (investor.deleteInvestor)).toBe('function')
 },
 10000)
 
@@ -42,12 +42,12 @@ test('Delete an Investor by id', async () => {
   const deleted = await investor.deleteInvestor(id)
   const deletedData = deleted.data.deletedInvestor
   expect.assertions(1)
-  return expect(deletedData).toEqual(createdData)
+  expect(deletedData).toEqual(createdData)
 })
 
 test('Create-an-Investor exists', async () => {
   expect.assertions(1)
-  return expect(typeof (investor.createInvestor)).toBe('function')
+  expect(typeof (investor.createInvestor)).toBe('function')
 })
 
 test('Create-an-Investor', async () => {
@@ -62,12 +62,12 @@ test('Create-an-Investor', async () => {
   const read = await investor.readInvestor(id)
   const readData = read.data.data
   expect.assertions(1)
-  return expect(readData).toEqual(createdData)
+  expect(readData).toEqual(createdData)
 })
 
 test('Update-an-Investor exists', async () => {
   expect.assertions(1)
-  return expect(typeof (investor.updateInvestor)).toBe('function')
+  expect(typeof (investor.updateInvestor)).toBe('function')
 })
 
 test('Update an Investor by id', async () => {
@@ -91,12 +91,12 @@ test('Update an Investor by id', async () => {
   const updated = await investor.updateInvestor(newData, id)
   const updatedData = updated.data.data
   expect.assertions(1)
-  return expect(updatedData).toMatchObject(updatedInfo)
+  expect(updatedData).toMatchObject(updatedInfo)
 })
 
 test('edit-form-by-Investor exists', async () => {
   expect.assertions(1)
-  return expect(typeof (investor.editForm)).toBe('function')
+  expect(typeof (investor.editForm)).toBe('function')
 })
 
 test('edit a form by an Investor', async () => {
@@ -131,12 +131,15 @@ test('edit a form by an Investor', async () => {
   const updatedForm = await investor.editForm(data, companyId)
   const UpdatedFormData = updatedForm.data.updatedCompany.form.data
   expect.assertions(1)
-  return expect(UpdatedFormData).toEqual(data.data)
+  expect(UpdatedFormData).toEqual(data.data)
 })
+
+// As an investor I should be able to show a list for my peniding and established companies.
 test('Get Companies Exist', async () => {
   expect.assertions(1)
-  return expect(typeof (investor.getCompanies)).toBe('function')
+  expect(typeof (investor.getCompanies)).toBe('function')
 })
+
 test('Get my companies', async () => {
   const investorData = {
     fullName: 'Naguib sawiris',
@@ -190,9 +193,8 @@ test('Get my companies', async () => {
   const expected = await investor.getCompanies(investorId)
   const expectedData = expected.data.data
   const myCompanies = [firstCompany, secondCompany]
-  console.log(myCompanies)
   expect.assertions(1)
-  return expect(expectedData).toEqual(myCompanies)
+  expect(expectedData).toEqual(myCompanies)
 })
 
 test('TrackApplication exists', async () => {
