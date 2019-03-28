@@ -366,17 +366,10 @@ test('viewRejected form by an Investor ', async () => {
   }
   const createdCompanyForm = companyData['form']
   await company.createCompany(companyData)
-  // const createdCompanyData = createdCompany.data.data
-  // const companyId = createdCompanyData['_id']
 
   const rejectedCompany = await investor.viewRejected(investorId)
   const rejectedCompanyForm = rejectedCompany.data.data[0]
-  // const rejectedCompanyForm = rejectedCompanyData['form']
-  // const investorIdOfRejectedCompany = rejectedCompanyData['investorId']
 
-  // const investorId = createdData['investorId']
-  // const read = await investor.readCompany(companyId)
-  // const readData = read.data.data
   expect.assertions(1)
   expect(rejectedCompanyForm).toEqual(createdCompanyForm)
 })
