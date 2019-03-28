@@ -45,6 +45,48 @@ test('Delete an Investor by id', async () => {
   return expect(deletedData).toEqual(createdData)
 })
 
+test('Create-an-Investor exists', async () => {
+  expect.assertions(1)
+  return expect(typeof (investor.createInvestor)).toBe('function')
+})
+
+test('Create-an-Investor', async () => {
+  const data = {
+    fullName: 'Anothony Martial',
+    birthdate: '1996-12-20',
+    email: 'hey@everyone.com'
+  }
+  const createdInvestor = await investor.createInvestor(data)
+  const createdInvestorData = createdInvestor.data.newInvestor
+  expect.assertions(1)
+  return expect(createdInvestorData).toEqual(data)
+})
+
+test('Update-an-Investor exists', async () => {
+  expect.assertions(1)
+  return expect(typeof (investor.updateInvestor)).toBe('function')
+})
+
+test('Update an Investor by id', async () => {
+  const data = {
+    fullName: 'Bill Marks',
+    birthdate: '1990-10-18',
+    email: 'hello@world.com'
+  }
+  const createdInvestor = await investor.createInvestor(data)
+  const createdInvestorData = createdInvestor.data.data
+  const id = createdInvestorData['_id']
+
+  const newData = {
+    email: 'billmarks@yahoo.com' // used email as it's the most likely field to get updated
+  }
+
+  const updated = await investor.updateInvestor(id, newData)
+  const updatedData = updated.data.updatedInvestor
+  expect.assertions(1)
+  return expect(updatedData.email).toEqual(newData.email)
+})
+
 test('edit-form-by-Investor exists', async () => {
   expect.assertions(1)
   return expect(typeof (investor.editForm)).toBe('function')
