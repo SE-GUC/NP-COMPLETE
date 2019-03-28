@@ -48,7 +48,7 @@ test('Delete a Task by id', async () => {
 
 test('Create-a-Task exists', async () => {
   expect.assertions(1)
-  return expect(typeof (task.createTask)).toBe('function')
+  expect(typeof (task.createTask)).toBe('function')
 })
 
 test('Create a task', async () => {
@@ -60,12 +60,12 @@ test('Create a task', async () => {
   const created = await task.createTask(data)
   const createdData = created.data.data
   expect.assertions(1)
-  return expect(createdData).toMatchObject(data)
+  expect(createdData).toMatchObject(data)
 })
 
 test('Update-a-Task exists', async () => {
   expect.assertions(1)
-  return expect(typeof (task.updateTask)).toBe('function')
+  expect(typeof (task.updateTask)).toBe('function')
 })
 
 test('Update a Task by id', async () => {
@@ -91,5 +91,5 @@ test('Update a Task by id', async () => {
   const updated = await task.updateTask(id, dataToUpdate)
   const updatedData = updated.data.data
   expect.assertions(1)
-  return expect(updatedData).toMatchObject(dataUpdated)
+  expect(updatedData).toMatchObject(dataUpdated)
 })
