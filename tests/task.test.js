@@ -45,3 +45,51 @@ test('Delete a Task by id', async () => {
   expect.assertions(1)
   return expect(deletedData).toEqual(createdData)
 })
+
+test('Create-a-Task exists', async () => {
+  expect.assertions(1)
+  return expect(typeof (task.createTask)).toBe('function')
+})
+
+test('Create a task', async () => {
+  const data = {
+    department: 'Lawyer',
+    creationDate: '2019-01-01T00:00:00.000Z',
+    deadline: '2019-02-02T00:00:00.000Z'
+  }
+  const created = await task.createTask(data)
+  const createdData = created.data.data
+  expect.assertions(1)
+  return expect(createdData).toMatchObject(data)
+})
+
+test('Update-a-Task exists', async () => {
+  expect.assertions(1)
+  return expect(typeof (task.updateTask)).toBe('function')
+})
+
+test('Update a Task by id', async () => {
+  const data = {
+    department: 'Lawyer',
+    creationDate: '2019-01-01',
+    deadline: '2019-02-02'
+  }
+
+  const dataToUpdate = {
+    deadline: '2019-03-03'
+  }
+
+  const dataUpdated = {
+    department: 'Lawyer',
+    creationDate: '2019-01-01T00:00:00.000Z',
+    deadline: '2019-03-03T00:00:00.000Z'
+  }
+
+  const created = await task.createTask(data)
+  const createdData = created.data.data
+  const id = createdData['_id']
+  const updated = await task.updateTask(id, dataToUpdate)
+  const updatedData = updated.data.data
+  expect.assertions(1)
+  return expect(updatedData).toMatchObject(dataUpdated)
+})
