@@ -20,6 +20,9 @@ const investor = {
   },
   getCompanies: async (id) => {
     return axios.get(`http://localhost:8000/api/investors/getCompanies/${id}`)
+  },
+  fillForm: async (data, id) => {
+    return axios.post(`http://localhost:8000/api/investors/fillForm/${id}`, data)
   }
 }
 module.exports = investor

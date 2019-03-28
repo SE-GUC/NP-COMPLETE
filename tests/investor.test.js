@@ -1,4 +1,3 @@
-
 const investor = require('./investor')
 const company = require('./company')
 
@@ -136,7 +135,7 @@ test('edit a form by an Investor', async () => {
 // As an investor I should be able to show a list for my peniding and established companies.
 test('Get Companies Exist', async () => {
   expect.assertions(1)
-  return expect(typeof (investor.getCompanies)).toBe('function')
+  expect(typeof (investor.getCompanies)).toBe('function')
 })
 test('Get my companies', async () => {
   const investorData = {
@@ -185,13 +184,74 @@ test('Get my companies', async () => {
   }
   const company1 = await company.createCompany(companyData1)
   const firstCompany = company1.data.data
-  console.log(firstCompany)
   const company2 = await company.createCompany(companyData2)
   const secondCompany = company2.data.data
   const expected = await investor.getCompanies(investorId)
   const expectedData = expected.data.data
   const myCompanies = [firstCompany, secondCompany]
   expect.assertions(1)
-  return expect(expectedData).toEqual(myCompanies)
+  expect(expectedData).toEqual(myCompanies)
 })
-//
+// As an investor I should be able to fill an application form, so that I can establish a company.
+test('Fill Form Exist', async () => {
+  expect.assertions(1)
+  expect(typeof (investor.fillForm)).toBe('function')
+})
+test('Fill Form to create a company', async () => {
+  const investorData = {
+    fullName: 'Naguib sawiris',
+    birthdate: '1950-02-18',
+    email: 'sawiris@gmail.com'
+  }
+  const createdInvestor = await investor.createInvestor(investorData)
+  const createdInvestorData = createdInvestor.data.data
+  const investorId = createdInvestorData['_id']
+  const companyData = {
+    name: 'UBER',
+    type: 'SPC',
+    form: {
+      data: ['organisingLaw',
+        'legalForm',
+        'establishmentName',
+        'englishEstablishmentName',
+        'headOfficeGovernorate',
+        'headOfficeCity',
+        'phone',
+        1555,
+        'investorName',
+        'investorNationalId',
+        '1980-05-15']
+    }
+  }
+  const createdCompany = await investor.fillForm(companyData, investorId)
+  const myCompany = createdCompany.data.data
+  const companyId = myCompany['_id']
+  const equalData = {
+    name: 'UBER',
+    type: 'SPC',
+    form: {
+      data: ['organisingLaw',
+        'legalForm',
+        'establishmentName',
+        'englishEstablishmentName',
+        'headOfficeGovernorate',
+        'headOfficeCity',
+        'phone',
+        1555,
+        'investorName',
+        'investorNationalId',
+        '1980-05-15'],
+      acceptedByLawyer: -1,
+      acceptedByReviewer: -1,
+      filledByLawyer: false,
+      accepted: false,
+      paid: false,
+      state: 'pending'
+    },
+    id: companyId,
+    investorId: investorId,
+    __v: '0'
+  }
+  expect.assertions(1)
+  expect(myCompany).toEqual(equalData)
+})
