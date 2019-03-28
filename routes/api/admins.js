@@ -281,4 +281,23 @@ router.get('/workPage/:id', async (req, res) => {
   }
 })
 
+// Update admin's profile
+router.put('/updateMyProfile/:id', async (req, res) => {
+  try {
+    const stored = Object.keys(req.body)
+    console.log(stored)
+    if (stored.includes('startDate') || stored.includes('workingHours') || stored.includes('salary')) {
+      res.json({
+        status: 'Error',
+        message: 'Request failed cannot update these attributes'
+      })
+    } else {
+      const id = req.params.id
+      res.redirect(`/api/admins/${id}`)
+    }
+  } catch (error) {
+    console.log(error)
+  }
+})
+
 module.exports = router
