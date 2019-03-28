@@ -3,12 +3,12 @@ const company = require('./company')
 
 test('read-multiple-Admins exists', async () => {
   expect.assertions(1)
-  return expect(typeof (admin.default)).toBe('function')
+  expect(typeof (admin.default)).toBe('function')
 })
 
 test('Create-an-Admin exists', async () => {
   expect.assertions(1)
-  return expect(typeof (admin.createAdmin)).toBe('function')
+  expect(typeof (admin.createAdmin)).toBe('function')
 })
 
 test('Create an admin', async () => {
@@ -21,12 +21,12 @@ test('Create an admin', async () => {
   const created = await admin.createAdmin(data)
   const createdData = created.data.data
   expect.assertions(1)
-  return expect(createdData).toMatchObject(data)
+  expect(createdData).toMatchObject(data)
 })
 
 test('Update-an-Admin exists', async () => {
   expect.assertions(1)
-  return expect(typeof (admin.updateAdmin)).toBe('function')
+  expect(typeof (admin.updateAdmin)).toBe('function')
 })
 
 test('Update an Admin by id', async () => {
@@ -54,12 +54,12 @@ test('Update an Admin by id', async () => {
   const updated = await admin.updateAdmin(id, dataToUpdate)
   const updatedData = updated.data.data
   expect.assertions(1)
-  return expect(updatedData).toMatchObject(dataUpdated)
+  expect(updatedData).toMatchObject(dataUpdated)
 })
 
 test('Read-an-Admin exists', async () => {
   expect.assertions(1)
-  return expect(typeof (admin.readAdmin)).toBe('function')
+  expect(typeof (admin.readAdmin)).toBe('function')
 })
 
 test('Read an Admin by id', async () => {
@@ -75,12 +75,12 @@ test('Read an Admin by id', async () => {
   const read = await admin.readAdmin(id)
   const readData = read.data.data
   expect.assertions(1)
-  return expect(readData).toEqual(createdData)
+  expect(readData).toEqual(createdData)
 })
 
 test('Delete-an-Admin exists', async () => {
   expect.assertions(1)
-  return expect(typeof (admin.deleteAdmin)).toBe('function')
+  expect(typeof (admin.deleteAdmin)).toBe('function')
 },
 10000)
 
@@ -97,7 +97,7 @@ test('Delete an Admin by id', async () => {
   const deleted = await admin.deleteAdmin(id)
   const deletedData = deleted.data.deletedAdmin
   expect.assertions(1)
-  return expect(deletedData).toEqual(createdData)
+  expect(deletedData).toEqual(createdData)
 })
 
 // User story 4.09 - view All cases (Companies) on the system
