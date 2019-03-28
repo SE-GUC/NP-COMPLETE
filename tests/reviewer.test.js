@@ -190,3 +190,47 @@ test('Rejecting an application by company id and reviewer id', async () => {
   expect(id).toEqual(reviewerId)
   expect(reviewed).toBe(0)
 }, 20000)
+
+test('add-a-comment exists', async () => {
+  expect.assertions(1)
+  expect(typeof (reviewer.addComment)).toBe('function')
+})
+
+test('Adding a comment on a rejected application', async () => {
+  const reviewerData = {
+    fullName: 'R K L',
+    birthdate: '1940',
+    email: 'R@K.L',
+    startDate: '1966'
+  }
+  const createdReviewer = await reviewer.createReviewer(reviewerData)
+  const id = createdReviewer.data.data._id
+
+  const companyData = {
+    name: 'Lott',
+    establishmentDate: '1967',
+    type: 'SPC',
+    state: 'pending',
+    accepted: false,
+    form: {
+      data: [],
+      acceptedByLawyer: 1,
+      acceptedByReviewer: -1,
+      filledByLawyer: false,
+      paid: false,
+      reviewerID: id
+    }
+  }
+
+  const createdCompany = await company.createCompany(companyData)
+  const companyId = createdCompany.data.data._id
+  const commentData = {
+    reviewerId: id,
+    comment: 'I prefer other companies'
+  }
+
+  const addedComment = await reviewer.addComment(id, companyId, commentData)
+  const response = addedComment.data.companyEdited
+  expect.assertions(1)
+  expect(response.form.comment).toEqual(commentData.comment)
+}, 20000)
