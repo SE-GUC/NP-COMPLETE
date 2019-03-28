@@ -26,11 +26,11 @@ test('Create a Company', async () => {
   }
   const created = await company.createCompany(data)
   const createdData = created.data.data
-  //   const id = createdData['_id']
-  //   const read = await company.readCompany(id)
-  //   const readData = read.data.data
+  const id = createdData['_id']
+  const read = await company.readCompany(id)
+  const readData = read.data.data
   expect.assertions(1)
-  return expect(createdData).toMatchObject(data)
+  return expect(readData).toEqual(createdData)
 })
 
 test('Update a company', async () => {
@@ -64,7 +64,7 @@ test('Update a company by id', async () => {
 
   const dataUpdated = {
     name: 'Testttt',
-    establishmentDate: '1837-02-15',
+    establishmentDate: '1837-02-15T00:00:00.000Z',
     type: 'SPC',
     state: 'established',
     accepted: true,
