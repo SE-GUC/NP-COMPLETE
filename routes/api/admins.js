@@ -187,7 +187,7 @@ router.get('/casesPage/:id', async (req, res) => {
 })
 
 // As an admin I should be able to publish established companies details on portal, so that their details are available online.
-router.put('/establishCompany/:id', async (req, res) => {
+router.put('/publishCompany/:id', async (req, res) => {
   try {
     const id = req.params.id
     const currentCompany = await Company.findById(id)
@@ -205,7 +205,11 @@ router.put('/establishCompany/:id', async (req, res) => {
     }
     if (currentCompany.form.paid === true) { // check if the investor had paid the fees
       const query = { '_id': id }
-      const data = { 'state': 'published', 'establishmentDate': Date.now() }
+      const date = new Date(Date.now())
+      date.setMilliseconds(0)
+      date.setSeconds(0)
+      date.setMinutes(0)
+      const data = { 'state': 'published', 'establishmentDate': date }
       const updatedCompany = await Company.findByIdAndUpdate(query, data, { new: true })
       return res.json({
         status: 'Success',
