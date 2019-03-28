@@ -190,7 +190,6 @@ test('Get my companies', async () => {
   const expected = await investor.getCompanies(investorId)
   const expectedData = expected.data.data
   const myCompanies = [firstCompany, secondCompany]
-  console.log(myCompanies)
   expect.assertions(1)
   return expect(expectedData).toEqual(myCompanies)
 })
