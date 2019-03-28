@@ -86,5 +86,62 @@ test('edit a form by an Investor', async () => {
 })
 test('Get Companies Exist', async () => {
   expect.assertions(1)
-  return expect(typeof (company.getCompanies)).toBe('function')
+  return expect(typeof (investor.getCompanies)).toBe('function')
+})
+test('Get my companies', async () => {
+  const investorData = {
+    fullName: 'Naguib sawiris',
+    birthdate: '1950-05-15',
+    email: 'sawiris@gmail.com'
+  }
+  const createdInvestor = await investor.createInvestor(investorData)
+  const createdInvestorData = createdInvestor.data.data
+  const investorId = createdInvestorData['_id']
+  const companyData1 = {
+    name: 'Nike',
+    establishmentDate: '1837-08-20',
+    type: 'SSC',
+    state: 'established',
+    accepted: true,
+    investorId: investorId,
+    form: {
+      data: [],
+      comment: 'good company',
+      acceptedByLawyer: 1,
+      acceptedByReviewer: 1,
+      filledByLawyer: false,
+      paid: true,
+      lawyerID: '5c9a6888bca2114a80a5c124',
+      reviewerID: '5c9660e5e008212d705efd15'
+    }
+  }
+  const companyData2 = {
+    name: 'puma',
+    establishmentDate: '1820-05-15',
+    type: 'SPC',
+    state: 'peniding',
+    accepted: true,
+    investorId: investorId,
+    form: {
+      data: [],
+      comment: 'good company',
+      acceptedByLawyer: 1,
+      acceptedByReviewer: 1,
+      filledByLawyer: false,
+      paid: true,
+      lawyerID: '5c9a6888bca2114a80a5c124',
+      reviewerID: '5c9660e5e008212d705efd15'
+    }
+  }
+  const company1 = await company.createCompany(companyData1)
+  const firstCompany = company1.data.data
+  console.log(firstCompany)
+  const company2 = await company.createCompany(companyData2)
+  const secondCompany = company2.data.data
+  const expected = await investor.getCompanies(investorId)
+  const expectedData = expected.data.data
+  const myCompanies = [firstCompany, secondCompany]
+  console.log(myCompanies)
+  expect.assertions(1)
+  return expect(expectedData).toEqual(myCompanies)
 })
