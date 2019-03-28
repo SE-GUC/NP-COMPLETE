@@ -205,14 +205,14 @@ router.put('/review/:id', async (req, res) => {
       })
     }
     // JOI Validation
-    // const isValidated = validator.reviewFormValidation(req.body)
-    // if (isValidated.error) {
-    //   return res.status(400).json({
-    //     status: 'Error',
-    //     message: isValidated.error.details[0].message,
-    //     data: req.body
-    //   })
-    // }
+    const isValidated = validator.reviewFormValidation(req.body)
+    if (isValidated.error) {
+      return res.status(400).json({
+        status: 'Error',
+        message: isValidated.error.details[0].message,
+        data: req.body
+      })
+    }
     // Changing value to the new value
     company.form.lawyerID = req.body.lawyerId
     company.form.acceptedByLawyer = req.body.acceptedByLawyer
