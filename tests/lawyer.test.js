@@ -73,3 +73,54 @@ test('Filling form by lawyer', async () => {
   expect.assertions(1)
   return expect(newcompanyData).toEqual(createdData)
 })
+
+test('Create-a-Lawyer exists', async () => {
+  expect.assertions(1)
+  return expect(typeof (lawyer.createLawyer)).toBe('function')
+})
+
+test('Create a lawyer', async () => {
+  const data = {
+    fullName: 'Mohamed Yasser Tarawa',
+    birthdate: '1998-06-07T00:00:00.000Z',
+    email: 'mohamedyasser0000@gmail.com',
+    startDate: '2016-06-06T00:00:00.000Z'
+  }
+  const created = await lawyer.createLawyer(data)
+  const createdData = created.data.data
+  expect.assertions(1)
+  return expect(createdData).toMatchObject(data)
+})
+
+test('Update-a-Lawyer exists', async () => {
+  expect.assertions(1)
+  return expect(typeof (lawyer.updateLawyer)).toBe('function')
+})
+
+test('Update a Lawyer by id', async () => {
+  const data = {
+    fullName: 'Mohamed Yasser Tarawa',
+    birthdate: '1998-06-07',
+    email: 'mohamedyasser0000@gmail.com',
+    startDate: '2016-06-06'
+  }
+
+  const dataToUpdate = {
+    email: 'mohamed.tarawa@gmail.com'
+  }
+
+  const dataUpdated = {
+    fullName: 'Mohamed Yasser Tarawa',
+    birthdate: '1998-06-07T00:00:00.000Z',
+    email: 'mohamed.tarawa@gmail.com',
+    startDate: '2016-06-06T00:00:00.000Z'
+  }
+
+  const created = await lawyer.createLawyer(data)
+  const createdData = created.data.data
+  const id = createdData['_id']
+  const updated = await lawyer.updateLawyer(id, dataToUpdate)
+  const updatedData = updated.data.data
+  expect.assertions(1)
+  return expect(updatedData).toMatchObject(dataUpdated)
+})
