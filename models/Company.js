@@ -24,6 +24,7 @@ const companySchema = new Schema({
     type: String
   },
   form: {
+    description: [],
     data: [],
     comment: String,
     acceptedByLawyer: Number,
