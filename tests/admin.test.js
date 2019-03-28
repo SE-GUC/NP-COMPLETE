@@ -117,3 +117,10 @@ test('Admin view cases by id', async () => {
   const availableCompaniesData = availableCompanies.data.data
   expect(adminViewedCasesData).toEqual(availableCompaniesData)
 })
+
+// User story 5.06 - update profile
+test('Update-mu-profile exists', async () => {
+  expect.assertions(1)
+  expect(typeof (admin.updateMyProfile)).toBe('function')
+},
+10000)

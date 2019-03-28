@@ -17,6 +17,9 @@ const admin = {
   },
   viewCases: async (id) => {
     return axios.get(`http://localhost:8000/api/admins/viewCases/${id}`)
+  },
+  updateMyProfile: async (id) => {
+    return axios.get(`http://localhost:8000/api/admins/updateMyProfile/${id}`)
   }
 }
 module.exports = admin
