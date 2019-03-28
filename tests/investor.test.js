@@ -84,3 +84,7 @@ test('edit a form by an Investor', async () => {
   expect.assertions(1)
   return expect(UpdatedFormData).toEqual(data.data)
 })
+test('Get Companies Exist', async () => {
+  expect.assertions(1)
+  return expect(typeof (company.getCompanies)).toBe('function')
+})

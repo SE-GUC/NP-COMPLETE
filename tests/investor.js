@@ -14,6 +14,9 @@ const investor = {
   },
   editForm: async (data, id) => {
     return axios.put(`http://localhost:8000/api/investors/editForm/${id}`, data)
+  },
+  getCompanies: async (id) => {
+    return axios.get(`http://localhost:8000/api/investors/getCompanies/${id}`)
   }
 }
 module.exports = investor
