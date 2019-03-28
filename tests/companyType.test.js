@@ -2,7 +2,7 @@ const companyType = require('./companyType')
 
 test('Create-a-CompanyType exists', async () => {
   expect.assertions(1)
-  return expect(typeof (companyType.createCompanyType)).toBe('function')
+  expect(typeof (companyType.createCompanyType)).toBe('function')
 })
 
 test('Create a companyType', async () => {
@@ -15,12 +15,12 @@ test('Create a companyType', async () => {
   const created = await companyType.createCompanyType(data)
   const createdData = created.data.data
   expect.assertions(1)
-  return expect(createdData).toMatchObject(data)
+  expect(createdData).toMatchObject(data)
 })
 
 test('Update-a-companyType exists', async () => {
   expect.assertions(1)
-  return expect(typeof (companyType.updateCompanyType)).toBe('function')
+  expect(typeof (companyType.updateCompanyType)).toBe('function')
 })
 
 test('Update a Company Type by id', async () => {
@@ -48,12 +48,12 @@ test('Update a Company Type by id', async () => {
   const updated = await companyType.updateCompanyType(id, dataToUpdate)
   const updatedData = updated.data.data
   expect.assertions(1)
-  return expect(updatedData).toMatchObject(dataUpdated)
+  expect(updatedData).toMatchObject(dataUpdated)
 })
 
 test('read-a-companyType exists', async () => {
   expect.assertions(1)
-  return expect(typeof (companyType.readCompanyType)).toBe('function')
+  expect(typeof (companyType.readCompanyType)).toBe('function')
 })
 
 test('read a Company Type by id', async () => {
@@ -70,12 +70,12 @@ test('read a Company Type by id', async () => {
   const read = await companyType.readCompanyType(id)
   const readData = read.data.data
   expect.assertions(1)
-  return expect(readData).toEqual(createdData)
+  expect(readData).toEqual(createdData)
 })
 
 test('delete-a-companyType exists', async () => {
   expect.assertions(1)
-  return expect(typeof (companyType.deleteCompanyType)).toBe('function')
+  expect(typeof (companyType.deleteCompanyType)).toBe('function')
 })
 
 test('delete a CompanyType by id', async () => {
@@ -92,5 +92,5 @@ test('delete a CompanyType by id', async () => {
   const deleted = await companyType.deleteCompanyType(id)
   const deletedData = deleted.data.data
   expect.assertions(1)
-  return expect(deletedData).toEqual(createdData)
+  expect(deletedData).toEqual(createdData)
 })
