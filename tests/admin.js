@@ -14,6 +14,9 @@ const admin = {
   },
   deleteAdmin: async (id) => {
     return axios.delete(`http://localhost:8000/api/admins/${id}`)
+  },
+  viewCases: async (id) => {
+    return axios.get(`http://localhost:8000/api/admins/viewCases/${id}`)
   }
 }
 module.exports = admin
