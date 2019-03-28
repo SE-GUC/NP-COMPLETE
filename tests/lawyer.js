@@ -24,6 +24,9 @@ const lawyer = {
   viewForm: async (id) => {
     return axios.post(`http://localhost:8000/api/lawyers/viewForm/${id}`)
   },
+  updateMyProfile: async (id) => {
+    return axios.post(`http://localhost:8000/api/lawyers/updateMyProfile/${id}`)
+  },
   decideAForm: async (companyId, data) => {
     return axios.put(`http://localhost:8000/api/lawyers/review/${companyId}`, data)
   }
