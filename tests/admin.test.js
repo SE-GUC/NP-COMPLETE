@@ -108,27 +108,12 @@ test('Admin view cases by id', async () => {
     email: 'mko@tower.net',
     startDate: '2019-02-02T00:00:00.000Z'
   }
-  /*
-  const companyData = {
-    form: {
-      data: ['cairo', 23, 5555],
-      acceptedByLawyer: 1,
-      acceptedByReviewer: -1,
-      filledByLawyer: true,
-      paid: false
-    },
-    name: 'test',
-    type: 'SSC',
-    accepted: false
-  }
-  */
   const createdAdmin = await admin.createAdmin(adminData)
   const createdAdminData = createdAdmin.data.data
   const adminId = createdAdminData['_id']
   const adminViewedCases = await admin.viewCases(adminId)
-  console.log(adminViewedCases)
-  // const createdCompany = await company.createCompany(companyData)
-  const availableCompaniesData = await company.default()
-  console.log(availableCompaniesData)
-  return expect(adminViewedCases).toEqual(availableCompaniesData)
+  const adminViewedCasesData = adminViewedCases.data.data
+  const availableCompanies = await company.default()
+  const availableCompaniesData = availableCompanies.data.data
+  expect(adminViewedCasesData).toEqual(availableCompaniesData)
 })
