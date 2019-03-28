@@ -133,6 +133,7 @@ test('edit a form by an Investor', async () => {
   expect.assertions(1)
   return expect(UpdatedFormData).toEqual(data.data)
 })
+// As an investor I should be able to show a list for my peniding and established companies.
 test('Get Companies Exist', async () => {
   expect.assertions(1)
   return expect(typeof (investor.getCompanies)).toBe('function')
@@ -193,3 +194,4 @@ test('Get my companies', async () => {
   expect.assertions(1)
   return expect(expectedData).toEqual(myCompanies)
 })
+//
