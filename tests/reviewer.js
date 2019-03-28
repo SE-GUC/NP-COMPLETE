@@ -11,6 +11,9 @@ const reviewer = {
   },
   deleteReviewer: async (id) => {
     return axios.delete(`http://localhost:8000/api/reviewers/${id}`)
+  },
+  decideAnApplication: async (reviewerId, companyId, data) => {
+    return axios.put(`http://localhost:8000/api/reviewers/decideAnApplication/${reviewerId}/${companyId}`, data)
   }
 }
 module.exports = reviewer
