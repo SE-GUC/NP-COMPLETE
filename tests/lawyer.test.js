@@ -45,7 +45,98 @@ test('Delete a Lawyer by id', async () => {
   const deletedData = deleted.data.deletedLawyer
   expect.assertions(1)
   expect(deletedData).toEqual(createdData)
+}, 10000)
+
+test('decideAForm exists', async () => {
+  expect.assertions(1)
+  expect(typeof (lawyer.decideAForm)).toBe('function')
 })
+
+// starts
+test('Accepting a form by company id, not reviewed before', async () => {
+  const lawyerData = {
+    fullName: 'Mostafa test',
+    birthdate: '1888-02-15',
+    email: 'Notsogreat@guy.com',
+    startDate: '1998-10-02'
+  }
+  const createdLawyer = await lawyer.createLawyer(lawyerData)
+  const createdLawyerData = createdLawyer.data.data
+  const lawyerId = createdLawyerData['_id']
+
+  const data = {
+    lawyerID: lawyerId,
+    acceptedByLawyer: 1,
+    comment: 'Hi'
+  }
+  const companyData = {
+    name: 'SWVL',
+    type: 'SSC',
+    form: {
+      data: [],
+      comment: 'No comment',
+      acceptedByLawyer: -1,
+      acceptedByReviewer: -1,
+      filledByLawyer: false,
+      paid: false
+    }
+  }
+
+  const createdCompany = await company.createCompany(companyData)
+  const createdCompData = createdCompany.data.data
+  const companyId = createdCompData['_id']
+
+  const form = await lawyer.decideAForm(companyId, data)
+  const reviewed = form.data.data['acceptedByLawyer']
+  //const id = form.data.data['lawyerID']
+  expect.assertions(1)
+  //expect(id).toEqual(lawyerId)
+  expect(reviewed).toEqual(1)
+}, 20000)
+
+test('Rejecting an application by company id', async () => {
+  const lawyerData = {
+    fullName: 'Mostafa test',
+    birthdate: '1888-02-15',
+    email: 'Notsogreat@guy.com',
+    startDate: '1998-10-02'
+  }
+  const createdLawyer = await lawyer.createLawyer(lawyerData)
+  const createdLawyerData = createdLawyer.data.data
+  const lawyerId = createdLawyerData['_id']
+
+  const data = {
+    lawyerID: lawyerId,
+    acceptedByLawyer: 0,
+    comment: 'Bad'
+  }
+  const companyData = {
+    name: 'Disney',
+    type: 'SSC',
+    form: {
+      data: [],
+      comment: 'No comment',
+      acceptedByLawyer: -1,
+      acceptedByReviewer: -1,
+      filledByLawyer: false,
+      paid: false
+    }
+  }
+
+  const createdCompany = await company.createCompany(companyData)
+  const createdCompData = createdCompany.data.data
+  const companyId = createdCompData['_id']
+
+  const form = await lawyer.decideAForm(companyId, data)
+  console.log(form.data.data)
+  const reviewed = form.data.data['acceptedByLawyer']
+  console.log(reviewed)
+  //const id = form.data.data['lawyerID']
+  //console.log(id)
+  expect.assertions(1)
+  //expect(id).toEqual(lawyerId)
+  expect(reviewed).toBe(0)
+}, 20000)
 
 test('Fill a form by lawyer exists', async () => {
   expect.assertions(1)
