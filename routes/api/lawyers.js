@@ -205,14 +205,14 @@ router.put('/review/:id', async (req, res) => {
       })
     }
     // JOI Validation
-    // const isValidated = validator.reviewFormValidation(req.body)
-    // if (isValidated.error) {
-    //   return res.status(400).json({
-    //     status: 'Error',
-    //     message: isValidated.error.details[0].message,
-    //     data: req.body
-    //   })
-    // }
+    const isValidated = validator.reviewFormValidation(req.body)
+    if (isValidated.error) {
+      return res.status(400).json({
+        status: 'Error',
+        message: isValidated.error.details[0].message,
+        data: req.body
+      })
+    }
     // Changing value to the new value
     company.form.lawyerID = req.body.lawyerId
     company.form.acceptedByLawyer = req.body.acceptedByLawyer
@@ -234,9 +234,18 @@ router.put('/review/:id', async (req, res) => {
 
 // As a lawyer I should be able to edit forms declined by the reviewer and regenerate documents,
 // so that I can update the forms and continue with the process
-router.put('/editForm/:id', async (req, res) => {
+router.put('/editForm/:lawyerId/:companyId', async (req, res) => {
   try {
-    const companyId = req.params.id
+    const lawyerId = req.params.lawyerId
+    const companyId = req.params.companyId
+
+    const lawyer = await Lawyer.findById(lawyerId)
+    if (!lawyer) {
+      return res.status(400).json({
+        status: 'Error',
+        message: 'Access denied, only internal users allowed'
+      })
+    }
 
     const isValidated = validator.editFormValidation(req.body)
     if (isValidated.error) {

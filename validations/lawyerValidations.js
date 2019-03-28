@@ -25,5 +25,13 @@ module.exports = {
     }
 
     return Joi.validate(request, updateSchema)
+  },
+
+  editFormValidation: request => {
+    const editFormSchema = {
+      data: Joi.array().required()
+    }
+
+    return Joi.validate(request, editFormSchema)
   }
 }

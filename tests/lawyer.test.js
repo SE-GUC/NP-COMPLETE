@@ -320,6 +320,47 @@ test('View a form by investor id', async () => {
   expect(expectedResult).toEqual(returnedFormsData)
 }, 10000)
 
+test('Edit Form exists', async () => {
+  expect.assertions(1)
+  expect(typeof (lawyer.editForm)).toBe('function')
+})
+
+test('Edit Form declined by Reviewer', async () => {
+  const lawyerData = {
+    fullName: 'Omar Ayman Abdelmagied',
+    birthdate: '1998-09-07',
+    email: 'omar@valid.com',
+    startDate: '2010-02-02'
+  }
+  const createdLawyer = await lawyer.createLawyer(lawyerData)
+  const createdLawyerData = createdLawyer.data.data
+  const lawyerId = createdLawyerData['_id']
+
+  const companyData = {
+    name: 'np-complete',
+    type: 'SSC',
+    form: {
+      data: ['hello', 'world'],
+      filledByLawyer: true,
+      paid: false,
+      acceptedByLawyer: 0
+    }
+  }
+  const createdCompany = await company.createCompany(companyData)
+  const createdCompanyData = createdCompany.data.data
+  const companyId = createdCompanyData['_id']
+
+  const data = {
+    data: ['form', 'edited']
+  }
+  const updatedCompany = await lawyer.editForm(lawyerId, companyId, data)
+  const updatedCompanyForm = updatedCompany.data.updatedCompany.form
+
+  expect.assertions(2)
+  expect(updatedCompanyForm.data).toEqual(data.data)
+  expect(updatedCompanyForm.acceptedByLawyer).toBe(1)
+})
+
 // User story 5.06 - update profile
 test('Update-mu-profile exists', async () => {
   expect.assertions(1)
