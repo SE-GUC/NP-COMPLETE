@@ -1,6 +1,8 @@
 // Load modules
 const express = require('express')
 const router = express.Router()
+// const stripe = require('stripe')('pk_test_gXEdE7jVq08xnKlW6KmsumaF00advWYnHN')
+// api for paying fees(investor user story)
 
 // Investor model and validator
 const Investor = require('../../models/Investor')
@@ -293,5 +295,47 @@ const isValidDate = stringDate => {
   const date = new Date(stringDate)
   return date && Object.prototype.toString.call(date) === '[object Date]' && !isNaN(date)
 }
+
+// as an investor i should be able to pay the fees to establish my company
+// will be verified with stripe to add real fees in the front end
+router.get('/payFees/:id', async (req, res) => {
+  try {
+    const investorId = req.params.id
+    const investor = await Investor.findById({ '_id': investorId })
+    if (!investor) {
+      return res.status(400).json({
+        status: 'Error',
+        message: 'investor doesnt exist'
+      })
+    }
+    investor.fees = 0
+    const query = { 'investorId': investorId }
+    const company = await Company.findOne(query)
+    if (!company) {
+      return res.status(400).json({
+        status: 'Error',
+        message: 'you do not have a company registered to you'
+      })
+    }
+    if (company.acceptedByLawyer !== 1 || company.acceptedByReviewer !== 1) {
+      return res.status(400).json({
+        status: 'Error',
+        message: 'can not pay fees when form is not yet accepted'
+      })
+    }
+    const companyId = company.id
+    const query2 = { '_id': companyId }
+    const data2 = { 'state': 'Accepted',
+      'accepted': true,
+      'form.paid': true }
+    const updateCompany = await Company.findByIdAndUpdate(query2, data2, { new: true })
+    return res.json({
+      status: 'Your copmany is now established',
+      data: updateCompany
+    })
+  } catch (error) {
+    console.log(error)
+  }
+})
 
 module.exports = router

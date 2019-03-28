@@ -11,6 +11,9 @@ const investor = {
   },
   deleteInvestor: async (id) => {
     return axios.delete(`http://localhost:8000/api/investors/${id}`)
+  },
+  editForm: async (data, id) => {
+    return axios.put(`http://localhost:8000/api/investors/editForm/${id}`, data)
   }
 }
 module.exports = investor
