@@ -12,9 +12,11 @@ const lawyer = {
   deleteLawyer: async (id) => {
     return axios.delete(`http://localhost:8000/api/lawyers/${id}`)
   },
-
   FillForm: async (data) => {
     return axios.post(`http://localhost:8000/api/lawyers/newForm`, data)
+  },
+  addComment: async (lawyerId, companyId, data) => {
+    return axios.put(`http://localhost:8000/api/lawyers/addComment/${lawyerId}/${companyId}`, data)
   }
 
 }
