@@ -9,6 +9,9 @@ const lawyer = {
   readLawyer: async (id) => {
     return axios.get(`http://localhost:8000/api/lawyers/${id}`)
   },
+  updateLawyer: async (id, data) => {
+    return axios.put(`http://localhost:8000/api/lawyers/${id}`, data)
+  },
   deleteLawyer: async (id) => {
     return axios.delete(`http://localhost:8000/api/lawyers/${id}`)
   },
@@ -17,7 +20,9 @@ const lawyer = {
   },
   addComment: async (lawyerId, companyId, data) => {
     return axios.put(`http://localhost:8000/api/lawyers/addComment/${lawyerId}/${companyId}`, data)
+  },
+  viewForm: async (id) => {
+    return axios.post(`http://localhost:8000/api/lawyers/viewForm/${id}`)
   }
-
 }
 module.exports = lawyer

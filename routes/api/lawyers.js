@@ -5,6 +5,7 @@ const router = express.Router()
 // Lawyer models
 const Lawyer = require('../../models/Lawyer')
 const Company = require('../../models/Company')
+const ExternalEntity = require('../../models/ExternalEntity')
 const Task = require('../../models/Task')
 
 // Lawyer validators
@@ -368,5 +369,21 @@ router.get('/workPage/:id', async (req, res) => {
     console.log(error)
   }
 })
+
+const calculateFees = async capital => {
+  const entities = await ExternalEntity.find()
+  var fees = 0
+  entities.forEach(entity => {
+    var fee = entity.feesPercentage * capital
+    if (fee < entity.feesMin) {
+      fee = entity.feesMin
+    }
+    if (fee > entity.feesMax) {
+      fee = entity.feesMax
+    }
+    fees += fee
+  })
+  return fees
+}
 
 module.exports = router
