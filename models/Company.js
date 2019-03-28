@@ -32,6 +32,9 @@ const companySchema = new Schema({
     paid: Boolean,
     lawyerID: String,
     reviewerID: String
+  },
+  fees: {
+    type: Number
   }
 
 })

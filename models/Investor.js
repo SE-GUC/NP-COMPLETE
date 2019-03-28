@@ -14,9 +14,6 @@ const investorSchema = new Schema({
   email: {
     type: String,
     required: true
-  },
-  fees: {
-    type: Number
   }
 })
 module.exports = mongoose.model('investors', investorSchema)

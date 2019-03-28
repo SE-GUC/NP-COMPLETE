@@ -308,7 +308,6 @@ router.get('/payFees/:id', async (req, res) => {
         message: 'investor doesnt exist'
       })
     }
-    investor.fees = 0
     const query = { 'investorId': investorId }
     const company = await Company.findOne(query)
     if (!company) {
@@ -317,7 +316,7 @@ router.get('/payFees/:id', async (req, res) => {
         message: 'you do not have a company registered to you'
       })
     }
-    if (company.acceptedByLawyer !== 1 || company.acceptedByReviewer !== 1) {
+    if (company.acceptedByLawyer !== 1 || company.acceptedByReviewer !== 1 || company.accepted === false) {
       return res.status(400).json({
         status: 'Error',
         message: 'can not pay fees when form is not yet accepted'
@@ -327,7 +326,9 @@ router.get('/payFees/:id', async (req, res) => {
     const query2 = { '_id': companyId }
     const data2 = { 'state': 'Accepted',
       'accepted': true,
-      'form.paid': true }
+      'form.paid': true,
+      'fees': 0
+    }
     const updateCompany = await Company.findByIdAndUpdate(query2, data2, { new: true })
     return res.json({
       status: 'Your copmany is now established',
