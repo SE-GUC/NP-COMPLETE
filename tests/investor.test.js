@@ -52,7 +52,7 @@ test('Create-an-Investor exists', async () => {
 
 test('Create-an-Investor', async () => {
   const data = {
-    fullName: 'Anothony Martial',
+    fullName: 'Anthony Martial',
     birthdate: '1996-12-20',
     email: 'hey@everyone.com'
   }
@@ -85,14 +85,14 @@ test('Update an Investor by id', async () => {
   }
   const updatedInfo = {
     fullName: 'Bill Marks',
-    birthdate: '1990-10-18',
+    birthdate: '1990-10-18T00:00:00.000Z',
     email: 'billmarks@yahoo.com'
   }
-  const updated = await investor.updateInvestor(id, newData)
+  const updated = await investor.updateInvestor(newData, id)
   const updatedData = updated.data.data
   expect.assertions(1)
   return expect(updatedData).toMatchObject(updatedInfo)
-}, 6000)
+})
 
 test('edit-form-by-Investor exists', async () => {
   expect.assertions(1)
