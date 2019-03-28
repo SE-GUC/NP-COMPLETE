@@ -11,6 +11,9 @@ const Task = require('../../models/Task')
 // Lawyer validators
 const validator = require('../../validations/lawyerValidations')
 
+// Company validators
+const companyValidator = require('../../validations/companyValidations')
+
 // Read all Lawyers (Default route)
 router.get('/', async (req, res) => {
   const lawyers = await Lawyer.find()
@@ -247,7 +250,7 @@ router.put('/editForm/:lawyerId/:companyId', async (req, res) => {
       })
     }
 
-    const isValidated = validator.editFormValidation(req.body)
+    const isValidated = companyValidator.editFormValidation(req.body)
     if (isValidated.error) {
       return res.status(400).json({
         status: 'Error',
