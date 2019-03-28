@@ -14,6 +14,6 @@ const company = {
   },
   deleteCompany: async (id) => {
     return axios.delete(`http://localhost:8000/api/companies/${id}`)
-}
+  }
 }
 module.exports = company
