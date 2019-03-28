@@ -30,7 +30,7 @@ test('Update an External Entity by id', async () => {
   }
 
   const dataToUpdate = {
-    name:'please'
+    name: 'please'
   }
 
   const dataUpdated = {
