@@ -20,6 +20,9 @@ const investor = {
   },
   getCompanies: async (id) => {
     return axios.get(`http://localhost:8000/api/investors/getCompanies/${id}`)
+  },
+  trackApplication: async (id) => {
+    return axios.get(`http://localhost:8000/api/investors/trackApplication/${id}`)
   }
 }
 module.exports = investor

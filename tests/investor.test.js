@@ -194,3 +194,73 @@ test('Get my companies', async () => {
   expect.assertions(1)
   return expect(expectedData).toEqual(myCompanies)
 })
+
+test('TrackApplication exists', async () => {
+  expect.assertions(1)
+  return expect(typeof (investor.trackApplication)).toBe('function')
+})
+
+test('Track Applications', async () => {
+  const data = {
+    fullName: 'Sir Abraham Smith',
+    birthdate: '1638-04-27',
+    email: 'sir@smith.com'
+  }
+  const created = await investor.createInvestor(data)
+  const id = created.data.data._id
+  var createdCompanies = []
+  const min = 0
+  const max = 10
+  var bound = Math.floor(Math.random() * (+max - +min)) + +min
+  for (var i = 0; i < bound; i++) {
+    const companyData = {
+      name: randomString(6),
+      type: randomBoolean() ? 'SPC' : 'SSC',
+      accepted: randomBoolean(),
+      investorId: id,
+      form: {
+        filledByLawyer: randomBoolean(),
+        paid: randomBoolean()
+      }
+    }
+    company.createCompany(companyData)
+    createdCompanies.push(companyData)
+  }
+
+  const retrieved = await investor.trackApplication(id)
+  const retrievedCompanies = retrieved.data.companies
+  // expect.assertions(bound)
+
+  for (var j = 0; j < bound; j++) {
+    const createdCompany = createdCompanies[j]
+    const retrievedCompany = retrievedCompanies[j]
+    partialJSONEquality(createdCompany, retrievedCompany)
+  }
+})
+
+const randomBoolean = () => {
+  return Math.random() >= 0.5
+}
+
+const randomString = length => {
+  const alphabet = 'abcdefghijklmnopqrstuvwxyz'
+  var result = ''
+  for (var i = 0; i < length; i++) {
+    result += alphabet.charAt(Math.floor(Math.random() * alphabet.length))
+  }
+  return result.charAt(0).toUpperCase() + result.slice(1)
+}
+
+const partialJSONEquality = (partialJSON, completeJSON) => {
+  Object.keys(partialJSON).forEach(key => {
+    if (isObject(partialJSON[key])) {
+      partialJSONEquality(partialJSON[key], completeJSON[key])
+    } else {
+      expect(partialJSON[key]).toEqual(completeJSON[key])
+    }
+  })
+}
+
+const isObject = value => {
+  return value && typeof value === 'object' && value.constructor === Object
+}
