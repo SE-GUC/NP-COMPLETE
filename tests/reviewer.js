@@ -9,6 +9,9 @@ const reviewer = {
   readReviewer: async (id) => {
     return axios.get(`http://localhost:8000/api/reviewers/${id}`)
   },
+  updateReviewer: async (id, data) => {
+    return axios.put(`http://localhost:8000/api/reviewers/${id}`, data)
+  },
   deleteReviewer: async (id) => {
     return axios.delete(`http://localhost:8000/api/reviewers/${id}`)
   },

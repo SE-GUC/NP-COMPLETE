@@ -3,6 +3,27 @@ const company = require('./company')
 
 //! Needs to test Default
 
+test('Create-a-Reviewer exists', async () => {
+  expect.assertions(1)
+  expect(typeof (reviewer.createReviewer)).toBe('function')
+})
+
+test('Create a Reviewer', async () => {
+  const data = {
+    fullName: 'Omar Ayman Abdelmagied',
+    birthdate: '1998-07-09',
+    email: 'omar@valid.com',
+    startDate: '2010-01-01'
+  }
+  const created = await reviewer.createReviewer(data)
+  const createdData = created.data.data
+  data['birthdate'] = new Date(data['birthdate']).toISOString()
+  data['startDate'] = new Date(data['startDate']).toISOString()
+
+  expect.assertions(1)
+  expect(createdData).toMatchObject(data)
+})
+
 test('Read-a-Reviewer exists', async () => {
   expect.assertions(1)
   expect(typeof (reviewer.readReviewer)).toBe('function')
@@ -23,6 +44,36 @@ test('Read a Reviewer by id', async () => {
   expect.assertions(1)
   expect(readData).toEqual(createdData)
 }, 10000)
+
+test('Update-a-Reviewer exists', async () => {
+  expect.assertions(1)
+  expect(typeof (reviewer.updateReviewer)).toBe('function')
+})
+
+test('Update a Reviewer by id', async () => {
+  const data = {
+    fullName: 'Omar Ayman Abdelmagied',
+    birthdate: '1998-07-09',
+    email: 'omar@valid.com',
+    startDate: '2010-01-01'
+  }
+  const created = await reviewer.createReviewer(data)
+  const createdData = created.data.data
+  const id = createdData['_id']
+  createdData['fullName'] = 'Abdo Ayman Abdelmagied'
+  createdData['workingHours'] = 10
+  createdData['salary'] = 5000.0
+
+  const update = {
+    fullName: 'Abdo Ayman Abdelmagied',
+    workingHours: 10,
+    salary: 5000.0
+  }
+  const updated = await reviewer.updateReviewer(id, update)
+  const updatedData = updated.data.data
+  expect.assertions(1)
+  expect(updatedData).toEqual(createdData)
+})
 
 test('Delete-a-Reviewer exists', async () => {
   expect.assertions(1)
