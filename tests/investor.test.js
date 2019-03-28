@@ -193,7 +193,7 @@ test('Get my companies', async () => {
   const myCompanies = [firstCompany, secondCompany]
   expect.assertions(1)
   expect(expectedData).toEqual(myCompanies)
-}, 60000)
+})
 // As an investor I should be able to fill an application form, so that I can establish a company.
 test('Fill Form Exist', async () => {
   expect.assertions(1)
@@ -246,13 +246,13 @@ test('Fill Form to create a company', async () => {
       acceptedByLawyer: -1,
       acceptedByReviewer: -1,
       filledByLawyer: false,
-      accepted: false,
-      paid: false,
-      state: 'pending'
+      paid: false
     },
-    id: companyId,
+    _id: companyId,
     investorId: investorId,
-    __v: '0'
+    __v: 0,
+    state: 'pending',
+    accepted: false
   }
   expect.assertions(1)
   expect(myCompany).toEqual(equalData)
