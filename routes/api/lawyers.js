@@ -173,6 +173,14 @@ router.put('/review/:id', async (req, res) => {
         message: 'No data to put a review'
       })
     }
+    // check if the review is given in the body or not
+    const review = req.body.acceptedByLawyer
+    if (review === null || review === undefined) {
+      return res.status(400).json({
+        status: 'Error',
+        message: 'Review not given'
+      })
+    }
     // check if the lawyer exists
     const lawyer = await Lawyer.findById(req.body.lawyerID)
     if (!lawyer) {
@@ -190,7 +198,7 @@ router.put('/review/:id', async (req, res) => {
       })
     }
 
-    if (company.acceptedByLawyer !== -1) {
+    if (company.form.acceptedByLawyer !== -1) {
       return res.status(400).json({
         status: 'Error',
         message: 'This form is already reviewed'
@@ -206,7 +214,7 @@ router.put('/review/:id', async (req, res) => {
       })
     }
     // Changing value to the new value
-    company.form.lawyerId = req.body.lawyerId
+    company.form.lawyerID = req.body.lawyerId
     company.form.acceptedByLawyer = req.body.acceptedByLawyer
     if (company.form.acceptedByLawyer === 0) {
       company.form.comment = req.body.comment
@@ -217,7 +225,7 @@ router.put('/review/:id', async (req, res) => {
     return res.json({
       status: 'Success',
       message: `Reviewed Form of Company with id ${req.params.id}`,
-      reviewedCompany: reviewedCompany
+      data: reviewedCompany.form
     })
   } catch (error) {
     console.log(error)
@@ -394,5 +402,24 @@ const calculateFees = async capital => {
   })
   return fees
 }
+
+// Update lawyer's profile
+router.put('/updateMyProfile/:id', async (req, res) => {
+  try {
+    const stored = Object.keys(req.body)
+    console.log(stored)
+    if (stored.includes('startDate') || stored.includes('workingHours') || stored.includes('salary')) {
+      res.json({
+        status: 'Error',
+        message: 'Request failed cannot update these attributes'
+      })
+    } else {
+      const id = req.params.id
+      res.redirect(`/api/lawyers/${id}`)
+    }
+  } catch (error) {
+    console.log(error)
+  }
+})
 
 module.exports = router
