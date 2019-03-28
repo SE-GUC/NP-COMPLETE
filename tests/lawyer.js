@@ -12,10 +12,11 @@ const lawyer = {
   deleteLawyer: async (id) => {
     return axios.delete(`http://localhost:8000/api/lawyers/${id}`)
   },
-
   FillForm: async (data) => {
     return axios.post(`http://localhost:8000/api/lawyers/newForm`, data)
+  },
+  viewForm: async (id) => {
+    return axios.post(`http://localhost:8000/api/lawyers/viewForm/${id}`)
   }
-
 }
 module.exports = lawyer

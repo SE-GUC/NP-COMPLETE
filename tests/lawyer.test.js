@@ -1,5 +1,6 @@
 const lawyer = require('./lawyer')
 const company = require('./company')
+const investor = require('./investor')
 
 //! Needs to test Default
 
@@ -73,3 +74,42 @@ test('Filling form by lawyer', async () => {
   expect.assertions(1)
   return expect(newcompanyData).toEqual(createdData)
 })
+
+test('View-a-form exists', async () => {
+  expect.assertions(1)
+  return expect(typeof (lawyer.viewForm)).toBe('function')
+},
+10000)
+
+test('View a form by investor id', async () => {
+  const investorData = {
+    fullName: 'Sam Water',
+    birthdate: '1837-02-15',
+    email: 'great@guy.com'
+  }
+  const createdInvestor = await investor.createInvestor(investorData)
+  const createdInvestorData = createdInvestor.data.data
+  const id = createdInvestorData['_id']
+
+  const companyData = {
+    form: {
+      data: ['cairo', 23, 5555],
+      acceptedByLawyer: -1,
+      acceptedByReviewer: -1,
+      filledByLawyer: false,
+      paid: false
+    },
+    investorId: id,
+    name: 'myCo',
+    type: 'SSC',
+    accepted: false
+  }
+  const createdCompany = await company.createCompany(companyData)
+  const createdCompanyData = createdCompany.data.data
+  const returnedData = await lawyer.viewForm(id)
+
+  const expectedResult = `Company: myCo has form: ['cairo', 23, 5555], `
+  console.log(returnedData)
+  console.log(expectedResult)
+  return expect(returnedData).toEqual(expectedResult)
+}, 10000)
