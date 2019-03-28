@@ -214,3 +214,10 @@ test('View a form by investor id', async () => {
   console.log(expectedResult)
   return expect(returnedData).toEqual(expectedResult)
 }, 10000)
+
+// User story 5.06 - update profile
+test('Update-mu-profile exists', async () => {
+  expect.assertions(1)
+  expect(typeof (lawyer.updateMyProfile)).toBe('function')
+},
+10000)
