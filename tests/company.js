@@ -3,6 +3,9 @@ const company = {
   default: async () => {
     return axios.get('http://localhost:8000/api/companies/')
   },
+  readCompany: async (id) => {
+    return axios.get(`http://localhost:8000/api/companies/${id}`)
+  },
   createCompany: async (data) => {
     return axios.post(`http://localhost:8000/api/companies/`, data)
   },
