@@ -1,5 +1,6 @@
 const reviewer = require('./reviewer')
 const company = require('./company')
+const task = require('./task')
 
 //! Needs to test Default
 
@@ -234,3 +235,30 @@ test('Adding a comment on a rejected application', async () => {
   expect.assertions(1)
   expect(response.form.comment).toEqual(commentData.comment)
 }, 20000)
+
+// As an Internal User I should be able to view tasks assigned to my department, so that I can be aware of coworkers updates.
+
+// Test that the function exists
+test('View-my-department-tasks exists', async () => {
+  expect.assertions(1)
+  expect(typeof (reviewer.viewDepartmentTasks)).toBe('function')
+})
+
+// Test the functionalty
+test('Reviewer view his department tasks by id', async () => {
+  const reviewerData = {
+    fullName: 'John Smith',
+    birthdate: '1996-10-02',
+    email: 'mko@tower.net',
+    startDate: '2019-02-02T00:00:00.000Z'
+  }
+  const createdReviewer = await reviewer.createReviewer(reviewerData)
+  const createdReviewerData = createdReviewer.data.data
+  const reviewerId = createdReviewerData['_id']
+  const reviewerDepartmentTasks = await reviewer.viewDepartmentTasks(reviewerId)
+  const reviewerDepartmentTasksData = reviewerDepartmentTasks.data.data
+  const myDepartmentTasks = await task.viewDepartmentTask({department:'Reviewer'})
+  const myDepartmentTasksData = myDepartmentTasks.data.data
+  expect.assertions(1)
+  expect(reviewerDepartmentTasksData).toEqual(myDepartmentTasksData)
+})
