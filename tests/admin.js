@@ -29,6 +29,9 @@ const admin = {
   },
   assignDeadline: async (id, data) => {
     return axios.put(`http://localhost:8000/api/admins/updateDeadline/${id}`, data)
+  },
+  getFeedback: async (id) => {
+    return axios.get(`http://localhost:8000/api/admins/getFeedback/${id}`)
   }
 }
 module.exports = admin

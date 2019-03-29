@@ -1,6 +1,7 @@
 const admin = require('./admin')
 const company = require('./company')
 const task = require('./task')
+const investor = require('./investor')
 
 jest.setTimeout(180000)
 
@@ -47,32 +48,31 @@ test('Assign Deadline', async () => {
   const created = await admin.createAdmin(data)
   const createdData = created.data.data
   const id = createdData['_id']
-  
+
   const modifiedTask = {
-    department:'Lawyer',
-    creationDate:'2018-02-02',
-    deadline:'2019-02-02'
+    department: 'Lawyer',
+    creationDate: '2018-02-02',
+    deadline: '2019-02-02'
   }
 
-  const oldTask =  await task.createTask(modifiedTask)
+  const oldTask = await task.createTask(modifiedTask)
   const oldTaskData = oldTask.data.data
   const tId = oldTaskData['_id']
   const newData = {
-    TaskID : tId,
-    deadline:'2019-03-03'
+    TaskID: tId,
+    deadline: '2019-03-03'
   }
-  const nowTask = await admin.assignDeadline(id,newData)
-  
+  const nowTask = await admin.assignDeadline(id, newData)
+
   const newTask = {
-    department:'Lawyer',
-    creationDate:'2018-02-02T00:00:00.000Z',
-    deadline:'2019-03-03T00:00:00.000Z'
+    department: 'Lawyer',
+    creationDate: '2018-02-02T00:00:00.000Z',
+    deadline: '2019-03-03T00:00:00.000Z'
   }
   const nowTaskData = nowTask.data.data
   expect.assertions(1)
   expect(nowTaskData).toMatchObject(newTask)
 })
-
 
 test('Update an Admin by id', async () => {
   const data = {
@@ -184,7 +184,7 @@ test('Admin view his department tasks by id', async () => {
   const adminId = createdAdminData['_id']
   const adminDepartmentTasks = await admin.viewDepartmentTasks(adminId)
   const adminDepartmentTasksData = adminDepartmentTasks.data.data
-  const myDepartmentTasks = await task.viewDepartmentTask({department:'Admin'})
+  const myDepartmentTasks = await task.viewDepartmentTask({ department: 'Admin' })
   const myDepartmentTasksData = myDepartmentTasks.data.data
   expect.assertions(1)
   expect(adminDepartmentTasksData).toEqual(myDepartmentTasksData)
@@ -257,3 +257,28 @@ test('Update-my-profile exists', async () => {
   expect(typeof (admin.updateMyProfile)).toBe('function')
 },
 10000)
+
+// user story 2.04 part 1
+test('getFeedback exists', async () => {
+  expect.assertions(1)
+  expect(typeof (admin.getFeedback)).toBe('function')
+})
+
+// user story 2.04 part 2
+test('getFeedback of investors by admin', async () => {
+  const data = {
+    fullName: 'Sam Water',
+    birthdate: '1837-02-15',
+    email: 'great@guy.com',
+    feedback: 'test'
+  }
+  const originalFeedback = data['feedback']
+  const createdInvestor = await investor.createInvestor(data)
+  const createdInvestorData = createdInvestor.data.data
+  console.log(createdInvestorData)
+
+  const feedbacks = await admin.getFeedback('1')
+  const firstFeedback = feedbacks.data.data[0]
+  expect.assertions(1)
+  expect(originalFeedback).toEqual(firstFeedback)
+})
