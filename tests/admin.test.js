@@ -140,11 +140,8 @@ test('Admin view his department tasks by id', async () => {
   const createdAdmin = await admin.createAdmin(adminData)
   const createdAdminData = createdAdmin.data.data
   const adminId = createdAdminData['_id']
-  // console.log('nooooooooooooooo')
   const adminDepartmentTasks = await admin.viewDepartmentTasks(adminId)
-  // console.log('niceeeeeeeeeeeee')
   const adminDepartmentTasksData = adminDepartmentTasks.data.data
-  // const depart = {department:'Admin'}
   const myDepartmentTasks = await task.viewDepartmentTask({department:'Admin'})
   const myDepartmentTasksData = myDepartmentTasks.data.data
   expect.assertions(1)
