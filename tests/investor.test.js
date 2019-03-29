@@ -257,7 +257,7 @@ test('Fill Form to create a company', async () => {
   }
   expect.assertions(1)
   expect(myCompany).toEqual(equalData)
-})
+}, 5500)
 
 test('TrackApplication exists', async () => {
   expect.assertions(1)
