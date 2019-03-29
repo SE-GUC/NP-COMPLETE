@@ -165,7 +165,6 @@ router.delete('/CancelApplication/:id', async (req, res) => {
   }
 })
 
-//        #---Shiko was here---#
 // As an investor I should be able to view rejected forms with the lawyer's comments, so that I can know which data to update.
 router.get('/viewRejected/:id', async (req, res) => {
   try {

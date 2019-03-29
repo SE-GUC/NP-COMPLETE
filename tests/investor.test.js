@@ -364,12 +364,39 @@ test('viewRejected form by an Investor ', async () => {
       reviewerID: '5c9660e5e008212d705efd15'
     }
   }
+  const companyData1 = {
+    name: 'Nike',
+    establishmentDate: '1837-02-15',
+    type: 'SSC',
+    state: 'established',
+    accepted: true,
+    investorId: `${investorId}`,
+    form: {
+      data: [],
+      comment: 'good company',
+      acceptedByLawyer: 0,
+      acceptedByReviewer: 1,
+      filledByLawyer: false,
+      paid: true,
+      lawyerID: '5c9a6888bca2114a80a5c124',
+      reviewerID: '5c9660e5e008212d705efd15'
+    }
+  }
   const createdCompanyForm = companyData['form']
-  await company.createCompany(companyData)
+  const createdCompanyForm1 = companyData1['form']
+
+  const cc = await company.createCompany(companyData)
+  const ccId = cc.data.data['_id']
+  const cc1 = await company.createCompany(companyData1)
+  const cc1Id = cc1.data.data['_id']
 
   const rejectedCompany = await investor.viewRejected(investorId)
+  await company.deleteCompany(ccId)
+  await company.deleteCompany(cc1Id)
+
   const rejectedCompanyForm = rejectedCompany.data.data[0]
+  const rejectedCompanyForm1 = rejectedCompany.data.data[1]
 
   expect.assertions(1)
-  expect(rejectedCompanyForm).toEqual(createdCompanyForm)
+  expect(rejectedCompanyForm).toMatchObject(createdCompanyForm) && expect(rejectedCompanyForm1).toMatchObject(createdCompanyForm1)
 })
