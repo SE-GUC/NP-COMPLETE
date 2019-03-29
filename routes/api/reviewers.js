@@ -160,7 +160,7 @@ router.put('/decideAnApplication/:reviewerId/:companyId', async (req, res) => {
   if (typeof decision !== 'boolean') {
     return res.status(400).json({
       status: 'Error',
-      message: 'Variable decision needs to be a boolean type '
+      message: 'Variable decision needs to be a boolean type'
     })
   }
   try {
@@ -174,21 +174,21 @@ router.put('/decideAnApplication/:reviewerId/:companyId', async (req, res) => {
 
     const company = await Company.findById(companyId)
     if (!company) {
-      return res.status(404).json({
+      return res.status(400).json({
         status: 'Error',
         message: 'Form not found'
       })
     }
 
     if (company.form.acceptedByLawyer !== 1) {
-      return res.status(404).json({
+      return res.status(400).json({
         status: 'Error',
         message: 'Form not accepted by lawyer'
       })
     }
 
     if (company.form.acceptedByReviewer === 1) {
-      return res.status(404).json({
+      return res.status(400).json({
         status: 'Error',
         message: 'Form already accepted by reviewer'
       })
