@@ -216,7 +216,7 @@ test('Adding a comment on a rejected application', async () => {
     form: {
       data: [],
       acceptedByLawyer: 1,
-      acceptedByReviewer: -1,
+      acceptedByReviewer: 0,
       filledByLawyer: false,
       paid: false,
       reviewerID: id
@@ -231,7 +231,7 @@ test('Adding a comment on a rejected application', async () => {
   }
 
   const addedComment = await reviewer.addComment(id, companyId, commentData)
-  const response = addedComment.data.companyEdited
+  const response = addedComment.data.data
   expect.assertions(1)
   expect(response.form.comment).toEqual(commentData.comment)
 }, 20000)

@@ -252,7 +252,6 @@ router.put('/addComment/:reviewerID/:companyID', async (req, res) => {
     const query = { '_id': companyID, 'form.acceptedByReviewer': 0, 'form.reviewerID': reviewerID }
     const newData = { 'form': { 'comment': req.body.comment } }
     const companyEdited = await Company.findOneAndUpdate(query, newData, { new: true })
-    console.log(companyEdited)
     if (!companyEdited) {
       return res.status(400).json({
         status: 'Error',
