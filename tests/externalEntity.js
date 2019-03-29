@@ -14,6 +14,9 @@ const externalEntity = {
   },
   updateExternalEntity: async (id, data) => {
     return axios.put(`http://localhost:8000/api/externalEntities/${id}`, data)
+  },
+  viewDepartmentTasks: async (id) => {
+    return axios.get(`http://localhost:8000/api/externalEntities/viewDepartmentTask/${id}`)
   }
 }
 module.exports = externalEntity
