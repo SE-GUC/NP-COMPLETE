@@ -199,6 +199,7 @@ test('Fill Form Exist', async () => {
   expect.assertions(1)
   expect(typeof (investor.fillForm)).toBe('function')
 })
+
 test('Fill Form to create a company', async () => {
   const investorData = {
     fullName: 'Naguib sawiris',
@@ -400,4 +401,61 @@ test('viewRejected form by an Investor ', async () => {
 
   expect.assertions(1)
   expect(rejectedCompanyForm).toMatchObject(createdCompanyForm) && expect(rejectedCompanyForm1).toMatchObject(createdCompanyForm1)
+})
+
+// as an investor i should be able to pay fees
+test('payFees-by-Investor exists', async () => {
+  expect.assertions(1)
+  expect(typeof (investor.payFees)).toBe('function')
+})
+
+test('pay a fees by an Investor', async () => {
+  const investorTest = {
+    fullName: 'jon snow',
+    birthdate: '2001-10-02',
+    email: 'kingInTheNorth@nightswatch.got'
+  }
+  const createdInvestor = await investor.createInvestor(investorTest)
+  const createdInvestorData = createdInvestor.data.data
+  const id = createdInvestorData['_id']
+
+  const companyData = {
+    form: {
+      data: ['cairo', 23, 5555],
+      acceptedByLawyer: 1,
+      acceptedByReviewer: 1,
+      filledByLawyer: true,
+      paid: false
+      // fees: 200
+    },
+    investorId: id,
+    name: 'Company',
+    type: 'SSC',
+    accepted: true
+  }
+  const output = {
+    form: {
+      data: ['cairo', 23, 5555],
+      acceptedByLawyer: 1,
+      acceptedByReviewer: 1,
+      filledByLawyer: true,
+      paid: true,
+      fees: 0
+    },
+    investorId: id,
+    name: 'Company',
+    type: 'SSC',
+    accepted: true
+  }
+  const createdCompany = await company.createCompany(companyData)
+  const createdCompanyData = createdCompany.data.data
+  const companyId = createdCompanyData['_id']
+  try {
+    const updatedCompany = await investor.fillForm(id, companyId)
+    const updatedCompanyData = updatedCompany.data.data
+    expect.assertions(1)
+    expect(updatedCompanyData).toMatchObject(output)
+  } catch (error) {
+
+  }
 })

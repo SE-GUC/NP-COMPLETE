@@ -29,6 +29,9 @@ const investor = {
   },
   viewRejected: async (id) => {
     return axios.get(`http://localhost:8000/api/investors/viewRejected/${id}`)
+  },
+  payFees: async (id, data) => {
+    return axios.get(`http://localhost:8000/api/investors/payFees/${id}`, data)
   }
 }
 module.exports = investor
