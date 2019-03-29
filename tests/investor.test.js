@@ -1,6 +1,6 @@
 const investor = require('./investor')
 const company = require('./company')
-
+const companyType = require('./companyType')
 //! Needs to test Default
 
 test('Read-an-Investor exists', async () => {
@@ -201,6 +201,13 @@ test('Fill Form Exist', async () => {
 })
 
 test('Fill Form to create a company', async () => {
+  const companyTypeTest = {
+    companyType: 'SSC',
+    fields: ['stringField', 'booleanField', 'NumberFeild'],
+    types: ['String', 'boolean', 'Number'],
+    validations: ['.required().string()', '.boolean()', '.required().integer()']
+  }
+  await companyType.createCompanyType(companyTypeTest)
   const investorData = {
     fullName: 'Naguib sawiris',
     birthdate: '1950-02-18',
@@ -211,7 +218,7 @@ test('Fill Form to create a company', async () => {
   const investorId = createdInvestorData['_id']
   const companyData = {
     name: 'UBER',
-    type: 'SPC',
+    type: 'SSC',
     form: {
       data: ['organisingLaw',
         'legalForm',
@@ -231,7 +238,7 @@ test('Fill Form to create a company', async () => {
   const companyId = myCompany['_id']
   const equalData = {
     name: 'UBER',
-    type: 'SPC',
+    type: 'SSC',
     form: {
       data: ['organisingLaw',
         'legalForm',
@@ -265,6 +272,13 @@ test('TrackApplication exists', async () => {
 })
 
 test('Track Applications', async () => {
+  const companyTypeTest = {
+    companyType: 'SSC',
+    fields: ['stringField', 'booleanField', 'NumberFeild'],
+    types: ['String', 'boolean', 'Number'],
+    validations: ['.required().string()', '.boolean()', '.required().integer()']
+  }
+  await companyType.createCompanyType(companyTypeTest)
   const data = {
     fullName: 'Sir Abraham Smith',
     birthdate: '1638-04-27',
@@ -279,7 +293,7 @@ test('Track Applications', async () => {
   for (var i = 0; i < bound; i++) {
     const companyData = {
       name: randomString(6),
-      type: randomBoolean() ? 'SPC' : 'SSC',
+      type: 'SSC',
       accepted: randomBoolean(),
       investorId: id,
       form: {
@@ -338,6 +352,13 @@ test('viewRejected-form-by-Lawyer exists', async () => {
 // user story 1.04 part 2
 
 test('viewRejected form by an Investor ', async () => {
+  const companyTypeTest = {
+    companyType: 'SSC',
+    fields: ['stringField', 'booleanField', 'NumberFeild'],
+    types: ['String', 'boolean', 'Number'],
+    validations: ['.required().string()', '.boolean()', '.required().integer()']
+  }
+  await companyType.createCompanyType(companyTypeTest)
   const investorData = {
     fullName: 'Anothony Martial',
     birthdate: '1996-12-20',
@@ -410,6 +431,13 @@ test('payFees-by-Investor exists', async () => {
 })
 
 test('pay a fees by an Investor', async () => {
+  const companyTypeTest = {
+    companyType: 'SSC',
+    fields: ['stringField', 'booleanField', 'NumberFeild'],
+    types: ['String', 'boolean', 'Number'],
+    validations: ['.required().string()', '.boolean()', '.required().integer()']
+  }
+  await companyType.createCompanyType(companyTypeTest)
   const investorTest = {
     fullName: 'jon snow',
     birthdate: '2001-10-02',
@@ -421,7 +449,7 @@ test('pay a fees by an Investor', async () => {
 
   const companyData = {
     form: {
-      data: ['cairo', 23, 5555],
+      data: ['cairo', true, 5555],
       acceptedByLawyer: 1,
       acceptedByReviewer: 1,
       filledByLawyer: true,
@@ -435,7 +463,7 @@ test('pay a fees by an Investor', async () => {
   }
   const output = {
     form: {
-      data: ['cairo', 23, 5555],
+      data: ['cairo', true, 5555],
       acceptedByLawyer: 1,
       acceptedByReviewer: 1,
       filledByLawyer: true,
@@ -486,7 +514,6 @@ test('Cancel Unreviewed Application an Investor', async () => {
       acceptedByReviewer: -1,
       filledByLawyer: true,
       paid: false
-      // fees: 200
     },
     investorId: id,
     name: 'Company',
@@ -497,9 +524,9 @@ test('Cancel Unreviewed Application an Investor', async () => {
   const createdCompanyData = createdCompany.data.data
   const companyId = createdCompanyData['_id']
   const bodyData = {
-    id : companyId
+    id: companyId
   }
-  const cancelled = await investor.cancelUnreviewed(id,bodyData)
+  const cancelled = await investor.cancelUnreviewed(id, bodyData)
   const cancelledData = cancelled.data.deletedApplication
   expect.assertions(1)
   expect(cancelledData).toMatchObject(createdCompanyData)
