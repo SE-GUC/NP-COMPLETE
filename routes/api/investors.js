@@ -115,45 +115,57 @@ router.delete('/:id', async (req, res) => {
 })
 
 // As an investor I should be able to cancel an unreviewed application, so that I can stop the process of establishing a company I don't want anymore.
-router.delete('/CancelApplication/:id', async (req, res) => {
+router.put('/CancelApplication/:id', async (req, res) => {
   try {
+    console.log('2')
     const id = req.params.id
     const currentInvestor = await Investor.findById(id)
     const AllInvestors = await Investor.find()
+    console.log('1')
     if (!currentInvestor) {
+      console.log('3')
       return res.status(400).json({
         status: 'Error',
         message: 'could not find Investor you are looking for',
         availableInvestors: AllInvestors
       })
     }
+    console.log('5')
     if (Object.keys(req.body).length === 0) {
+      console.log('4')
       return res.status(400).json({
         status: 'Error',
         message: 'You did not enter an id'
       })
     }
+    console.log('6')
     const appId = req.body.id
     const myCompany = await Company.findById(appId)
+    console.log('7')
     if (!myCompany) {
+      console.log('8')
       return res.status(400).json({
         status: 'Error',
         message: 'could not find the Company you are looking for'
       })
     }
+    console.log('9')
     if (!(myCompany.investorId === id)) {
       return res.status(400).json({
         status: 'Error',
         message: 'This is not your company'
       })
     }
+    console.log('10')
     if (!(myCompany.form.acceptedByReviewer === -1)) {
       return res.status(400).json({
         status: 'Error',
         message: 'You can not cancel a reviewed application'
       })
     }
+    console.log('11')
     const deletedApp = await Company.findByIdAndRemove(appId)
+    console.log('12')
     return res.json({
       status: 'Success',
       message: `Cancelled the Application with id ${appId}`,

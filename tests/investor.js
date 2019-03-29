@@ -32,6 +32,9 @@ const investor = {
   },
   payFees: async (id, data) => {
     return axios.get(`http://localhost:8000/api/investors/payFees/${id}`, data)
+  },
+  cancelUnreviewed: async (id, data) => {
+    return axios.put(`http://localhost:8000/api/investors/CancelApplication/${id}`, data)
   }
 }
 module.exports = investor

@@ -459,3 +459,48 @@ test('pay a fees by an Investor', async () => {
 
   }
 })
+
+// Test As an investor I should be able to cancel an unreviewed application, so that I can stop the process of establishing a company I don't want anymore.
+
+// Test existance
+test('Cancel-Unreviewed-Application exists', async () => {
+  expect.assertions(1)
+  expect(typeof (investor.cancelUnreviewed)).toBe('function')
+})
+
+// Test functionalty
+test('Cancel Unreviewed Application an Investor', async () => {
+  const investorTest = {
+    fullName: 'jon snow',
+    birthdate: '2001-10-02',
+    email: 'kingInTheNorth@nightswatch.got'
+  }
+  const createdInvestor = await investor.createInvestor(investorTest)
+  const createdInvestorData = createdInvestor.data.data
+  const id = createdInvestorData['_id']
+
+  const companyData = {
+    form: {
+      data: ['cairo', 23, 5555],
+      acceptedByLawyer: 1,
+      acceptedByReviewer: -1,
+      filledByLawyer: true,
+      paid: false
+      // fees: 200
+    },
+    investorId: id,
+    name: 'Company',
+    type: 'SSC',
+    accepted: true
+  }
+  const createdCompany = await company.createCompany(companyData)
+  const createdCompanyData = createdCompany.data.data
+  const companyId = createdCompanyData['_id']
+  const bodyData = {
+    id : companyId
+  }
+  const cancelled = await investor.cancelUnreviewed(id,bodyData)
+  const cancelledData = cancelled.data.deletedApplication
+  expect.assertions(1)
+  expect(cancelledData).toMatchObject(createdCompanyData)
+})
