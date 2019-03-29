@@ -126,6 +126,34 @@ router.delete('/:id', async (req, res) => {
   }
 })
 
+// As an Internal User I should be able to view tasks assigned to my department, so that I can be aware of coworkers updates.
+router.get('/viewDepartmentTask/:id', async (req, res) => {
+  const adminId = req.params.id
+  const userAdmin = await Admin.findById(adminId)
+  if (!userAdmin) {
+    return res.status(400).json({
+      status: 'Error',
+      message: 'Admin not found',
+      availableAdmins: await Admin.find()
+    })
+  }
+  const query = { 'department': 'Admin' }
+  const task = await Task.find(query)
+    // check if there exist such task
+    if (!task) {
+      return res.status(404).json({
+        status: 'Error',
+        message: 'There are no tasks for your department'
+      })
+    }
+    // view the tasks of the given depratment
+    res.json({
+      status: 'Success',
+      data: task
+    })
+  
+})
+
 // update the deadline of a specfic task given the task id and the new deadline in the body
 router.put('/updateDeadline/:id', async (req, res) => {
   const data = req.body
