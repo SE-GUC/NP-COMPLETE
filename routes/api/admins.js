@@ -153,7 +153,6 @@ router.get('/viewDepartmentTask/:id', async (req, res) => {
   
 })
 
-
 // update the deadline of a specfic task given the task id and the new deadline in the body
 router.put('/updateDeadline/:id', async (req, res) => {
   const data = req.body

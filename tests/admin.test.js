@@ -1,5 +1,8 @@
 const admin = require('./admin')
 const company = require('./company')
+const task = require('./task')
+
+jest.setTimeout(180000)
 
 test('read-multiple-Admins exists', async () => {
   expect.assertions(1)
@@ -81,8 +84,7 @@ test('Read an Admin by id', async () => {
 test('Delete-an-Admin exists', async () => {
   expect.assertions(1)
   expect(typeof (admin.deleteAdmin)).toBe('function')
-},
-10000)
+})
 
 test('Delete an Admin by id', async () => {
   const data = {
@@ -115,5 +117,36 @@ test('Admin view cases by id', async () => {
   const adminViewedCasesData = adminViewedCases.data.data
   const availableCompanies = await company.default()
   const availableCompaniesData = availableCompanies.data.data
+  expect.assertions(1)
   expect(adminViewedCasesData).toEqual(availableCompaniesData)
+})
+
+// As an Internal User I should be able to view tasks assigned to my department, so that I can be aware of coworkers updates.
+
+// Test that the function exists
+test('View-my-department-tasks exists', async () => {
+  expect.assertions(1)
+  expect(typeof (admin.viewDepartmentTasks)).toBe('function')
+})
+
+// Test the functionalty
+test('Admin view his department tasks by id', async () => {
+  const adminData = {
+    fullName: 'John Smith',
+    birthdate: '1996-10-02',
+    email: 'mko@tower.net',
+    startDate: '2019-02-02T00:00:00.000Z'
+  }
+  const createdAdmin = await admin.createAdmin(adminData)
+  const createdAdminData = createdAdmin.data.data
+  const adminId = createdAdminData['_id']
+  // console.log('nooooooooooooooo')
+  const adminDepartmentTasks = await admin.viewDepartmentTasks(adminId)
+  // console.log('niceeeeeeeeeeeee')
+  const adminDepartmentTasksData = adminDepartmentTasks.data.data
+  // const depart = {department:'Admin'}
+  const myDepartmentTasks = await task.viewDepartmentTask({department:'Admin'})
+  const myDepartmentTasksData = myDepartmentTasks.data.data
+  expect.assertions(1)
+  expect(adminDepartmentTasksData).toEqual(myDepartmentTasksData)
 })
