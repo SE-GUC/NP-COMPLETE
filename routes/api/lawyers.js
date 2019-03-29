@@ -141,19 +141,18 @@ router.get('/viewDepartmentTask/:id', async (req, res) => {
   }
   const query = { 'department': 'Lawyer' }
   const task = await Task.find(query)
-    // check if there exist such task
-    if (!task) {
-      return res.status(404).json({
-        status: 'Error',
-        message: 'There are no tasks for your department'
-      })
-    }
-    // view the tasks of the given depratment
-    res.json({
-      status: 'Success',
-      data: task
+  // check if there exist such task
+  if (!task) {
+    return res.status(404).json({
+      status: 'Error',
+      message: 'There are no tasks for your department'
     })
-
+  }
+  // view the tasks of the given depratment
+  res.json({
+    status: 'Success',
+    data: task
+  })
 })
 
 // As a lawyer i should be able to fill forms delegated to me by an investor (creating company with its form)

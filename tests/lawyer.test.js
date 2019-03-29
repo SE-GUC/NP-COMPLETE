@@ -389,7 +389,7 @@ test('Lawyer view his department tasks by id', async () => {
   const lawyerId = createdLawyerData['_id']
   const lawyerDepartmentTasks = await lawyer.viewDepartmentTasks(lawyerId)
   const lawyerDepartmentTasksData = lawyerDepartmentTasks.data.data
-  const myDepartmentTasks = await task.viewDepartmentTask({department:'Lawyer'})
+  const myDepartmentTasks = await task.viewDepartmentTask({ department: 'Lawyer' })
   const myDepartmentTasksData = myDepartmentTasks.data.data
   expect.assertions(1)
   expect(lawyerDepartmentTasksData).toEqual(myDepartmentTasksData)
