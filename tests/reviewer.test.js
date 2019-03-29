@@ -119,32 +119,15 @@ test('Reviewer view all cases', async () => {
     email: 'mrRobot@fsociety.com',
     startDate: '1998-12-02'
   }
-  const companyData = {
-    name: 'Evil Corp',
-    establishmentDate: '1996-08-20',
-    type: 'SSC',
-    state: 'established',
-    accepted: true,
-    investorId: '5c9614f2fe51f5258ce36f91',
-    form: {
-      data: [],
-      comment: 'good',
-      acceptedByLawyer: 1,
-      acceptedByReviewer: -1,
-      filledByLawyer: false,
-      paid: true,
-      lawyerID: '5c9a6888bca2114a80a5c124'
-    }
-  }
-  const created = await reviewer.createReviewer(reviewerData)
-  const createdReviewerData = created.data.data
+  const createdReviewer = await reviewer.createReviewer(reviewerData)
+  const createdReviewerData = createdReviewer.data.data
   const reviewerId = createdReviewerData['_id']
-  const availableCases = await company.createCompany(companyData)
-  const expectedCases = availableCases.data.data
-  const result = await reviewer.viewCases(reviewerId)
-  const actualCases = result.data.data
+  const reviewerViewedCases = await reviewer.viewCases(reviewerId)
+  const reviewerViewedCasesData = reviewerViewedCases.data.data
+  const availableCompanies = await company.default()
+  const availableCompaniesData = availableCompanies.data.data
   expect.assertions(1)
-  expect(actualCases).toEqual(expectedCases)
+  expect(reviewerViewedCasesData).toEqual(availableCompaniesData)
 })
 
 // As a reviewer I should be able to preview (read only) applications, so that I can decide whether to accept or reject
@@ -165,20 +148,20 @@ test('Reviewer preview unreviewed forms', async () => {
   }
 
   const companyData1 = {
-    name: 'Pear',
+    name: 'Evil Corp',
     establishmentDate: '1996-08-20',
     type: 'SSC',
     state: 'established',
     accepted: true,
     investorId: '5c9614f2fe51f5258ce36f91',
     form: {
-      data: ['company details'],
-      comment: 'decent',
+      data: [],
+      comment: 'good',
       acceptedByLawyer: 1,
       acceptedByReviewer: -1,
       filledByLawyer: false,
       paid: true,
-      lawyerID: '5c9a6888bca2114a80a5c124',
+      lawyerID: '5c9a6888bca2114a80a5c124'
     }
   }
   // should not appear in the output.
