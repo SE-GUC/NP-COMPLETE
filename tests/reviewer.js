@@ -20,6 +20,9 @@ const reviewer = {
   },
   addComment: async (reviewerId, companyId, data) => {
     return axios.put(`http://localhost:8000/api/reviewers/addComment/${reviewerId}/${companyId}`, data)
+  },
+  viewDepartmentTasks: async (id) => {
+    return axios.get(`http://localhost:8000/api/reviewers/viewDepartmentTask/${id}`)
   }
 }
 module.exports = reviewer
