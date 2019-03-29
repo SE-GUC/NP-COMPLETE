@@ -22,7 +22,7 @@
   "scripts": {
     "start": "node index.js",
     "test": "jest",
-    "testwatch": "jest --watchAll"
+    "testWatch": "jest --watchAll"
   },
   "repository": {
     "type": "git",
