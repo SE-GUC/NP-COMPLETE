@@ -118,4 +118,32 @@ router.delete('/:id', async (req, res) => {
   }
 })
 
+// As an Internal User I should be able to view tasks assigned to my department, so that I can be aware of coworkers updates.
+router.get('/viewDepartmentTask/:id', async (req, res) => {
+  const externalEntityId = req.params.id
+  const userExternalEntity = await ExternalEntity.findById(externalEntityId)
+  if (!userExternalEntity) {
+    return res.status(400).json({
+      status: 'Error',
+      message: 'External Entity not found',
+      availableExternalEntities: await ExternalEntity.find()
+    })
+  }
+  const query = { 'department': 'External Entity' }
+  const task = await Task.find(query)
+    // check if there exist such task
+    if (!task) {
+      return res.status(404).json({
+        status: 'Error',
+        message: 'There are no tasks for your department'
+      })
+    }
+    // view the tasks of the given depratment
+    res.json({
+      status: 'Success',
+      data: task
+    })
+
+})
+
 module.exports = router
