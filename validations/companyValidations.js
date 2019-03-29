@@ -10,7 +10,6 @@ module.exports = {
       state: Joi.string(),
       investorId: Joi.string(),
       form: Joi.object().keys({
-        description: Joi.array(),
         data: Joi.array(),
         comment: Joi.string(),
         acceptedByLawyer: Joi.number().min(-1).max(1).integer(),
@@ -34,7 +33,6 @@ module.exports = {
       state: Joi.string(),
       investorId: Joi.string(),
       form: Joi.object().keys({
-        description: Joi.array(),
         data: Joi.array(),
         comment: Joi.string().min(5).required(),
         acceptedByLawyer: Joi.number().min(-1).max(1).integer(),
