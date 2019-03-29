@@ -20,7 +20,12 @@ const admin = {
   },
   viewDepartmentTasks: async (id) => {
     return axios.get(`http://localhost:8000/api/admins/viewDepartmentTask/${id}`)
-    
+  },
+  publishCompany: async (id) => {
+    return axios.put(`http://localhost:8000/api/admins/publishCompany/${id}`)
+  },
+  updateMyProfile: async (id) => {
+    return axios.get(`http://localhost:8000/api/admins/updateMyProfile/${id}`)
   }
 }
 module.exports = admin

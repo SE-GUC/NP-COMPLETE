@@ -150,3 +150,71 @@ test('Admin view his department tasks by id', async () => {
   expect.assertions(1)
   expect(adminDepartmentTasksData).toEqual(myDepartmentTasksData)
 })
+// user story 4.07 part 1
+test('Publish a company exists', async () => {
+  expect.assertions(1)
+  expect(typeof (admin.publishCompany)).toBe('function')
+})
+
+// user story 4.07 part 2
+test('Publish a company by id', async () => {
+  const data = {
+    name: 'Nike',
+    establishmentDate: '1837-02-15',
+    type: 'SSC',
+    state: 'pending',
+    accepted: true,
+    investorId: '5c9614f2fe51f5258ce36f91',
+    form: {
+      data: [],
+      comment: 'good company',
+      acceptedByLawyer: 1,
+      acceptedByReviewer: 1,
+      filledByLawyer: false,
+      paid: true,
+      lawyerID: '5c9a6888bca2114a80a5c124',
+      reviewerID: '5c9660e5e008212d705efd15'
+    }
+  }
+  const companyCreated = await company.createCompany(data)
+  const createdCompanyData = companyCreated.data.data
+  const companyId = createdCompanyData['_id']
+
+  const publishedCompany = await admin.publishCompany(companyId)
+  const datenow = new Date(Date.now())
+  datenow.setMilliseconds(0)
+  datenow.setSeconds(0)
+  datenow.setMinutes(0)
+  const updatedData = {
+    name: 'Nike',
+    establishmentDate: datenow.toISOString(),
+    type: 'SSC',
+    state: 'published',
+    accepted: true,
+    investorId: '5c9614f2fe51f5258ce36f91',
+    form: {
+      data: [],
+      comment: 'good company',
+      acceptedByLawyer: 1,
+      acceptedByReviewer: 1,
+      filledByLawyer: false,
+      paid: true,
+      lawyerID: '5c9a6888bca2114a80a5c124',
+      reviewerID: '5c9660e5e008212d705efd15'
+    },
+    __v: 0,
+    _id: companyId
+  }
+
+  const publishedCompanyData = publishedCompany.data.data
+
+  expect.assertions(1)
+  expect(publishedCompanyData).toMatchObject(updatedData)
+})
+
+// User story 5.06 - update profile
+test('Update-my-profile exists', async () => {
+  expect.assertions(1)
+  expect(typeof (admin.updateMyProfile)).toBe('function')
+},
+10000)
