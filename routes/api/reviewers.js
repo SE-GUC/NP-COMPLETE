@@ -38,7 +38,7 @@ router.get('/:id', async (req, res) => {
     return res.status(400).json({
       status: 'Error',
       message: 'Reviewer not found',
-      availableAdmins: await Reviewer.find()
+      availableReviewers: await Reviewer.find()
     })
   }
 })
@@ -96,6 +96,34 @@ router.delete('/:id', async (req, res) => {
   } catch (error) {
     console.log(error)
   }
+})
+
+// As an Internal User I should be able to view tasks assigned to my department, so that I can be aware of coworkers updates.
+router.get('/viewDepartmentTask/:id', async (req, res) => {
+  const reviewerId = req.params.id
+  const userReviewer = await Reviewer.findById(reviewerId)
+  if (!userReviewer) {
+    return res.status(400).json({
+      status: 'Error',
+      message: 'Reviewer not found',
+      availableReviewers: await Reviewer.find()
+    })
+  }
+  const query = { 'department': 'Reviewer' }
+  const task = await Task.find(query)
+    // check if there exist such task
+    if (!task) {
+      return res.status(404).json({
+        status: 'Error',
+        message: 'There are no tasks for your department'
+      })
+    }
+    // view the tasks of the given depratment
+    res.json({
+      status: 'Success',
+      data: task
+    })
+
 })
 
 // As a reviewer I should be able to preview (read only) applications, so that I can decide whether to accept or reject
@@ -224,7 +252,6 @@ router.put('/addComment/:reviewerID/:companyID', async (req, res) => {
     const query = { '_id': companyID, 'form.acceptedByReviewer': 0, 'form.reviewerID': reviewerID }
     const newData = { 'form': { 'comment': req.body.comment } }
     const companyEdited = await Company.findOneAndUpdate(query, newData, { new: true })
-    console.log(companyEdited)
     if (!companyEdited) {
       return res.status(400).json({
         status: 'Error',
@@ -272,6 +299,25 @@ router.get('/workPage/:id', async (req, res) => {
       status: 'Success',
       data: tasks
     })
+  } catch (error) {
+    console.log(error)
+  }
+})
+
+// Update reviewer's profile
+router.put('/updateMyProfile/:id', async (req, res) => {
+  try {
+    const stored = Object.keys(req.body)
+    console.log(stored)
+    if (stored.includes('startDate') || stored.includes('workingHours') || stored.includes('salary')) {
+      res.json({
+        status: 'Error',
+        message: 'Request failed cannot update these attributes'
+      })
+    } else {
+      const id = req.params.id
+      res.redirect(`/api/reviewers/${id}`)
+    }
   } catch (error) {
     console.log(error)
   }
