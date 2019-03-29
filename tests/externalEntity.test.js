@@ -1,8 +1,10 @@
 const externalEntity = require('./externalEntity')
+const task = require('./task')
 
+jest.setTimeout(180000)
 test('Create-an-External-Entity exists', async () => {
   expect.assertions(1)
-  return expect(typeof (externalEntity.createExternalEntity)).toBe('function')
+  expect(typeof (externalEntity.createExternalEntity)).toBe('function')
 })
 
 test('Create an External Entity', async () => {
@@ -14,17 +16,17 @@ test('Create an External Entity', async () => {
   const created = await externalEntity.createExternalEntity(data)
   const createdData = created.data.data
   expect.assertions(1)
-  return expect(createdData).toMatchObject(data)
+  expect(createdData).toMatchObject(data)
 })
 
 test('Read-all-External-Entities exists', async () => {
   expect.assertions(1)
-  return expect(typeof (externalEntity.default)).toBe('function')
+  expect(typeof (externalEntity.default)).toBe('function')
 })
 
 test('Read-an-External-Entity exists', async () => {
   expect.assertions(1)
-  return expect(typeof (externalEntity.readExternalEntity)).toBe('function')
+  expect(typeof (externalEntity.readExternalEntity)).toBe('function')
 })
 
 test('Read an External entity', async () => {
@@ -39,12 +41,12 @@ test('Read an External entity', async () => {
   const read = await externalEntity.readExternalEntity(id)
   const readData = read.data.data
   expect.assertions(1)
-  return expect(readData).toEqual(createdData)
+  expect(readData).toEqual(createdData)
 })
 
 test('Update-an-External-Entity exists', async () => {
   expect.assertions(1)
-  return expect(typeof (externalEntity.updateExternalEntity)).toBe('function')
+  expect(typeof (externalEntity.updateExternalEntity)).toBe('function')
 })
 
 test('Update an External Entity by id', async () => {
@@ -70,12 +72,12 @@ test('Update an External Entity by id', async () => {
   const updated = await externalEntity.updateExternalEntity(id, dataToUpdate)
   const updatedData = updated.data.data
   expect.assertions(1)
-  return expect(updatedData).toMatchObject(dataUpdated)
+  expect(updatedData).toMatchObject(dataUpdated)
 })
 
 test('Delete-an-External-Entity exists', async () => {
   expect.assertions(1)
-  return expect(typeof (externalEntity.default)).toBe('function')
+  expect(typeof (externalEntity.default)).toBe('function')
 })
 
 /*
@@ -106,9 +108,35 @@ test('Delete an External Entity by id', async () => {
   const id = createdData['_id']
   const deleted = await externalEntity.deleteExternalEntity(id)
   const deletedData = deleted.data.deletedExternalEntity
-  console.log(deleted)
-  console.log(deleted.data)
-  console.log(deleted.data.deletedExternalEntity)
+  // console.log(deleted)
+  // console.log(deleted.data)
+  // console.log(deleted.data.deletedExternalEntity)
   expect.assertions(1)
-  return expect(deletedData).toEqual(createdData)
+  expect(deletedData).toEqual(createdData)
+})
+
+// As an Internal User I should be able to view tasks assigned to my department, so that I can be aware of coworkers updates.
+
+// Test that the function exists
+test('View-my-department-tasks exists', async () => {
+  expect.assertions(1)
+  expect(typeof (externalEntity.viewDepartmentTasks)).toBe('function')
+})
+
+// Test the functionalty
+test('External Entity view his department tasks by id', async () => {
+  const externalEntityData = {
+    name: 'sosololototo',
+    email: 'koko@wawa.com',
+    phone: 2323034
+  }
+  const createdExternalEntity = await externalEntity.createExternalEntity(externalEntityData)
+  const createdExternalEntityData = createdExternalEntity.data.data
+  const externalEntityId = createdExternalEntityData['_id']
+  const externalEntityDepartmentTasks = await externalEntity.viewDepartmentTasks(externalEntityId)
+  const externalEntityDepartmentTasksData = externalEntityDepartmentTasks.data.data
+  const myDepartmentTasks = await task.viewDepartmentTask({department:'External Entity'})
+  const myDepartmentTasksData = myDepartmentTasks.data.data
+  expect.assertions(1)
+  expect(externalEntityDepartmentTasksData).toEqual(myDepartmentTasksData)
 })
