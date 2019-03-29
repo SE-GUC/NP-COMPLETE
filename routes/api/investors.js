@@ -349,7 +349,7 @@ const isValidDate = stringDate => {
 
 // as an investor i should be able to pay the fees to establish my company
 // will be verified with stripe to add real fees in the front end
-router.get('/payFees/:id', async (req, res) => {
+router.put('/payFees/:id', async (req, res) => {
   try {
     const investorId = req.params.id
     const investor = await Investor.findById({ '_id': investorId })
@@ -380,7 +380,7 @@ router.get('/payFees/:id', async (req, res) => {
       })
     }
     const query2 = { '_id': companyId }
-    const data2 = { 'state': 'Accepted',
+    const data2 = { 'state': 'Established',
       'establishmentDate': Date.now(),
       'form.paid': true,
       'fees': 0
