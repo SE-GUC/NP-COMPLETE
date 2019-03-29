@@ -5,7 +5,7 @@ const router = express.Router()
 // Task model
 const Task = require('../../models/Task')
 const validator = require('../../validations/taskValidations')
-
+// Read all Tasks (Default route)
 router.get('/', async (req, res) => {
   try {
     const tasks = await Task.find()
@@ -15,8 +15,8 @@ router.get('/', async (req, res) => {
   }
 })
 
-// Read all Tasks (Default route) or specfic department tasks (if given a valid department in the body)
-router.get('/viewDepartmentTask', async (req, res) => {
+// Read specfic department tasks (if given a valid department in the body)
+router.put('/viewDepartmentTask', async (req, res) => {
   const department = req.body.department
   // check that the given department in the body is valid
   if (department === 'Lawyer' || department === 'Reviewer' || department === 'Admin' || department === 'External Entity') {

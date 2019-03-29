@@ -128,6 +128,34 @@ router.delete('/:id', async (req, res) => {
   }
 })
 
+// As an Internal User I should be able to view tasks assigned to my department, so that I can be aware of coworkers updates.
+router.get('/viewDepartmentTask/:id', async (req, res) => {
+  const lawyerId = req.params.id
+  const userLawyer = await Lawyer.findById(lawyerId)
+  if (!userLawyer) {
+    return res.status(400).json({
+      status: 'Error',
+      message: 'Lawyer not found',
+      availableLawyer: await Lawyer.find()
+    })
+  }
+  const query = { 'department': 'Lawyer' }
+  const task = await Task.find(query)
+    // check if there exist such task
+    if (!task) {
+      return res.status(404).json({
+        status: 'Error',
+        message: 'There are no tasks for your department'
+      })
+    }
+    // view the tasks of the given depratment
+    res.json({
+      status: 'Success',
+      data: task
+    })
+
+})
+
 // As a lawyer i should be able to fill forms delegated to me by an investor (creating company with its form)
 router.post('/newForm', async (req, res) => {
   if (req.body.form.filledByLawyer !== true || req.body.form.acceptedByLawyer !== 1) {

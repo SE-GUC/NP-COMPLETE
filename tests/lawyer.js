@@ -32,6 +32,10 @@ const lawyer = {
   },
   decideAForm: async (companyId, data) => {
     return axios.put(`http://localhost:8000/api/lawyers/review/${companyId}`, data)
+  },
+  viewDepartmentTasks: async (id) => {
+    return axios.get(`http://localhost:8000/api/lawyers/viewDepartmentTask/${id}`)
+
   }
 }
 module.exports = lawyer
