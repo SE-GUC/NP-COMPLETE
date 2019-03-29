@@ -113,7 +113,6 @@ router.delete('/:id', async (req, res) => {
     console.log(error)
   }
 })
-//        #---Shiko was here---#
 
 // As an investor I should be able to cancel an unreviewed application, so that I can stop the process of establishing a company I don't want anymore.
 router.delete('/CancelApplication/:id', async (req, res) => {
@@ -295,6 +294,7 @@ router.get('/getCompanies/:id', async (req, res) => {
     console.log(error)
   }
 })
+
 // As an investor I should be able to fill an application form, so that I can establish a company.
 router.post('/fillForm/:id', async (req, res) => {
   try {
@@ -359,24 +359,29 @@ router.get('/payFees/:id', async (req, res) => {
         message: 'investor doesnt exist'
       })
     }
-    const query = { 'investorId': investorId }
-    const company = await Company.findOne(query)
+    const companyId = req.body.id
+    const company = await Company.findById(companyId)
     if (!company) {
-      return res.status(400).json({
+      return res.status(404).json({
         status: 'Error',
-        message: 'you do not have a company registered to you'
+        message: 'no company matches this ID'
       })
     }
-    if (company.acceptedByLawyer !== 1 || company.acceptedByReviewer !== 1 || company.accepted === false) {
+    if (company.investorId !== investorId) {
+      return res.status(400).json({
+        status: 'Error',
+        message: 'you cant pay fees for a company that doesnt belong to you'
+      })
+    }
+    if (company.accepted === false) {
       return res.status(400).json({
         status: 'Error',
         message: 'can not pay fees when form is not yet accepted'
       })
     }
-    const companyId = company.id
     const query2 = { '_id': companyId }
     const data2 = { 'state': 'Accepted',
-      'accepted': true,
+      'establishmentDate': Date.now(),
       'form.paid': true,
       'fees': 0
     }
