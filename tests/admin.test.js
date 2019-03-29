@@ -1,6 +1,7 @@
 const admin = require('./admin')
 const company = require('./company')
 const task = require('./task')
+const investor = require('./investor')
 
 jest.setTimeout(180000)
 
@@ -245,6 +246,7 @@ test('Publish a company by id', async () => {
   }
 
   const publishedCompanyData = publishedCompany.data.data
+  await company.deleteCompany(companyId)
 
   expect.assertions(1)
   expect(publishedCompanyData).toMatchObject(updatedData)
@@ -256,3 +258,28 @@ test('Update-my-profile exists', async () => {
   expect(typeof (admin.updateMyProfile)).toBe('function')
 },
 10000)
+
+// user story 2.04 part 1
+test('getFeedback exists', async () => {
+  expect.assertions(1)
+  expect(typeof (admin.getFeedback)).toBe('function')
+})
+
+// user story 2.04 part 2
+test('getFeedback of investors by admin', async () => {
+  const data = {
+    fullName: 'Sam Water',
+    birthdate: '1837-02-15',
+    email: 'great@guy.com',
+    feedback: 'test'
+  }
+  const originalFeedback = data['feedback']
+  const createdInvestor = await investor.createInvestor(data)
+  const createdInvestorId = createdInvestor.data.data['_id']
+  const feedbacks = await admin.getFeedback('1')
+  const firstFeedback = feedbacks.data.data[0]
+
+  await investor.deleteInvestor(createdInvestorId)
+  expect.assertions(1)
+  expect(originalFeedback).toEqual(firstFeedback)
+})
