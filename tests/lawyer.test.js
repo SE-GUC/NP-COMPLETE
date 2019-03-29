@@ -400,7 +400,7 @@ test('Lawyer view his department tasks by id', async () => {
 // Test the function exists
 test('View-Cases-exists', async () => {
   expect.assertions(1)
-  return expect(typeof (lawyer.viewCases)).toBe('function')
+  return expect(typeof (lawyer.casesPage)).toBe('function')
 })
 
 // Test the functionality
