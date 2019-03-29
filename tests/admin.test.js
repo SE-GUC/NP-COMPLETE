@@ -32,6 +32,48 @@ test('Update-an-Admin exists', async () => {
   expect(typeof (admin.updateAdmin)).toBe('function')
 })
 
+test('Assign-Deadline exists', async () => {
+  expect.assertions(1)
+  expect(typeof (admin.assignDeadline)).toBe('function')
+})
+
+test('Assign Deadline', async () => {
+  const data = {
+    fullName: 'Jane Doe',
+    birthdate: '1995-05-05',
+    email: 'jane-doe@gmail.com',
+    startDate: '2019-02-02'
+  }
+  const created = await admin.createAdmin(data)
+  const createdData = created.data.data
+  const id = createdData['_id']
+  
+  const modifiedTask = {
+    department:'Lawyer',
+    creationDate:'2018-02-02',
+    deadline:'2019-02-02'
+  }
+
+  const oldTask =  await task.createTask(modifiedTask)
+  const oldTaskData = oldTask.data.data
+  const tId = oldTaskData['_id']
+  const newData = {
+    TaskID : tId,
+    deadline:'2019-03-03'
+  }
+  const nowTask = await admin.assignDeadline(id,newData)
+  
+  const newTask = {
+    department:'Lawyer',
+    creationDate:'2018-02-02T00:00:00.000Z',
+    deadline:'2019-03-03T00:00:00.000Z'
+  }
+  const nowTaskData = nowTask.data.data
+  expect.assertions(1)
+  expect(nowTaskData).toMatchObject(newTask)
+})
+
+
 test('Update an Admin by id', async () => {
   const data = {
     fullName: 'Jane Doe',
