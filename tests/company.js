@@ -8,6 +8,9 @@ const company = {
   },
   updateCompany: async (id, data) => {
     return axios.put(`http://localhost:8000/api/companies/${id}`, data)
+  },
+  deleteCompany: async (id) => {
+    return axios.delete(`http://localhost:8000/api/companies/${id}`)
   }
 }
 module.exports = company

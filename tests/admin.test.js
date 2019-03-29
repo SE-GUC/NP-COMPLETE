@@ -246,6 +246,7 @@ test('Publish a company by id', async () => {
   }
 
   const publishedCompanyData = publishedCompany.data.data
+  await company.deleteCompany(companyId)
 
   expect.assertions(1)
   expect(publishedCompanyData).toMatchObject(updatedData)
@@ -274,11 +275,11 @@ test('getFeedback of investors by admin', async () => {
   }
   const originalFeedback = data['feedback']
   const createdInvestor = await investor.createInvestor(data)
-  const createdInvestorData = createdInvestor.data.data
-  console.log(createdInvestorData)
-
+  const createdInvestorId = createdInvestor.data.data['_id']
   const feedbacks = await admin.getFeedback('1')
   const firstFeedback = feedbacks.data.data[0]
+
+  await investor.deleteInvestor(createdInvestorId)
   expect.assertions(1)
   expect(originalFeedback).toEqual(firstFeedback)
 })
