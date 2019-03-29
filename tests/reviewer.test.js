@@ -173,6 +173,134 @@ test('decideAnApplication exists', async () => {
   expect(typeof (reviewer.decideAnApplication)).toBe('function')
 })
 
+test('Accepting an application by company id and reviewer id, not reviewed before', async () => {
+  const createdReviewer = await reviewer.createReviewer(reviewerData)
+  const reviewerId = createdReviewer.data.data['_id']
+  const createdCompany = await company.createCompany(companyNotReviewedData)
+  const companyId = createdCompany.data.data['_id']
+
+  try {
+    const form = await reviewer.decideAnApplication(reviewerId, companyId, trueDecisionData)
+    const reviewed = form.data.data['acceptedByReviewer']
+    const id = form.data.data['reviewerID']
+    expect.assertions(2)
+    expect(id).toEqual(reviewerId)
+    expect(reviewed).toEqual(1)
+  } catch (err) {
+    console.log(err)
+  }
+}, 20000)
+
+test('Rejecting an application by company id and reviewer id', async () => {
+  const createdReviewer = await reviewer.createReviewer(reviewerData)
+  const reviewerId = createdReviewer.data.data['_id']
+  const createdCompany = await company.createCompany(companyNotReviewedData)
+  const companyId = createdCompany.data.data['_id']
+
+  try {
+    const form = await reviewer.decideAnApplication(reviewerId, companyId, falseDecisionData)
+    const reviewed = form.data.data['acceptedByReviewer']
+    const id = form.data.data['reviewerID']
+    expect.assertions(2)
+    expect(id).toEqual(reviewerId)
+    expect(reviewed).toBe(0)
+  } catch (err) {
+    console.log(err)
+  }
+}, 20000)
+
+test('Accepting an already accepted application by company id and reviewer id', async () => {
+  const createdReviewer = await reviewer.createReviewer(reviewerData)
+  const reviewerId = createdReviewer.data.data['_id']
+  const createdCompany = await company.createCompany(companyAlreadyReviewedData)
+  const companyId = createdCompany.data.data['_id']
+
+  try {
+    // check that this request must return an error
+    expect(await reviewer.decideAnApplication(reviewerId, companyId, trueDecisionData)).toThrowError()
+  } catch (err) {
+    // check the status code
+    const statusCode = err['response'].status
+    expect(statusCode).toEqual(400)
+
+    // check the custom error message
+    const customError = err['response'].data
+    expect(customError.status).toEqual('Error')
+    expect(customError.message).toEqual('Form already accepted by reviewer')
+
+    expect.assertions(3)
+  }
+}, 20000)
+
+test('Accepting an application No decision given', async () => {
+  const createdReviewer = await reviewer.createReviewer(reviewerData)
+  const reviewerId = createdReviewer.data.data['_id']
+  const createdCompany = await company.createCompany(companyNotReviewedData)
+  const companyId = createdCompany.data.data['_id']
+
+  try {
+    // check that this request must return an error
+    expect(await reviewer.decideAnApplication(reviewerId, companyId, {})).toThrowError()
+  } catch (err) {
+    // check the status code
+    const statusCode = err['response'].status
+    expect(statusCode).toEqual(400)
+
+    // check the custom error message
+    const customError = err['response'].data
+    expect(customError.status).toEqual('Error')
+    expect(customError.message).toEqual('Decision not given')
+
+    expect.assertions(3)
+  }
+}, 20000)
+
+test('Accepting an application decision string rejected', async () => {
+  const createdReviewer = await reviewer.createReviewer(reviewerData)
+  const reviewerId = createdReviewer.data.data['_id']
+  const createdCompany = await company.createCompany(companyNotReviewedData)
+  const companyId = createdCompany.data.data['_id']
+
+  try {
+    // check that this request must return an error
+    expect(await reviewer.decideAnApplication(reviewerId, companyId, { decision: 'true' })).toThrowError()
+  } catch (err) {
+    // check the status code
+    const statusCode = err['response'].status
+    expect(statusCode).toEqual(400)
+
+    // check the custom error message
+    const customError = err['response'].data
+    expect(customError.status).toEqual('Error')
+    expect(customError.message).toEqual('Variable decision needs to be a boolean type')
+
+    expect.assertions(3)
+  }
+}, 20000)
+
+test('Accepting an application not accepted by lawyer', async () => {
+  const createdReviewer = await reviewer.createReviewer(reviewerData)
+  const reviewerId = createdReviewer.data.data['_id']
+  const createdCompany = await company.createCompany(companyNotAcceptedByLawyerData)
+  const companyId = createdCompany.data.data['_id']
+
+  try {
+    // check that this request must return an error
+    expect(await reviewer.decideAnApplication(reviewerId, companyId, trueDecisionData)).toThrowError()
+  } catch (err) {
+    // check the status code
+    const statusCode = err['response'].status
+    expect(statusCode).toEqual(400)
+
+    // check the custom error message
+    const customError = err['response'].data
+    expect(customError.status).toEqual('Error')
+    expect(customError.message).toEqual('Form not accepted by lawyer')
+
+    expect.assertions(3)
+  }
+}, 20000)
+
 // As an Internal User I should be able to view all the cases in the system so that I can open them and check their details
 
 // Test the function exists
@@ -266,133 +394,6 @@ test('Reviewer preview unreviewed forms', async () => {
   expect.assertions(1)
   expect(result).toEqual(expected)
 })
-test('Accepting an application by company id and reviewer id, not reviewed before', async () => {
-  const createdReviewer = await reviewer.createReviewer(reviewerData)
-  const reviewerId = createdReviewer.data.data['_id']
-  const createdCompany = await company.createCompany(companyNotReviewedData)
-  const companyId = createdCompany.data.data['_id']
-
-  try {
-    const form = await reviewer.decideAnApplication(reviewerId, companyId, trueDecisionData)
-    const reviewed = form.data.data['acceptedByReviewer']
-    const id = form.data.data['reviewerID']
-    expect.assertions(2)
-    expect(id).toEqual(reviewerId)
-    expect(reviewed).toEqual(1)
-  } catch (err) {
-    console.log(err)
-  }
-}, 20000)
-
-test('Rejecting an application by company id and reviewer id', async () => {
-  const createdReviewer = await reviewer.createReviewer(reviewerData)
-  const reviewerId = createdReviewer.data.data['_id']
-  const createdCompany = await company.createCompany(companyNotReviewedData)
-  const companyId = createdCompany.data.data['_id']
-
-  try {
-    const form = await reviewer.decideAnApplication(reviewerId, companyId, falseDecisionData)
-    const reviewed = form.data.data['acceptedByReviewer']
-    const id = form.data.data['reviewerID']
-    expect.assertions(2)
-    expect(id).toEqual(reviewerId)
-    expect(reviewed).toBe(0)
-  } catch (err) {
-    console.log(err)
-  }
-}, 20000)
-
-test('Accepting an already accepted application by company id and reviewer id', async () => {
-  const createdReviewer = await reviewer.createReviewer(reviewerData)
-  const reviewerId = createdReviewer.data.data['_id']
-  const createdCompany = await company.createCompany(companyAlreadyReviewedData)
-  const companyId = createdCompany.data.data['_id']
-
-  try {
-    // check that this request must return an error
-    expect(await reviewer.decideAnApplication(reviewerId, companyId, trueDecisionData)).toThrowError()
-  } catch (err) {
-    // check the status code
-    const statusCode = err['response'].status
-    expect(statusCode).toEqual(400)
-
-    // check the custom error message
-    const customError = err['response'].data
-    expect(customError.status).toEqual('Error')
-    expect(customError.message).toEqual('Form already accepted by reviewer')
-
-    expect.assertions(3)
-  }
-}, 20000)
-
-test('No decision given', async () => {
-  const createdReviewer = await reviewer.createReviewer(reviewerData)
-  const reviewerId = createdReviewer.data.data['_id']
-  const createdCompany = await company.createCompany(companyNotReviewedData)
-  const companyId = createdCompany.data.data['_id']
-
-  try {
-    // check that this request must return an error
-    expect(await reviewer.decideAnApplication(reviewerId, companyId, {})).toThrowError()
-  } catch (err) {
-    // check the status code
-    const statusCode = err['response'].status
-    expect(statusCode).toEqual(400)
-
-    // check the custom error message
-    const customError = err['response'].data
-    expect(customError.status).toEqual('Error')
-    expect(customError.message).toEqual('Decision not given')
-
-    expect.assertions(3)
-  }
-}, 20000)
-
-test('Decision string rejected', async () => {
-  const createdReviewer = await reviewer.createReviewer(reviewerData)
-  const reviewerId = createdReviewer.data.data['_id']
-  const createdCompany = await company.createCompany(companyNotReviewedData)
-  const companyId = createdCompany.data.data['_id']
-
-  try {
-    // check that this request must return an error
-    expect(await reviewer.decideAnApplication(reviewerId, companyId, { decision: 'true' })).toThrowError()
-  } catch (err) {
-    // check the status code
-    const statusCode = err['response'].status
-    expect(statusCode).toEqual(400)
-
-    // check the custom error message
-    const customError = err['response'].data
-    expect(customError.status).toEqual('Error')
-    expect(customError.message).toEqual('Variable decision needs to be a boolean type')
-
-    expect.assertions(3)
-  }
-}, 20000)
-
-test('Not accepted by lawyer', async () => {
-  const createdReviewer = await reviewer.createReviewer(reviewerData)
-  const reviewerId = createdReviewer.data.data['_id']
-  const createdCompany = await company.createCompany(companyNotAcceptedByLawyerData)
-  const companyId = createdCompany.data.data['_id']
-
-  try {
-    // check that this request must return an error
-    expect(await reviewer.decideAnApplication(reviewerId, companyId, trueDecisionData)).toThrowError()
-  } catch (err) {
-    // check the status code
-    const statusCode = err['response'].status
-    expect(statusCode).toEqual(400)
-
-    // check the custom error message
-    const customError = err['response'].data
-    expect(customError.status).toEqual('Error')
-    expect(customError.message).toEqual('Form not accepted by lawyer')
-
-    expect.assertions(3)
-  }
-}, 20000)
 
 test('add-a-comment exists', async () => {
   expect.assertions(1)
