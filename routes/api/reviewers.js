@@ -323,4 +323,8 @@ router.put('/updateMyProfile/:id', async (req, res) => {
   }
 })
 
+// As an Internal User I can see who last worked on a case so that we can all be updated of each other's work
+
+// This user story functionality was implemented in the casesPage story in sprint2.
+
 module.exports = router
