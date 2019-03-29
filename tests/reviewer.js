@@ -9,6 +9,9 @@ const reviewer = {
   readReviewer: async (id) => {
     return axios.get(`http://localhost:8000/api/reviewers/${id}`)
   },
+  updateReviewer: async (id, data) => {
+    return axios.put(`http://localhost:8000/api/reviewers/${id}`, data)
+  },
   deleteReviewer: async (id) => {
     return axios.delete(`http://localhost:8000/api/reviewers/${id}`)
   },
@@ -17,6 +20,15 @@ const reviewer = {
   },
   formsToReview: async (id) => {
     return axios.get(`http://localhost:8000/api/reviewers/formsToReview/${id}`)
+  },
+  decideAnApplication: async (reviewerId, companyId, data) => {
+    return axios.put(`http://localhost:8000/api/reviewers/decideAnApplication/${reviewerId}/${companyId}`, data)
+  },
+  addComment: async (reviewerId, companyId, data) => {
+    return axios.put(`http://localhost:8000/api/reviewers/addComment/${reviewerId}/${companyId}`, data)
+  },
+  viewDepartmentTasks: async (id) => {
+    return axios.get(`http://localhost:8000/api/reviewers/viewDepartmentTask/${id}`)
   }
 }
 module.exports = reviewer
