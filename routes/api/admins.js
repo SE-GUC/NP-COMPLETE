@@ -6,6 +6,7 @@ const router = express.Router()
 const Admin = require('../../models/Admin')
 const Task = require('../../models/Task')
 const Company = require('../../models/Company')
+const Investor = require('../../models/Investor')
 
 // Validator
 const validator = require('../../validations/adminValidations')
@@ -294,6 +295,41 @@ router.put('/updateMyProfile/:id', async (req, res) => {
     } else {
       const id = req.params.id
       res.redirect(`/api/admins/${id}`)
+    }
+  } catch (error) {
+    console.log(error)
+  }
+})
+
+// As an admin I should be able to view the investors' feedback so that I can make the right improvements to the service
+router.get('/getFeedback/:id', async (req, res) => {
+  try {
+    const investors = await Investor.find()
+    if (!investors[0]) {
+      return res.status(400).json({
+        status: 'Error',
+        message: 'investors not found'
+      })
+    } else {
+      var i
+      var x = []
+      for (i = 0; i < investors.length; i++) {
+        if (investors[i].feedback) {
+          x.push(investors[i].feedback)
+        }
+      }
+      if (!x[0]) {
+        return res.status(400).json({
+          status: 'Error',
+          message: 'No feedbacks found'
+        })
+      } else {
+        return res.json({
+          status: 'Success',
+          message: `Here are the feedbacks`,
+          data: x
+        })
+      }
     }
   } catch (error) {
     console.log(error)
