@@ -394,3 +394,30 @@ test('Lawyer view his department tasks by id', async () => {
   expect.assertions(1)
   expect(lawyerDepartmentTasksData).toEqual(myDepartmentTasksData)
 })
+
+// As an Internal User I should be able to view all the cases in the system so that I can open them and check their details
+
+// Test the function exists
+test('View-Cases-exists', async () => {
+  expect.assertions(1)
+  return expect(typeof (lawyer.viewCases)).toBe('function')
+})
+
+// Test the functionality
+test('Lawyer view all cases', async () => {
+  const lawyerData = {
+    fullName: 'Elliot Alderson',
+    birthdate: '1995-10-02',
+    email: 'mrRobot@fsociety.com',
+    startDate: '1998-12-02'
+  }
+  const createdLawyer = await lawyer.createLawyer(lawyerData)
+  const createdLawyerData = createdLawyer.data.data
+  const lawyerId = createdLawyerData['_id']
+  const lawyerViewedCases = await lawyer.viewCases(lawyerId)
+  const lawyerViewedCasesData = lawyerViewedCases.data.data
+  const availableCompanies = await company.default()
+  const availableCompaniesData = availableCompanies.data.data
+  expect.assertions(1)
+  expect(lawyerViewedCasesData).toEqual(availableCompaniesData)
+})
