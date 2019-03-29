@@ -393,6 +393,7 @@ test('viewRejected form by an Investor ', async () => {
   const rejectedCompany = await investor.viewRejected(investorId)
   await company.deleteCompany(ccId)
   await company.deleteCompany(cc1Id)
+  await investor.deleteInvestor(investorId)
 
   const rejectedCompanyForm = rejectedCompany.data.data[0]
   const rejectedCompanyForm1 = rejectedCompany.data.data[1]
