@@ -56,16 +56,14 @@ test('Create-an-Investor exists', async () => {
 test('Create-an-Investor', async () => {
   const data = {
     fullName: 'Anthony Martial',
-    birthdate: '1996-12-20',
+    birthdate: '1996-12-20T00:00:00.000Z',
     email: 'hey@everyone.com'
   }
   const created = await investor.createInvestor(data)
   const createdData = created.data.data
   const id = createdData['_id']
-  const read = await investor.readInvestor(id)
-  const readData = read.data.data
   expect.assertions(1)
-  expect(readData).toEqual(createdData)
+  expect(createdData).toMatchObject(data)
 })
 
 test('Update-an-Investor exists', async () => {
