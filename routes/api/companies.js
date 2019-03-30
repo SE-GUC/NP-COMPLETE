@@ -17,7 +17,6 @@ router.get('/', async (req, res) => {
 // Create a new Company
 router.post('/', async (req, res) => {
   try {
-    
     const isValidated = validator.createValidation(req.body)
     if (isValidated.error) {
       return res.status(400).json({

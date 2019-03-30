@@ -7,30 +7,30 @@ test('Create-a-Company exists', async () => {
 
 test('Create a Company', async () => {
   const data = {
-    name: 'Nike',
-    establishmentDate: '1837-02-15',
-    type: 'SSC',
-    state: 'established',
-    accepted: true,
-    investorId: '5c9614f2fe51f5258ce36f91',
+    name: 'AUCCC',
+    type: 'FCB',
     form: {
-      data: [],
-      comment: 'good company',
-      acceptedByLawyer: 1,
-      acceptedByReviewer: 1,
-      filledByLawyer: false,
-      paid: true,
-      lawyerID: '5c9a6888bca2114a80a5c124',
-      reviewerID: '5c9660e5e008212d705efd15'
+      data: []
     }
   }
   const created = await company.createCompany(data)
   const createdData = created.data.data
-  const id = createdData['_id']
-  const read = await company.readCompany(id)
-  const readData = read.data.data
+  const data2 = {
+    form: {
+      data: [],
+      acceptedByLawyer: -1,
+      acceptedByReviewer: -1,
+      filledByLawyer: false,
+      paid: false
+    },
+    name: 'AUCCC',
+    type: 'FCB',
+    accepted: false,
+    state: 'pending'
+  }
+
   expect.assertions(1)
-  return expect(readData).toEqual(createdData)
+  return expect(createdData).toMatchObject(data2)
 })
 
 test('Update a company', async () => {
@@ -40,20 +40,9 @@ test('Update a company', async () => {
 test('Update a company by id', async () => {
   const data = {
     name: 'Nike',
-    establishmentDate: '1837-02-15',
     type: 'SSC',
-    state: 'established',
-    accepted: true,
-    investorId: '5c9614f2fe51f5258ce36f91',
     form: {
-      data: [],
-      comment: 'good company',
-      acceptedByLawyer: 1,
-      acceptedByReviewer: 1,
-      filledByLawyer: false,
-      paid: true,
-      lawyerID: '5c9a6888bca2114a80a5c124',
-      reviewerID: '5c9660e5e008212d705efd15'
+      data: []
     }
   }
 
@@ -64,20 +53,9 @@ test('Update a company by id', async () => {
 
   const dataUpdated = {
     name: 'Testttt',
-    establishmentDate: '1837-02-15T00:00:00.000Z',
     type: 'SPC',
-    state: 'established',
-    accepted: true,
-    investorId: '5c9614f2fe51f5258ce36f91',
     form: {
-      data: [],
-      comment: 'good company',
-      acceptedByLawyer: 1,
-      acceptedByReviewer: 1,
-      filledByLawyer: false,
-      paid: true,
-      lawyerID: '5c9a6888bca2114a80a5c124',
-      reviewerID: '5c9660e5e008212d705efd15'
+      data: []
     }
   }
 
@@ -105,20 +83,9 @@ test('Read-a-Company exists', async () => {
 test('Read a Company by id', async () => {
   const data = {
     name: 'Disney',
-    establishmentDate: '1923-10-16T00:00:00.000Z',
     type: 'SSC',
-    state: 'established',
-    accepted: true,
-    investorId: '5c9614f2fe51f5258ce36f91',
     form: {
-      data: [],
-      comment: 'No comment',
-      acceptedByLawyer: 1,
-      acceptedByReviewer: 1,
-      filledByLawyer: false,
-      paid: true,
-      lawyerID: '5c9a6888bca2114a80a5c124',
-      reviewerID: '5c9660e5e008212d705efd15'
+      data: []
     }
   }
   const created = await company.createCompany(data)
@@ -127,7 +94,7 @@ test('Read a Company by id', async () => {
   const read = await company.readCompany(id)
   const readData = read.data.data
   expect.assertions(1)
-  return expect(readData).toEqual(createdData)
+  return expect(readData).toMatchObject(data)
 })
 
 test('Delete-a-Company exists', async () => {
@@ -139,20 +106,9 @@ test('Delete-a-Company exists', async () => {
 test('Delete a Company by id', async () => {
   const data = {
     name: 'Disney',
-    establishmentDate: '1923-10-16T00:00:00.000Z',
     type: 'SSC',
-    state: 'established',
-    accepted: true,
-    investorId: '5c9614f2fe51f5258ce36f91',
     form: {
-      data: [],
-      comment: 'No comment',
-      acceptedByLawyer: 1,
-      acceptedByReviewer: 1,
-      filledByLawyer: false,
-      paid: true,
-      lawyerID: '5c9a6888bca2114a80a5c124',
-      reviewerID: '5c9660e5e008212d705efd15'
+      data: []
     }
   }
   const created = await company.createCompany(data)
@@ -161,5 +117,5 @@ test('Delete a Company by id', async () => {
   const deleted = await company.deleteCompany(id)
   const deletedData = deleted.data.deletedCompany
   expect.assertions(1)
-  return expect(deletedData).toEqual(createdData)
+  return expect(deletedData).toMatchObject(data)
 })
