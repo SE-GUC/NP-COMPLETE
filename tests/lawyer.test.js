@@ -315,8 +315,6 @@ test('View a form by investor id', async () => {
   const returnedData = await lawyer.viewForm(id)
   const returnedFormsData = returnedData.data.data
   const expectedResult = `Company: myCo has form: cairo,23,5555, Company: myCo2 has form: cairo,23,5555, `
-  console.log(returnedFormsData)
-  console.log(expectedResult)
   expect(expectedResult).toEqual(returnedFormsData)
 }, 10000)
 
