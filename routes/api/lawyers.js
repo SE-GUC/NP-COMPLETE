@@ -173,7 +173,6 @@ router.get('/viewForm/:id', async (req, res) => {
     const investorId = req.params.id
     const query = { 'investorId': investorId }
     const companies = await Company.find(query)
-    console.log(companies)
     if (!companies) {
       return res.status(404).json({
         status: 'error',
@@ -235,15 +234,6 @@ router.put('/review/:id', async (req, res) => {
         message: 'This form is already reviewed'
       })
     }
-    // JOI Validation
-    // const isValidated = validator.reviewFormValidation(req.body)
-    // if (isValidated.error) {
-    //   return res.status(400).json({
-    //     status: 'Error',
-    //     message: isValidated.error.details[0].message,
-    //     data: req.body
-    //   })
-    // }
 
     // Changing value to the new value
     const query = { '_id': req.params.id }
@@ -474,7 +464,6 @@ const calculateFees = async capital => {
 router.put('/updateMyProfile/:id', async (req, res) => {
   try {
     const stored = Object.keys(req.body)
-    console.log(stored)
     if (stored.includes('startDate') || stored.includes('workingHours') || stored.includes('salary')) {
       res.json({
         status: 'Error',

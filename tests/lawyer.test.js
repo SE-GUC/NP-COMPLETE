@@ -2,7 +2,6 @@ const lawyer = require('./lawyer')
 const company = require('./company')
 const investor = require('./investor')
 const task = require('./task')
-//! Needs to test Default
 
 test('Read-a-Laywer exists', async () => {
   expect.assertions(1)
@@ -128,13 +127,8 @@ test('Rejecting an application by company id', async () => {
   const companyId = createdCompData['_id']
 
   const form = await lawyer.decideAForm(companyId, data)
-  console.log(form.data.data)
   const reviewed = form.data.data['acceptedByLawyer']
-  console.log(reviewed)
-  // const id = form.data.data['lawyerID']
-  // console.log(id)
   expect.assertions(1)
-  // expect(id).toEqual(lawyerId)
   expect(reviewed).toBe(0)
 }, 20000)
 
@@ -360,7 +354,7 @@ test('Edit Form declined by Reviewer', async () => {
 })
 
 // User story 5.06 - update profile
-test('Update-mu-profile exists', async () => {
+test('Update-my-profile exists', async () => {
   expect.assertions(1)
   expect(typeof (lawyer.updateMyProfile)).toBe('function')
 },
@@ -418,4 +412,4 @@ test('Lawyer view all cases', async () => {
   const availableCompaniesData = availableCompanies.data.data
   expect.assertions(1)
   expect(lawyerViewedCasesData).toEqual(availableCompaniesData)
-})
+}, 15000)
