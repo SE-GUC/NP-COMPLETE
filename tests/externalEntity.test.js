@@ -91,9 +91,6 @@ test('Delete an External Entity by id', async () => {
   const id = createdData['_id']
   const deleted = await externalEntity.deleteExternalEntity(id)
   const deletedData = deleted.data.deletedExternalEntity
-  // console.log(deleted)
-  // console.log(deleted.data)
-  // console.log(deleted.data.deletedExternalEntity)
   expect.assertions(1)
   expect(deletedData).toEqual(createdData)
 })
