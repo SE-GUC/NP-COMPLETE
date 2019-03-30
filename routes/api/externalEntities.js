@@ -4,6 +4,7 @@ const router = express.Router()
 
 // ExternalEntity model and validator
 const ExternalEntity = require('../../models/ExternalEntity')
+const Task = require('../../models/Task')
 const validator = require('../../validations/externalEntitiesValidation')
 
 // Read all External Entities (Default route)
@@ -97,18 +98,21 @@ router.put('/:id', async (req, res) => {
 router.delete('/:id', async (req, res) => {
   try {
     const id = req.params.id
-    const deletedExternalEntity = await ExternalEntity.findByIdAndRemove(id)
-    if (!deletedExternalEntity) {
+    const ExternalEntityToBeDeleted = await ExternalEntity.findByIdAndRemove(id)
+    const AllExternalEntities = await ExternalEntity.find()
+    if (!ExternalEntityToBeDeleted) {
       return res.status(400).json({
         status: 'Error',
-        Message: 'External Entity not found'
+        Message: 'External Entity not found',
+        availableExternalEntities: AllExternalEntities
       })
     }
 
     res.json({
       status: 'Success',
       message: `Deleted external entity with id ${id}`,
-      deletedRecord: deletedExternalEntity
+      deletedExternalEntity: ExternalEntityToBeDeleted,
+      remainingExternalEntities: AllExternalEntities
     })
   } catch (error) {
     console.log(error)
