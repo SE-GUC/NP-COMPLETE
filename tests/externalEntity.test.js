@@ -1,5 +1,4 @@
 const externalEntity = require('./externalEntity')
-const task = require('./task')
 
 jest.setTimeout(180000)
 test('Create-an-External-Entity exists', async () => {
@@ -11,7 +10,10 @@ test('Create an External Entity', async () => {
   const data = {
     name: 'Al Almanya l ebadat el 74arat',
     email: 'Al_almanya@kokowawa.com',
-    phone: 2323034
+    phone: 2323034,
+    feesMin: 200,
+    feesMax: 20000,
+    feesPercentage: 50
   }
   const created = await externalEntity.createExternalEntity(data)
   const createdData = created.data.data
@@ -33,7 +35,10 @@ test('Read an External entity', async () => {
   const data = {
     name: 'El masatil',
     email: 'mastol@kokowawa.com',
-    phone: 12121212
+    phone: 12121212,
+    feesMin: 200,
+    feesMax: 20000,
+    feesPercentage: 50
   }
   const created = await externalEntity.createExternalEntity(data)
   const createdData = created.data.data
@@ -53,7 +58,10 @@ test('Update an External Entity by id', async () => {
   const data = {
     name: 'nice',
     email: 'Al_almanya@kokowawa.com',
-    phone: 2323034
+    phone: 2323034,
+    feesMin: 200,
+    feesMax: 20000,
+    feesPercentage: 50
   }
 
   const dataToUpdate = {
@@ -63,7 +71,10 @@ test('Update an External Entity by id', async () => {
   const dataUpdated = {
     name: 'please',
     email: 'Al_almanya@kokowawa.com',
-    phone: 2323034
+    phone: 2323034,
+    feesMin: 200,
+    feesMax: 20000,
+    feesPercentage: 50
   }
 
   const created = await externalEntity.createExternalEntity(data)
@@ -84,7 +95,10 @@ test('Delete an External Entity by id', async () => {
   const data = {
     name: 'Unlucky one',
     email: 'unlucky@kokowawa.com',
-    phone: 1331313
+    phone: 1331313,
+    feesMin: 200,
+    feesMax: 20000,
+    feesPercentage: 50
   }
   const created = await externalEntity.createExternalEntity(data)
   const createdData = created.data.data
