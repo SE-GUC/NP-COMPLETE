@@ -19,22 +19,8 @@ test('Create a Company', async () => {
   }
   const created = await company.createCompany(data)
   const createdData = created.data.data
-  const data2 = {
-    form: {
-      data: [],
-      acceptedByLawyer: -1,
-      acceptedByReviewer: -1,
-      filledByLawyer: false,
-      paid: false
-    },
-    name: 'AUCCC',
-    type: 'FCB',
-    accepted: false,
-    state: 'pending'
-  }
-
   expect.assertions(1)
-  return expect(createdData).toMatchObject(data2)
+  return expect(createdData).toMatchObject(data)
 })
 
 test('Update a company', async () => {
