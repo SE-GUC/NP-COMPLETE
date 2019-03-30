@@ -19,7 +19,7 @@ module.exports = {
       fields: Joi.array(),
       types: Joi.array(),
       validations: Joi.array(),
-      descriptions: Joi.array().required()
+      descriptions: Joi.array()
     }
 
     return Joi.validate(request, updateSchema)
