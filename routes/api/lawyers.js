@@ -235,27 +235,28 @@ router.put('/review/:id', async (req, res) => {
       })
     }
     // JOI Validation
-    const isValidated = validator.reviewFormValidation(req.body)
-    if (isValidated.error) {
-      return res.status(400).json({
-        status: 'Error',
-        message: isValidated.error.details[0].message,
-        data: req.body
-      })
-    }
+    // const isValidated = validator.reviewFormValidation(req.body)
+    // if (isValidated.error) {
+    //   return res.status(400).json({
+    //     status: 'Error',
+    //     message: isValidated.error.details[0].message,
+    //     data: req.body
+    //   })
+    // }
+
     // Changing value to the new value
-    company.form.lawyerID = req.body.lawyerId
-    company.form.acceptedByLawyer = req.body.acceptedByLawyer
+    const query = { '_id': req.params.id }
+    const newData = { 'form.acceptedByLawyer': req.body.acceptedByLawyer, 'form.lawyerID': req.body.lawyerID }
+    const updatedCompany = await Company.findByIdAndUpdate(query, newData, { new: true })
+
     if (company.form.acceptedByLawyer === 0) {
       company.form.comment = req.body.comment
     }
 
-    const query = { '_id': req.params.id }
-    const reviewedCompany = await Company.findOneAndUpdate(query, company, { new: true })
     return res.json({
       status: 'Success',
       message: `Reviewed Form of Company with id ${req.params.id}`,
-      data: reviewedCompany.form
+      data: updatedCompany.form
     })
   } catch (error) {
     console.log(error)
