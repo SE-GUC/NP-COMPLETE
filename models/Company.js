@@ -35,6 +35,9 @@ const companySchema = new Schema({
   },
   feedback: {
     type: String
+  },
+  fees: {
+    type: Number
   }
 
 })
