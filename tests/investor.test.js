@@ -93,12 +93,20 @@ test('Update an Investor by id', async () => {
   expect(updatedData).toMatchObject(updatedInfo)
 })
 
+// as an investor i should be able to pay my fees
 test('edit-form-by-Investor exists', async () => {
   expect.assertions(1)
   expect(typeof (investor.editForm)).toBe('function')
 })
 
 test('edit a form by an Investor', async () => {
+  const companyTypeTest = {
+    companyType: 'SSC',
+    fields: ['stringField', 'booleanField', 'NumberFeild'],
+    types: ['String', 'boolean', 'Number'],
+    validations: ['.required().string()', '.boolean()', '.required().integer()']
+  }
+  await companyType.createCompanyType(companyTypeTest)
   const data = {
     data: [ 'cairo', 23, 2255 ]
   }
@@ -140,6 +148,21 @@ test('Get Companies Exist', async () => {
 })
 
 test('Get my companies', async () => {
+  const companyTypeTest = {
+    companyType: 'SSC',
+    fields: ['stringField', 'booleanField', 'NumberFeild'],
+    types: ['String', 'boolean', 'Number'],
+    validations: ['.required().string()', '.boolean()', '.required().integer()']
+  }
+  await companyType.createCompanyType(companyTypeTest)
+  const companyTypeTest2 = {
+    companyType: 'SPC',
+    fields: ['stringField', 'booleanField', 'NumberFeild'],
+    types: ['String', 'boolean', 'Number'],
+    validations: ['.required().string()', '.boolean()', '.required().integer()']
+  }
+  await companyType.createCompanyType(companyTypeTest2)
+  
   const investorData = {
     fullName: 'Naguib sawiris',
     birthdate: '1950-05-15',
