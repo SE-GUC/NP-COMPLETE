@@ -15,12 +15,14 @@ test('Create a companyType', async () => {
     companyType: 'Type1',
     fields: ['stringField', 'true', '123'],
     types: ['string', 'boolean', 'number'],
-    validations: ['.required().string()', '.boolean()', '.required().integer()']
+    validations: ['.required().string()', '.boolean()', '.required().integer()'],
+    descriptions: ['description1', 'description2', 'description3']
   }
   const created = await companyType.createCompanyType(data)
   const createdData = created.data.data
   expect.assertions(1)
   expect(createdData).toMatchObject(data)
+
 })
 
 test('Update-a-companyType exists', async () => {
@@ -33,7 +35,8 @@ test('Update a Company Type by id', async () => {
     companyType: 'Type1',
     fields: ['stringField', 'true', '123'],
     types: ['string', 'boolean', 'number'],
-    validations: ['.required().string()', '.boolean()', '.required().integer()']
+    validations: ['.required().string()', '.boolean()', '.required().integer()'],
+    descriptions: ['description1', 'description2', 'description3']
   }
 
   const dataToUpdate = {
@@ -44,7 +47,8 @@ test('Update a Company Type by id', async () => {
     companyType: 'Type1',
     fields: ['newfield', 'true', '123'],
     types: ['string', 'boolean', 'number'],
-    validations: ['.required().string()', '.boolean()', '.required().integer()']
+    validations: ['.required().string()', '.boolean()', '.required().integer()'],
+    descriptions: ['description1', 'description2', 'description3']
   }
 
   const created = await companyType.createCompanyType(data)
@@ -66,7 +70,8 @@ test('read a Company Type by id', async () => {
     companyType: 'Type1',
     fields: ['stringField', 'true', '123'],
     types: ['string', 'boolean', 'number'],
-    validations: ['.required().string()', '.boolean()', '.required().integer()']
+    validations: ['.required().string()', '.boolean()', '.required().integer()'],
+    descriptions: ['description1', 'description2', 'description3']
   }
 
   const created = await companyType.createCompanyType(data)
@@ -88,7 +93,8 @@ test('delete a CompanyType by id', async () => {
     companyType: 'Type1',
     fields: ['stringField', 'true', '123'],
     types: ['string', 'boolean', 'number'],
-    validations: ['.required().string()', '.boolean()', '.required().integer()']
+    validations: ['.required().string()', '.boolean()', '.required().integer()'],
+    descriptions: ['description1', 'description2', 'description3']
   }
 
   const created = await companyType.createCompanyType(data)
