@@ -15,16 +15,10 @@ test('Create an External Entity', async () => {
     feesMax: 20000,
     feesPercentage: 50
   }
-  try {
-    const created = await externalEntity.createExternalEntity(data)
-    const createdData = created.data.data
-    expect.assertions(1)
-    expect(createdData).toMatchObject(data)
-  } catch (err) {
-    const customError = err['response'].data
-    expect(customError.status).toEqual('Error')
-    expect(customError.message).toEqual('Form already accepted by reviewer')
-  }
+  const created = await externalEntity.createExternalEntity(data)
+  const createdData = created.data.data
+  expect.assertions(1)
+  expect(createdData).toMatchObject(data)
 })
 
 test('Read-all-External-Entities exists', async () => {
