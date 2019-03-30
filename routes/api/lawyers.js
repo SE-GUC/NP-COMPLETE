@@ -7,6 +7,7 @@ const Lawyer = require('../../models/Lawyer')
 const Company = require('../../models/Company')
 const ExternalEntity = require('../../models/ExternalEntity')
 const Task = require('../../models/Task')
+const CompanyType = require('../../models/CompanyType')
 
 // Lawyer validators
 const validator = require('../../validations/lawyerValidations')
@@ -410,6 +411,42 @@ router.get('/workPage/:id', async (req, res) => {
     res.json({
       status: 'Success',
       data: tasks
+    })
+  } catch (error) {
+    console.log(error)
+  }
+})
+
+router.get('/calculateFees/:id', async (req, res) => {
+  try {
+    const companyId = req.params.id
+    const company = await Company.findById(companyId)
+    if (!company) {
+      return res.status(400).json({
+        status: 'Error',
+        message: 'Company cannot be found'
+      })
+    }
+    const type = company.type
+    const companyType = CompanyType.findOne({ companyType: type })
+    const fields = companyType.fields
+    var i
+    for (i = 0; i < fields.length; i++) {
+      if (fields[i] === 'capital') {
+        break
+      }
+    }
+    const capital = company.form.data[i]
+    const fees = calculateFees(capital)
+
+    const query = { '_id': companyId }
+    const newData = { 'form.fees': fees }
+    const updatedCompany = await Company.findByIdAndUpdate(query, newData, { new: true })
+
+    return res.json({
+      status: 'Success',
+      message: 'Company fees calculated',
+      company: updatedCompany
     })
   } catch (error) {
     console.log(error)
