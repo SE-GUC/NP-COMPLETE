@@ -8,7 +8,7 @@ test('Create-a-Company exists', async () => {
 test('Create a Company', async () => {
   const data = {
     name: 'Nike',
-    establishmentDate: '1837-02-15',
+    establishmentDate: '1837-02-15T00:00:00.000Z',
     type: 'SSC',
     state: 'established',
     accepted: true,
@@ -26,11 +26,8 @@ test('Create a Company', async () => {
   }
   const created = await company.createCompany(data)
   const createdData = created.data.data
-  const id = createdData['_id']
-  const read = await company.readCompany(id)
-  const readData = read.data.data
   expect.assertions(1)
-  return expect(readData).toEqual(createdData)
+  return expect(createdData).toMatchObject(data)
 })
 
 test('Update a company', async () => {
