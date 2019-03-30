@@ -4,7 +4,6 @@ const companyType = require('./companyType')
 const lawyer = require('./lawyer')
 const reviewer = require('./reviewer')
 
-
 test('Read-all-Investors exists', async () => {
   expect.assertions(1)
   expect(typeof (investor.default)).toBe('function')
