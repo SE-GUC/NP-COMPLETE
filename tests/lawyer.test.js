@@ -440,7 +440,7 @@ test('Lawyer workPage', async () => {
   const taskhandler = createdTaskData['handler']
 
   const lawyerWorkPage = await lawyer.workPage(lawyerId)
-  const lawyerWorkPageData = lawyerWorkPage.data.data.handler[0]
+  const lawyerWorkPageData = lawyerWorkPage.data.data[0].handler[0]
   console.log(lawyerWorkPageData)
   expect.assertions(1)
   expect(lawyerWorkPageData).toEqual(taskhandler[0])

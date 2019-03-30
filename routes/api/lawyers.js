@@ -408,22 +408,28 @@ router.get('/workPage/:id', async (req, res) => {
     }
     const tasksAssigned = await Task.find() // query the database to retrieve all available tasks
     if (!tasksAssigned) { // check if there's no tasks
-      return res.json({
+      return res.status(400).json({
+        status: 'Error',
         message: 'No tasks available'
       })
     }
-    var tasks = ''
+    const tasks = []
     for (var i = 0; i < tasksAssigned.length; i++) {
-      for (var j = 0; j < tasksAssigned[i].handler.length; j++) {
-        if (tasksAssigned[i].handler[j] === req.params.id) {
-          tasks += tasksAssigned[i]
-        }
+      if (tasksAssigned[i].handler.indexOf(lawyerId) > -1) {
+        tasks.push(tasksAssigned[i])
       }
     }
-    res.json({
-      status: 'Success',
-      data: tasks
-    })
+    if (!tasks) {
+      return res.status(400).json({
+        status: 'Error',
+        message: 'No tasks for this lawyer'
+      })
+    } else {
+      return res.json({
+        status: 'Success',
+        data: tasks
+      })
+    }
   } catch (error) {
     console.log(error)
   }
