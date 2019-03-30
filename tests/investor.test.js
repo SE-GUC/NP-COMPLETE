@@ -1,6 +1,8 @@
 const investor = require('./investor')
 const company = require('./company')
 const companyType = require('./companyType')
+const lawyer = require('./lawyer')
+const reviewer = require('./reviewer')
 
 
 test('Read-all-Investors exists', async () => {
@@ -348,6 +350,26 @@ test('viewRejected form by an Investor ', async () => {
     birthdate: '1996-12-20',
     email: 'hey@everyone.com'
   }
+  const lawyerData = {
+    fullName:'test',
+    birthdate: '1996-12-20',
+    email: 'hey@everyone.com',
+    startDate: '1996-12-20'
+  }
+  const reviewerData = {
+    fullName: 'test',
+    birthdate: '1996-12-20',
+    email: 'hey@everyone.com',
+    startDate: '1996-12-20'
+  }
+  const reviewerCreated = await reviewer.createReviewer(reviewerData)
+  const reviewerCreatedData = reviewerCreated.data.data
+  const reviewerId = reviewerCreatedData['_id']
+
+  const lawyerCreated = await lawyer.createLawyer(lawyerData)
+  const createdLawyerData = lawyerCreated.data.data
+  const lawyerId = createdLawyerData['_id']
+
   const createdInvestor = await investor.createInvestor(investorData)
   const createdInvestorData = createdInvestor.data.data
   const investorId = createdInvestorData['_id']
@@ -366,8 +388,8 @@ test('viewRejected form by an Investor ', async () => {
       acceptedByReviewer: 1,
       filledByLawyer: false,
       paid: true,
-      lawyerID: '5c9a6888bca2114a80a5c124',
-      reviewerID: '5c9660e5e008212d705efd15'
+      lawyerID: `${lawyerId}`,
+      reviewerID: `${reviewerId}`
     }
   }
   const companyData1 = {
@@ -384,8 +406,8 @@ test('viewRejected form by an Investor ', async () => {
       acceptedByReviewer: 1,
       filledByLawyer: false,
       paid: true,
-      lawyerID: '5c9a6888bca2114a80a5c124',
-      reviewerID: '5c9660e5e008212d705efd15'
+      lawyerID: `${lawyerId}`,
+      reviewerID: `${reviewerId}`
     }
   }
   const createdCompanyForm = companyData['form']
