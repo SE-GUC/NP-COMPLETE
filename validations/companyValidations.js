@@ -9,6 +9,7 @@ module.exports = {
       type: Joi.string().required(),
       state: Joi.string(),
       investorId: Joi.string(),
+      feedback: Joi.string(),
       form: Joi.object().keys({
         data: Joi.array(),
         comment: Joi.string().min(5),
@@ -32,6 +33,7 @@ module.exports = {
       type: Joi.string(),
       state: Joi.string(),
       investorId: Joi.string(),
+      feedback: Joi.string(),
       form: Joi.object().keys({
         data: Joi.array(),
         comment: Joi.string().min(5),

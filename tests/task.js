@@ -1,5 +1,5 @@
 const axios = require('axios')
-const task = { 
+const task = {
   default: async () => {
     return axios.get('http://localhost:8000/api/tasks/')
   },
