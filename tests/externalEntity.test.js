@@ -77,25 +77,8 @@ test('Update an External Entity by id', async () => {
 
 test('Delete-an-External-Entity exists', async () => {
   expect.assertions(1)
-  expect(typeof (externalEntity.default)).toBe('function')
+  expect(typeof (externalEntity.deleteExternalEntity)).toBe('function')
 })
-
-/*
-test('Delete an External Entity by id', async () => {
-  const data = {
-    name: 'Unlucky one',
-    email: 'unlucky@kokowawa.com',
-    phone: 1331313
-  }
-  const created = await externalEntity.createExternalEntity(data)
-  const createdData = created.data.data
-  const id = createdData['_id']
-  const deleted = await externalEntity.deleteExternalEntity(id)
-  const deletedData = deleted.data.deleteExternalEntity
-  expect.assertions(1)
-  return expect(createdData).toEqual(deletedData)
-})
-*/
 
 test('Delete an External Entity by id', async () => {
   const data = {
