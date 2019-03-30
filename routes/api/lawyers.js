@@ -194,7 +194,7 @@ router.get('/viewForm/:id', async (req, res) => {
 })
 
 // As a lawyer I should be able to accept or reject forms filled by the investor, so that further action can be taken.
-router.put('/review/:id', async (req, res) => {
+router.put('/review/:lawyerID/:companyID', async (req, res) => {
   try {
     // Check if the body is empty
     if (Object.keys(req.body).length === 0) {
@@ -211,8 +211,35 @@ router.put('/review/:id', async (req, res) => {
         message: 'Review not given'
       })
     }
+    // check if the value of the review is valid
+    if (review !== 0 && review !== 1) {
+      return res.status(400).json({
+        status: 'Error',
+        message: 'Review value is not valid'
+      })
+    }
+
+    // create the update body
+    const newData = { 'form.acceptedByLawyer': req.body.acceptedByLawyer, 'form.lawyerID': req.params.lawyerID }
+    if (review === 0) {
+      // chech for comment
+      const comment = req.body.comment
+      if (!comment) {
+        return res.status(400).json({
+          status: 'Error',
+          message: 'Comment not given'
+        })
+      }
+      if (typeof (comment) !== 'string') {
+        return res.status(400).json({
+          status: 'Error',
+          message: 'Comment type is not valid'
+        })
+      }
+      newData['form.comment'] = comment
+    }
     // check if the lawyer exists
-    const lawyer = await Lawyer.findById(req.body.lawyerID)
+    const lawyer = await Lawyer.findById(req.params.lawyerID)
     if (!lawyer) {
       return res.status(400).json({
         status: 'Error',
@@ -220,7 +247,7 @@ router.put('/review/:id', async (req, res) => {
       })
     }
     // check if the company exists
-    const company = await Company.findById(req.params.id)
+    const company = await Company.findById(req.params.companyID)
     if (!company) {
       return res.status(400).json({
         status: 'Error',
@@ -236,13 +263,7 @@ router.put('/review/:id', async (req, res) => {
     }
 
     // Changing value to the new value
-    const query = { '_id': req.params.id }
-    const newData = { 'form.acceptedByLawyer': req.body.acceptedByLawyer, 'form.lawyerID': req.body.lawyerID }
-    const updatedCompany = await Company.findByIdAndUpdate(query, newData, { new: true })
-
-    if (company.form.acceptedByLawyer === 0) {
-      company.form.comment = req.body.comment
-    }
+    const updatedCompany = await Company.findByIdAndUpdate(req.params.companyID, newData, { new: true })
 
     return res.json({
       status: 'Success',
@@ -420,6 +441,12 @@ router.get('/calculateFees/:id', async (req, res) => {
     }
     const type = company.type
     const companyType = CompanyType.findOne({ companyType: type })
+    if (!companyType) {
+      return res.status(400).json({
+        status: 'Error',
+        message: 'Company type cannot be found'
+      })
+    }
     const fields = companyType.fields
     var i
     for (i = 0; i < fields.length; i++) {
@@ -471,7 +498,7 @@ router.put('/updateMyProfile/:id', async (req, res) => {
       })
     } else {
       const id = req.params.id
-      res.redirect(`/api/lawyers/${id}`)
+      res.redirect(307, `/api/lawyers/${id}`)
     }
   } catch (error) {
     console.log(error)

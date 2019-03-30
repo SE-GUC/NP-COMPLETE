@@ -64,7 +64,6 @@ test('Accepting a form by company id, not reviewed before', async () => {
   const lawyerId = createdLawyerData['_id']
 
   const data = {
-    lawyerID: lawyerId,
     acceptedByLawyer: 1,
     comment: 'Hi'
   }
@@ -85,7 +84,7 @@ test('Accepting a form by company id, not reviewed before', async () => {
   const createdCompData = createdCompany.data.data
   const companyId = createdCompData['_id']
 
-  const form = await lawyer.decideAForm(companyId, data)
+  const form = await lawyer.decideAForm(lawyerId, companyId, data)
   const reviewed = form.data.data['acceptedByLawyer']
   const id = form.data.data['lawyerID']
   expect.assertions(2)
@@ -105,7 +104,6 @@ test('Rejecting an application by company id', async () => {
   const lawyerId = createdLawyerData['_id']
 
   const data = {
-    lawyerID: lawyerId,
     acceptedByLawyer: 0,
     comment: 'Bad'
   }
@@ -126,7 +124,7 @@ test('Rejecting an application by company id', async () => {
   const createdCompData = createdCompany.data.data
   const companyId = createdCompData['_id']
 
-  const form = await lawyer.decideAForm(companyId, data)
+  const form = await lawyer.decideAForm(lawyerId, companyId, data)
   const reviewed = form.data.data['acceptedByLawyer']
   expect.assertions(1)
   expect(reviewed).toBe(0)
