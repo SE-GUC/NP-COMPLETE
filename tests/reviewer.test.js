@@ -351,7 +351,7 @@ test('Reviewer preview unreviewed forms', async () => {
 
   const returned = await reviewer.formsToReview(reviewerId)
   const result = returned.data.data
-  // expect.assertions(2)
+  expect.hasAssertions()
   for (var i = 0; i < result.length; i++) {
     expect(result[i].acceptedByLawyer).toEqual(1)
     expect(result[i].acceptedByReviewer).toEqual(-1)
