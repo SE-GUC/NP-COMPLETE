@@ -120,7 +120,7 @@ router.delete('/:id', async (req, res) => {
     res.json({
       status: 'Success',
       message: `Deleted Company Type with id ${companyTypeId}`,
-      deletedCompanyType: deletedCompanyType
+      data: deletedCompanyType
     })
   } catch (error) {
     console.log(error)
