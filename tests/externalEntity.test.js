@@ -114,29 +114,3 @@ test('Delete an External Entity by id', async () => {
   expect.assertions(1)
   expect(deletedData).toEqual(createdData)
 })
-
-// As an Internal User I should be able to view tasks assigned to my department, so that I can be aware of coworkers updates.
-
-// Test that the function exists
-test('View-my-department-tasks exists', async () => {
-  expect.assertions(1)
-  expect(typeof (externalEntity.viewDepartmentTasks)).toBe('function')
-})
-
-// Test the functionalty
-test('External Entity view his department tasks by id', async () => {
-  const externalEntityData = {
-    name: 'sosololototo',
-    email: 'koko@wawa.com',
-    phone: 2323034
-  }
-  const createdExternalEntity = await externalEntity.createExternalEntity(externalEntityData)
-  const createdExternalEntityData = createdExternalEntity.data.data
-  const externalEntityId = createdExternalEntityData['_id']
-  const externalEntityDepartmentTasks = await externalEntity.viewDepartmentTasks(externalEntityId)
-  const externalEntityDepartmentTasksData = externalEntityDepartmentTasks.data.data
-  const myDepartmentTasks = await task.viewDepartmentTask({department:'External Entity'})
-  const myDepartmentTasksData = myDepartmentTasks.data.data
-  expect.assertions(1)
-  expect(externalEntityDepartmentTasksData).toEqual(myDepartmentTasksData)
-})
