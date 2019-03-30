@@ -1,5 +1,10 @@
 const companyType = require('./companyType')
 
+test('default exists', async () => {
+  expect.assertions(1)
+  return expect(typeof (companyType.default)).toBe('function')
+})
+
 test('Create-a-CompanyType exists', async () => {
   expect.assertions(1)
   expect(typeof (companyType.createCompanyType)).toBe('function')
