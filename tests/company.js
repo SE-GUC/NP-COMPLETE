@@ -14,4 +14,3 @@ const company = {
   }
 }
 module.exports = company
-// Copied code from Company branch as it is needed for admin tests to run

@@ -1,7 +1,6 @@
 const admin = require('./admin')
 const company = require('./company')
 const task = require('./task')
-const investor = require('./investor')
 
 jest.setTimeout(180000)
 
@@ -268,18 +267,48 @@ test('getFeedback exists', async () => {
 // user story 2.04 part 2
 test('getFeedback of investors by admin', async () => {
   const data = {
-    fullName: 'Sam Water',
-    birthdate: '1837-02-15',
-    email: 'great@guy.com',
-    feedback: 'test'
+    'form': {
+      'data': [
+        'cairo',
+        23,
+        5555
+      ],
+      'acceptedByLawyer': -1,
+      'acceptedByReviewer': -1,
+      'filledByLawyer': false,
+      'paid': false
+    },
+    'investorId': '5c9f4a53df42f6a988998b59',
+    'name': 'myCo',
+    'type': 'SSC',
+    'accepted': false,
+    'feedback': 'hello'
+  }
+  const data1 = {
+    'form': {
+      'data': [
+        'cairo',
+        23,
+        5555
+      ],
+      'acceptedByLawyer': -1,
+      'acceptedByReviewer': -1,
+      'filledByLawyer': false,
+      'paid': false
+    },
+    'investorId': '5c9f4a53df42f6a988998b59',
+    'name': 'myCo',
+    'type': 'SSC',
+    'accepted': false,
+    'feedback': 'hello'
   }
   const originalFeedback = data['feedback']
-  const createdInvestor = await investor.createInvestor(data)
-  const createdInvestorId = createdInvestor.data.data['_id']
-  const feedbacks = await admin.getFeedback('1')
-  const firstFeedback = feedbacks.data.data[0]
+  const originalFeedback1 = data1['feedback']
 
-  await investor.deleteInvestor(createdInvestorId)
+  await company.createCompany(data)
+  const feedbacks = await admin.getFeedback('1')
+  const feedbacksData = feedbacks.data.data
+
   expect.assertions(1)
-  expect(originalFeedback).toEqual(firstFeedback)
+  expect(feedbacksData).toContain(originalFeedback1) && expect(feedbacksData).toContain(originalFeedback)
 })

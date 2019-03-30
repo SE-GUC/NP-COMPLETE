@@ -6,7 +6,6 @@ const router = express.Router()
 const Admin = require('../../models/Admin')
 const Task = require('../../models/Task')
 const Company = require('../../models/Company')
-const Investor = require('../../models/Investor')
 
 // Validator
 const validator = require('../../validations/adminValidations')
@@ -331,18 +330,18 @@ router.put('/updateMyProfile/:id', async (req, res) => {
 // As an admin I should be able to view the investors' feedback so that I can make the right improvements to the service
 router.get('/getFeedback/:id', async (req, res) => {
   try {
-    const investors = await Investor.find()
-    if (!investors[0]) {
+    const companies = await Company.find()
+    if (!companies[0]) {
       return res.status(400).json({
         status: 'Error',
-        message: 'investors not found'
+        message: 'No companies found'
       })
     } else {
       var i
       var x = []
-      for (i = 0; i < investors.length; i++) {
-        if (investors[i].feedback) {
-          x.push(investors[i].feedback)
+      for (i = 0; i < companies.length; i++) {
+        if (companies[i].feedback) {
+          x.push(companies[i].feedback)
         }
       }
       if (!x[0]) {
