@@ -324,8 +324,6 @@ router.put('/updateMyProfile/:id', async (req, res) => {
 })
 
 // As an Internal User I can see who last worked on a case so that we can all be updated of each other's work
-
-// This user story functionality was implemented in the casesPage story in sprint2.
 router.get('/showLastWorked/:companyId/:reviewerId', async (req, res) => {
   try {
     const reviewerId = req.params.reviewerId
@@ -338,16 +336,21 @@ router.get('/showLastWorked/:companyId/:reviewerId', async (req, res) => {
     }
     const companyId = req.params.companyId
     const requestedCase = await Company.findById(companyId)
+    if (!requestedCase) { // make sure that the one accessing the page is a reviewer
+      return res.status(400).json({
+        status: 'Error',
+        message: 'Case not found'
+      })
+    }
     const result = []
-    if (requestedCase.acceptedByLawyer !== -1) {
-      const lawyerName = await Lawyer.findById(requestedCase.lawyerId)
-      result.push(lawyerName)
+    if (requestedCase.form.acceptedByLawyer !== -1) {
+      const lawyer = await Lawyer.findById(requestedCase.form.lawyerId)
+      result.push(lawyer)
     }
-    if (requestedCase.acceptedByReviewer !== -1) {
-      const reviewerName = await Reviewer.findById(requestedCase.reviewerId)
-      result.push(reviewerName)
+    if (requestedCase.form.acceptedByReviewer !== -1) {
+      const reviewer = await Reviewer.findById(requestedCase.form.reviewerId)
+      result.push(reviewer)
     }
-
     return res.json({
       status: 'Success',
       data: result
