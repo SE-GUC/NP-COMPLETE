@@ -5,7 +5,7 @@ const task = require('./task')
 // TODO: Needs to test Default
 
 test('Create-a-Reviewer exists', async () => {
-  expect.assertions(1)
+  expect.hasAssertions()
   expect(typeof (reviewer.createReviewer)).toBe('function')
 })
 
@@ -22,12 +22,12 @@ test('Create a Reviewer', async () => {
   data['birthdate'] = new Date(data['birthdate']).toISOString()
   data['startDate'] = new Date(data['startDate']).toISOString()
 
-  expect.assertions(1)
+  expect.hasAssertions()
   expect(createdData).toMatchObject(data)
 })
 
 test('Read-a-Reviewer exists', async () => {
-  expect.assertions(1)
+  expect.hasAssertions()
   expect(typeof (reviewer.readReviewer)).toBe('function')
 })
 
@@ -43,12 +43,12 @@ test('Read a Reviewer by id', async () => {
   const id = createdData['_id']
   const read = await reviewer.readReviewer(id)
   const readData = read.data.data
-  expect.assertions(1)
+  expect.hasAssertions()
   expect(readData).toEqual(createdData)
 }, 10000)
 
 test('Update-a-Reviewer exists', async () => {
-  expect.assertions(1)
+  expect.hasAssertions()
   expect(typeof (reviewer.updateReviewer)).toBe('function')
 })
 
@@ -73,12 +73,12 @@ test('Update a Reviewer by id', async () => {
   }
   const updated = await reviewer.updateReviewer(id, update)
   const updatedData = updated.data.data
-  expect.assertions(1)
+  expect.hasAssertions()
   expect(updatedData).toEqual(createdData)
 })
 
 test('Delete-a-Reviewer exists', async () => {
-  expect.assertions(1)
+  expect.hasAssertions()
   expect(typeof (reviewer.deleteReviewer)).toBe('function')
 },
 10000)
@@ -95,7 +95,7 @@ test('Delete a Reviewer by id', async () => {
   const id = createdData['_id']
   const deleted = await reviewer.deleteReviewer(id)
   const deletedData = deleted.data.deletedReviewer
-  expect.assertions(1)
+  expect.hasAssertions()
   expect(deletedData).toEqual(createdData)
 }, 10000)
 
@@ -170,7 +170,7 @@ const companyNotAcceptedByLawyerData = {
 }
 
 test('decideAnApplication exists', async () => {
-  expect.assertions(1)
+  expect.hasAssertions()
   expect(typeof (reviewer.decideAnApplication)).toBe('function')
 })
 
@@ -184,7 +184,7 @@ test('Accepting an application by company id and reviewer id, not reviewed befor
     const form = await reviewer.decideAnApplication(reviewerId, companyId, trueDecisionData)
     const reviewed = form.data.data['acceptedByReviewer']
     const id = form.data.data['reviewerID']
-    expect.assertions(2)
+    expect.hasAssertions()
     expect(id).toEqual(reviewerId)
     expect(reviewed).toEqual(1)
   } catch (err) {
@@ -202,7 +202,7 @@ test('Rejecting an application by company id and reviewer id', async () => {
     const form = await reviewer.decideAnApplication(reviewerId, companyId, falseDecisionData)
     const reviewed = form.data.data['acceptedByReviewer']
     const id = form.data.data['reviewerID']
-    expect.assertions(2)
+    expect.hasAssertions()
     expect(id).toEqual(reviewerId)
     expect(reviewed).toBe(0)
   } catch (err) {
@@ -229,7 +229,7 @@ test('Accepting an already accepted application by company id and reviewer id', 
     expect(customError.status).toEqual('Error')
     expect(customError.message).toEqual('Form already accepted by reviewer')
 
-    expect.assertions(3)
+    expect.hasAssertions()
   }
 }, 20000)
 
@@ -275,7 +275,7 @@ test('Accepting an application decision string rejected', async () => {
     expect(customError.status).toEqual('Error')
     expect(customError.message).toEqual('Variable decision needs to be a boolean type')
 
-    expect.assertions(3)
+    expect.hasAssertions()
   }
 }, 20000)
 
@@ -298,7 +298,7 @@ test('Accepting an application not accepted by lawyer', async () => {
     expect(customError.status).toEqual('Error')
     expect(customError.message).toEqual('Form not accepted by lawyer')
 
-    expect.assertions(3)
+    expect.hasAssertions()
   }
 }, 20000)
 
@@ -306,7 +306,7 @@ test('Accepting an application not accepted by lawyer', async () => {
 
 // Test the function exists
 test('View-Cases-exists', async () => {
-  expect.assertions(1)
+  expect.hasAssertions()
   return expect(typeof (reviewer.viewCases)).toBe('function')
 })
 
@@ -325,7 +325,7 @@ test('Reviewer view all cases', async () => {
   const reviewerViewedCasesData = reviewerViewedCases.data.data
   const availableCompanies = await company.default()
   const availableCompaniesData = availableCompanies.data.data
-  expect.assertions(1)
+  expect.hasAssertions()
   expect(reviewerViewedCasesData).toEqual(availableCompaniesData)
 })
 
@@ -333,7 +333,7 @@ test('Reviewer view all cases', async () => {
 
 // Testing if the function exists
 test('Reviewer-preview-forms-exists', async () => {
-  expect.assertions(1)
+  expect.hasAssertions()
   return expect(typeof (reviewer.formsToReview)).toBe('function')
 })
 
@@ -359,7 +359,7 @@ test('Reviewer preview unreviewed forms', async () => {
 })
 
 test('add-a-comment exists', async () => {
-  expect.assertions(1)
+  expect.hasAssertions()
   expect(typeof (reviewer.addComment)).toBe('function')
 })
 
@@ -398,7 +398,7 @@ test('Adding a comment on a rejected application', async () => {
 
   const addedComment = await reviewer.addComment(id, companyId, commentData)
   const response = addedComment.data.data
-  expect.assertions(1)
+  expect.hasAssertions()
   expect(response.form.comment).toEqual(commentData.comment)
 }, 20000)
 
@@ -406,7 +406,7 @@ test('Adding a comment on a rejected application', async () => {
 
 // Test that the function exists
 test('View-my-department-tasks exists', async () => {
-  expect.assertions(1)
+  expect.hasAssertions()
   expect(typeof (reviewer.viewDepartmentTasks)).toBe('function')
 })
 
@@ -425,6 +425,6 @@ test('Reviewer view his department tasks by id', async () => {
   const reviewerDepartmentTasksData = reviewerDepartmentTasks.data.data
   const myDepartmentTasks = await task.viewDepartmentTask({ department: 'Reviewer' })
   const myDepartmentTasksData = myDepartmentTasks.data.data
-  expect.assertions(1)
+  expect.hasAssertions()
   expect(reviewerDepartmentTasksData).toEqual(myDepartmentTasksData)
 })
