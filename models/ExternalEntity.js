@@ -15,6 +15,18 @@ const ExternalEntitySchema = new Schema({
   phone: {
     type: Number,
     required: true
+  },
+  feesPercentage: {
+    type: Number,
+    required: true
+  },
+  feesMin: {
+    type: Number,
+    required: true
+  },
+  feesMax: {
+    type: Number,
+    required: true
   }
 })
 

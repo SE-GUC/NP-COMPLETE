@@ -54,5 +54,14 @@ module.exports = {
     }
 
     return Joi.validate(request, formDataSchema)
+  },
+  reviewFormValidation: request => {
+    const reviewSchema = {
+      comment: Joi.string().min(5),
+      acceptedByLawyer: Joi.number(),
+      lawyerID: Joi.string()
+    }
+
+    return Joi.validate(request, reviewSchema)
   }
 }
