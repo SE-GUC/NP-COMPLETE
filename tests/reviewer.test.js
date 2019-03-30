@@ -2,7 +2,7 @@ const reviewer = require('./reviewer')
 const company = require('./company')
 const task = require('./task')
 
-//! Needs to test Default
+// TODO: Needs to test Default
 
 test('Create-a-Reviewer exists', async () => {
   expect.assertions(1)
@@ -18,6 +18,7 @@ test('Create a Reviewer', async () => {
   }
   const created = await reviewer.createReviewer(data)
   const createdData = created.data.data
+  // TODO: Reason for ISO Dating
   data['birthdate'] = new Date(data['birthdate']).toISOString()
   data['startDate'] = new Date(data['startDate']).toISOString()
 
@@ -392,7 +393,10 @@ test('Reviewer preview unreviewed forms', async () => {
   const returned = await reviewer.formsToReview(reviewerId)
   const result = returned.data.data
   expect.assertions(1)
-  expect(result).toEqual(expected)
+  // expect(result).toEqual(expected)
+  // Failed Test commented to make viewing other results possible
+  // The next line was added to ensure this test fails
+  expect(true).toBe(false)
 })
 
 test('add-a-comment exists', async () => {
