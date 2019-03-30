@@ -1,7 +1,6 @@
 const admin = require('./admin')
 const company = require('./company')
 const task = require('./task')
-
 jest.setTimeout(180000)
 
 test('read-multiple-Admins exists', async () => {

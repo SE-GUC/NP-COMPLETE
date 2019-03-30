@@ -185,7 +185,6 @@ router.put('/updateDeadline/:id', async (req, res) => {
     // update the deadline (if given in the body)
     const query = { '_id': taskID }
     const updatedTask = await Task.findOneAndUpdate(query, req.body, { new: true })
-    console.log(updatedTask)
     res.json({
       status: 'Success',
       message: `Updated Task with id ${taskID}`,
@@ -312,7 +311,6 @@ router.get('/workPage/:id', async (req, res) => {
 router.put('/updateMyProfile/:id', async (req, res) => {
   try {
     const stored = Object.keys(req.body)
-    console.log(stored)
     if (stored.includes('startDate') || stored.includes('workingHours') || stored.includes('salary')) {
       res.json({
         status: 'Error',
