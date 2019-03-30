@@ -411,3 +411,37 @@ test('Lawyer view all cases', async () => {
   expect.assertions(1)
   expect(lawyerViewedCasesData).toEqual(availableCompaniesData)
 }, 15000)
+
+test('Lawyer workPage-exists', async () => {
+  expect.assertions(1)
+  return expect(typeof (lawyer.workPage)).toBe('function')
+})
+
+test('Lawyer workPage', async () => {
+  const lawyerData = {
+    fullName: 'Elliot Alderson',
+    birthdate: '1995-10-02',
+    email: 'mrRobot@fsociety.com',
+    startDate: '1998-12-02'
+  }
+  const createdLawyer = await lawyer.createLawyer(lawyerData)
+  const createdLawyerData = createdLawyer.data.data
+  const lawyerId = createdLawyerData['_id']
+
+  const taskData = {
+    department: 'Lawyer',
+    creationDate: '2019-02-02T00:00:00.000Z',
+    deadline: '2019-02-06T00:00:00.000Z',
+    handler: [lawyerId]
+  }
+
+  const createdTask = await task.createTask(taskData)
+  const createdTaskData = createdTask.data.data
+  const taskhandler = createdTaskData['handler']
+
+  const lawyerWorkPage = await lawyer.workPage(lawyerId)
+  const lawyerWorkPageData = lawyerWorkPage.data.data.handler[0]
+  console.log(lawyerWorkPageData)
+  expect.assertions(1)
+  expect(lawyerWorkPageData).toEqual(taskhandler[0])
+})

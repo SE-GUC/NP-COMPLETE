@@ -38,6 +38,9 @@ const lawyer = {
   },
   casesPage: async (id) => {
     return axios.get(`http://localhost:8000/api/lawyers/casesPage/${id}`)
+  },
+  workPage: async (id) => {
+    return axios.get(`http://localhost:8000/api/lawyers/workPage/${id}`)
   }
 }
 module.exports = lawyer
