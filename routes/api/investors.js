@@ -312,6 +312,12 @@ router.post('/fillForm/:id', async (req, res) => {
     const fieldsTemp = companyTypeTemp[0].fields
     const dataTypesArray = companyTypeTemp[0].types
     const data = req.body.form.data
+    if (data.length !== dataTypesArray.length) {
+      return res.status(400).json({
+        status: 'Error',
+        message: 'You must enter all the required data'
+      })
+    }
     for (let i = 0; i < dataTypesArray.length; i++) {
       const dataType = typeof (data[i])
       if (!(dataType === dataTypesArray[i])) {

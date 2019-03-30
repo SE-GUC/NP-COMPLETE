@@ -162,7 +162,7 @@ test('Get my companies', async () => {
     validations: ['.required().string()', '.boolean()', '.required().integer()']
   }
   await companyType.createCompanyType(companyTypeTest2)
-  
+
   const investorData = {
     fullName: 'Naguib sawiris',
     birthdate: '1950-05-15',
