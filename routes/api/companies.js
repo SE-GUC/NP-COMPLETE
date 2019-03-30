@@ -17,6 +17,7 @@ router.get('/', async (req, res) => {
 // Create a new Company
 router.post('/', async (req, res) => {
   try {
+    
     const isValidated = validator.createValidation(req.body)
     if (isValidated.error) {
       return res.status(400).json({
@@ -24,11 +25,21 @@ router.post('/', async (req, res) => {
         message: isValidated.error.details[0].message
       })
     }
+    const otherData = {
+      'state': 'pending',
+      'accepted': false,
+      'form.acceptedByLawyer': -1,
+      'form.acceptedByReviewer': -1,
+      'form.filledByLawyer': false,
+      'form.paid': false }
     const newCompany = await Company.create(req.body)
+    const companyId = newCompany._id
+    const query = { '_id': companyId }
+    const updateCompany = await Company.findByIdAndUpdate(query, otherData, { new: true })
     return res.json({
       status: 'Success',
       message: `New company created with id ${newCompany.id}`,
-      data: newCompany
+      data: updateCompany
     })
   } catch (error) {
     console.log(error)
