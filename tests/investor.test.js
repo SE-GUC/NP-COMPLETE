@@ -1,8 +1,12 @@
 const investor = require('./investor')
 const company = require('./company')
 const companyType = require('./companyType')
-//! Needs to test Default
 
+
+test('Read-all-Investors exists', async () => {
+  expect.assertions(1)
+  expect(typeof (investor.default)).toBe('function')
+})
 test('Read-an-Investor exists', async () => {
   expect.assertions(1)
   expect(typeof (investor.readInvestor)).toBe('function')
