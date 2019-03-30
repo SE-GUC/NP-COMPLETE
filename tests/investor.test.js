@@ -101,14 +101,14 @@ test('edit-form-by-Investor exists', async () => {
 
 test('edit a form by an Investor', async () => {
   const companyTypeTest = {
-    companyType: 'SSC',
+    companyType: 'BBC',
     fields: ['stringField', 'booleanField', 'NumberFeild'],
-    types: ['String', 'boolean', 'Number'],
+    types: ['string', 'boolean', 'number'],
     validations: ['.required().string()', '.boolean()', '.required().integer()']
   }
   await companyType.createCompanyType(companyTypeTest)
   const data = {
-    data: [ 'cairo', 23, 2255 ]
+    data: [ 'cairo', false, 2255 ]
   }
   const investorTest = {
     fullName: 'Kevin Smith',
@@ -129,7 +129,7 @@ test('edit a form by an Investor', async () => {
     },
     investorId: id,
     name: 'test',
-    type: 'SSC',
+    type: 'BBC',
     accepted: false
   }
   const createdCompany = await company.createCompany(companyData)
@@ -151,14 +151,14 @@ test('Get my companies', async () => {
   const companyTypeTest = {
     companyType: 'SSC',
     fields: ['stringField', 'booleanField', 'NumberFeild'],
-    types: ['String', 'boolean', 'Number'],
+    types: ['string', 'boolean', 'number'],
     validations: ['.required().string()', '.boolean()', '.required().integer()']
   }
   await companyType.createCompanyType(companyTypeTest)
   const companyTypeTest2 = {
     companyType: 'SPC',
     fields: ['stringField', 'booleanField', 'NumberFeild'],
-    types: ['String', 'boolean', 'Number'],
+    types: ['string', 'boolean', 'number'],
     validations: ['.required().string()', '.boolean()', '.required().integer()']
   }
   await companyType.createCompanyType(companyTypeTest2)
@@ -225,9 +225,9 @@ test('Fill Form Exist', async () => {
 
 test('Fill Form to create a company', async () => {
   const companyTypeTest = {
-    companyType: 'SSC',
+    companyType: 'WWC',
     fields: ['stringField', 'booleanField', 'NumberFeild'],
-    types: ['String', 'boolean', 'Number'],
+    types: ['string', 'boolean', 'number'],
     validations: ['.required().string()', '.boolean()', '.required().integer()']
   }
   await companyType.createCompanyType(companyTypeTest)
@@ -241,19 +241,11 @@ test('Fill Form to create a company', async () => {
   const investorId = createdInvestorData['_id']
   const companyData = {
     name: 'UBER',
-    type: 'SSC',
+    type: 'WWC',
     form: {
       data: ['organisingLaw',
-        'legalForm',
-        'establishmentName',
-        'englishEstablishmentName',
-        'headOfficeGovernorate',
-        'headOfficeCity',
-        'phone',
-        1555,
-        'investorName',
-        'investorNationalId',
-        '1980-05-15']
+        false,
+        15]
     }
   }
   const createdCompany = await investor.fillForm(companyData, investorId)
@@ -261,19 +253,11 @@ test('Fill Form to create a company', async () => {
   const companyId = myCompany['_id']
   const equalData = {
     name: 'UBER',
-    type: 'SSC',
+    type: 'WWC',
     form: {
       data: ['organisingLaw',
-        'legalForm',
-        'establishmentName',
-        'englishEstablishmentName',
-        'headOfficeGovernorate',
-        'headOfficeCity',
-        'phone',
-        1555,
-        'investorName',
-        'investorNationalId',
-        '1980-05-15'],
+        false,
+        15],
       acceptedByLawyer: -1,
       acceptedByReviewer: -1,
       filledByLawyer: false,
@@ -281,12 +265,11 @@ test('Fill Form to create a company', async () => {
     },
     _id: companyId,
     investorId: investorId,
-    __v: 0,
     state: 'pending',
     accepted: false
   }
   expect.assertions(1)
-  expect(myCompany).toEqual(equalData)
+  expect(myCompany).toMatchObject(equalData)
 }, 5500)
 
 test('TrackApplication exists', async () => {
@@ -298,7 +281,7 @@ test('Track Applications', async () => {
   const companyTypeTest = {
     companyType: 'SSC',
     fields: ['stringField', 'booleanField', 'NumberFeild'],
-    types: ['String', 'boolean', 'Number'],
+    types: ['string', 'boolean', 'number'],
     validations: ['.required().string()', '.boolean()', '.required().integer()']
   }
   await companyType.createCompanyType(companyTypeTest)
@@ -354,7 +337,7 @@ test('viewRejected form by an Investor ', async () => {
   const companyTypeTest = {
     companyType: 'SSC',
     fields: ['stringField', 'booleanField', 'NumberFeild'],
-    types: ['String', 'boolean', 'Number'],
+    types: ['string', 'boolean', 'number'],
     validations: ['.required().string()', '.boolean()', '.required().integer()']
   }
   await companyType.createCompanyType(companyTypeTest)
@@ -433,7 +416,7 @@ test('pay a fees by an Investor', async () => {
   const companyTypeTest = {
     companyType: 'SSC',
     fields: ['stringField', 'booleanField', 'NumberFeild'],
-    types: ['String', 'boolean', 'Number'],
+    types: ['string', 'boolean', 'number'],
     validations: ['.required().string()', '.boolean()', '.required().integer()']
   }
   await companyType.createCompanyType(companyTypeTest)
