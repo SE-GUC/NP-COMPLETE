@@ -88,9 +88,9 @@ test('Accepting a form by company id, not reviewed before', async () => {
 
   const form = await lawyer.decideAForm(companyId, data)
   const reviewed = form.data.data['acceptedByLawyer']
-  // const id = form.data.data['lawyerID']
-  expect.assertions(1)
-  // expect(id).toEqual(lawyerId)
+  const id = form.data.data['lawyerID']
+  expect.assertions(2)
+  expect(id).toEqual(lawyerId)
   expect(reviewed).toEqual(1)
 }, 20000)
 
