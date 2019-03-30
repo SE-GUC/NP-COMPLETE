@@ -14,10 +14,6 @@ const investorSchema = new Schema({
   email: {
     type: String,
     required: true
-  },
-  feedback: {
-    type: String,
-    required: false
   }
 })
 module.exports = mongoose.model('investors', investorSchema)
