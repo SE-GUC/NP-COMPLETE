@@ -286,62 +286,38 @@ test('Track Applications', async () => {
   }
   const created = await investor.createInvestor(data)
   const id = created.data.data._id
-  var createdCompanies = []
-  const min = 0
-  const max = 10
-  var bound = Math.floor(Math.random() * (+max - +min)) + +min
-  for (var i = 0; i < bound; i++) {
-    const companyData = {
-      name: randomString(6),
-      type: 'SSC',
-      accepted: randomBoolean(),
-      investorId: id,
-      form: {
-        filledByLawyer: randomBoolean(),
-        paid: randomBoolean()
-      }
+
+  const company1 = {
+    name: 'Corp Co',
+    type: 'SSC',
+    investorId: id,
+    form: {
     }
-    company.createCompany(companyData)
-    createdCompanies.push(companyData)
   }
 
+  await company.createCompany(company1)
+
+  const company2 = {
+    name: 'Robb Co',
+    type: 'SSC',
+    investorId: id,
+    form: {
+    }
+  }
+
+  await company.createCompany(company2)
+
+  const createdCompanies = [company1, company2]
   const retrieved = await investor.trackApplication(id)
   const retrievedCompanies = retrieved.data.companies
-  // expect.assertions(bound)
+  expect.assertions(2)
 
-  for (var j = 0; j < bound; j++) {
+  for (var j = 0; j < 2; j++) {
     const createdCompany = createdCompanies[j]
     const retrievedCompany = retrievedCompanies[j]
-    partialJSONEquality(createdCompany, retrievedCompany)
+    expect(retrievedCompany).toMatchObject(createdCompany)
   }
-})
-
-const randomBoolean = () => {
-  return Math.random() >= 0.5
-}
-
-const randomString = length => {
-  const alphabet = 'abcdefghijklmnopqrstuvwxyz'
-  var result = ''
-  for (var i = 0; i < length; i++) {
-    result += alphabet.charAt(Math.floor(Math.random() * alphabet.length))
-  }
-  return result.charAt(0).toUpperCase() + result.slice(1)
-}
-
-const partialJSONEquality = (partialJSON, completeJSON) => {
-  Object.keys(partialJSON).forEach(key => {
-    if (isObject(partialJSON[key])) {
-      partialJSONEquality(partialJSON[key], completeJSON[key])
-    } else {
-      expect(partialJSON[key]).toEqual(completeJSON[key])
-    }
-  })
-}
-
-const isObject = value => {
-  return value && typeof value === 'object' && value.constructor === Object
-}
+}, 10000)
 
 // user story 1.04 part 1
 test('viewRejected-form-by-Lawyer exists', async () => {
