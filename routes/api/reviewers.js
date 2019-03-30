@@ -4,6 +4,7 @@ const router = express.Router()
 
 // Reviewer model
 const Reviewer = require('../../models/Reviewer')
+const Lawyer = require('../../models/Lawyer')
 const validator = require('../../validations/reviewerValidations')
 
 // Company model
@@ -111,19 +112,18 @@ router.get('/viewDepartmentTask/:id', async (req, res) => {
   }
   const query = { 'department': 'Reviewer' }
   const task = await Task.find(query)
-    // check if there exist such task
-    if (!task) {
-      return res.status(404).json({
-        status: 'Error',
-        message: 'There are no tasks for your department'
-      })
-    }
-    // view the tasks of the given depratment
-    res.json({
-      status: 'Success',
-      data: task
+  // check if there exist such task
+  if (!task) {
+    return res.status(404).json({
+      status: 'Error',
+      message: 'There are no tasks for your department'
     })
-
+  }
+  // view the tasks of the given depratment
+  res.json({
+    status: 'Success',
+    data: task
+  })
 })
 
 // As a reviewer I should be able to preview (read only) applications, so that I can decide whether to accept or reject
@@ -145,9 +145,9 @@ router.get('/formsToReview/:id', async (req, res) => {
         message: 'No forms available to review'
       })
     }
-    var forms = ''
+    var forms = []
     for (var i = 0; i < companies.length; i++) {
-      forms += companies[i].form + '\n' // extract form attribute only
+      forms.push(companies[i].form) // extract form attribute only
     }
     res.json({ data: forms })
   } catch (error) {
@@ -324,7 +324,40 @@ router.put('/updateMyProfile/:id', async (req, res) => {
 })
 
 // As an Internal User I can see who last worked on a case so that we can all be updated of each other's work
-
-// This user story functionality was implemented in the casesPage story in sprint2.
+router.get('/showLastWorked/:companyId/:reviewerId', async (req, res) => {
+  try {
+    const reviewerId = req.params.reviewerId
+    const reviewer = await Reviewer.findById(reviewerId)
+    if (!reviewer) { // make sure that the one accessing the page is a reviewer
+      return res.status(400).json({
+        status: 'Error',
+        message: 'Reviewer access required'
+      })
+    }
+    const companyId = req.params.companyId
+    const requestedCase = await Company.findById(companyId)
+    if (!requestedCase) { // make sure that the one accessing the page is a reviewer
+      return res.status(400).json({
+        status: 'Error',
+        message: 'Case not found'
+      })
+    }
+    const result = []
+    if (requestedCase.form.acceptedByLawyer !== -1) {
+      const lawyer = await Lawyer.findById(requestedCase.form.lawyerId)
+      result.push(lawyer)
+    }
+    if (requestedCase.form.acceptedByReviewer !== -1) {
+      const reviewer = await Reviewer.findById(requestedCase.form.reviewerId)
+      result.push(reviewer)
+    }
+    return res.json({
+      status: 'Success',
+      data: result
+    })
+  } catch (error) {
+    console.log(error)
+  }
+})
 
 module.exports = router
