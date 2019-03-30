@@ -330,7 +330,7 @@ test('Track Applications', async () => {
 // user story 1.04 part 1
 test('viewRejected-form-by-Lawyer exists', async () => {
   expect.assertions(1)
-  expect(typeof (investor.editForm)).toBe('function')
+  expect(typeof (investor.viewRejected)).toBe('function')
 })
 
 // user story 1.04 part 2
