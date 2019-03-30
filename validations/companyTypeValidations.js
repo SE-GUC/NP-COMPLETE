@@ -6,7 +6,8 @@ module.exports = {
       companyType: Joi.string().required(),
       fields: Joi.array().required(),
       types: Joi.array().required(),
-      validations: Joi.array().required()
+      validations: Joi.array().required(),
+      descriptions: Joi.array().required()
     }
 
     return Joi.validate(request, createSchema)
@@ -17,8 +18,8 @@ module.exports = {
       companyType: Joi.string(),
       fields: Joi.array(),
       types: Joi.array(),
-      validations: Joi.array()
-
+      validations: Joi.array(),
+      descriptions: Joi.array().required()
     }
 
     return Joi.validate(request, updateSchema)
