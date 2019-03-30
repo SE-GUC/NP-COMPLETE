@@ -5,8 +5,7 @@ module.exports = {
     const createSchema = {
       fullName: Joi.string().min(3).max(90).required(),
       birthdate: Joi.date().iso().max(Date.now()).required(),
-      email: Joi.string().email().required(),
-      feedback: Joi.string()
+      email: Joi.string().email().required()
     }
 
     return Joi.validate(request, createSchema)
@@ -16,8 +15,7 @@ module.exports = {
     const updateSchema = {
       fullName: Joi.string().min(3).max(90),
       birthdate: Joi.date().iso().max(Date.now()),
-      email: Joi.string().email(),
-      feedback: Joi.string()
+      email: Joi.string().email()
     }
 
     return Joi.validate(request, updateSchema)
