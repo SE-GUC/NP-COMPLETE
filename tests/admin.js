@@ -1,5 +1,9 @@
 const axios = require('axios')
 const admin = {
+
+  deleteAll: async () => {
+    return axios.delete('http://localhost:8000/api/admins/deleteAllEntries/')
+  },
   default: async () => {
     return axios.get('http://localhost:8000/api/admins/')
   },

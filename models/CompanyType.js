@@ -1,4 +1,4 @@
-// The Company Type model
+// The CompanyType model
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
