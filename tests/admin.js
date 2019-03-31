@@ -1,6 +1,5 @@
 const axios = require('axios')
 const admin = {
-  
   deleteAll: async () => {
     return axios.delete('http://localhost:8000/api/admins/deleteAllEntries/')
   },
@@ -36,6 +35,9 @@ const admin = {
   },
   getFeedback: async (id) => {
     return axios.get(`http://localhost:8000/api/admins/getFeedback/${id}`)
+  },
+  workPage: async (id) => {
+    return axios.get(`http://localhost:8000/api/admins/workPage/${id}`)
   }
 }
 module.exports = admin
