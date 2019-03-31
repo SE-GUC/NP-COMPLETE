@@ -331,7 +331,7 @@ router.get('/showLastWorked/:companyId/:reviewerId', async (req, res) => {
     if (!reviewer) { // make sure that the one accessing the page is a reviewer
       return res.status(400).json({
         status: 'Error',
-        message: 'Reviewer access required'
+        message: 'Access denied'
       })
     }
     const companyId = req.params.companyId
@@ -344,12 +344,12 @@ router.get('/showLastWorked/:companyId/:reviewerId', async (req, res) => {
     }
     const result = []
     if (requestedCase.form.acceptedByLawyer !== -1) {
-      const lawyer = await Lawyer.findById(requestedCase.form.lawyerId)
-      result.push(lawyer)
+      const lawyer = await Lawyer.findById(requestedCase.form.lawyerID)
+      result.push('Lawyer: ' + lawyer.fullName)
     }
     if (requestedCase.form.acceptedByReviewer !== -1) {
-      const reviewer = await Reviewer.findById(requestedCase.form.reviewerId)
-      result.push(reviewer)
+      const reviewer = await Reviewer.findById(requestedCase.form.reviewerID)
+      result.push('Reviewer: ' + reviewer.fullName)
     }
     return res.json({
       status: 'Success',
