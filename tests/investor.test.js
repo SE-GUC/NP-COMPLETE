@@ -536,3 +536,54 @@ test('Cancel Unreviewed Application an Investor', async () => {
   expect.assertions(1)
   expect(cancelledData).toMatchObject(createdCompanyData)
 })
+
+// Test feedback existance
+test('give Feedback exists', async () => {
+  expect.assertions(1)
+  expect(typeof (investor.giveFeedback)).toBe('function')
+})
+
+// Test functionalty
+test('give Feedback', async () => {
+  const companyData = {
+    name: 'Toys Company',
+    type: 'SSC',
+    form: {
+      data: [],
+      comment: 'Very good company',
+      acceptedByLawyer: 1,
+      acceptedByReviewer: 1,
+      filledByLawyer: false,
+      paid: true,
+      lawyerID: '5c9a6888bca2114a80a5c124',
+      reviewerID: '5c9660e5e008212d705efd15'
+    }
+  }
+  const review = {
+    feedback: 'Kolo Tamam'
+  }
+
+  const companyUpdatedData = {
+    name: 'Toys Company',
+    type: 'SSC',
+    form: {
+      data: [],
+      comment: 'Very good company',
+      acceptedByLawyer: 1,
+      acceptedByReviewer: 1,
+      filledByLawyer: false,
+      paid: true,
+      lawyerID: '5c9a6888bca2114a80a5c124',
+      reviewerID: '5c9660e5e008212d705efd15'
+    },
+    feedback: 'Kolo Tamam'
+  }
+  const companyCreated = await company.createCompany(companyData)
+  const createdCompanyData = companyCreated.data.data
+  const companyId = createdCompanyData['_id']
+
+  const updated = await investor.giveFeedback(companyId, review)
+  const updatedData = updated.data.data
+  expect.assertions(1)
+  return expect(updatedData).toMatchObject(companyUpdatedData) 
+})

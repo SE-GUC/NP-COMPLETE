@@ -418,4 +418,28 @@ router.get('/readDescription/:id', async (req, res) => {
   }
 })
 
+// As an investor I should be able to review the online service and give suggestions, so that the service can be improved.
+router.put('/reviewOnlineService/:companyId', async (req, res) => {
+  const companyId = req.params.companyId
+  try {
+    const company = await Company.findById(companyId)
+    if (!company) {
+      return res.status(400).json({
+        status: 'Error',
+        message: 'This company doesnt exist'
+      })
+    }
+    const query = { '_id': companyId }
+    const newData = { 'feedback': req.body.feedback }
+    const updatedCompany = await Company.findByIdAndUpdate(query, newData, { new: true })
+
+    res.json({
+      status: 'Success',
+      data: updatedCompany
+    })
+  } catch (error) {
+    console.log(error)
+  }
+})
+
 module.exports = router
