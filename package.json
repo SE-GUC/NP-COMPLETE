@@ -7,21 +7,25 @@
     "@types/jest": "^24.0.11",
     "axios": "^0.18.0",
     "express": "^4.16.4",
+    "jest-cli": "^24.5.0",
     "jest": "^24.5.0",
     "joi": "^14.3.1",
     "mon": "0.0.8",
-    "mongoose": "^5.4.19",
+    "mongoose": "^5.4.20",
     "node": "^11.12.0",
+    "stripe": "^6.28.0",
     "uuid": "^3.3.2"
   },
   "devDependencies": {
+    "babel-preset-env": "^1.6.1",
+    "jest": "^24.5.0",
     "nodemon": "^1.18.10",
     "standard": "^12.0.1"
   },
   "scripts": {
     "start": "node index.js",
-    "test": "jest",
-    "testWatch": "jest --watchAll"
+    "test": "jest --runInBand",
+    "testWatch": "jest --runInBand --watchAll"
   },
   "repository": {
     "type": "git",
@@ -39,6 +43,8 @@
     ]
   },
   "jest": {
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "verbose": true,
+    "collectCoverage": true
   }
 }

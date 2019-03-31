@@ -1,4 +1,4 @@
-// The Company Type model
+// The CompanyType model
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
@@ -16,6 +16,10 @@ const companyTypeSchema = new Schema({
     required: true
   },
   validations: {
+    type: [String],
+    required: true
+  },
+  descriptions: {
     type: [String],
     required: true
   }
