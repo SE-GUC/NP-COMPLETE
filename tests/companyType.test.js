@@ -1,16 +1,26 @@
 const companyType = require('./companyType')
 
-test('default exists', async () => {
+const admin = require('./admin')
+
+// beforeEach(() => {
+//   admin.deleteAll()
+//  });
+ 
+//  afterEach(() => {
+//    admin.deleteAll()
+//   });
+
+test('default exists', async () => {    
   expect.assertions(1)
   return expect(typeof (companyType.default)).toBe('function')
-})
+ })
 
-test('Create-a-CompanyType exists', async () => {
+test('Create-a-CompanyType exists', async () => {    
   expect.assertions(1)
   expect(typeof (companyType.createCompanyType)).toBe('function')
-})
+ })
 
-test('Create a companyType', async () => {
+test('Create a companyType', async () => {    
   const data = {
     companyType: 'Type1',
     fields: ['stringField', 'true', '123'],
@@ -23,14 +33,14 @@ test('Create a companyType', async () => {
   expect.assertions(1)
   expect(createdData).toMatchObject(data)
 
-})
+ })
 
-test('Update-a-companyType exists', async () => {
+test('Update-a-companyType exists', async () => {    
   expect.assertions(1)
   expect(typeof (companyType.updateCompanyType)).toBe('function')
-})
+ })
 
-test('Update a Company Type by id', async () => {
+test('Update a Company Type by id', async () => {    
   const data = {
     companyType: 'Type1',
     fields: ['stringField', 'true', '123'],
@@ -58,14 +68,14 @@ test('Update a Company Type by id', async () => {
   const updatedData = updated.data.data
   expect.assertions(1)
   expect(updatedData).toMatchObject(dataUpdated)
-})
+ })
 
-test('read-a-companyType exists', async () => {
+test('read-a-companyType exists', async () => {    
   expect.assertions(1)
   expect(typeof (companyType.readCompanyType)).toBe('function')
-})
+ })
 
-test('read a Company Type by id', async () => {
+test('read a Company Type by id', async () => {    
   const data = {
     companyType: 'Type1',
     fields: ['stringField', 'true', '123'],
@@ -81,14 +91,14 @@ test('read a Company Type by id', async () => {
   const readData = read.data.data
   expect.assertions(1)
   expect(readData).toEqual(createdData)
-})
+ })
 
-test('delete-a-companyType exists', async () => {
+test('delete-a-companyType exists', async () => {    
   expect.assertions(1)
   expect(typeof (companyType.deleteCompanyType)).toBe('function')
-})
+ })
 
-test('delete a CompanyType by id', async () => {
+test('delete a CompanyType by id', async () => {    
   const data = {
     companyType: 'Type1',
     fields: ['stringField', 'true', '123'],
@@ -104,4 +114,4 @@ test('delete a CompanyType by id', async () => {
   const deletedData = deleted.data.data
   expect.assertions(1)
   expect(deletedData).toEqual(createdData)
-})
+ })
