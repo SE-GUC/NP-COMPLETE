@@ -377,4 +377,42 @@ router.get('/getFeedback/:id', async (req, res) => {
   }
 })
 
+router.get('/showLastWorked/:companyId/:adminId', async (req, res) => {
+  try {
+    const adminId = req.params.adminId
+    const admin = await Admin.findById(adminId)
+    if (!admin) { // make sure that the one accessing the page is an admin
+      return res.status(400).json({
+        status: 'Error',
+        message: 'Access denied'
+      })
+    }
+    const companyId = req.params.companyId
+    const requestedCase = await Company.findById(companyId)
+    if (!requestedCase) { // make sure that the one accessing the page is a reviewer
+      return res.status(400).json({
+        status: 'Error',
+        message: 'Case not found'
+      })
+    }
+    const result = []
+    if (requestedCase.form.acceptedByLawyer !== -1) {
+      const lawyer = await Lawyer.findById(requestedCase.form.lawyerID)
+      result.push('Lawyer: ' + lawyer.fullName)
+    }
+    if (requestedCase.form.acceptedByReviewer !== -1) {
+      const reviewer = await Reviewer.findById(requestedCase.form.reviewerID)
+      result.push('Reviewer: ' + reviewer.fullName)
+    }
+    return res.json({
+      status: 'Success',
+      message: `This case was last worked on by:`,
+      data: result
+    })
+  } catch (error) {
+    console.log(error)
+  }
+})
+
+
 module.exports = router
