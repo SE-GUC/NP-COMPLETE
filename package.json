@@ -24,8 +24,8 @@
   },
   "scripts": {
     "start": "node index.js",
-    "test": "jest",
-    "testWatch": "jest --watchAll"
+    "test": "jest --runInBand",
+    "testWatch": "jest --runInBand --watchAll"
   },
   "repository": {
     "type": "git",
