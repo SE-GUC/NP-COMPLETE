@@ -4,7 +4,6 @@ const router = express.Router()
 
 // ExternalEntity model and validator
 const ExternalEntity = require('../../models/ExternalEntity')
-const Task = require('../../models/Task')
 const validator = require('../../validations/externalEntitiesValidation')
 
 // Read all External Entities (Default route)

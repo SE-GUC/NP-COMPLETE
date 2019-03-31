@@ -97,7 +97,6 @@ router.delete('/:id', async (req, res) => {
     const id = req.params.id
     const companyToBeDeleted = await Company.findByIdAndRemove(id)
     if (!companyToBeDeleted) {
-      const comppp = await Company.find()
       return res.status(400).json({
         status: 'Error',
         message: 'could not find Company you are looking for'

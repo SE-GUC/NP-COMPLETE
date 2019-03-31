@@ -233,7 +233,7 @@ router.put('/editForm/:id', async (req, res) => {
     const type = companyToBeUpdated.type
     const query = { 'companyType': type }
     const companyTypeTemp = await companyType.find(query)
-    if(!companyTypeTemp){
+    if (!companyTypeTemp) {
       return res.status(400).json({
         status: 'error',
         message: 'It is empty'
@@ -316,7 +316,7 @@ router.post('/fillForm/:id', async (req, res) => {
     const type = req.body.type
     const query = { 'companyType': type }
     const companyTypeTemp = await companyType.find(query)
-    if(companyTypeTemp.length == 0){
+    if (companyTypeTemp.length === 0) {
       return res.status(400).json({
         status: 'error',
         message: 'It is empty'
