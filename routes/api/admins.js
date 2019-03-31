@@ -336,7 +336,7 @@ router.put('/updateMyProfile/:id', async (req, res) => {
       })
     } else {
       const id = req.params.id
-      res.redirect(`/api/admins/${id}`)
+      res.redirect(307, `/api/admins/${id}`)
     }
   } catch (error) {
     console.log(error)
