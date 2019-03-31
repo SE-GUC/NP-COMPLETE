@@ -321,8 +321,7 @@ test('View-Cases-exists', async () => {
  })
 
 // Test the functionality
-test('Reviewer view all cases', async () => {   
-  try { 
+test('Reviewer view all cases', async () => {
   const reviewerData = {
     fullName: 'Elliot Alderson',
     birthdate: '2001-10-02',
@@ -337,11 +336,7 @@ test('Reviewer view all cases', async () => {
   const availableCompanies = await company.default()
   const availableCompaniesData = availableCompanies.data.data
   expect.hasAssertions()
-  expect(reviewerViewedCasesData).toEqual(availableCompaniesData)}
-  catch(error){
-    console.log(error)
-  }
- })
+  expect(reviewerViewedCasesData).toEqual(availableCompaniesData)})
 
 // As a reviewer I should be able to preview (read only) applications, so that I can decide whether to accept or reject
 

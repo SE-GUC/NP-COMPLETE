@@ -405,8 +405,7 @@ test('View-Cases-exists', async () => {
  })
 
 // Test the functionality
-test('Lawyer view all cases', async () => {
-  try {    
+test('Lawyer view all cases', async () => {   
   const lawyerData = {
     fullName: 'Elliot Alderson',
     birthdate: '1995-10-02',
@@ -422,7 +421,6 @@ test('Lawyer view all cases', async () => {
   const availableCompaniesData = availableCompanies.data.data
   expect.hasAssertions()
   expect(availableCompaniesData).toMatchObject(lawyerViewedCasesData)
-}catch(error){ console.log(error)}
 }, 15000)
 
 test('Lawyer workPage-exists', async () => {    
@@ -454,7 +452,6 @@ test('Lawyer workPage', async () => {
 
   const lawyerWorkPage = await lawyer.workPage(lawyerId)
   const lawyerWorkPageData = lawyerWorkPage.data.data[0].handler[0]
-  console.log(lawyerWorkPageData)
   expect.hasAssertions()
   expect(lawyerWorkPageData).toEqual(taskhandler[0])
  })

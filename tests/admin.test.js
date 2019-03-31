@@ -153,7 +153,6 @@ test('Delete an Admin by id', async () => {
 
 // User story 4.09 - view All cases (Companies) on the system
 test('Admin view cases by id', async () => {
-  try {
     const adminData = {
       fullName: 'John Smith',
       birthdate: '1996-10-02',
@@ -169,10 +168,7 @@ test('Admin view cases by id', async () => {
     const availableCompaniesData = availableCompanies.data.data
     expect.assertions(1)
     expect(adminViewedCasesData).toMatchObject(availableCompaniesData)
-  } catch (error) {
-    console.log(error)
-  }
-})
+   })
 
 // As an Internal User I should be able to view tasks assigned to my department, so that I can be aware of coworkers updates.
 

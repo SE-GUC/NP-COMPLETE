@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1553991204154" clover="3.2.0">
-  <project timestamp="1553991204155" name="All files">
+<coverage generated="1554050107115" clover="3.2.0">
+  <project timestamp="1554050107115" name="All files">
     <metrics statements="93" coveredstatements="82" conditionals="0" coveredconditionals="0" methods="69" coveredmethods="58" elements="162" coveredelements="140" complexity="0" loc="93" ncloc="93" packages="1" files="8" classes="8"/>
     <file name="admin.js" path="C:\Users\modo_\Documents\GitHub\NP-COMPLETE\tests\admin.js">
       <metrics statements="15" coveredstatements="12" conditionals="0" coveredconditionals="0" methods="12" coveredmethods="9"/>
