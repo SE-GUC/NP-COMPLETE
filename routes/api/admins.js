@@ -21,9 +21,8 @@ router.delete('/deleteAllEntries/', async (req, res) => {
   Reviewer.collection.remove()
   CompanyType.collection.remove()
   ExternalEntity.collection.remove()
-  res.json({ message : 'You made the database empty' })
+  res.json({ message: 'You made the database empty' })
 })
-
 
 // Validator
 const validator = require('../../validations/adminValidations')
