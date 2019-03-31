@@ -1,8 +1,7 @@
-// Load mongoose Schema
+// The Reviewer model
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
-// Create the schema
 const ReviewerSchema = new Schema({
   fullName: {
     type: String,

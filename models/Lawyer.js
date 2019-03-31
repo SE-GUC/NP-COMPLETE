@@ -1,7 +1,7 @@
+// The lawyer Model
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
-// The lawyer schema
 const LawyerSchema = new Schema({
   fullName: {
     type: String,

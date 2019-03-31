@@ -1,8 +1,7 @@
-// Load mongoose Schema
+// The Task Model
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
-// Create the schema
 const TaskSchema = new Schema({
   department: {
     type: String,
