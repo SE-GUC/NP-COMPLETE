@@ -1,6 +1,8 @@
 // Load modules
 const express = require('express')
 const router = express.Router()
+// const stripe = require('stripe')('pk_test_gXEdE7jVq08xnKlW6KmsumaF00advWYnHN')
+// api for paying fees(investor user story)
 
 // Investor model and validator
 const Investor = require('../../models/Investor')
@@ -112,6 +114,56 @@ router.delete('/:id', async (req, res) => {
   }
 })
 
+// As an investor I should be able to cancel an unreviewed application, so that I can stop the process of establishing a company I don't want anymore.
+router.put('/CancelApplication/:id', async (req, res) => {
+  try {
+    const id = req.params.id
+    const currentInvestor = await Investor.findById(id)
+    const AllInvestors = await Investor.find()
+    if (!currentInvestor) {
+      return res.status(400).json({
+        status: 'Error',
+        message: 'could not find Investor you are looking for',
+        availableInvestors: AllInvestors
+      })
+    }
+    if (Object.keys(req.body).length === 0) {
+      return res.status(400).json({
+        status: 'Error',
+        message: 'You did not enter an id'
+      })
+    }
+    const appId = req.body.id
+    const myCompany = await Company.findById(appId)
+    if (!myCompany) {
+      return res.status(400).json({
+        status: 'Error',
+        message: 'could not find the Company you are looking for'
+      })
+    }
+    if (!(myCompany.investorId === id)) {
+      return res.status(400).json({
+        status: 'Error',
+        message: 'This is not your company'
+      })
+    }
+    if (!(myCompany.form.acceptedByReviewer === -1)) {
+      return res.status(400).json({
+        status: 'Error',
+        message: 'You can not cancel a reviewed application'
+      })
+    }
+    const deletedApp = await Company.findByIdAndRemove(appId)
+    return res.json({
+      status: 'Success',
+      message: `Cancelled the Application with id ${appId}`,
+      deletedApplication: deletedApp
+    })
+  } catch (error) {
+    console.log(error)
+  }
+})
+
 // As an investor I should be able to view rejected forms with the lawyer's comments, so that I can know which data to update.
 router.get('/viewRejected/:id', async (req, res) => {
   try {
@@ -132,14 +184,14 @@ router.get('/viewRejected/:id', async (req, res) => {
           message: 'company not found'
         })
       } else {
-        var x = ''
+        var x = []
         var i
         for (i = 0; i < companies.length; i++) { // to check all the investor's companies
           if (companies[i].form.acceptedByLawyer === 0) {
-            x = x + companies[i].form + '\n'
+            x.push(companies[i].form)
           }
         }
-        if (x === '') {
+        if (!x[0]) {
           res.status(400).json({
             status: 'Error',
             message: 'There is no rejected company yet'
@@ -181,6 +233,13 @@ router.put('/editForm/:id', async (req, res) => {
     const type = companyToBeUpdated.type
     const query = { 'companyType': type }
     const companyTypeTemp = await companyType.find(query)
+    if (!companyTypeTemp) {
+      return res.status(400).json({
+        status: 'error',
+        message: 'It is empty'
+      })
+    }
+
     const fieldsTemp = companyTypeTemp[0].fields
     const dataTypesArray = companyTypeTemp[0].types
     const data = req.body.data
@@ -242,6 +301,7 @@ router.get('/getCompanies/:id', async (req, res) => {
     console.log(error)
   }
 })
+
 // As an investor I should be able to fill an application form, so that I can establish a company.
 router.post('/fillForm/:id', async (req, res) => {
   try {
@@ -256,9 +316,21 @@ router.post('/fillForm/:id', async (req, res) => {
     const type = req.body.type
     const query = { 'companyType': type }
     const companyTypeTemp = await companyType.find(query)
+    if (companyTypeTemp.length === 0) {
+      return res.status(400).json({
+        status: 'error',
+        message: 'It is empty'
+      })
+    }
     const fieldsTemp = companyTypeTemp[0].fields
     const dataTypesArray = companyTypeTemp[0].types
     const data = req.body.form.data
+    if (data.length !== dataTypesArray.length) {
+      return res.status(400).json({
+        status: 'Error',
+        message: 'You must enter all the required data'
+      })
+    }
     for (let i = 0; i < dataTypesArray.length; i++) {
       const dataType = typeof (data[i])
       if (!(dataType === dataTypesArray[i])) {
@@ -293,5 +365,70 @@ const isValidDate = stringDate => {
   const date = new Date(stringDate)
   return date && Object.prototype.toString.call(date) === '[object Date]' && !isNaN(date)
 }
+
+// as an investor i should be able to pay the fees to establish my company
+// will be verified with stripe to add real fees in the front end
+router.put('/payFees/:id', async (req, res) => {
+  try {
+    const investorId = req.params.id
+    const investor = await Investor.findById({ '_id': investorId })
+    if (!investor) {
+      return res.status(400).json({
+        status: 'Error',
+        message: 'investor doesnt exist'
+      })
+    }
+    const companyId = req.body.id
+    const company = await Company.findById(companyId)
+    if (!company) {
+      return res.status(404).json({
+        status: 'Error',
+        message: 'no company matches this ID'
+      })
+    }
+    if (company.investorId !== investorId) {
+      return res.status(400).json({
+        status: 'Error',
+        message: 'you cant pay fees for a company that doesnt belong to you'
+      })
+    }
+    if (company.accepted === false) {
+      return res.status(400).json({
+        status: 'Error',
+        message: 'can not pay fees when form is not yet accepted'
+      })
+    }
+    const query2 = { '_id': companyId }
+    const data2 = { 'state': 'Established',
+      'establishmentDate': Date.now(),
+      'form.paid': true,
+      'fees': 0
+    }
+    const updateCompany = await Company.findByIdAndUpdate(query2, data2, { new: true })
+    return res.json({
+      status: 'Your copmany is now established',
+      data: updateCompany
+    })
+  } catch (error) {
+    console.log(error)
+  }
+})
+
+// As an investor I should be able to read a description of the form,
+// so that I can understand what to fill in each field
+router.get('/readDescription/:id', async (req, res) => {
+  const companyId = req.params.id
+  const company = await Company.findById(companyId)
+  if (company) {
+    res.json({
+      description: company.form.description
+    })
+  } else {
+    res.status(400).json({
+      status: 'Error',
+      message: 'Company not found'
+    })
+  }
+})
 
 module.exports = router

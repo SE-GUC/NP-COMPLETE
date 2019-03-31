@@ -11,6 +11,7 @@ const reviewers = require('./routes/api/reviewers')
 const companies = require('./routes/api/companies')
 const tasks = require('./routes/api/tasks')
 const companyTypes = require('./routes/api/companyTypes')
+const users = require('./routes/api/users')
 
 const app = express()
 
@@ -47,6 +48,7 @@ app.use('/api/lawyers', lawyers)
 app.use('/api/companies', companies)
 app.use('/api/tasks', tasks)
 app.use('/api/companyTypes', companyTypes)
+app.use('/api/users', users)
 
 // Handling 404
 app.use((req, res) => {

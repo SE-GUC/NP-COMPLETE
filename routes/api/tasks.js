@@ -6,6 +6,7 @@ const router = express.Router()
 const Task = require('../../models/Task')
 const validator = require('../../validations/taskValidations')
 
+// Read all Tasks (Default route)
 router.get('/', async (req, res) => {
   try {
     const tasks = await Task.find()
@@ -15,8 +16,8 @@ router.get('/', async (req, res) => {
   }
 })
 
-// Read all Tasks (Default route) or specfic department tasks (if given a valid department in the body)
-router.get('/viewDepartmentTask', async (req, res) => {
+// Read specfic department tasks (if given a valid department in the body)
+router.put('/viewDepartmentTask', async (req, res) => {
   const department = req.body.department
   // check that the given department in the body is valid
   if (department === 'Lawyer' || department === 'Reviewer' || department === 'Admin' || department === 'External Entity') {
@@ -125,17 +126,19 @@ router.put('/:id', async (req, res) => {
 router.delete('/:id', async (req, res) => {
   try {
     const taskId = req.params.id
-    const taskToDelete = await Task.findByIdAndRemove({ _id: taskId })
+    const taskToDelete = await Task.findByIdAndRemove(taskId)
     if (!taskToDelete) {
       return res.status(400).json({
         status: 'Error',
-        message: `Task not found`
+        message: `Task not found`,
+        availableTasks: await Task.find()
       })
     }
     res.json({
       status: 'Success',
       message: `Deleted task with id ${taskId}`,
-      data: taskId
+      deletedTask: taskToDelete,
+      remainingTask: await Task.find()
     })
   } catch (error) {
     console.log(error)
