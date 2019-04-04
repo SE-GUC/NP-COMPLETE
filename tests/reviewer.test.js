@@ -437,3 +437,36 @@ test('Reviewer view his department tasks by id', async () => {
   expect.hasAssertions()
   expect(reviewerDepartmentTasksData).toEqual(myDepartmentTasksData)
  })
+
+test('Reviewer workPage-exists', async () => {
+  expect.assertions(1)
+  return expect(typeof (reviewer.workPage)).toBe('function')
+})
+
+test('Reviewer workPage', async () => {
+  const reviewerData = {
+    fullName: 'Elliot Alderson',
+    birthdate: '1995-10-02',
+    email: 'mrRobot@fsociety.com',
+    startDate: '1998-12-02'
+  }
+  const createdReviewer = await reviewer.createReviewer(reviewerData)
+  const createdReviewerData = createdReviewer.data.data
+  const reviewerId = createdReviewerData['_id']
+
+  const taskData = {
+    department: 'Reviewer',
+    creationDate: '2019-02-02T00:00:00.000Z',
+    deadline: '2019-02-06T00:00:00.000Z',
+    handler: [reviewerId]
+  }
+
+  const createdTask = await task.createTask(taskData)
+  const createdTaskData = createdTask.data.data
+  const taskhandler = createdTaskData['handler']
+
+  const reviewerWorkPage = await reviewer.workPage(reviewerId)
+  const reviewerWorkPageData = reviewerWorkPage.data.data[0].handler[0]
+  expect.assertions(1)
+  expect(reviewerWorkPageData).toEqual(taskhandler[0])
+})

@@ -320,3 +320,37 @@ test('getFeedback of investors by admin', async () => {
   expect.assertions(1)
   expect(feedbacksData).toContain(originalFeedback1) && expect(feedbacksData).toContain(originalFeedback)
 })
+
+test('Admin workPage-exists', async () => {
+  expect.assertions(1)
+  return expect(typeof (admin.workPage)).toBe('function')
+})
+
+test('Admin workPage', async () => {
+  const adminData = {
+    fullName: 'Elliot Alderson',
+    birthdate: '1995-10-02',
+    email: 'mrRobot@fsociety.com',
+    startDate: '1998-12-02'
+  }
+  const createdAdmin = await admin.createAdmin(adminData)
+  const createdAdminData = createdAdmin.data.data
+  const adminId = createdAdminData['_id']
+
+  const taskData = {
+    department: 'Admin',
+    creationDate: '2019-02-02T00:00:00.000Z',
+    deadline: '2019-02-06T00:00:00.000Z',
+    handler: [adminId]
+  }
+
+  const createdTask = await task.createTask(taskData)
+  const createdTaskData = createdTask.data.data
+  const taskhandler = createdTaskData['handler']
+
+  const adminWorkPage = await admin.workPage(adminId)
+  const adminWorkPageData = adminWorkPage.data.data[0].handler[0]
+  console.log(adminWorkPageData)
+  expect.assertions(1)
+  expect(adminWorkPageData).toEqual(taskhandler[0])
+})
