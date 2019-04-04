@@ -29,6 +29,9 @@ const reviewer = {
   },
   viewDepartmentTasks: async (id) => {
     return axios.get(`http://localhost:8000/api/reviewers/viewDepartmentTask/${id}`)
+  },
+  workPage: async (id) => {
+    return axios.get(`http://localhost:8000/api/reviewers/workPage/${id}`)
   }
 }
 module.exports = reviewer
