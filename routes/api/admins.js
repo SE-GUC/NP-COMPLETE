@@ -419,5 +419,4 @@ router.get('/showLastWorked/:companyId/:adminId', async (req, res) => {
   }
 })
 
-
 module.exports = router
