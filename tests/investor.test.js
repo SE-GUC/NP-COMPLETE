@@ -551,4 +551,66 @@ test('Cancel Unreviewed Application an Investor', async () => {
   const cancelledData = cancelled.data.deletedApplication
   expect.assertions(1)
   expect(cancelledData).toMatchObject(createdCompanyData)
- })
+})
+
+// Test feedback existance
+test('give Feedback exists', async () => {
+  expect.assertions(1)
+  expect(typeof (investor.giveFeedback)).toBe('function')
+})
+
+// Test functionalty
+test('give Feedback', async () => {
+  const investorData = {
+    fullName: 'Shiko elgamed',
+    birthdate: '1998-07-20',
+    email: 'shiko@gmail.com'
+  }
+  const investorCreated = await investor.createInvestor(investorData)
+  const createdInvestorData = investorCreated.data.data
+  const investorId = createdInvestorData['_id']
+
+  const companyData = {
+    name: 'Toys are Shiko',
+    type: 'SSC',
+    investorId: investorId,
+    form: {
+      data: [],
+      comment: 'Very good company',
+      acceptedByLawyer: 1,
+      acceptedByReviewer: 1,
+      filledByLawyer: false,
+      paid: true,
+      lawyerID: '5c9a6888bca2114a80a5c124',
+      reviewerID: '5c9660e5e008212d705efd15'
+    }
+  }
+  const review = {
+    feedback: 'Website gamed awy'
+  }
+
+  const companyUpdatedData = {
+    name: 'Toys are Shiko',
+    type: 'SSC',
+    investorId: investorId,
+    form: {
+      data: [],
+      comment: 'Very good company',
+      acceptedByLawyer: 1,
+      acceptedByReviewer: 1,
+      filledByLawyer: false,
+      paid: true,
+      lawyerID: '5c9a6888bca2114a80a5c124',
+      reviewerID: '5c9660e5e008212d705efd15'
+    },
+    feedback: 'Website gamed awy'
+  }
+  const companyCreated = await company.createCompany(companyData)
+  const createdCompanyData = companyCreated.data.data
+  const companyId = createdCompanyData['_id']
+
+  const updated = await investor.giveFeedback(companyId, investorId, review)
+  const updatedData = updated.data.data
+  expect.assertions(1)
+  return expect(updatedData).toMatchObject(companyUpdatedData) 
+})
