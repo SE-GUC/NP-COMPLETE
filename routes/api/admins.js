@@ -42,6 +42,9 @@ router.get('/workPage/:id', adminController.workPage)
 // Update admin's profile
 router.put('/updateMyProfile/:id', adminController.updateProfile)
 
+// As an Internal User I can see who last worked on a case so that we can all be updated of each other's work
+router.get('/showLastWorked/:companyId/:adminId', adminController.showLastWorked)
+
 // As an admin I should be able to view the investors' feedback so that I can make the right improvements to the service
 router.get('/getFeedback/:id', adminController.getFeedback)
 

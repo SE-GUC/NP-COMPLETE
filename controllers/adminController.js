@@ -340,3 +340,39 @@ exports.deleteAll = async (req, res) => {
   ExternalEntity.collection.remove()
   res.json({ message: 'You made the database empty' })
 }
+exports.showLastWorked = async (req, res) => {
+  try {
+    const adminID = req.params.adminId
+    const foundAdmin = await Admin.findById(adminID)
+    if (!foundAdmin) { // make sure that the one accessing the page is an admin
+      return res.status(400).json({
+        status: 'Error',
+        message: 'Access denied'
+      })
+    }
+    const companyID = req.params.companyId
+    const requestedCase = await Company.findById(companyID)
+    if (!requestedCase) { // make sure that the case exists
+      return res.status(400).json({
+        status: 'Error',
+        message: 'Case not found'
+      })
+    }
+    const result = []
+    if (requestedCase.form.acceptedByLawyer !== -1) {
+      const lawyer = await Lawyer.findById(requestedCase.form.lawyerID)
+      result.push('Lawyer: ' + lawyer.fullName)
+    }
+    if (requestedCase.form.acceptedByReviewer !== -1) {
+      const reviewer = await Reviewer.findById(requestedCase.form.reviewerID)
+      result.push('Reviewer: ' + reviewer.fullName)
+    }
+    return res.json({
+      status: 'Success',
+      message: `This case was last worked on by:`,
+      data: result
+    })
+  } catch (error) {
+    console.log(error)
+  }
+}
