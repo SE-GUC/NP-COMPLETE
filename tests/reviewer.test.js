@@ -467,7 +467,6 @@ test('Reviewer workPage', async () => {
 
   const reviewerWorkPage = await reviewer.workPage(reviewerId)
   const reviewerWorkPageData = reviewerWorkPage.data.data[0].handler[0]
-  console.log(reviewerWorkPageData)
   expect.assertions(1)
   expect(reviewerWorkPageData).toEqual(taskhandler[0])
 })
