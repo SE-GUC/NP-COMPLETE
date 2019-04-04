@@ -126,17 +126,19 @@ router.put('/:id', async (req, res) => {
 router.delete('/:id', async (req, res) => {
   try {
     const taskId = req.params.id
-    const taskToDelete = await Task.findByIdAndRemove({ _id: taskId })
+    const taskToDelete = await Task.findByIdAndRemove(taskId)
     if (!taskToDelete) {
       return res.status(400).json({
         status: 'Error',
-        message: `Task not found`
+        message: `Task not found`,
+        availableTasks: await Task.find()
       })
     }
     res.json({
       status: 'Success',
       message: `Deleted task with id ${taskId}`,
-      data: taskId
+      deletedTask: taskToDelete,
+      remainingTask: await Task.find()
     })
   } catch (error) {
     console.log(error)

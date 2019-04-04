@@ -1,5 +1,4 @@
 // The admin model
-// Load mongoose Schema
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 

@@ -3,9 +3,26 @@ const express = require('express')
 const router = express.Router()
 
 // Required models
-const Admin = require('../../models/Admin')
 const Task = require('../../models/Task')
+const Admin = require('../../models/Admin')
+const Lawyer = require('../../models/Lawyer')
 const Company = require('../../models/Company')
+const Investor = require('../../models/Investor')
+const Reviewer = require('../../models/Reviewer')
+const CompanyType = require('../../models/CompanyType')
+const ExternalEntity = require('../../models/ExternalEntity')
+
+router.delete('/deleteAllEntries/', async (req, res) => {
+  Task.collection.remove()
+  Admin.collection.remove()
+  Lawyer.collection.remove()
+  Company.collection.remove()
+  Investor.collection.remove()
+  Reviewer.collection.remove()
+  CompanyType.collection.remove()
+  ExternalEntity.collection.remove()
+  res.json({ message: 'You made the database empty' })
+})
 
 // Validator
 const validator = require('../../validations/adminValidations')
@@ -318,7 +335,7 @@ router.put('/updateMyProfile/:id', async (req, res) => {
       })
     } else {
       const id = req.params.id
-      res.redirect(`/api/admins/${id}`)
+      res.redirect(307, `/api/admins/${id}`)
     }
   } catch (error) {
     console.log(error)
