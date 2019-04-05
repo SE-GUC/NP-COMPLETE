@@ -5,6 +5,7 @@ import axios from 'axios'
 
 
 class Tracker extends Component {
+  _isMounted = false // effect of delay to wait for data from server and don't return undefined
   state = {
     companies:[
     //{
@@ -17,9 +18,10 @@ class Tracker extends Component {
 }
   
  componentDidMount() {
+  this._isMounted = true
     axios
     .get('http://localhost:8000/api/companies')
-    .then(res => {}
+    .then(res => {
       const data = res.data.data
       console.log(data)
       console.log('data')
@@ -28,6 +30,9 @@ class Tracker extends Component {
     .catch(err => this.setState({error:true}))
   } 
  
+  componentWillUnmount() {
+    this._isMounted = false
+  }
   
 
   render() {
