@@ -1,8 +1,11 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import React from 'react'
+import ReactDOM from 'react-dom'
+import './index.css'
+import ViewCases from './ViewCases'
+import App from './App'
 
-ReactDOM.render(<App />, document.getElementById('root'));
-
-serviceWorker.unregister();
+if (window.location.pathname === '/companies' || window.location.pathname === '/companies/') {
+  ReactDOM.render(<ViewCases />, document.getElementById('root'))
+} else {
+  ReactDOM.render(<App />, document.getElementById('root'))
+}
