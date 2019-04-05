@@ -54,7 +54,7 @@ exports.getByID = async (req, res) => {
   })
 }
 
-exports.createTask = async (req, res) => {
+exports.create = async (req, res) => {
   try {
     const isValidated = validator.createValidation(req.body)
     if (isValidated.error) {
@@ -73,7 +73,7 @@ exports.createTask = async (req, res) => {
   }
 }
 
-exports.updateTask = async (req, res) => {
+exports.update = async (req, res) => {
   const data = req.body
   const taskId = req.params.id
   if (Object.keys(data).length === 0) {
@@ -112,7 +112,7 @@ exports.updateTask = async (req, res) => {
   }
 }
 
-exports.deleteTask = async (req, res) => {
+exports.delete = async (req, res) => {
   try {
     const taskId = req.params.id
     const taskToDelete = await Task.findByIdAndRemove(taskId)

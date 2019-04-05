@@ -153,22 +153,22 @@ test('Delete an Admin by id', async () => {
 
 // User story 4.09 - view All cases (Companies) on the system
 test('Admin view cases by id', async () => {
-    const adminData = {
-      fullName: 'John Smith',
-      birthdate: '1996-10-02',
-      email: 'mko@tower.net',
-      startDate: '2019-02-02T00:00:00.000Z'
-    }
-    const createdAdmin = await admin.createAdmin(adminData)
-    const createdAdminData = createdAdmin.data.data
-    const adminId = createdAdminData['_id']
-    const adminViewedCases = await admin.viewCases(adminId)
-    const adminViewedCasesData = adminViewedCases.data.data
-    const availableCompanies = await company.default()
-    const availableCompaniesData = availableCompanies.data.data
-    expect.assertions(1)
-    expect(adminViewedCasesData).toMatchObject(availableCompaniesData)
-   })
+  const adminData = {
+    fullName: 'John Smith',
+    birthdate: '1996-10-02',
+    email: 'mko@tower.net',
+    startDate: '2019-02-02T00:00:00.000Z'
+  }
+  const createdAdmin = await admin.createAdmin(adminData)
+  const createdAdminData = createdAdmin.data.data
+  const adminId = createdAdminData['_id']
+  const adminViewedCases = await admin.viewCases(adminId)
+  const adminViewedCasesData = adminViewedCases.data.data
+  const availableCompanies = await company.default()
+  const availableCompaniesData = availableCompanies.data.data
+  expect.assertions(1)
+  expect(adminViewedCasesData).toMatchObject(availableCompaniesData)
+})
 
 // As an Internal User I should be able to view tasks assigned to my department, so that I can be aware of coworkers updates.
 
