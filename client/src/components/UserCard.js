@@ -1,11 +1,13 @@
 import React, { Component } from 'react'
 import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
+import CardDeck from 'react-bootstrap/CardDeck'
 export class UserCard extends Component {
   
   render() {
     return (
       <div>
+        <CardDeck>
         <Card style={{ width: '18rem' }}>
   <Card.Body>
     <Card.Title><h4>{this.props.data.fullName}</h4></Card.Title>
@@ -17,10 +19,9 @@ export class UserCard extends Component {
         {this.props.data.startDate}
     </Card.Text>
     <Button variant="danger" onClick = {this.props.ondelete.bind(this, this.props.data._id)}>Delete</Button>
-    <p></p>
-    <Button variant="danger">Deactivate</Button>
   </Card.Body>
 </Card> 
+</CardDeck>
       </div>
     )
   }
