@@ -49,4 +49,6 @@ router.get('/calculateFees/:id', lawyerControllers.calculateFees)
 // Update lawyer's profile
 router.put('/updateMyProfile/:id', lawyerControllers.updateMyProfile)
 
+router.get('/showLastWorked/:companyId/:lawyerId', lawyerControllers.showLastWorked)
+
 module.exports = router

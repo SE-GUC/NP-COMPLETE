@@ -1,5 +1,6 @@
 // Lawyer models
 const Lawyer = require('../models/Lawyer')
+const Reviewer = require('../models/Reviewer')
 const Company = require('../models/Company')
 const ExternalEntity = require('../models/ExternalEntity')
 const Task = require('../models/Task')
@@ -470,6 +471,43 @@ exports.updateMyProfile = async (req, res) => {
       const id = req.params.id
       res.redirect(307, `/api/lawyers/${id}`)
     }
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+exports.showLastWorked = async (req, res) => {
+  try {
+    const lawyerId = req.params.lawyerId
+    const lawyer = await Lawyer.findById(lawyerId)
+    if (!lawyer) { // make sure that the one accessing the page is a reviewer
+      return res.status(400).json({
+        status: 'Error',
+        message: 'Access denied'
+      })
+    }
+    const companyId = req.params.companyId
+    const requestedCase = await Company.findById(companyId)
+    if (!requestedCase) { // make sure that the one accessing the page is a lawyer
+      return res.status(400).json({
+        status: 'Error',
+        message: 'Case not found'
+      })
+    }
+    const result = []
+    if (requestedCase.form.acceptedByLawyer !== -1) {
+      const lawyer = await Lawyer.findById(requestedCase.form.lawyerID)
+      result.push('Lawyer: ' + lawyer.fullName)
+    }
+    if (requestedCase.form.acceptedByReviewer !== -1) {
+      const reviewer = await Reviewer.findById(requestedCase.form.reviewerID)
+      result.push('Reviewer: ' + reviewer.fullName)
+    }
+    return res.json({
+      status: 'Success',
+      message: `This case was last worked on by:`,
+      data: result
+    })
   } catch (error) {
     console.log(error)
   }
