@@ -50,7 +50,9 @@ redirectMEL=() => {
 redirectMEI=() => {
   window.location='investors'
 }
-
+redirectMEC=() => {
+  window.location='companies'
+}
 componentDidMount(){
   if(window.location.pathname==='/admins/'||window.location.pathname==='/admins'){
   axios
@@ -76,6 +78,12 @@ componentDidMount(){
     .then(res => this.setState({data:res.data.data}))
     .catch(err => this.setState({error:true}))
   }
+  if(window.location.pathname==='/companies/'||window.location.pathname==='/companies'){
+    axios
+    .get('https://shrouded-basin-67688.herokuapp.com/api/companies')
+    .then(res => this.setState({data:res.data.data}))
+    .catch(err => this.setState({error:true}))
+  }
 }
   render() {
     return (
@@ -86,6 +94,7 @@ componentDidMount(){
       <Button variant="secondary" onClick={this.redirectMEI}>Investors</Button>
       <Button variant="primary" onClick={this.redirectMEL}>Lawyers</Button>
       <Button variant="secondary" onClick={this.redirectMER}>Reviewers</Button>
+      <Button variant="primary" onClick={this.redirectMEC}>Companies</Button>
     </ButtonGroup>
     </div>
       <div className="App">
