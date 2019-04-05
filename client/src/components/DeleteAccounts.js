@@ -1,16 +1,14 @@
 import React, { Component } from 'react'
-// import Button from 'react-bootstrap/Button'
-// import ButtonGroup from 'react-bootstrap/ButtonGroup'
-// import axios from 'axios'
 import UserCard from './UserCard'
 
 export class DeleteAccounts extends Component {
     
   render() {
+     console.log(this.props.users.data) 
     return (
     //   <div>
           
-        this.props.admins.data.map(admin =>{
+        this.props.users.data.map(admin =>{
             return <UserCard data ={admin} ondelete={this.props.deleteMe}/>
         })
     )
