@@ -614,3 +614,24 @@ test('give Feedback', async () => {
   expect.assertions(1)
   return expect(updatedData).toMatchObject(companyUpdatedData) 
 })
+
+test('Read Company Description exists', async () => {
+  expect.assertions(1)
+  expect(typeof (investor.readDescription)).toBe('function')
+})
+
+test('Read Company Description', async () => {
+  const companyTypeTest = {
+    companyType: 'New',
+    fields: [],
+    types: [],
+    validations: [],
+    descriptions: ['Hello', 'World']
+  }
+  const createdCompanyType = await companyType.createCompanyType(companyTypeTest)
+  const createCompanyTypeData = createdCompanyType.data.data
+  const description = await investor.readDescription(companyTypeTest.companyType)
+  const descriptionData = description.data.description
+  expect.assertions(1)
+  expect(descriptionData).toEqual(createCompanyTypeData.description)
+})
