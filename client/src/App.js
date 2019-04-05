@@ -88,7 +88,7 @@ componentDidMount(){
     </ButtonGroup>
     </div>
       <div className="App">
-      <DeleteAccounts deleteMe = {this.deleteMe} admins = {this.state}/>
+      <DeleteAccounts deleteMe = {this.deleteMe} users = {this.state}/>
       </div>
     </header>
       );
