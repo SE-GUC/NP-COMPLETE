@@ -4,3 +4,4 @@ config/keys_dev.js
 coverage
 coverage/*
 coverage/
+/coverage
