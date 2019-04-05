@@ -24,7 +24,7 @@ const TaskSchema = new Schema({
     required: false
   },
   handler: {
-    type: [],
+    type: [String],
     required: false
   }
 
