@@ -35,6 +35,12 @@ const investor = {
   },
   cancelUnreviewed: async (id, data) => {
     return axios.put(`http://localhost:8000/api/investors/CancelApplication/${id}`, data)
+  },
+  giveFeedback: async (id1, id2, data) => {
+    return axios.put(`http://localhost:8000/api/investors/reviewOnlineService/${id1}/${id2}`, data)
+  },
+  readDescription: async (id) => {
+    return axios.put(`http://localhost:8000/api/investors/readDescription/${id}`)
   }
 }
 module.exports = investor
