@@ -8,7 +8,7 @@ export class UserCard extends Component {
     return (
       <div>
         <CardDeck>
-        <Card>
+        <Card border="danger">
   <Card.Body>
     <Card.Title><h4>{this.props.data.fullName}</h4></Card.Title>
     <Card.Text>
