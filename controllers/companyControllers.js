@@ -26,7 +26,7 @@ exports.getByID = async (req, res) => {
   }
 }
 
-exports.createCompany = async (req, res) => {
+exports.create = async (req, res) => {
   try {
     const isValidated = validator.createValidation(req.body)
     if (isValidated.error) {
@@ -46,7 +46,7 @@ exports.createCompany = async (req, res) => {
   }
 }
 
-exports.updateCompany = async (req, res) => {
+exports.update = async (req, res) => {
   try {
     const id = req.params.id
     if (Object.keys(req.body).length === 0) {
@@ -83,7 +83,7 @@ exports.updateCompany = async (req, res) => {
   }
 }
 
-exports.deleteCompany = async (req, res) => {
+exports.delete = async (req, res) => {
   try {
     const id = req.params.id
     const companyToBeDeleted = await Company.findByIdAndRemove(id)

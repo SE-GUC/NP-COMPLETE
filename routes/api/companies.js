@@ -11,15 +11,15 @@ const companyControllers = require('../../controllers/companyControllers')
 // Read all Companies (Default route)
 router.get('/', companyControllers.getAll)
 // Create a new Company
-router.post('/', companyControllers.createCompany)
+router.post('/', companyControllers.create)
 
 // Reads a specific Company given id in URL
 router.get('/:id', companyControllers.getByID)
 
 // Update an existing Company given id in URL
-router.put('/:id', companyControllers.updateCompany)
+router.put('/:id', companyControllers.update)
 
 // Delete a specific Company given ID in URL
-router.delete('/:id', companyControllers.deleteCompany)
+router.delete('/:id', companyControllers.delete)
 
 module.exports = router
