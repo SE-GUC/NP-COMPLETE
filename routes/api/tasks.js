@@ -17,12 +17,12 @@ router.put('/viewDepartmentTask', TaskControllers.viewDepartmentTask)
 router.get('/:id', TaskControllers.getByID)
 
 // create a task
-router.post('/', TaskControllers.createTask)
+router.post('/', TaskControllers.create)
 
 // update a task
-router.put('/:id', TaskControllers.updateTask)
+router.put('/:id', TaskControllers.update)
 
 // Delete a Task
-router.delete('/:id', TaskControllers.deleteTask)
+router.delete('/:id', TaskControllers.delete)
 
 module.exports = router
