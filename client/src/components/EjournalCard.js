@@ -2,6 +2,12 @@ import React, { Component } from 'react'
 import Card from 'react-bootstrap/Card'
 import CardDeck from 'react-bootstrap/CardDeck'
 export class EjournalCard extends Component {
+  // constructor (props) {
+  //   super(props)
+  //   this.state = {
+  //     key: ''
+  //   }
+  // }
   render () {
     return (
       <div>
@@ -21,6 +27,8 @@ export class EjournalCard extends Component {
       </div>
     )
   }
+  // componentDidMount () {
+  //   this.setState({ key: this.props.data._id })
+  // }
 }
-
 export default EjournalCard

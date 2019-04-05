@@ -9,14 +9,13 @@ export class Ejournals extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      ejornals: [],
-      ID: ''
+      ejornals: []
     }
   }
   componentDidMount () {
     axios
       .get('http://localhost:8000/api/users/showEstablishedCompanies')
-      .then(res => this.setState({ ejornals: res.data.data, ID: res.data._id }))
+      .then(res => this.setState({ ejornals: res.data.data }))
       .catch(err => {
         return this.setState({ error: err })
       })
