@@ -9,21 +9,21 @@ const admin = require('./admin')
 // beforeEach(() => {
 //   admin.deleteAll()
 //  });
- 
+
 //  afterEach(() => {
 //    admin.deleteAll()
 //   });
 
-test('Read-all-Investors exists', async () => {    
+test('Read-all-Investors exists', async () => {
   expect.assertions(1)
   expect(typeof (investor.default)).toBe('function')
- })
-test('Read-an-Investor exists', async () => {    
+})
+test('Read-an-Investor exists', async () => {
   expect.assertions(1)
   expect(typeof (investor.readInvestor)).toBe('function')
- })
+})
 
-test('Read an Investor by id', async () => {    
+test('Read an Investor by id', async () => {
   const data = {
     fullName: 'Sam Water',
     birthdate: '1837-02-15',
@@ -36,15 +36,15 @@ test('Read an Investor by id', async () => {
   const readData = read.data.data
   expect.assertions(1)
   expect(readData).toEqual(createdData)
- })
+})
 
-test('Delete-an-Investor exists', async () => {    
+test('Delete-an-Investor exists', async () => {
   expect.assertions(1)
   expect(typeof (investor.deleteInvestor)).toBe('function')
 },
 10000)
 
-test('Delete an Investor by id', async () => {    
+test('Delete an Investor by id', async () => {
   const data = {
     fullName: 'Kevin Smith',
     birthdate: '2001-10-02',
@@ -57,14 +57,14 @@ test('Delete an Investor by id', async () => {
   const deletedData = deleted.data.deletedInvestor
   expect.assertions(1)
   expect(deletedData).toEqual(createdData)
- })
+})
 
-test('Create-an-Investor exists', async () => {    
+test('Create-an-Investor exists', async () => {
   expect.assertions(1)
   expect(typeof (investor.createInvestor)).toBe('function')
- })
+})
 
-test('Create-an-Investor', async () => {    
+test('Create-an-Investor', async () => {
   const data = {
     fullName: 'Anthony Martial',
     birthdate: '1996-12-20T00:00:00.000Z',
@@ -74,14 +74,14 @@ test('Create-an-Investor', async () => {
   const createdData = created.data.data
   expect.assertions(1)
   expect(createdData).toMatchObject(data)
- })
+})
 
-test('Update-an-Investor exists', async () => {    
+test('Update-an-Investor exists', async () => {
   expect.assertions(1)
   expect(typeof (investor.updateInvestor)).toBe('function')
- })
+})
 
-test('Update an Investor by id', async () => {    
+test('Update an Investor by id', async () => {
   const data = {
     fullName: 'Bill Marks',
     birthdate: '1990-10-18',
@@ -103,15 +103,15 @@ test('Update an Investor by id', async () => {
   const updatedData = updated.data.data
   expect.assertions(1)
   expect(updatedData).toMatchObject(updatedInfo)
- })
+})
 
 // as an investor i should be able to pay my fees
-test('edit-form-by-Investor exists', async () => {    
+test('edit-form-by-Investor exists', async () => {
   expect.assertions(1)
   expect(typeof (investor.editForm)).toBe('function')
- })
+})
 
-test('edit a form by an Investor', async () => {    
+test('edit a form by an Investor', async () => {
   const companyTypeTest = {
     companyType: 'BBC',
     fields: ['stringField', 'booleanField', 'NumberFeild'],
@@ -152,15 +152,15 @@ test('edit a form by an Investor', async () => {
   const UpdatedFormData = updatedForm.data.updatedCompany.form.data
   expect.assertions(1)
   expect(UpdatedFormData).toEqual(data.data)
- })
+})
 
 // As an investor I should be able to show a list for my peniding and established companies.
-test('Get Companies Exist', async () => {    
+test('Get Companies Exist', async () => {
   expect.assertions(1)
   expect(typeof (investor.getCompanies)).toBe('function')
- })
+})
 
-test('Get my companies', async () => {    
+test('Get my companies', async () => {
   const companyTypeTest = {
     companyType: 'SSC',
     fields: ['stringField', 'booleanField', 'NumberFeild'],
@@ -231,14 +231,14 @@ test('Get my companies', async () => {
   const myCompanies = [firstCompany, secondCompany]
   expect.assertions(1)
   expect(expectedData).toEqual(myCompanies)
- })
+})
 // As an investor I should be able to fill an application form, so that I can establish a company.
-test('Fill Form Exist', async () => {    
+test('Fill Form Exist', async () => {
   expect.assertions(1)
   expect(typeof (investor.fillForm)).toBe('function')
- })
+})
 
-test('Fill Form to create a company', async () => {    
+test('Fill Form to create a company', async () => {
   const companyTypeTest = {
     companyType: 'WWC',
     fields: ['stringField', 'booleanField', 'NumberFeild'],
@@ -288,12 +288,12 @@ test('Fill Form to create a company', async () => {
   expect(myCompany).toMatchObject(equalData)
 }, 5500)
 
-test('TrackApplication exists', async () => {    
+test('TrackApplication exists', async () => {
   expect.assertions(1)
   return expect(typeof (investor.trackApplication)).toBe('function')
- })
+})
 
-test('Track Applications', async () => {    
+test('Track Applications', async () => {
   const companyTypeTest = {
     companyType: 'SSC',
     fields: ['stringField', 'booleanField', 'NumberFeild'],
@@ -343,14 +343,14 @@ test('Track Applications', async () => {
 }, 10000)
 
 // user story 1.04 part 1
-test('viewRejected-form-by-Lawyer exists', async () => {    
+test('viewRejected-form-by-Lawyer exists', async () => {
   expect.assertions(1)
   expect(typeof (investor.viewRejected)).toBe('function')
- })
+})
 
 // user story 1.04 part 2
 
-test('viewRejected form by an Investor ', async () => {    
+test('viewRejected form by an Investor ', async () => {
   const companyTypeTest = {
     companyType: 'SSC',
     fields: ['stringField', 'booleanField', 'NumberFeild'],
@@ -442,15 +442,15 @@ test('viewRejected form by an Investor ', async () => {
 
   expect.assertions(1)
   expect(rejectedCompanyForm).toMatchObject(createdCompanyForm) && expect(rejectedCompanyForm1).toMatchObject(createdCompanyForm1)
- })
+})
 
 // as an investor i should be able to pay fees
-test('payFees-by-Investor exists', async () => {    
+test('payFees-by-Investor exists', async () => {
   expect.assertions(1)
   expect(typeof (investor.payFees)).toBe('function')
- })
+})
 
-test('pay a fees by an Investor', async () => {    
+test('pay a fees by an Investor', async () => {
   const companyTypeTest = {
     companyType: 'SSC',
     fields: ['stringField', 'booleanField', 'NumberFeild'],
@@ -507,18 +507,18 @@ test('pay a fees by an Investor', async () => {
   } catch (error) {
 
   }
- })
+})
 
 // Test As an investor I should be able to cancel an unreviewed application, so that I can stop the process of establishing a company I don't want anymore.
 
 // Test existance
-test('Cancel-Unreviewed-Application exists', async () => {    
+test('Cancel-Unreviewed-Application exists', async () => {
   expect.assertions(1)
   expect(typeof (investor.cancelUnreviewed)).toBe('function')
- })
+})
 
 // Test functionalty
-test('Cancel Unreviewed Application an Investor', async () => {    
+test('Cancel Unreviewed Application an Investor', async () => {
   const investorTest = {
     fullName: 'jon snow',
     birthdate: '2001-10-02',
@@ -612,7 +612,7 @@ test('give Feedback', async () => {
   const updated = await investor.giveFeedback(companyId, investorId, review)
   const updatedData = updated.data.data
   expect.assertions(1)
-  return expect(updatedData).toMatchObject(companyUpdatedData) 
+  return expect(updatedData).toMatchObject(companyUpdatedData)
 })
 
 test('Read Company Description exists', async () => {
