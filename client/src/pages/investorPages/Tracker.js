@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import Header from './components/Header'
-import CompaniesPage from './components/CompaniesPage'
+import Header from '../../components/generic/Header'
+import CompaniesPage from '../../components/company/CompaniesPage'
 import axios from 'axios'
 
 

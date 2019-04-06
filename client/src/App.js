@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import ViewForm from './components/investorComponents/viewForm'
+import ViewForm from './pages/investorPages/ViewRejectedForms'
+import Tracker from './pages/investorPages/Tracker'
 import './App.css';
 
 class App extends Component {
@@ -14,7 +15,9 @@ class App extends Component {
         <div>
         <h1>Hello, Investor!</h1>
         </div>
-
+        <div>
+          <Tracker > </Tracker>
+        </div>
         <div>
         <ViewForm investorId="5ca776e7302e6260208998f6"> </ViewForm>
         </div>

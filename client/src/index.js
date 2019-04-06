@@ -2,10 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import Tracker from './Tracker'
 import * as serviceWorker from './serviceWorker';
 
-ReactDOM.render(<Tracker />, document.getElementById('root')); // replaced App by Tracker
+ReactDOM.render(<App />, document.getElementById('root')); // replaced App by Tracker
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
