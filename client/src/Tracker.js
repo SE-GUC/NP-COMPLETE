@@ -20,11 +20,9 @@ class Tracker extends Component {
  componentDidMount() {
   this._isMounted = true
     axios
-    .get('http://localhost:8000/api/companies')
+    .get('http://localhost:8000/api/investors/getCompanies/5c9614f2fe51f5258ce36f91')
     .then(res => {
       const data = res.data.data
-      console.log(data)
-      console.log('data')
       this.setState({companies:data })
       })
     .catch(err => this.setState({error:true}))
@@ -36,9 +34,6 @@ class Tracker extends Component {
   
 
   render() {
-    console.log(this.state)
-    console.log('this.state')
-    console.log('hi')
     return (
       <div className="Tracker">
         <Header/>

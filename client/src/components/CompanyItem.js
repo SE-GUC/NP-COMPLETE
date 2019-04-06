@@ -9,8 +9,8 @@ export class CompanyItem extends Component {
             <div>
               <h1>
               {this.props.com.name} <br/>
-              
               </h1>
+              <h3>{this.props.com.state}</h3>
             </div>
           ) 
   }
