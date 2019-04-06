@@ -6,6 +6,7 @@ import Tracker from './pages/investorPages/Tracker'
 import ViewCases from './pages/ViewCases'
 import Faqs from './pages/investorPages/Faqs'
 import Ejournals from './pages/CompaniesEjournals'
+import Register from './pages/investorPages/Register'
 
 import './App.css'
 
@@ -37,6 +38,8 @@ class App extends Component {
             <Route exact path='/investors/Faqs' component={Faqs} />
 
             <Route exact path='/companies/Ejournals' component={Ejournals} />
+
+            <Route exact path='/investors/Register' component={Register} />
 
           </div>
         </div>
