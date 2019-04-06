@@ -36,9 +36,9 @@ class ViewCases extends Component {
       })
   }
   componentDidMount() {
-
+    console.log('koko')
     Axios
-      .get('http://localhost:8000/api/companies')
+      .get('http://localhost:8000/api/companies')                    //('https://shrouded-basin-67688.herokuapp.com/api/companies')
       .then(res=> this.setState({cases:res.data.data.companies,loading:false}))
       .catch(error=> this.ERROR.bind(error))
     }
