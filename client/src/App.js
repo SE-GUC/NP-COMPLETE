@@ -7,6 +7,7 @@ import ViewCases from './pages/ViewCases'
 import Faqs from './pages/investorPages/Faqs'
 import Ejournals from './pages/CompaniesEjournals'
 import Login from './pages/LoginPage'
+import AddComment from './pages/AddComment'
 
 import acceptOrReject from './pages/acceptOrReject'
 import './App.css'
@@ -42,12 +43,13 @@ class App extends Component {
 
             <Route exact path='/LogIn' component={Login} />
 
-            <Route exact path ='/reviewers/acceptOrReject/:reviewerId/:companyId' component={acceptOrReject} />
+            <Route exact path='/reviewers/acceptOrReject/:reviewerId/:companyId' component={acceptOrReject} />
 
+            <Route exact path='/lawyers/addComment/:lawyerId/:companyId' component={AddComment} />
 
           </div>
         </div>
-          
+
       </Router>
     )
   }
