@@ -487,7 +487,9 @@ test('pay a fees by an Investor', async () => {
     validations: ['.required().string()', '.boolean()', '.required().integer()'],
     descriptions: ['df', 'dv', 'dv']
   }
-  await companyType.createCompanyType(companyTypeTest)
+  const createdCompanyType = await companyType.createCompanyType(companyTypeTest)
+  const createdCompanyTypeData = createdCompanyType.data.data
+  const companyTypeId = createdCompanyTypeData._id
   const investorTest = {
     fullName: 'jon snow',
     birthdate: '2001-10-02',
@@ -495,7 +497,7 @@ test('pay a fees by an Investor', async () => {
   }
   const createdInvestor = await investor.createInvestor(investorTest)
   const createdInvestorData = createdInvestor.data.data
-  const id = createdInvestorData['_id']
+  const investorId = createdInvestorData['_id']
 
   const companyData = {
     form: {
@@ -506,7 +508,7 @@ test('pay a fees by an Investor', async () => {
       paid: false
       // fees: 200
     },
-    investorId: id,
+    investorId: investorId,
     name: 'Company',
     type: 'SSC',
     accepted: true
@@ -520,7 +522,7 @@ test('pay a fees by an Investor', async () => {
       paid: true,
       fees: 0
     },
-    investorId: id,
+    investorId: investorId,
     name: 'Company',
     type: 'SSC',
     accepted: true
@@ -529,13 +531,17 @@ test('pay a fees by an Investor', async () => {
   const createdCompanyData = createdCompany.data.data
   const companyId = createdCompanyData['_id']
   try {
-    const updatedCompany = await investor.fillForm(id, companyId)
+    const updatedCompany = await investor.fillForm(investorId, companyId)
     const updatedCompanyData = updatedCompany.data.data
     expect.assertions(1)
     expect(updatedCompanyData).toMatchObject(output)
   } catch (error) {
 
   }
+  await companyType.deleteCompanyType(companyTypeId)
+  await investor.deleteInvestor(investorId)
+  await company.deleteCompany(companyId)
+
 })
 
 // Test As an investor I should be able to cancel an unreviewed application, so that I can stop the process of establishing a company I don't want anymore.
@@ -580,6 +586,8 @@ test('Cancel Unreviewed Application an Investor', async () => {
   const cancelledData = cancelled.data.deletedApplication
   expect.assertions(1)
   expect(cancelledData).toMatchObject(createdCompanyData)
+  await investor.deleteInvestor(id)
+  await company.deleteCompany(companyId)
 })
 
 // Test feedback existance
@@ -641,7 +649,9 @@ test('give Feedback', async () => {
   const updated = await investor.giveFeedback(companyId, investorId, review)
   const updatedData = updated.data.data
   expect.assertions(1)
-  return expect(updatedData).toMatchObject(companyUpdatedData)
+  expect(updatedData).toMatchObject(companyUpdatedData)
+  await investor.deleteInvestor(investorId)
+  await company.deleteCompany(companyId)
 })
 
 test('Read Company Description exists', async () => {
@@ -659,8 +669,10 @@ test('Read Company Description', async () => {
   }
   const createdCompanyType = await companyType.createCompanyType(companyTypeTest)
   const createCompanyTypeData = createdCompanyType.data.data
+  const companyTypeId = createCompanyTypeData._id
   const description = await investor.readDescription(companyTypeTest.companyType)
   const descriptionData = description.data.description
   expect.assertions(1)
   expect(descriptionData).toEqual(createCompanyTypeData.description)
+  await companyType.deleteCompanyType(companyTypeId)
 })
