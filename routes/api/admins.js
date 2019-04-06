@@ -394,7 +394,7 @@ router.get('/showLastWorked/:companyId/:adminId', async (req, res) => {
     }
     const companyId = req.params.companyId
     const requestedCase = await Company.findById(companyId)
-    if (!requestedCase) { // make sure that the one accessing the page is a reviewer
+    if (!requestedCase) { 
       return res.status(400).json({
         status: 'Error',
         message: 'Case not found'
