@@ -31,8 +31,10 @@ test('Create an admin', async () => {
   }
   const created = await admin.createAdmin(data)
   const createdData = created.data.data
+  const id = createdData._id
   expect.assertions(1)
   expect(createdData).toMatchObject(data)
+  await admin.deleteAdmin(id)
 })
 
 test('Update-an-Admin exists', async () => {
@@ -79,6 +81,7 @@ test('Assign Deadline', async () => {
   const nowTaskData = nowTask.data.data
   expect.assertions(1)
   expect(nowTaskData).toMatchObject(newTask)
+  await admin.deleteAdmin(id)
 })
 
 test('Update an Admin by id', async () => {
@@ -107,6 +110,7 @@ test('Update an Admin by id', async () => {
   const updatedData = updated.data.data
   expect.assertions(1)
   expect(updatedData).toMatchObject(dataUpdated)
+  await admin.deleteAdmin(id)
 })
 
 test('Read-an-Admin exists', async () => {
@@ -128,6 +132,7 @@ test('Read an Admin by id', async () => {
   const readData = read.data.data
   expect.assertions(1)
   expect(readData).toEqual(createdData)
+  await admin.deleteAdmin(id)
 })
 
 test('Delete-an-Admin exists', async () => {
@@ -148,7 +153,7 @@ test('Delete an Admin by id', async () => {
   const deleted = await admin.deleteAdmin(id)
   const deletedData = deleted.data.deletedAdmin
   expect.assertions(1)
-  expect(deletedData).toEqual(createdData)
+  await expect(deletedData).toEqual(createdData)
 })
 
 // User story 4.09 - view All cases (Companies) on the system
@@ -168,6 +173,7 @@ test('Admin view cases by id', async () => {
   const availableCompaniesData = availableCompanies.data.data
   expect.assertions(1)
   expect(adminViewedCasesData).toMatchObject(availableCompaniesData)
+  await admin.deleteAdmin(adminId)
 })
 
 // As an Internal User I should be able to view tasks assigned to my department, so that I can be aware of coworkers updates.
@@ -195,6 +201,7 @@ test('Admin view his department tasks by id', async () => {
   const myDepartmentTasksData = myDepartmentTasks.data.data
   expect.assertions(1)
   expect(adminDepartmentTasksData).toEqual(myDepartmentTasksData)
+  await admin.deleteAdmin(adminId)
 })
 // user story 4.07 part 1
 test('Publish a company exists', async () => {
@@ -253,10 +260,10 @@ test('Publish a company by id', async () => {
   }
 
   const publishedCompanyData = publishedCompany.data.data
-  await company.deleteCompany(companyId)
 
   expect.assertions(1)
   expect(publishedCompanyData).toMatchObject(updatedData)
+  await company.deleteCompany(companyId)
 })
 
 // User story 5.06 - update profile
@@ -346,6 +353,7 @@ test('Admin workPage', async () => {
 
   const createdTask = await task.createTask(taskData)
   const createdTaskData = createdTask.data.data
+  const taskId = createdTaskData._id
   const taskhandler = createdTaskData['handler']
 
   const adminWorkPage = await admin.workPage(adminId)
@@ -353,4 +361,6 @@ test('Admin workPage', async () => {
   console.log(adminWorkPageData)
   expect.assertions(1)
   expect(adminWorkPageData).toEqual(taskhandler[0])
+  await admin.deleteAdmin(adminId)
+  await task.deleteAdmin(taskId)
 })

@@ -4,16 +4,6 @@ const companyType = require('./companyType')
 const lawyer = require('./lawyer')
 const reviewer = require('./reviewer')
 
-const admin = require('./admin')
-
-// beforeEach(() => {
-//   admin.deleteAll()
-//  });
-
-//  afterEach(() => {
-//    admin.deleteAll()
-//   });
-
 test('Read-all-Investors exists', async () => {
   expect.assertions(1)
   expect(typeof (investor.default)).toBe('function')
@@ -36,6 +26,7 @@ test('Read an Investor by id', async () => {
   const readData = read.data.data
   expect.assertions(1)
   expect(readData).toEqual(createdData)
+  await investor.deleteInvestor(id)
 })
 
 test('Delete-an-Investor exists', async () => {
@@ -72,8 +63,10 @@ test('Create-an-Investor', async () => {
   }
   const created = await investor.createInvestor(data)
   const createdData = created.data.data
+  const id = createdData._id
   expect.assertions(1)
   expect(createdData).toMatchObject(data)
+  await investor.deleteInvestor(id)
 })
 
 test('Update-an-Investor exists', async () => {
@@ -103,6 +96,7 @@ test('Update an Investor by id', async () => {
   const updatedData = updated.data.data
   expect.assertions(1)
   expect(updatedData).toMatchObject(updatedInfo)
+  await investor.deleteInvestor(id)
 })
 
 // as an investor i should be able to pay my fees
@@ -119,7 +113,9 @@ test('edit a form by an Investor', async () => {
     validations: ['.required().string()', '.boolean()', '.required().integer()'],
     descriptions: ['df', 'dv', 'dv']
   }
-  await companyType.createCompanyType(companyTypeTest)
+  const createdCompanyType = await companyType.createCompanyType(companyTypeTest)
+  const createdCompanyTypeData = createdCompanyType.data.data
+  const companyTypeId = createdCompanyTypeData._id
   const data = {
     data: [ 'cairo', false, 2255 ]
   }
@@ -130,7 +126,7 @@ test('edit a form by an Investor', async () => {
   }
   const createdInvestor = await investor.createInvestor(investorTest)
   const createdInvestorData = createdInvestor.data.data
-  const id = createdInvestorData['_id']
+  const investorId = createdInvestorData['_id']
 
   const companyData = {
     form: {
@@ -140,7 +136,7 @@ test('edit a form by an Investor', async () => {
       filledByLawyer: false,
       paid: false
     },
-    investorId: id,
+    investorId: investorId,
     name: 'test',
     type: 'BBC',
     accepted: false
@@ -152,6 +148,9 @@ test('edit a form by an Investor', async () => {
   const UpdatedFormData = updatedForm.data.updatedCompany.form.data
   expect.assertions(1)
   expect(UpdatedFormData).toEqual(data.data)
+  await companyType.deleteCompanyType(companyTypeId)
+  await investor.deleteInvestor(investorId)
+  await company.deleteCompany(companyId)
 })
 
 // As an investor I should be able to show a list for my peniding and established companies.
@@ -161,14 +160,16 @@ test('Get Companies Exist', async () => {
 })
 
 test('Get my companies', async () => {
-  const companyTypeTest = {
+  const companyTypeTest1 = {
     companyType: 'SSC',
     fields: ['stringField', 'booleanField', 'NumberFeild'],
     types: ['string', 'boolean', 'number'],
     validations: ['.required().string()', '.boolean()', '.required().integer()'],
     descriptions: ['df', 'dv', 'dv']
   }
-  await companyType.createCompanyType(companyTypeTest)
+  const createdCompanyType1 = await companyType.createCompanyType(companyTypeTest1)
+  const createdCompanyTypeData1 = createdCompanyType1.data.data
+  const companyTypeId1 = createdCompanyTypeData1._id
   const companyTypeTest2 = {
     companyType: 'SPC',
     fields: ['stringField', 'booleanField', 'NumberFeild'],
@@ -176,7 +177,9 @@ test('Get my companies', async () => {
     validations: ['.required().string()', '.boolean()', '.required().integer()'],
     descriptions: ['df', 'dv', 'dv']
   }
-  await companyType.createCompanyType(companyTypeTest2)
+  const createdCompanyType2 = await companyType.createCompanyType(companyTypeTest2)
+  const createdCompanyTypeData2 = createdCompanyType2.data.data
+  const companyTypeId2 = createdCompanyTypeData2._id
 
   const investorData = {
     fullName: 'Naguib sawiris',
@@ -224,13 +227,20 @@ test('Get my companies', async () => {
   }
   const company1 = await company.createCompany(companyData1)
   const firstCompany = company1.data.data
+  const firstCompanyId = firstCompany._id
   const company2 = await company.createCompany(companyData2)
   const secondCompany = company2.data.data
+  const secondcCompanyId = secondCompany._id
   const expected = await investor.getCompanies(investorId)
   const expectedData = expected.data.data
   const myCompanies = [firstCompany, secondCompany]
   expect.assertions(1)
   expect(expectedData).toEqual(myCompanies)
+  await companyType.deleteCompanyType(companyTypeId1)
+  await companyType.deleteCompanyType(companyTypeId2)
+  await investor.deleteInvestor(investorId)
+  await company.deleteCompany(firstCompanyId)
+  await company.deleteCompany(secondcCompanyId)
 })
 // As an investor I should be able to fill an application form, so that I can establish a company.
 test('Fill Form Exist', async () => {
@@ -246,7 +256,9 @@ test('Fill Form to create a company', async () => {
     validations: ['.required().string()', '.boolean()', '.required().integer()'],
     descriptions: ['df', 'dv', 'dv']
   }
-  await companyType.createCompanyType(companyTypeTest)
+  const createdCompanyType = await companyType.createCompanyType(companyTypeTest)
+  const createdCompanyTypeData = createdCompanyType.data.data
+  const companyTypeId = createdCompanyTypeData._id
   const investorData = {
     fullName: 'Naguib sawiris',
     birthdate: '1950-02-18',
@@ -286,11 +298,14 @@ test('Fill Form to create a company', async () => {
   }
   expect.assertions(1)
   expect(myCompany).toMatchObject(equalData)
+  await companyType.deleteCompanyType(companyTypeId)
+  await investor.deleteInvestor(investorId)
+  await company.deleteCompany(companyId)
 }, 5500)
 
 test('TrackApplication exists', async () => {
   expect.assertions(1)
-  return expect(typeof (investor.trackApplication)).toBe('function')
+  expect(typeof (investor.trackApplication)).toBe('function')
 })
 
 test('Track Applications', async () => {
@@ -301,37 +316,43 @@ test('Track Applications', async () => {
     validations: ['.required().string()', '.boolean()', '.required().integer()'],
     descriptions: ['df', 'dv', 'dv']
   }
-  await companyType.createCompanyType(companyTypeTest)
+  const createdCompanyType = await companyType.createCompanyType(companyTypeTest)
+  const createdCompanyTypeData = createdCompanyType.data.data
+  const companyTypeId = createdCompanyTypeData._id
   const data = {
     fullName: 'Sir Abraham Smith',
     birthdate: '1638-04-27',
     email: 'sir@smith.com'
   }
   const created = await investor.createInvestor(data)
-  const id = created.data.data._id
+  const investorId = created.data.data._id
 
   const company1 = {
     name: 'Corp Co',
     type: 'SSC',
-    investorId: id,
+    investorId: investorId,
     form: {
     }
   }
 
-  await company.createCompany(company1)
+  const createdCompany1 = await company.createCompany(company1)
+  const constCompnaydata1 = createdCompany1.data.data
+  const companyId1 = constCompnaydata1._id
 
   const company2 = {
     name: 'Robb Co',
     type: 'SSC',
-    investorId: id,
+    investorId: investorId,
     form: {
     }
   }
 
-  await company.createCompany(company2)
+  const createdCompany2 = await company.createCompany(company2)
+  const constCompnaydata2 = createdCompany2.data.data
+  const companyId2 = constCompnaydata2._id
 
   const createdCompanies = [company1, company2]
-  const retrieved = await investor.trackApplication(id)
+  const retrieved = await investor.trackApplication(investorId)
   const retrievedCompanies = retrieved.data.companies
   expect.assertions(2)
 
@@ -340,6 +361,10 @@ test('Track Applications', async () => {
     const retrievedCompany = retrievedCompanies[j]
     expect(retrievedCompany).toMatchObject(createdCompany)
   }
+  await companyType.deleteCompanyType(companyTypeId)
+  await investor.deleteInvestor(investorId)
+  await company.deleteCompany(companyId1)
+  await company.deleteCompany(companyId2)
 }, 10000)
 
 // user story 1.04 part 1
@@ -358,7 +383,9 @@ test('viewRejected form by an Investor ', async () => {
     validations: ['.required().string()', '.boolean()', '.required().integer()'],
     descriptions: ['df', 'dv', 'dv']
   }
-  await companyType.createCompanyType(companyTypeTest)
+  const createdCompanyType = await companyType.createCompanyType(companyTypeTest)
+  const createdCompanyTypeData = createdCompanyType.data.data
+  const companyTypeId = createdCompanyTypeData._id
   const investorData = {
     fullName: 'Anothony Martial',
     birthdate: '1996-12-20',
@@ -433,15 +460,17 @@ test('viewRejected form by an Investor ', async () => {
   const cc1Id = cc1.data.data['_id']
 
   const rejectedCompany = await investor.viewRejected(investorId)
-  await company.deleteCompany(ccId)
-  await company.deleteCompany(cc1Id)
-  await investor.deleteInvestor(investorId)
-
   const rejectedCompanyForm = rejectedCompany.data.data[0]
   const rejectedCompanyForm1 = rejectedCompany.data.data[1]
 
   expect.assertions(1)
   expect(rejectedCompanyForm).toMatchObject(createdCompanyForm) && expect(rejectedCompanyForm1).toMatchObject(createdCompanyForm1)
+  await companyType.deleteCompanyType(companyTypeId)
+  await lawyer.deleteLawyer(lawyerId)
+  await company.deleteCompany(ccId)
+  await company.deleteCompany(cc1Id)
+  await investor.deleteInvestor(investorId)
+  await reviewer.deleteReviewer(reviewerId)
 })
 
 // as an investor i should be able to pay fees
