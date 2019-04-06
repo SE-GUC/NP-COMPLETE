@@ -208,9 +208,8 @@ exports.decideApplication = async (req, res) => {
       acceptedbyReviewer = 0
     }
 
-    const query = { '_id': companyId }
     const newData = { 'form.acceptedByReviewer': acceptedbyReviewer, 'form.reviewerID': reviewerId }
-    const updatedCompany = await Company.findByIdAndUpdate(query, newData, { new: true })
+    const updatedCompany = await Company.findByIdAndUpdate(companyId, newData, { new: true })
 
     res.json({
       status: 'Success',
