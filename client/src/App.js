@@ -5,6 +5,7 @@ import ViewForm from './pages/investorPages/ViewRejectedForms'
 import Tracker from './pages/investorPages/Tracker'
 import ViewCases from './pages/ViewCases'
 import Faqs from './pages/investorPages/Faqs'
+import Ejournals from './pages/CompaniesEjournals'
 
 import './App.css'
 
@@ -34,6 +35,8 @@ class App extends Component {
             <Route exact path='/admins/ViewCases' component={ViewCases} />
 
             <Route exact path='/investors/Faqs' component={Faqs} />
+
+            <Route exact path='/companies/Ejournals' component={Ejournals} />
 
           </div>
         </div>

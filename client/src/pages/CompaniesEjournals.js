@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
-// import logo from './logo.svg'
-import './App.css'
-import Ejournals from '../src/components/Ejournals'
+import Ejournals from '../components/Ejournals'
 
 class CompnaiesEjournals extends Component {
   render () {
