@@ -428,7 +428,7 @@ exports.calculateFees = async (req, res) => {
       })
     }
     const type = company.type
-    const companyType = CompanyType.findOne({ companyType: type })
+    const companyType = await CompanyType.findOne({ companyType: type })
     if (!companyType) {
       return res.status(400).json({
         status: 'Error',
@@ -436,17 +436,13 @@ exports.calculateFees = async (req, res) => {
       })
     }
     const fields = companyType.fields
-    var i
-    for (i = 0; i < fields.length; i++) {
-      if (fields[i] === 'capital') {
-        break
-      }
-    }
-    const capital = company.form.data[i]
-    const fees = calculateFees(capital)
+    const capitalIdx = fields.indexOf('capital')
+    const capital = company.form.data[capitalIdx]
+    const fees = await calculateFees(capital)
+    console.log(`fees: ${fees}`)
 
     const query = { '_id': companyId }
-    const newData = { 'form.fees': fees }
+    const newData = { 'fees': fees }
     const updatedCompany = await Company.findByIdAndUpdate(query, newData, { new: true })
 
     return res.json({
