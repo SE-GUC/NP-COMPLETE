@@ -11,12 +11,14 @@ export class FormItem extends Component {
     }
 
     render () {
-        const {id, title} = this.props.form
+        // const {id, title} = this.props.form
+        // const {reviewerId, companyId } = this.props.match.params
+
       return (
         <div style={this.getStyle()}>
           <p>
-          <button onClick= {this.props.accept.bind(this, id)} style={btnStyle}> Accept </button>
-          <button onClick= {this.props.reject.bind(this, id)} style={btnStyle}> Reject </button>
+          <button onClick= {this.props.accept} style={btnStyle}> Accept </button>
+          <button onClick= {this.props.reject} style={btnStyle}> Reject </button>
 
           </p>
         </div>
