@@ -28,6 +28,12 @@ mongoose
   .then(() => console.log('Connected to MongoDB'))
   .catch(err => console.log(err))
 
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*')
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
+  next()
+})
+
 app.get('/', (req, res) => {
   res.send(`<h1>Welcome</h1>
   <a href="/api/admins">Admins</a></br>
@@ -49,12 +55,6 @@ app.use('/api/companies', companies)
 app.use('/api/tasks', tasks)
 app.use('/api/companyTypes', companyTypes)
 app.use('/api/users', users)
-
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*')
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
-  next()
-})
 
 // 500 internal server error handler
 app.use((err, _req, res, next) => {

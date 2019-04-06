@@ -8,7 +8,6 @@ class ViewForm extends Component {
   constructor (props) {
     super(props)
     this.state = {
-        investorId: this.props.investorId,
         formItems: [],
         loading: true,
         error: false,
@@ -17,23 +16,19 @@ class ViewForm extends Component {
   }
 
   componentDidMount () {
-    console.log(this.state.investorId)
-    console.log(typeof this.state.investorId)
 
+    const {id} = this.props.match.params
     Axios
-      .get("http://localhost:8000/api/investors/viewRejected/" + this.state.investorId)
+      .get("http://localhost:8000/api/investors/viewRejected/" + id)
       .then(
         res => {
           const resultArr = res.data.data
           const formItems = []
           var i
           for(i = 0; i < resultArr.length; i++) {
-            console.log(resultArr[i].data)
             formItems.push(resultArr[i].data)
           }
-          console.log(formItems)
           this.setState({ formItems: formItems, loading: false })
-          console.log(this.state.formItems)
         }
       )
       .catch(error => {

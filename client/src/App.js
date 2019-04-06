@@ -1,29 +1,39 @@
 import React, { Component } from 'react';
+import { BrowserRouter as Router, Route} from 'react-router-dom'
+import Header from './components/generic/Header'
 import ViewForm from './pages/investorPages/ViewRejectedForms'
 import Tracker from './pages/investorPages/Tracker'
 import './App.css';
 
 class App extends Component {
   render() {
-    if(window.location.pathname === '/')
-      return (
-        <h1> Welcome to Gafi Web</h1>
-      )
-    if(window.location.pathname==='/investors/api/investors/viewRejected'||window.location.pathname==='/investors/api/investors/viewRejected/')
-   return (
-     <div> 
-        <div>
-        <h1>Hello, Investor!</h1>
+    return (
+
+      <Router> 
+        <div className="App">
+
+          <div className="Header">
+            <Header />
+          </div>
+
+          <div className="Container"> 
+              
+            <Route exact path="/" render={ props => (
+              <React.Fragment>
+                <h1> Welcome to Gafi Web</h1>
+              </React.Fragment>
+            )} />
+
+            <Route exact path="/investors/viewRejected/:id" component={ViewForm} />
+    
+            <Route exact path="/investors/tracker/:id" component={Tracker}/>
+          
+          </div>
         </div>
-        <div>
-          <Tracker > </Tracker>
-        </div>
-        <div>
-        <ViewForm investorId="5ca776e7302e6260208998f6"> </ViewForm>
-        </div>
-    </div>
-   // </viewForm>
-      ) 
+        
+              
+      </Router>
+    ) 
    }
   }
 

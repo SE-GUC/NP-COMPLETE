@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import Header from '../../components/generic/Header'
 import CompaniesPage from '../../components/company/CompaniesPage'
 import axios from 'axios'
 
@@ -18,9 +17,10 @@ class Tracker extends Component {
 }
   
  componentDidMount() {
-  this._isMounted = true
+    const {id} = this.props.match.params
+    this._isMounted = true
     axios
-    .get('http://localhost:8000/api/investors/getCompanies/5c9614f2fe51f5258ce36f91')
+    .get('http://localhost:8000/api/investors/getCompanies/' + id)
     .then(res => {
       const data = res.data.data
       this.setState({companies:data })
@@ -36,7 +36,6 @@ class Tracker extends Component {
   render() {
     return (
       <div className="Tracker">
-        <Header/>
           <CompaniesPage companies = {this.state.companies}
           
            /*markComplete={this.markComplete}*/ />
