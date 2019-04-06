@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import './App.css'
-import LoginBox from './components/LoginBox'
+import '../App.css'
+import LoginBox from '../components/LoginBox'
 
 
 class LoginPage extends Component {
