@@ -1,9 +1,9 @@
 const lawyer = require('./lawyer')
 const company = require('./company')
+const companyType = require('./companyType')
 const investor = require('./investor')
 const task = require('./task')
-
-const admin = require('./admin')
+const externalEntity = require('./externalEntity')
 
 // beforeEach(() => {
 //   admin.deleteAll()
@@ -455,3 +455,76 @@ test('Lawyer workPage', async () => {
   expect.hasAssertions()
   expect(lawyerWorkPageData).toEqual(taskhandler[0])
  })
+
+test('Calculate Fees exists', async () => {
+  expect.hasAssertions()
+  return expect(typeof (lawyer.calculateFees)).toBe('function')
+})
+
+test('Calculate Fees', async () => {
+  const EE1Data = {
+    name: 'Armed Forces',
+    email: 'armed@forces.eg',
+    phone: 123,
+    feesPercentage: 0.15,
+    feesMin: 500,
+    feesMax: 1000
+  }
+  const createdEE1 = await externalEntity.createExternalEntity(EE1Data)
+  const createdEE1Data = createdEE1.data.data
+
+  const EE2Data = {
+    name: 'Elictricity',
+    email: 'elict@ricity.eg',
+    phone: 122,
+    feesPercentage: 0.05,
+    feesMin: 500,
+    feesMax: 1000
+  }
+  const createdEE2 = await externalEntity.createExternalEntity(EE2Data)
+  const createdEE2Data = createdEE2.data.data
+
+  const EE3Data = {
+    name: 'GAFI',
+    email: 'ga@fi.eg',
+    phone: 121,
+    feesPercentage: 0.25,
+    feesMin: 500,
+    feesMax: 1000
+  }
+  const createdEE3 = await externalEntity.createExternalEntity(EE3Data)
+  const createdEE3Data = createdEE3.data.data
+
+  const companyTypeData = {
+    companyType: 'MyType',
+    fields: ['capital'],
+    types: ['number'],
+    validations: [null],
+    descriptions: ['The company\'s capital']
+  }
+  const craetedCompanyType = await companyType.createCompanyType(companyTypeData)
+  const craetedCompanyTypeData = craetedCompanyType.data.data
+
+  const companyData = {
+    name: 'My Company',
+    type: craetedCompanyTypeData.companyType,
+    form: {
+      data: [5000]
+    }
+  }
+  const createdCompany = await company.createCompany(companyData)
+  const createdCompanyData = createdCompany.data.data
+  const companyId = createdCompanyData['_id']
+  const capital = createdCompanyData.form.data[0]
+
+  const allEE = await externalEntity.default()
+  const fees = allEE.data.data
+    .map(EE => Math.max(Math.min(capital * EE.feesPercentage, EE.feesMax), EE.feesMin))
+    .reduce((pre, cur) => pre + cur)
+
+  const updatedCompany = await lawyer.calculateFees(companyId)
+  const updatedCompanyFees = updatedCompany.data.company.fees
+
+  expect.assertions(1)
+  expect(updatedCompanyFees).toEqual(fees)
+})
