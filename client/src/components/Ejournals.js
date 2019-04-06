@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
-// import Button from 'react-bootstrap/Button'
-// import ButtonToolbar from 'react-bootstrap/ButtonToolbar'
-// import CardColumns from 'react-bootstrap/CardColumns'
+
 import EjournalCard from './EjournalCard'
 import axios from 'axios'
 
@@ -24,7 +22,7 @@ export class Ejournals extends Component {
   render () {
     return (
       this.state.ejornals.map(ejornal => {
-        return <EjournalCard data={ejornal} />
+        return <EjournalCard key={ejornal._id} data={ejornal} />
       })
     )
   }
