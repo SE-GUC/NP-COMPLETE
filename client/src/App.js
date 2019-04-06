@@ -1,108 +1,57 @@
-import React, { Component } from 'react';
-import './App.css';
-import axios from 'axios'
+import React, { Component } from 'react'
+import './App.css'
 import Button from 'react-bootstrap/Button'
 import ButtonGroup from 'react-bootstrap/ButtonGroup'
-import DeleteAccounts from './components/DeleteAccounts'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
+import Admin from './pages/Admin'
+import Lawyer from './pages/Lawyer'
+import Reviewer from './pages/Reviewer'
+import ViewCases from './ViewCases'
+import Investor from './pages/Investor';
 
 class App extends Component {
-  state = {data:[]}
-  deleteMe =id =>{
-  if(window.location.pathname==='/admins/'||window.location.pathname==='/admins'){
-    axios
-    .delete(`https://shrouded-basin-67688.herokuapp.com/api/admins/${id}`)
-    .then(res =>{
-     this.setState({data:res.data.remainingAdmins})}) 
-    .catch(err => this.setState({error:true}))}
-  if(window.location.pathname==='/investors/'||window.location.pathname==='/investors'){
-      axios
-      .delete(`https://shrouded-basin-67688.herokuapp.com/api/investors/${id}`)
-      .then(res =>{
-       this.setState({data:res.data.remainingInvestors})}) 
-      .catch(err => this.setState({error:true}))
-    }
-  if(window.location.pathname==='/lawyers/'||window.location.pathname==='/lawyers'){
-    axios
-    .delete(`https://shrouded-basin-67688.herokuapp.com/api/lawyers/${id}`)
-    .then(res =>{
-     this.setState({data:res.data.remainingLawyers})}) 
-    .catch(err => this.setState({error:true}))
-  }
-  if(window.location.pathname==='/reviewers/'||window.location.pathname==='/reviewers'){
-      axios
-      .delete(`https://shrouded-basin-67688.herokuapp.com/api/reviewers/${id}`)
-      .then(res =>{
-       this.setState({data:res.data.remainingReviewers})}) 
-      .catch(err => this.setState({error:true}))
-    }
-        
+ 
+redirectMEA = () => {
+  window.location.href='deleteAdmins'
 }
-
-redirectMEA=() => {
-  window.location='admins'
+redirectMEL = () => {
+  window.location.href='deleteLawyers'
 }
-redirectMER=() => {
-  window.location='reviewers'
+redirectMEI = () => {
+  window.location.href='deleteInvestor'
 }
-redirectMEL=() => {
-  window.location='lawyers'
+redirectMER = () => {
+  window.location.href='deleteReviewer'
 }
-redirectMEI=() => {
-  window.location='investors'
+redirectMEC = () => {
+  window.location.href='companies'
 }
-redirectMEC=() => {
-  window.location='companies'
-}
-componentDidMount(){
-  if(window.location.pathname==='/admins/'||window.location.pathname==='/admins'){
-  axios
-  .get('https://shrouded-basin-67688.herokuapp.com/api/admins')
-  .then(res => this.setState({data:res.data.data}))
-  .catch(err => this.setState({error:true}))
-  }
-  if(window.location.pathname==='/investors/'||window.location.pathname==='/investors'){
-    axios
-    .get('https://shrouded-basin-67688.herokuapp.com/api/investors')
-    .then(res => this.setState({data:res.data.data}))
-    .catch(err => this.setState({error:true}))
-  }
-  if(window.location.pathname==='/lawyers/'||window.location.pathname==='/lawyers'){
-    axios
-    .get('https://shrouded-basin-67688.herokuapp.com/api/lawyers')
-    .then(res => this.setState({data:res.data.data}))
-    .catch(err => this.setState({error:true}))
-  }
-  if(window.location.pathname==='/reviewers/'||window.location.pathname==='/reviewers'){
-    axios
-    .get('https://shrouded-basin-67688.herokuapp.com/api/reviewers')
-    .then(res => this.setState({data:res.data.data}))
-    .catch(err => this.setState({error:true}))
-  }
-  if(window.location.pathname==='/companies/'||window.location.pathname==='/companies'){
-    axios
-    .get('https://shrouded-basin-67688.herokuapp.com/api/companies')
-    .then(res => this.setState({data:res.data.data}))
-    .catch(err => this.setState({error:true}))
-  }
-}
-  render() {
+  render () {
     return (
-      <header> 
-    <div class="center-div"> 
-    <ButtonGroup aria-label="Basic example" >
-      <Button variant="primary" onClick={this.redirectMEA}>Admins</Button>
-      <Button variant="secondary" onClick={this.redirectMEI}>Investors</Button>
-      <Button variant="primary" onClick={this.redirectMEL}>Lawyers</Button>
-      <Button variant="secondary" onClick={this.redirectMER}>Reviewers</Button>
-      <Button variant="primary" onClick={this.redirectMEC}>Companies</Button>
-    </ButtonGroup>
-    </div>
-      <div className="App">
-      <DeleteAccounts deleteMe = {this.deleteMe} users = {this.state}/>
-      </div>
-    </header>
-      );
+      <Router>
+        <header>
+          <Route exact path='/' render={(props) => (
+            <React.Fragment>
+              <div className='center-div'>
+                <ButtonGroup aria-label='Basic example' >
+                  <Button variant='primary' onClick={this.redirectMEA}>Delete Admins</Button>
+                  <Button variant='primary' onClick={this.redirectMEL}>Delete Lawyers</Button>
+                  <Button variant='primary' onClick={this.redirectMER}>Delete Reviewers</Button>
+                  <Button variant='primary' onClick={this.redirectMEI}>Delete Investors</Button>
+                  <Button variant='primary' onClick={this.redirectMEC}>View Companies</Button>
+                </ButtonGroup>
+              </div>
+            </React.Fragment>
+          )} />
+          <Route exact path='/deleteAdmins' component={Admin} />
+          <Route exact path='/deleteLawyers' component={Lawyer} />
+          <Route exact path='/deleteReviewer' component={Reviewer} />
+          <Route exact path='/deleteInvestor' component={Investor} />
+          <Route exact path='/companies' component={ViewCases} />
+        </header>
+      </Router>
+    )
   }
 }
 
-export default App;
+export default App
