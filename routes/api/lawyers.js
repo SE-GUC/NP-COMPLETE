@@ -516,7 +516,7 @@ router.get('/showLastWorked/:companyId/:lawyerId', async (req, res) => {
   try {
     const lawyerId = req.params.lawyerId
     const lawyer = await Lawyer.findById(lawyerId)
-    if (!lawyer) { // make sure that the one accessing the page is a reviewer
+    if (!lawyer) { // make sure that the one accessing the page is a lawyer
       return res.status(400).json({
         status: 'Error',
         message: 'Access denied'
@@ -524,7 +524,7 @@ router.get('/showLastWorked/:companyId/:lawyerId', async (req, res) => {
     }
     const companyId = req.params.companyId
     const requestedCase = await Company.findById(companyId)
-    if (!requestedCase) { // make sure that the one accessing the page is a lawyer
+    if (!requestedCase) {
       return res.status(400).json({
         status: 'Error',
         message: 'Case not found'
