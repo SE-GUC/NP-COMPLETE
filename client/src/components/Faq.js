@@ -36,7 +36,7 @@ class Faq extends Component {
               {this.state.faqs.map(faq => (
                 <div>
                 <Qa title={faq.title} body={faq.body} />
-                <br></br>
+                <br />
               </div>
               ))}
             </div>
