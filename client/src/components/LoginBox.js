@@ -2,6 +2,7 @@ import React from 'react'
 import './layout/loginStyle.css'
 
 class LoginBox extends React.Component {
+  
 
 state = {
   email: '',

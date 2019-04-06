@@ -3,7 +3,7 @@ import './App.css'
 import LoginBox from './components/LoginBox'
 
 
-class App extends Component {
+class LoginPage extends Component {
   // state = {
    
   // }
@@ -26,4 +26,4 @@ class App extends Component {
   }
 }
 
-export default App
+export default LoginPage
