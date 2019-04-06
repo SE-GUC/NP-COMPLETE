@@ -8,6 +8,7 @@ import Faqs from './pages/investorPages/Faqs'
 import Ejournals from './pages/CompaniesEjournals'
 import Login from './pages/LoginPage'
 import AddComment from './pages/AddComment'
+import Register from './pages/investorPages/Register'
 
 import acceptOrReject from './pages/acceptOrReject'
 import './App.css'
@@ -46,6 +47,7 @@ class App extends Component {
             <Route exact path='/reviewers/acceptOrReject/:reviewerId/:companyId' component={acceptOrReject} />
 
             <Route exact path='/lawyers/addComment/:lawyerId/:companyId' component={AddComment} />
+            <Route exact path='/investors/Register' component={Register} />
 
           </div>
         </div>
