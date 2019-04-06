@@ -4,6 +4,7 @@ import Header from './components/generic/Header'
 import ViewForm from './pages/investorPages/ViewRejectedForms'
 import Tracker from './pages/investorPages/Tracker'
 import ViewCases from './pages/ViewCases'
+import Faqs from './pages/investorPages/Faqs'
 
 import './App.css'
 
@@ -31,6 +32,8 @@ class App extends Component {
             <Route exact path='/investors/tracker/:id' component={Tracker} />
 
             <Route exact path='/admins/ViewCases' component={ViewCases} />
+
+            <Route exact path='/investors/Faqs' component={Faqs} />
 
           </div>
         </div>
