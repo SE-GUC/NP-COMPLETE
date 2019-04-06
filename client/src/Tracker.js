@@ -25,7 +25,7 @@ class Tracker extends Component {
       const data = res.data.data
       console.log(data)
       console.log('data')
-      this.setState({companies:data})
+      this.setState({companies:data })
       })
     .catch(err => this.setState({error:true}))
   } 
