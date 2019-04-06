@@ -1,10 +1,9 @@
 import React, { Component } from "react";
-import { Collapse, Button, CardBody, Card } from 'reactstrap';
+import Qa from './Qa'
 
 class Faq extends Component {
   constructor(props) {
     super(props);
-    this.toggle = this.toggle.bind(this);
 
     this.state = {
       faqs: [{
@@ -22,17 +21,8 @@ class Faq extends Component {
       {
           title: "What the hell are these questions ?",
           body: "Dummy questions till we find some interesting FAQs *wink*"
-      },
-      {
-          title: "IMPORTANT for you Reviewers !!",
-          body: " Why does all the answers appear once i click on any of the 5 buttons ? \n This is an issue that i ( Yasser ) will fix in a while .. Thanks"
-      }],
-      collapse: false
+      }]
     }
-  }
-
-  toggle() {
-    this.setState(state => ({ collapse: !state.collapse }));
   }
 
   render() {
@@ -45,12 +35,7 @@ class Faq extends Component {
             <div className="columns">
               {this.state.faqs.map(faq => (
                 <div>
-                <Button color="primary" onClick={this.toggle} style={{ marginBottom: '1rem' }}>{faq.title}</Button>
-                <Collapse isOpen={this.state.collapse}>
-                  <Card>
-                    <CardBody>{faq.body}</CardBody>
-                  </Card>
-                </Collapse>
+                <Qa title={faq.title} body={faq.body} />
                 <br></br>
               </div>
               ))}
