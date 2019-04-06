@@ -1,20 +1,15 @@
 import React, { Component } from 'react'
 import UserCard from './UserCard'
 
-export class DeleteAccounts extends Component {
-    
-  render() {
-     console.log(this.props.users.data) 
+export class DeleteAccounts extends Component {  
+  render () {
     return (
-    //   <div>
-          
-        this.props.users.data.map(admin =>{
-            return <UserCard data ={admin} ondelete={this.props.deleteMe}/>
-        })
+      this.props.users.map(user => {
+        return <UserCard data={user} ondelete={this.props.deleteMe} />
+      })
     )
   }
 }
-
 export default DeleteAccounts
 // {/* <ButtonGroup aria-label="Basic example">
 //   <Button variant="secondary" >Admin</Button>
