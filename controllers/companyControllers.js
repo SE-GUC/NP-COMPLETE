@@ -5,7 +5,7 @@ exports.getAll = async (req, res) => {
   const companies = await Company.find()
   res.json({
     status: 'success',
-    data: { companies }
+    data: companies
   })
 }
 
