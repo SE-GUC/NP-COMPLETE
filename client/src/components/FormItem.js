@@ -26,11 +26,11 @@ export class FormItem extends Component {
         background: '#00a0ff',
         color: '#fff',
         border: 'none',
-        padding: '40px 90px',
-        borderRadius: '100%',
+        padding: '10px 90px',
         cursor: 'pointer',
         float: 'center',
         fontSize: 50,
+        margin: '20px'
     }
 
 
