@@ -41,6 +41,9 @@ const lawyer = {
   },
   workPage: async (id) => {
     return axios.get(`http://localhost:8000/api/lawyers/workPage/${id}`)
+  },
+  calculateFees: async (id) => {
+    return axios.get(`http://localhost:8000/api/lawyers/calculateFees/${id}`)
   }
 }
 module.exports = lawyer

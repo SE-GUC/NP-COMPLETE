@@ -2,9 +2,6 @@
 const express = require('express')
 const router = express.Router()
 
-// Task model
-const Task = require('../../models/Task')
-const validator = require('../../validations/taskValidations')
 const TaskControllers = require('../../controllers/taskControllers')
 
 // Read all Tasks (Default route)

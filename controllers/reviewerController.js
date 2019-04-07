@@ -208,9 +208,8 @@ exports.decideApplication = async (req, res) => {
       acceptedbyReviewer = 0
     }
 
-    const query = { '_id': companyId }
     const newData = { 'form.acceptedByReviewer': acceptedbyReviewer, 'form.reviewerID': reviewerId }
-    const updatedCompany = await Company.findByIdAndUpdate(query, newData, { new: true })
+    const updatedCompany = await Company.findByIdAndUpdate(companyId, newData, { new: true })
 
     res.json({
       status: 'Success',
@@ -314,7 +313,7 @@ exports.showLastWorked = async (req, res) => {
     }
     const companyId = req.params.companyId
     const requestedCase = await Company.findById(companyId)
-    if (!requestedCase) { // make sure that the one accessing the page is a reviewer
+    if (!requestedCase) {
       return res.status(400).json({
         status: 'Error',
         message: 'Case not found'
@@ -338,3 +337,31 @@ exports.showLastWorked = async (req, res) => {
     console.log(error)
   }
 }
+
+//   exports.login = async (req, res) => {
+//     try {
+//       const reviewerEmail = req.body.email
+//       const password = req.body.password
+//       const query = {'email': reviewerEmail} 
+//       const reviewer = await Reviewer.find(query)
+//       if (!reviewer) { 
+//         return res.status(400).json({
+//           status: 'Error',
+//           message: 'Please enter a valid email'
+//         })
+//       }
+//       else if(password !== reviewer.password)
+//       {
+//         return res.status(400).json({
+//             status: 'Error',
+//             message: 'Wrong password'
+//           })
+//       }
+//       else{
+//         res.redirect(307, '/api/reviewers/reviewer._id')
+//       }
+
+//     } catch (error) {
+//       console.log(error)
+//     }
+// }
