@@ -24,7 +24,6 @@ class ViewCases extends Component {
                s+=(key + " -> " + current[key]);
             }
         }
-        // current.name=s
          alert(s) 
         }
         return current
@@ -47,7 +46,7 @@ class ViewCases extends Component {
     return this.state.error? <h1>process could not be completed</h1>:this.state.loading?
     <h1>loading please be patient</h1>
     :
-    ( <div className='Admin'>
+    ( <div className='ViewCases'>
         <Cases cases = {this.state.cases} Choose={this.Choose} delCase={this.delCase}/>
       </div>
     )

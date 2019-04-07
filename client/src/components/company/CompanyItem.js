@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 
 export class CompanyItem extends Component {
   render () {
-    // const {title, status} = this.props.company
     return (
       <div>
         <h1>

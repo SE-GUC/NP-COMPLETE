@@ -4,9 +4,6 @@ import LoginBox from '../components/LoginBox'
 
 
 class LoginPage extends Component {
-  // state = {
-   
-  // }
   printUser = (email, password) => {
     console.log(email)
     console.log(password)

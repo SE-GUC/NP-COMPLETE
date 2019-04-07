@@ -11,9 +11,6 @@ export class FormItem extends Component {
     }
 
     render () {
-        // const {id, title} = this.props.form
-        // const {reviewerId, companyId } = this.props.match.params
-
       return (
         <div style={this.getStyle()}>
           <p>

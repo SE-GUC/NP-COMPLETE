@@ -6,7 +6,6 @@ class FormItem extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      // name: this.props.name,
       value: this.props.value
     }
   }

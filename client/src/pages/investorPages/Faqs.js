@@ -1,18 +1,18 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import AppNavbar from '../../components/AppNavbar'
 import Faq from '../../components/Faq'
-import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/css/bootstrap.min.css'
 
 class Faqs extends Component {
-  render() {
+  render () {
     return (
 
-      <div className="App">
+      <div className='App'>
         <AppNavbar />
         <Faq />
       </div>
-    ) 
-   }
+    )
   }
+}
 
-export default Faqs;
+export default Faqs
