@@ -12,6 +12,10 @@ import Register from './pages/investorPages/Register'
 
 import acceptOrReject from './pages/acceptOrReject'
 import './App.css'
+import  Admin  from './pages/Admin'
+import  Investor  from './pages/Investor'
+import  Lawyer  from './pages/Lawyer'
+import  Reviewer  from './pages/Reviewer'
 
 class App extends Component {
   render () {
@@ -47,8 +51,17 @@ class App extends Component {
             <Route exact path='/reviewers/acceptOrReject/:reviewerId/:companyId' component={acceptOrReject} />
 
             <Route exact path='/lawyers/addComment/:lawyerId/:companyId' component={AddComment} />
+            
             <Route exact path='/investors/Register' component={Register} />
 
+            <Route exact path='/admins/deleteInvestor' component={Investor} />
+            
+            <Route exact path='/admins/deleteAdmin' component={Admin} />
+            
+            <Route exact path='/admins/deleteReviewer' component={Reviewer} />
+            
+            <Route exact path='/admins/deleteLawyer' component={Lawyer} />
+            
           </div>
         </div>
 
