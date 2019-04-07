@@ -109,16 +109,14 @@ exports.cancelApplication = async (req, res) => {
   try {
     const id = req.params.id
     const currentInvestor = await Investor.findById(id)
-    const AllInvestors = await Investor.find()
     if (!currentInvestor) {
-      return res.status(400).json({
+      return res.status(100).json({
         status: 'Error',
-        message: 'could not find Investor you are looking for',
-        availableInvestors: AllInvestors
+        message: 'could not find Investor you are looking for'
       })
     }
     if (Object.keys(req.body).length === 0) {
-      return res.status(400).json({
+      return res.status(200).json({
         status: 'Error',
         message: 'You did not enter an id'
       })
@@ -126,7 +124,7 @@ exports.cancelApplication = async (req, res) => {
     const appId = req.body.id
     const myCompany = await Company.findById(appId)
     if (!myCompany) {
-      return res.status(400).json({
+      return res.status(300).json({
         status: 'Error',
         message: 'could not find the Company you are looking for'
       })
@@ -138,7 +136,7 @@ exports.cancelApplication = async (req, res) => {
       })
     }
     if (!(myCompany.form.acceptedByReviewer === -1)) {
-      return res.status(400).json({
+      return res.status(500).json({
         status: 'Error',
         message: 'You can not cancel a reviewed application'
       })
@@ -395,9 +393,10 @@ exports.payFees = async (req, res) => {
 
 exports.readDescription = async (req, res) => {
   const type = req.params.type
-  const companyType = await CompanyType.findOne({ 'companyType': type })
+  const companyType = await CompanyType.find({ 'companyType': type })
   if (companyType) {
     res.json({
+      status: 'Success',
       description: companyType.description
     })
   } else {

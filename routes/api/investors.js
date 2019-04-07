@@ -23,7 +23,7 @@ router.put('/:id', investorControllers.update)
 router.delete('/:id', investorControllers.delete)
 
 // As an investor I should be able to cancel an unreviewed application, so that I can stop the process of establishing a company I don't want anymore.
-router.put('/CancelApplication/:id', investorControllers.cancelApplication)
+router.delete('/CancelApplication/:id', investorControllers.cancelApplication)
 
 // As an investor I should be able to view rejected forms with the lawyer's comments, so that I can know which data to update.
 router.get('/viewRejected/:id', investorControllers.viewRejectedForm)
@@ -43,7 +43,7 @@ router.put('/payFees/:id', investorControllers.payFees)
 
 // As an investor I should be able to read a description of the form,
 // so that I can understand what to fill in each field
-router.get('/readDescription/:id', investorControllers.readDescription)
+router.get('/readDescription/:type', investorControllers.readDescription)
 
 router.get('/trackApplication/:id', investorControllers.trackApplication)
 router.put('/reviewOnlineService/:companyId/:investorId', investorControllers.reviewOnlineService)

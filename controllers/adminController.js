@@ -278,18 +278,23 @@ exports.workPage = async (req, res) => {
         message: 'No tasks available'
       })
     }
-    var tasks = ''
+    var tasks = []
     for (var i = 0; i < tasksAssigned.length; i++) {
-      for (var j = 0; j < tasksAssigned[i].handler.length; j++) {
-        if (tasksAssigned[i].handler[j] === req.params.id) {
-          tasks += tasksAssigned[i]
-        }
+      if (tasksAssigned[i].handler.indexOf(adminId) > -1) {
+        tasks.push(tasksAssigned[i])
       }
     }
-    res.json({
-      status: 'Success',
-      data: tasks
-    })
+    if (!tasks) {
+      return res.status(400).json({
+        status: 'Error',
+        message: 'No tasks for this admin'
+      })
+    } else {
+      return res.json({
+        status: 'Success',
+        data: tasks
+      })
+    }
   } catch (error) {
     console.log(error)
   }
@@ -328,31 +333,19 @@ exports.getFeedback = async (req, res) => {
     console.log(error)
   }
 }
-
-exports.deleteAll = async (req, res) => {
-  Task.collection.remove()
-  Admin.collection.remove()
-  Lawyer.collection.remove()
-  Company.collection.remove()
-  Investor.collection.remove()
-  Reviewer.collection.remove()
-  CompanyType.collection.remove()
-  ExternalEntity.collection.remove()
-  res.json({ message: 'You made the database empty' })
-}
 exports.showLastWorked = async (req, res) => {
   try {
-    const adminID = req.params.adminId
-    const foundAdmin = await Admin.findById(adminID)
-    if (!foundAdmin) { // make sure that the one accessing the page is an admin
+    const adminId = req.params.adminId
+    const admin = await Admin.findById(adminId)
+    if (!admin) { // make sure that the one accessing the page is an admin
       return res.status(400).json({
         status: 'Error',
         message: 'Access denied'
       })
     }
-    const companyID = req.params.companyId
-    const requestedCase = await Company.findById(companyID)
-    if (!requestedCase) { // make sure that the case exists
+    const companyId = req.params.companyId
+    const requestedCase = await Company.findById(companyId)
+    if (!requestedCase) { // make sure that the one accessing the page is a reviewer
       return res.status(400).json({
         status: 'Error',
         message: 'Case not found'

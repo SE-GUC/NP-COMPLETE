@@ -34,13 +34,13 @@ const investor = {
     return axios.get(`http://localhost:8000/api/investors/payFees/${id}`, data)
   },
   cancelUnreviewed: async (id, data) => {
-    return axios.put(`http://localhost:8000/api/investors/CancelApplication/${id}`, data)
+    return axios.delete(`http://localhost:8000/api/investors/CancelApplication/${id}`, data)
   },
   giveFeedback: async (id1, id2, data) => {
     return axios.put(`http://localhost:8000/api/investors/reviewOnlineService/${id1}/${id2}`, data)
   },
-  readDescription: async (id) => {
-    return axios.put(`http://localhost:8000/api/investors/readDescription/${id}`)
+  readDescription: async (type) => {
+    return axios.get(`http://localhost:8000/api/investors/readDescription/${type}`)
   }
 }
 module.exports = investor

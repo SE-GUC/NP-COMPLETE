@@ -1,21 +1,11 @@
 const company = require('./company')
 
-const admin = require('./admin')
-
-// beforeEach(() => {
-//   admin.deleteAll()
-//  });
- 
-//  afterEach(() => {
-//    admin.deleteAll()
-//   });
-
-test('Create-a-Company exists', async () => {    
+test('Create-a-Company exists', async () => {
   expect.assertions(1)
   return expect(typeof (company.createCompany)).toBe('function')
-  })
+})
 
-test('Create a Company', async () => {    
+test('Create a Company', async () => {
   const data = {
     name: 'Nike',
     establishmentDate: '1837-02-15T00:00:00.000Z',
@@ -33,13 +23,13 @@ test('Create a Company', async () => {
   expect.assertions(1)
   expect(createdData).toMatchObject(data)
   await company.deleteCompany(companyId)
-  })
+})
 
-test('Update a company', async () => {    
+test('Update a company', async () => {
   expect.assertions(1)
   return expect(typeof (company.updateCompany)).toBe('function')
-  })
-test('Update a company by id', async () => {    
+})
+test('Update a company by id', async () => {
   const data = {
     name: 'Nike',
     type: 'SSC',
@@ -69,21 +59,21 @@ test('Update a company by id', async () => {
   expect.assertions(1)
   expect(updatedData).toMatchObject(dataUpdated)
   await company.deleteCompany(companyId)
-  })
+})
 
-test('Default route exists', async () => {    
+test('Default route exists', async () => {
   expect.assertions(1)
   return expect(typeof (company.default)).toBe('function')
-  })
+})
 
 // Add default route test
 
-test('Read-a-Company exists', async () => {    
+test('Read-a-Company exists', async () => {
   expect.assertions(1)
   return expect(typeof (company.readCompany)).toBe('function')
-  })
+})
 
-test('Read a Company by id', async () => {    
+test('Read a Company by id', async () => {
   const data = {
     name: 'Disney',
     type: 'SSC',
@@ -99,15 +89,15 @@ test('Read a Company by id', async () => {
   expect.assertions(1)
   expect(readData).toMatchObject(data)
   await company.deleteCompany(companyId)
-  })
+})
 
-test('Delete-a-Company exists', async () => {    
+test('Delete-a-Company exists', async () => {
   expect.assertions(1)
   return expect(typeof (company.deleteCompany)).toBe('function')
 },
 10000)
 
-test('Delete a Company by id', async () => {    
+test('Delete a Company by id', async () => {
   const data = {
     name: 'Disney',
     type: 'SSC',
@@ -122,4 +112,4 @@ test('Delete a Company by id', async () => {
   const deletedData = deleted.data.deletedCompany
   expect.assertions(1)
   expect(deletedData).toMatchObject(data)
-  })
+})

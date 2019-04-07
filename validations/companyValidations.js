@@ -6,7 +6,7 @@ module.exports = {
       name: Joi.string().min(3).max(90).required(),
       accepted: Joi.boolean(),
       establishmentDate: Joi.date().iso().max(Date.now()),
-      type: Joi.string().required(),
+      type: Joi.string().required().valid('Pending', 'Established'),
       state: Joi.string(),
       investorId: Joi.string(),
       feedback: Joi.string(),

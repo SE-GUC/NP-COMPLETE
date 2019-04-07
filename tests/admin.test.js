@@ -155,7 +155,10 @@ test('Delete an Admin by id', async () => {
   expect.assertions(1)
   await expect(deletedData).toEqual(createdData)
 })
-
+test('ViewCases exists', async () => {
+  expect.assertions(1)
+  expect(typeof (admin.viewCases)).toBe('function')
+})
 // User story 4.09 - view All cases (Companies) on the system
 test('Admin view cases by id', async () => {
   const adminData = {
@@ -342,7 +345,7 @@ test('Admin workPage', async () => {
   }
   const createdAdmin = await admin.createAdmin(adminData)
   const createdAdminData = createdAdmin.data.data
-  const adminId = createdAdminData['_id']
+  const adminId = createdAdminData._id
 
   const taskData = {
     department: 'Admin',
@@ -358,9 +361,8 @@ test('Admin workPage', async () => {
 
   const adminWorkPage = await admin.workPage(adminId)
   const adminWorkPageData = adminWorkPage.data.data[0].handler[0]
-  console.log(adminWorkPageData)
   expect.assertions(1)
   expect(adminWorkPageData).toEqual(taskhandler[0])
   await admin.deleteAdmin(adminId)
-  await task.deleteAdmin(taskId)
+  await task.deleteTask(taskId)
 })
