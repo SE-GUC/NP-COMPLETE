@@ -191,11 +191,11 @@ test('Accepting an application by company id and reviewer id, not reviewed befor
     expect.hasAssertions()
     expect(id).toEqual(reviewerId)
     expect(reviewed).toEqual(1)
+    await company.deleteCompany(companyId)
+    await reviewer.deleteReviewer(reviewerId)
   } catch (err) {
     console.log(err)
   }
-  await company.deleteCompany(companyId)
-  await reviewer.deleteReviewer(reviewerId)
 }, 20000)
 
 test('Rejecting an application by company id and reviewer id', async () => {
@@ -211,11 +211,12 @@ test('Rejecting an application by company id and reviewer id', async () => {
     expect.hasAssertions()
     expect(id).toEqual(reviewerId)
     expect(reviewed).toBe(0)
+    await company.deleteCompany(companyId)
+    await reviewer.deleteReviewer(reviewerId)
   } catch (err) {
     console.log(err)
   }
-  await company.deleteCompany(companyId)
-  await reviewer.deleteReviewer(reviewerId)
+  
 }, 20000)
 
 test('Accepting an already accepted application by company id and reviewer id', async () => {
@@ -238,9 +239,10 @@ test('Accepting an already accepted application by company id and reviewer id', 
     expect(customError.message).toEqual('Form already accepted by reviewer')
 
     expect.hasAssertions()
+    await company.deleteCompany(companyId)
+    await reviewer.deleteReviewer(reviewerId)
   }
-  await company.deleteCompany(companyId)
-  await reviewer.deleteReviewer(reviewerId)
+  
 }, 20000)
 
 test('Accepting an application No decision given', async () => {
@@ -263,9 +265,10 @@ test('Accepting an application No decision given', async () => {
     expect(customError.message).toEqual('Decision not given')
 
     expect.assertions(3)
+    await company.deleteCompany(companyId)
+    await reviewer.deleteReviewer(reviewerId)
   }
-  await company.deleteCompany(companyId)
-  await reviewer.deleteReviewer(reviewerId)
+  
 }, 20000)
 
 test('Accepting an application decision string rejected', async () => {
@@ -288,9 +291,10 @@ test('Accepting an application decision string rejected', async () => {
     expect(customError.message).toEqual('Variable decision needs to be a boolean type')
 
     expect.hasAssertions()
+    await company.deleteCompany(companyId)
+    await reviewer.deleteReviewer(reviewerId)
   }
-  await company.deleteCompany(companyId)
-  await reviewer.deleteReviewer(reviewerId)
+ 
 }, 20000)
 
 test('Accepting an application not accepted by lawyer', async () => {
@@ -313,9 +317,10 @@ test('Accepting an application not accepted by lawyer', async () => {
     expect(customError.message).toEqual('Form not accepted by lawyer')
 
     expect.hasAssertions()
+    await company.deleteCompany(companyId)
+    await reviewer.deleteReviewer(reviewerId)
   }
-  await company.deleteCompany(companyId)
-  await reviewer.deleteReviewer(reviewerId)
+  
 }, 20000)
 
 // As an Internal User I should be able to view all the cases in the system so that I can open them and check their details
