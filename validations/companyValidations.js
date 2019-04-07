@@ -6,8 +6,8 @@ module.exports = {
       name: Joi.string().min(3).max(90).required(),
       accepted: Joi.boolean(),
       establishmentDate: Joi.date().iso().max(Date.now()),
-      type: Joi.string().required().valid('Pending', 'Established'),
-      state: Joi.string(),
+      type: Joi.string().required(),
+      state: Joi.string().valid('Pending', 'Established'),
       investorId: Joi.string(),
       feedback: Joi.string(),
       form: Joi.object().keys({
@@ -31,7 +31,7 @@ module.exports = {
       accepted: Joi.boolean(),
       establishmentDate: Joi.date().iso().max(Date.now()),
       type: Joi.string(),
-      state: Joi.string(),
+      state: Joi.string().valid('Pending', 'Established'),
       investorId: Joi.string(),
       feedback: Joi.string(),
       form: Joi.object().keys({

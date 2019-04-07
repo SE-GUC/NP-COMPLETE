@@ -208,7 +208,7 @@ exports.publishCompany = async (req, res) => {
       date.setMilliseconds(0)
       date.setSeconds(0)
       date.setMinutes(0)
-      const data = { 'state': 'published', 'establishmentDate': date }
+      const data = { 'state': 'Established', 'establishmentDate': date }
       const updatedCompany = await Company.findByIdAndUpdate(query, data, { new: true })
       return res.json({
         status: 'Success',

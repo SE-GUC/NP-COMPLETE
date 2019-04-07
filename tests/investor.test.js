@@ -193,7 +193,7 @@ test('Get my companies', async () => {
     name: 'Nike',
     establishmentDate: '1837-08-20',
     type: 'SSC',
-    state: 'established',
+    state: 'Established',
     accepted: true,
     investorId: investorId,
     form: {
@@ -211,7 +211,7 @@ test('Get my companies', async () => {
     name: 'puma',
     establishmentDate: '1820-05-15',
     type: 'SPC',
-    state: 'peniding',
+    state: 'Pending',
     accepted: true,
     investorId: investorId,
     form: {
@@ -293,7 +293,7 @@ test('Fill Form to create a company', async () => {
     },
     _id: companyId,
     investorId: investorId,
-    state: 'pending',
+    state: 'Pending',
     accepted: false
   }
   expect.assertions(1)
@@ -419,7 +419,7 @@ test('viewRejected form by an Investor ', async () => {
     name: 'Nike',
     establishmentDate: '1837-02-15',
     type: 'SSC',
-    state: 'established',
+    state: 'Established',
     accepted: true,
     investorId: `${investorId}`,
     form: {
@@ -437,7 +437,7 @@ test('viewRejected form by an Investor ', async () => {
     name: 'Nike',
     establishmentDate: '1837-02-15',
     type: 'SSC',
-    state: 'established',
+    state: 'Established',
     accepted: true,
     investorId: `${investorId}`,
     form: {
@@ -581,7 +581,7 @@ test('Cancel Unreviewed Application an Investor', async () => {
   }
   const cancelled = await investor.cancelUnreviewed(id, bodyData)
   const cancelledData = cancelled.data.data
-  expect.assertions(1)
+  expect.hasAssertions()
   expect(cancelledData).toMatchObject(createdCompanyData)
   await investor.deleteInvestor(id)
   await company.deleteCompany(companyId)

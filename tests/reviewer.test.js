@@ -121,7 +121,7 @@ const companyNotReviewedData = {
   name: 'Disney',
   establishmentDate: '1923-10-16T00:00:00.000Z',
   type: 'SSC',
-  state: 'pending',
+  state: 'Pending',
   accepted: false,
   investorId: '5c9614f2fe51f5258ce36f91',
   form: {
@@ -139,7 +139,7 @@ const companyAlreadyReviewedData = {
   name: 'Disney',
   establishmentDate: '1923-10-16T00:00:00.000Z',
   type: 'SSC',
-  state: 'pending',
+  state: 'Pending',
   accepted: false,
   investorId: '5c9614f2fe51f5258ce36f91',
   form: {
@@ -158,7 +158,7 @@ const companyNotAcceptedByLawyerData = {
   name: 'Disney',
   establishmentDate: '1923-10-16T00:00:00.000Z',
   type: 'SSC',
-  state: 'pending',
+  state: 'Pending',
   accepted: false,
   investorId: '5c9614f2fe51f5258ce36f91',
   form: {
@@ -395,7 +395,7 @@ test('Adding a comment on a rejected application', async () => {
     name: 'Lott',
     establishmentDate: '1967',
     type: 'SPC',
-    state: 'pending',
+    state: 'Pending',
     accepted: false,
     form: {
       data: [],

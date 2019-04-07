@@ -1,5 +1,6 @@
 const company = require('./company')
 const task = require('./task')
+const investor = require('./investor')
 jest.setTimeout(180000)
 
 const admin = require('./admin')
@@ -218,7 +219,7 @@ test('Publish a company by id', async () => {
     name: 'Nike',
     establishmentDate: '1837-02-15',
     type: 'SSC',
-    state: 'pending',
+    state: 'Pending',
     accepted: true,
     investorId: '5c9614f2fe51f5258ce36f91',
     form: {
@@ -245,7 +246,7 @@ test('Publish a company by id', async () => {
     name: 'Nike',
     establishmentDate: datenow.toISOString(),
     type: 'SSC',
-    state: 'published',
+    state: 'Established',
     accepted: true,
     investorId: '5c9614f2fe51f5258ce36f91',
     form: {
@@ -285,45 +286,44 @@ test('getFeedback exists', async () => {
 // user story 2.04 part 2
 test('getFeedback of investors by admin', async () => {
   const data = {
-    'form': {
-      'data': [
+    form: {
+      data: [
         'cairo',
         23,
         5555
       ],
-      'acceptedByLawyer': -1,
-      'acceptedByReviewer': -1,
-      'filledByLawyer': false,
-      'paid': false
+      acceptedByLawyer: -1,
+      acceptedByReviewer: -1,
+      filledByLawyer: false,
+      paid: false
     },
-    'investorId': '5c9f4a53df42f6a988998b59',
-    'name': 'myCo',
-    'type': 'SSC',
-    'accepted': false,
-    'feedback': 'hello'
+    name: 'myCo',
+    type: 'SSC',
+    accepted: false,
+    feedback: 'hello'
   }
   const data1 = {
-    'form': {
-      'data': [
+    form: {
+      data: [
         'cairo',
         23,
         5555
       ],
-      'acceptedByLawyer': -1,
-      'acceptedByReviewer': -1,
-      'filledByLawyer': false,
-      'paid': false
+      acceptedByLawyer: -1,
+      acceptedByReviewer: -1,
+      filledByLawyer: false,
+      paid: false
     },
-    'investorId': '5c9f4a53df42f6a988998b59',
-    'name': 'myCo',
-    'type': 'SSC',
-    'accepted': false,
-    'feedback': 'hello'
+    name: 'myCo',
+    type: 'SSC',
+    accepted: false,
+    feedback: 'hello'
   }
   const originalFeedback = data['feedback']
   const originalFeedback1 = data1['feedback']
 
   await company.createCompany(data)
+  await company.createCompany(data1)
   const feedbacks = await admin.getFeedback('1')
   const feedbacksData = feedbacks.data.data
 

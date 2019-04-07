@@ -328,7 +328,7 @@ exports.fillForm = async (req, res) => {
     const newCompany = await Company.create(req.body)
     const companyId = newCompany._id
     const query2 = { '_id': companyId }
-    const data2 = { 'state': 'pending',
+    const data2 = { 'state': 'Pending',
       'accepted': false,
       'investorId': investorId,
       'form.acceptedByLawyer': -1,

@@ -10,7 +10,7 @@ test('Create a Company', async () => {
     name: 'Nike',
     establishmentDate: '1837-02-15T00:00:00.000Z',
     type: 'SSC',
-    state: 'established',
+    state: 'Established',
     accepted: true,
     investorId: '5c9614f2fe51f5258ce36f91',
     form: {
