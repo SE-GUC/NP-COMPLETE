@@ -14,7 +14,7 @@ export class Investor extends Component {
       }
       deleteMe =id =>{
             Axios
-            .delete(`http://localhost:8000/api/investors${id}`)
+            .delete(`http://localhost:8000/api/investors/${id}`)
             .then(res =>{
              this.setState({users:res.data.remainingInvestors})}) 
             .catch(err => this.setState({error:true}))
