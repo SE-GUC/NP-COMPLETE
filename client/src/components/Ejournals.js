@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-
 import EjournalCard from './EjournalCard'
 import axios from 'axios'
 

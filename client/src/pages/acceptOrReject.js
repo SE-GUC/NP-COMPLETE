@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Header from '../components/Header'
-import FormItem from '../components/FormItem'
 import Forms from '../components/Forms'
 import Axios from 'axios';
 

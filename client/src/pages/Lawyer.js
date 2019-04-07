@@ -4,7 +4,7 @@ import DeleteAccounts from '../components/DeleteAccounts'
 import PropTypes from 'prop-types'
 
 
-export class Investor extends Component {
+export class Lawyer extends Component {
     _isMounted = false
     constructor(props) {
         super(props)
@@ -14,7 +14,7 @@ export class Investor extends Component {
       }
       deleteMe =id =>{
             Axios
-            .delete(`https://shrouded-basin-67688.herokuapp.com/api/lawyers/${id}`)
+            .delete(`http://localhost:8000/api/lawyers/${id}`)
             .then(res =>{
              this.setState({users:res.data.remainingLawyers})}) 
             .catch(err => this.setState({error:true}))
@@ -23,7 +23,7 @@ export class Investor extends Component {
     componentDidMount() {
         this._isMounted = true
         Axios
-        .get('https://shrouded-basin-67688.herokuapp.com/api/lawyers')
+        .get('http://localhost:8000/api/lawyers')
         .then(res => this.setState({ users: res.data.data }))
         .catch(err => this.setState({ error: true }))
     }
@@ -35,15 +35,15 @@ export class Investor extends Component {
     return this.state.error? <h1>process could not be completed</h1>:this.state.loading?
     <h1>loading please be patient</h1>
     :
-    ( <div className='Investor'>
+    ( <div className='Lawyer'>
         <DeleteAccounts users = {this.state.users} deleteMe = {this.deleteMe} />
       </div>
     )
   }
 }
 
-Investor.propTypes = {
+Lawyer.propTypes = {
 users: PropTypes.array
 }
 
-export default Investor
+export default Lawyer

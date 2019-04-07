@@ -4,7 +4,7 @@ import DeleteAccounts from '../components/DeleteAccounts'
 import PropTypes from 'prop-types'
 
 
-export class Investor extends Component {
+export class Reviewer extends Component {
     _isMounted = false
     constructor(props) {
         super(props)
@@ -14,7 +14,7 @@ export class Investor extends Component {
       }
       deleteMe =id =>{
             Axios
-            .delete(`https://shrouded-basin-67688.herokuapp.com/api/reviewers/${id}`)
+            .delete(`http://localhost:8000/api/reviewers/${id}`)
             .then(res =>{
              this.setState({users:res.data.remainingReviewers})}) 
             .catch(err => this.setState({error:true}))
@@ -23,7 +23,7 @@ export class Investor extends Component {
     componentDidMount() {
         this._isMounted = true
         Axios
-        .get('https://shrouded-basin-67688.herokuapp.com/api/reviewers')
+        .get('http://localhost:8000/api/reviewers')
         .then(res => this.setState({ users: res.data.data }))
         .catch(err => this.setState({ error: true }))
     }
@@ -42,8 +42,8 @@ export class Investor extends Component {
   }
 }
 
-Investor.propTypes = {
+Reviewer.propTypes = {
 users: PropTypes.array
 }
 
-export default Investor
+export default Reviewer

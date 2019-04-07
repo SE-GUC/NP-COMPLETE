@@ -7,12 +7,7 @@ class Tracker extends Component {
   _isMounted = false // effect of delay to wait for data from server and don't return undefined
   state = {
     companies:[
-    //{
-      /*name: 'co1',
-      id: '001',
-      status: 'pending'*/
-      //"form":{"data":[]},"_id":"5ca0b9b59af50a72a40cf0ba","name":"Nike","establishmentDate":"1837-02-15T00:00:00.000Z","type":"SSC","state":"established","accepted":true,"investorId":"5c9614f2fe51f5258ce36f91","__v":0
-    //}
+ 
   ]
 }
   
@@ -36,9 +31,7 @@ class Tracker extends Component {
   render() {
     return (
       <div className="Tracker">
-          <CompaniesPage companies = {this.state.companies}
-          
-           /*markComplete={this.markComplete}*/ />
+          <CompaniesPage companies = {this.state.companies} />
       </div>
     )
 

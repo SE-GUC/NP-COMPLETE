@@ -14,7 +14,7 @@ export class Investor extends Component {
       }
       deleteMe =id =>{
             Axios
-            .delete(`https://shrouded-basin-67688.herokuapp.com/api/investors/${id}`)
+            .delete(`http://localhost:8000/api/investors/${id}`)
             .then(res =>{
              this.setState({users:res.data.remainingInvestors})}) 
             .catch(err => this.setState({error:true}))
@@ -23,7 +23,7 @@ export class Investor extends Component {
     componentDidMount() {
         this._isMounted = true
         Axios
-        .get('https://shrouded-basin-67688.herokuapp.com/api/investors')
+        .get('http://localhost:8000/api/investors')
         .then(res => this.setState({ users: res.data.data }))
         .catch(err => this.setState({ error: true }))
     }
