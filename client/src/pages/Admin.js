@@ -4,7 +4,7 @@ import DeleteAccounts from '../components/DeleteAccounts'
 import PropTypes from 'prop-types'
 
 
-export class Investor extends Component {
+export class Admin extends Component {
     _isMounted = false
     constructor(props) {
         super(props)
@@ -42,8 +42,8 @@ export class Investor extends Component {
   }
 }
 
-Investor.propTypes = {
+Admin.propTypes = {
 users: PropTypes.array
 }
 
-export default Investor
+export default Admin
