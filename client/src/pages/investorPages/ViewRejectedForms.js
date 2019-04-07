@@ -66,7 +66,9 @@ class ViewForm extends Component {
               <p> {x.data} </p>
               <p> Comment </p>
              <p> {x.comment }</p>
+             <hr />
            </div>
+           
          ))
     )
   }
