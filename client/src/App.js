@@ -10,6 +10,9 @@ import Login from './pages/LoginPage'
 import AddComment from './pages/AddComment'
 import Register from './pages/investorPages/Register'
 import acceptOrReject from './pages/acceptOrReject'
+import AdminViewCases from './pages/AdminViewCases'
+// import AdminViewCases from './pages/AdminViewCases'
+// import AdminViewCases from './pages/AdminViewCases'
 import './App.css'
 import Admin from './pages/Admin'
 import Investor from './pages/Investor'
@@ -60,6 +63,12 @@ class App extends Component {
             <Route exact path='/admins/deleteReviewer' component={Reviewer} />
 
             <Route exact path='/admins/deleteLawyer' component={Lawyer} />
+
+            <Route exact path='/admins/viewAllCases/:id' component={AdminViewCases} />
+
+            {/* <Route exact path='/lawyers/viewAllCases' component={LawyerViewCases} />             */}
+
+            {/* <Route exact path='/reviewers/viewAllCases' component={ReviewerViewCases} /> */}
 
           </div>
         </div>
