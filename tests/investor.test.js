@@ -464,7 +464,8 @@ test('viewRejected form by an Investor ', async () => {
   const rejectedCompanyForm1 = rejectedCompany.data.data[1]
 
   expect.assertions(1)
-  expect(rejectedCompanyForm).toMatchObject(createdCompanyForm) && expect(rejectedCompanyForm1).toMatchObject(createdCompanyForm1)
+  expect(rejectedCompanyForm).toMatchObject(createdCompanyForm)
+  expect(rejectedCompanyForm1).toMatchObject(createdCompanyForm1)
   await companyType.deleteCompanyType(companyTypeId)
   await lawyer.deleteLawyer(lawyerId)
   await company.deleteCompany(ccId)
