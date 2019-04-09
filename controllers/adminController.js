@@ -2,11 +2,7 @@ const Task = require('../models/Task')
 const Admin = require('../models/Admin')
 const Lawyer = require('../models/Lawyer')
 const Company = require('../models/Company')
-const Investor = require('../models/Investor')
 const Reviewer = require('../models/Reviewer')
-const CompanyType = require('../models/CompanyType')
-const ExternalEntity = require('../models/ExternalEntity')
-
 // Validator
 const validator = require('../validations/adminValidations')
 

@@ -1,4 +1,3 @@
-
 // Required models
 const Reviewer = require('../models/Reviewer')
 const Lawyer = require('../models/Lawyer')

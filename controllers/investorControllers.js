@@ -155,39 +155,48 @@ exports.cancelApplication = async (req, res) => {
 exports.viewRejectedForm = async (req, res) => {
   try {
     const investorId = req.params.id
-    const query1 = { '_id': investorId }
-    const investor = await Investor.find(query1)
-    if (!investor[0]) {
-      res.status(400).json({
+    const investor = await Investor.findById(investorId)
+    if (!investor) {
+      return res.status(400).json({
         status: 'Error',
         message: 'Investor not found'
       })
-    } else {
-      const query = { 'investorId': investorId }
-      const companies = await Company.find(query)
-      if (!companies[0]) {
-        res.status(400).json({
-          status: 'Error',
-          message: 'company not found'
-        })
-      } else {
-        var x = []
-        var i
-        for (i = 0; i < companies.length; i++) { // to check all the investor's companies
-          if (companies[i].form.acceptedByLawyer === 0) {
-            x.push(companies[i].form)
-          }
-        }
-        if (!x[0]) {
-          res.status(400).json({
-            status: 'Error',
-            message: 'There is no rejected company yet'
-          })
-        } else {
-          res.json({ data: x })
-        }
-      }
     }
+    const query = { 'investorId': investorId, 'form.acceptedByLawyer': 0 }
+    const companies = await Company.find(query)
+    if (companies.length === 0) {
+      return res.json({
+        status: 'Success',
+        mesg: 'You don not have any rejected forms'
+      })
+    }
+    const data = []
+    for (let i = 0; i < companies.length; i++) {
+      const tempType = companies[i].type
+      const query1 = { 'companyType': tempType }
+      const tempCompanyTpe = await CompanyType.find(query1)
+      const tempFields = tempCompanyTpe[0].fields
+      const tempDescription = tempCompanyTpe[0].descriptions
+      const temp = {
+        'name': companies[i].name,
+        '_id': companies[i]._id,
+        'fomr': companies[i].form,
+        'establishmentDate': companies[i].establishmentDate,
+        'type': companies[i].type,
+        'state': companies[i].state,
+        'accepted': companies[i].accepted,
+        'investorId': companies[i].investorId,
+        'desription': tempDescription,
+        'fields': tempFields,
+        'feedback': companies[i].feedback,
+        'fees': companies[i].fees
+      }
+      data[i] = temp
+    }
+    return res.json({
+      status: 'Success',
+      data: data
+    })
   } catch (error) {
     console.log(error)
   }
@@ -267,7 +276,7 @@ exports.trackApplication = async (req, res) => {
         companies: result
       }))
   } catch (error) {
-    console.error(error)
+    console.log(error)
   }
 }
 

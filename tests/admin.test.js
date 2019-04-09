@@ -1,17 +1,8 @@
 const company = require('./company')
 const task = require('./task')
-const investor = require('./investor')
 jest.setTimeout(180000)
 
 const admin = require('./admin')
-
-// beforeEach(() => {
-//   admin.deleteAll()
-//  });
-
-//  afterEach(() => {
-//    admin.deleteAll()
-//   });
 
 test('read-multiple-Admins exists', async () => {
   expect.assertions(1)
@@ -328,7 +319,7 @@ test('getFeedback of investors by admin', async () => {
   const feedbacksData = feedbacks.data.data
 
   expect.assertions(1)
-  expect(feedbacksData).toContain(originalFeedback1) 
+  expect(feedbacksData).toContain(originalFeedback1)
   expect(feedbacksData).toContain(originalFeedback)
 })
 

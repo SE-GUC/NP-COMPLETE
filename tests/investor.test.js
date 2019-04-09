@@ -540,7 +540,7 @@ test('pay a fees by an Investor', async () => {
     await investor.deleteInvestor(investorId)
     await company.deleteCompany(companyId)
   } catch (error) {
-
+    console.log(error)
   }
 })
 // Test As an investor I should be able to cancel an unreviewed application, so that I can stop the process of establishing a company I don't want anymore.

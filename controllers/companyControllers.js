@@ -79,7 +79,7 @@ exports.update = async (req, res) => {
       data: updatedCompany
     })
   } catch (error) {
-    console.log('error')
+    console.log(error)
   }
 }
 
