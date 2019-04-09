@@ -1,4 +1,8 @@
 import React, { Component } from 'react'
+import FormDisplay from '../../components/form/FormDisplay'
+import Container from 'react-bootstrap/Container'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
 import '../../App.css'
 import Axios from 'axios'
 
@@ -29,15 +33,19 @@ class ViewForm extends Component {
                 data: resultArr[i].data,
                 comment: resultArr[i].comment
               }
-              
+
               )
           }
           this.setState({ formItems: formItems, loading: false })
         }
       )
       .catch(error => {
-        console.log(error['response'].data)
-        this.setState({error: true, loading: false, errorMessage: error['response'].data })
+        if(error['response']) {
+          console.log(error['response'].data)
+          this.setState({error: true, loading: false, errorMessage: error['response'].data.message })
+        } else {
+          console.log(error)
+        }
       })
   }
   render () {
@@ -49,7 +57,12 @@ class ViewForm extends Component {
     if (this.state.loading === false && this.state.error) {
       return (
         <div>
-          <h1> Error </h1>
+          <div>
+             <h1> Error </h1>
+          </div>
+          <div>
+            <h1> {this.state.errorMessage} </h1>
+          </div>
         </div>
       )
     }
@@ -60,15 +73,15 @@ class ViewForm extends Component {
       )
     }
     return (
-      this.state.formItems.map( x => (
-           <div>
-              <p> Form data: </p>
-              <p> {x.data} </p>
-              <p> Comment </p>
-             <p> {x.comment }</p>
-             <hr />
-           </div>
-           
+      this.state.formItems.map( (x, i) => (
+        <Container>
+          <FormDisplay form={x.data} key={i} />
+          <Row>
+            <Col> Comment: </Col>
+            <Col> {x.comment} </Col>
+          </Row>
+          <hr />
+        </Container>
          ))
     )
   }
