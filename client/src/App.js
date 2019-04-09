@@ -66,7 +66,7 @@ class App extends Component {
 
             <Route exact path='/admins/viewAllCases/:id' component={AdminViewCases} />
 
-            {/* <Route exact path='/lawyers/viewAllCases' component={LawyerViewCases} />             */}
+            {/* <Route exact path='/lawyers/viewAllCases' component={LawyerViewCases} /> */}
 
             {/* <Route exact path='/reviewers/viewAllCases' component={ReviewerViewCases} /> */}
 

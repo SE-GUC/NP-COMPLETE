@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import Axios from 'axios'
 import PropTypes from 'prop-types'
 import MapCases from '../components/MapCases'
-
+import Spinner from 'react-bootstrap/Spinner'
 
 export class AdminViewCases extends Component {
     _isMounted = false
@@ -26,7 +26,9 @@ export class AdminViewCases extends Component {
       }
   render() {
     return this.state.error? <h1>process could not be completed</h1>:this.state.loading?
-    <h1>loading please be patient</h1>
+    <div>
+    <Spinner animation="border" variant="primary" />
+    </div>
     :
     ( <div>
         <MapCases cases = {this.state.cases}/>
