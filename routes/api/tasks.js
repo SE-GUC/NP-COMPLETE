@@ -1,28 +1,24 @@
 // Load modules
 const express = require('express')
 const router = express.Router()
-
-// Task model
-const Task = require('../../models/Task')
-const validator = require('../../validations/taskValidations')
-const TaskControllers = require('../../controllers/taskControllers')
-
-// Read all Tasks (Default route)
-router.get('/', TaskControllers.getAll)
+const controller = require('../../controllers/taskController')
 
 // Read specfic department tasks (if given a valid department in the body)
-router.put('/viewDepartmentTask', TaskControllers.viewDepartmentTask)
+router.put('/viewDepartmentTask', controller.viewDepartmentTask)
 
-// Read specific task by id
-router.get('/:id', TaskControllers.getByID)
+// Read all Tasks (Default route)
+router.get('/', controller.default)
 
-// create a task
-router.post('/', TaskControllers.create)
+// Create a new Task
+router.post('/', controller.create)
 
-// update a task
-router.put('/:id', TaskControllers.update)
+// Reads a specific Task given id in URL
+router.get('/:id', controller.read)
 
-// Delete a Task
-router.delete('/:id', TaskControllers.delete)
+// Update an existing Task given id in URL
+router.put('/:id', controller.update)
+
+//  Delete a specific Task given ID in URL
+router.delete('/:id', controller.delete)
 
 module.exports = router

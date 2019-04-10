@@ -1,114 +1,38 @@
-// Investor model and validator
-const Investor = require('../models/Investor')
+// Entity model and validator
+const Model = require('../models/Investor')
 const validator = require('../validations/investorValidations')
+const entityController = require('./entityController')
+
+// Additional Models
 const companyType = require('../models/CompanyType')
 const companyValidator = require('../validations/companyValidations')
 const Company = require('../models/Company')
 const CompanyType = require('../models/CompanyType')
 
-exports.getAll = async (req, res) => {
-  const investors = await Investor.find()
-  res.json({ data: investors })
+exports.default = async (req, res) => {
+  await entityController.default(res, Model)
 }
 
 exports.create = async (req, res) => {
-  try {
-    const isValidated = validator.createValidation(req.body)
-    if (isValidated.error) {
-      return res.status(400).json({
-        status: 'Error',
-        message: isValidated.error.details[0].message
-      })
-    }
-    const newInvestor = await Investor.create(req.body)
-    return res.json({
-      status: 'Success',
-      message: `New investor created with id ${newInvestor.id}`,
-      data: newInvestor
-    })
-  } catch (error) {
-    console.log(error)
-  }
+  await entityController.create(req, res, validator, Model)
 }
 
-exports.getByID = async (req, res) => {
-  const investorId = req.params.id
-  const investor = await Investor.findById(investorId)
-  if (investor) {
-    res.json({ data: investor })
-  } else {
-    res.status(400).json({
-      status: 'Error',
-      message: 'Investor not found',
-      availableInvestors: Investor
-    })
-  }
+exports.read = async (req, res) => {
+  await entityController.read(req, res, Model)
 }
 
 exports.update = async (req, res) => {
-  try {
-    const id = req.params.id
-    if (Object.keys(req.body).length === 0) {
-      return res.status(400).json({
-        status: 'Error',
-        message: 'No data to update'
-      })
-    }
-    const currentInvestor = await Investor.findById(id)
-    if (!currentInvestor) {
-      return res.status(400).json({
-        status: 'Error',
-        message: 'could not find Investor you are looking for',
-        availableInvestors: Investor
-      })
-    }
-    const isValidated = validator.updateValidation(req.body)
-    if (isValidated.error) {
-      return res.status(400).json({
-        status: 'Error',
-        message: isValidated.error.details[0].message
-      })
-    }
-    const query = { '_id': id }
-    const updatedInvestor = await Investor.findByIdAndUpdate(query, req.body, { new: true })
-
-    return res.json({
-      status: 'Success',
-      message: `Updated investor successfully`,
-      data: updatedInvestor
-    })
-  } catch (error) {
-    console.log(error)
-  }
+  await entityController.update(req, res, validator, Model)
 }
 
 exports.delete = async (req, res) => {
-  try {
-    const id = req.params.id
-    const investorToBeDeleted = await Investor.findByIdAndRemove(id)
-    const AllInvestors = await Investor.find()
-    if (!investorToBeDeleted) {
-      return res.status(400).json({
-        status: 'Error',
-        message: 'could not find Investor you are looking for',
-        availableInvestors: AllInvestors
-      })
-    }
-    return res.json({
-      status: 'Success',
-      message: `Deleted investor with id ${id}`,
-      deletedInvestor: investorToBeDeleted,
-      remainingInvestors: AllInvestors
-    })
-  } catch (error) {
-    console.log(error)
-  }
+  await entityController.delete(req, res, Model)
 }
 
 exports.cancelApplication = async (req, res) => {
   try {
     const id = req.params.id
-    const currentInvestor = await Investor.findById(id)
+    const currentInvestor = await Model.findById(id)
     if (!currentInvestor) {
       return res.status(100).json({
         status: 'Error',
@@ -155,7 +79,7 @@ exports.cancelApplication = async (req, res) => {
 exports.viewRejectedForm = async (req, res) => {
   try {
     const investorId = req.params.id
-    const investor = await Investor.findById(investorId)
+    const investor = await Model.findById(investorId)
     if (!investor) {
       return res.status(400).json({
         status: 'Error',
@@ -362,7 +286,7 @@ exports.fillForm = async (req, res) => {
 exports.payFees = async (req, res) => {
   try {
     const investorId = req.params.id
-    const investor = await Investor.findById({ '_id': investorId })
+    const investor = await Model.findById({ '_id': investorId })
     if (!investor) {
       return res.status(400).json({
         status: 'Error',
@@ -425,7 +349,7 @@ exports.readDescription = async (req, res) => {
 exports.reviewOnlineService = async (req, res) => {
   try {
     const investorId = req.params.investorId
-    const investor = await Investor.findById(investorId)
+    const investor = await Model.findById(investorId)
     if (!investor) {
       return res.status(400).json({
         status: 'Error',

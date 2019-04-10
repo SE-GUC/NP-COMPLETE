@@ -53,7 +53,8 @@ test('Assign Deadline', async () => {
   const modifiedTask = {
     department: 'Lawyer',
     creationDate: '2018-02-02',
-    deadline: '2019-02-02'
+    deadline: '2019-02-02',
+    description: 'Legal writing'
   }
 
   const oldTask = await task.createTask(modifiedTask)
@@ -68,7 +69,8 @@ test('Assign Deadline', async () => {
   const newTask = {
     department: 'Lawyer',
     creationDate: '2018-02-02T00:00:00.000Z',
-    deadline: '2019-03-03T00:00:00.000Z'
+    deadline: '2019-03-03T00:00:00.000Z',
+    description: 'Legal writing'
   }
   const nowTaskData = nowTask.data.data
   expect.assertions(1)
@@ -143,7 +145,7 @@ test('Delete an Admin by id', async () => {
   const createdData = created.data.data
   const id = createdData['_id']
   const deleted = await admin.deleteAdmin(id)
-  const deletedData = deleted.data.deletedAdmin
+  const deletedData = deleted.data.deleted
   expect.assertions(1)
   await expect(deletedData).toEqual(createdData)
 })
@@ -343,7 +345,8 @@ test('Admin workPage', async () => {
     department: 'Admin',
     creationDate: '2019-02-02T00:00:00.000Z',
     deadline: '2019-02-06T00:00:00.000Z',
-    handler: [adminId]
+    handler: [adminId],
+    description: 'Admin work'
   }
 
   const createdTask = await task.createTask(taskData)

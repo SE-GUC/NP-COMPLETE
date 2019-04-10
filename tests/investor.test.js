@@ -45,7 +45,7 @@ test('Delete an Investor by id', async () => {
   const createdData = created.data.data
   const id = createdData['_id']
   const deleted = await investor.deleteInvestor(id)
-  const deletedData = deleted.data.deletedInvestor
+  const deletedData = deleted.data.deleted
   expect.assertions(1)
   expect(deletedData).toEqual(createdData)
 })
@@ -581,11 +581,10 @@ test('Cancel Unreviewed Application an Investor', async () => {
     id: companyId
   }
   const cancelled = await investor.cancelUnreviewed(id, bodyData)
-  const cancelledData = cancelled.data.data
-  expect.assertions(0)
+  const cancelledData = cancelled.data.deletedApplication
+  expect.assertions(1)
   expect(cancelledData).toMatchObject(createdCompanyData)
   await investor.deleteInvestor(id)
-  await company.deleteCompany(companyId)
 })
 
 // Test feedback existance

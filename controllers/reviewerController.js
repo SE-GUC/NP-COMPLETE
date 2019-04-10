@@ -1,96 +1,41 @@
-// Required models
-const Reviewer = require('../models/Reviewer')
-const Lawyer = require('../models/Lawyer')
+// Entity model and validator
+const Model = require('../models/Reviewer')
 const validator = require('../validations/reviewerValidations')
+const entityController = require('./entityController')
+
+// Additional Models
+const Lawyer = require('../models/Lawyer')
 const Company = require('../models/Company')
 const Task = require('../models/Task')
 
-exports.getAll = async (req, res) => {
-  const reviewers = await Reviewer.find()
-  res.json({ data: reviewers })
+exports.default = async (req, res) => {
+  await entityController.default(res, Model)
 }
-exports.create = async (req, res) => {
-  try {
-    const isValidated = validator.createValidation(req.body)
-    if (isValidated.error) return res.status(400).send({ error: isValidated.error.details[0].message })
-    const newReviewer = await Reviewer.create(req.body)
-    res.json({ msg: 'Reviewer was created successfully', data: newReviewer })
-  } catch (error) {
-    console.log(error)
-  }
-}
-exports.getByID = async (req, res) => {
-  const revId = req.params.id
-  const reviewer = await Reviewer.findById(revId)
-  if (reviewer) {
-    res.json({ data: reviewer })
-  } else {
-    return res.status(400).json({
-      status: 'Error',
-      message: 'Reviewer not found',
-      availableReviewers: await Reviewer.find()
-    })
-  }
-}
-exports.update = async (req, res) => {
-  try {
-    const reviewerId = req.params.id
-    if (Object.keys(req.body).length === 0) {
-      return res.status(400).json({
-        status: 'Error',
-        message: 'No data to update'
-      })
-    }
-    const reviewer = await Reviewer.findById(reviewerId)
-    if (!reviewer) {
-      return res.status(404).json({
-        status: 'Error',
-        message: 'Reviewer does not exist'
-      })
-    }
 
-    const query = { '_id': reviewerId }
-    const updatedReviewer = await Reviewer.findByIdAndUpdate(query, req.body, { new: true })
-    res.json({
-      status: 'Success',
-      message: 'Reviewer updated successfully',
-      data: updatedReviewer
-    })
-  } catch (error) {
-    console.log(error)
-  }
+exports.create = async (req, res) => {
+  await entityController.create(req, res, validator, Model)
 }
+
+exports.read = async (req, res) => {
+  await entityController.read(req, res, Model)
+}
+
+exports.update = async (req, res) => {
+  await entityController.update(req, res, validator, Model)
+}
+
 exports.delete = async (req, res) => {
-  try {
-    const reviewerId = req.params.id
-    const reviewerToBeDeleted = await Reviewer.findByIdAndRemove(reviewerId)
-    const AllInvestors = await Reviewer.find()
-    await Reviewer.findByIdAndRemove({ _id: reviewerId })
-    if (!reviewerToBeDeleted) {
-      return res.status(400).json({
-        status: 'Error',
-        message: 'Reviewer not found',
-        availableReviewers: await Reviewer.find()
-      })
-    }
-    return res.json({
-      status: 'Success',
-      message: `Deleted reviewer with id ${reviewerId}`,
-      deletedReviewer: reviewerToBeDeleted,
-      remainingReviewers: AllInvestors
-    })
-  } catch (error) {
-    console.log(error)
-  }
+  await entityController.delete(req, res, Model)
 }
+
 exports.viewDepartmentTask = async (req, res) => {
   const reviewerId = req.params.id
-  const userReviewer = await Reviewer.findById(reviewerId)
+  const userReviewer = await Model.findById(reviewerId)
   if (!userReviewer) {
     return res.status(400).json({
       status: 'Error',
       message: 'Reviewer not found',
-      availableReviewers: await Reviewer.find()
+      availableReviewers: await Model.find()
     })
   }
   const query = { 'department': 'Reviewer' }
@@ -111,12 +56,12 @@ exports.viewDepartmentTask = async (req, res) => {
 exports.reviewForms = async (req, res) => {
   try {
     const reviewerId = req.params.id
-    const reviewer = await Reviewer.findById(reviewerId)
+    const reviewer = await Model.findById(reviewerId)
     if (!reviewer) { // Restrict access to reviewers only.
       return res.status(400).json({
         status: 'Error',
         message: 'Only reviewers have access to this page',
-        availableReviewers: await Reviewer.find()
+        availableReviewers: await Model.find()
       })
     }
     const query = { 'form.acceptedByLawyer': 1, 'form.acceptedByReviewer': -1 } // We want the forms accepted by the lawyer but not reviewed yet.
@@ -138,7 +83,7 @@ exports.reviewForms = async (req, res) => {
 exports.casePage = async (req, res) => {
   try {
     const reviewerId = req.params.id
-    const reviewer = await Reviewer.findById(reviewerId)
+    const reviewer = await Model.findById(reviewerId)
     if (!reviewer) { // make sure that the one accessing the page is a reviewer
       return res.status(400).json({
         status: 'Error',
@@ -170,7 +115,7 @@ exports.decideApplication = async (req, res) => {
     })
   }
   try {
-    const reviewer = await Reviewer.findById(reviewerId)
+    const reviewer = await Model.findById(reviewerId)
     if (!reviewer) {
       return res.status(400).json({
         status: 'Error',
@@ -248,12 +193,12 @@ exports.addComment = async (req, res) => {
 exports.workPage = async (req, res) => {
   try {
     const reviewerId = req.params.id
-    const reviewer = await Reviewer.findOne({ _id: reviewerId })
+    const reviewer = await Model.findOne({ _id: reviewerId })
     if (!reviewer) { // Restrict access to reviewers only.
       return res.status(400).json({
         status: 'Error',
         message: 'Only Internal Users have access to this page',
-        availableReviewers: await Reviewer.find()
+        availableReviewers: await Model.find()
       })
     }
     const tasksAssigned = await Task.find() // query the database to retrieve all available tasks
@@ -304,7 +249,7 @@ exports.updateProfile = async (req, res) => {
 exports.showLastWorked = async (req, res) => {
   try {
     const reviewerId = req.params.reviewerId
-    const reviewer = await Reviewer.findById(reviewerId)
+    const reviewer = await Model.findById(reviewerId)
     if (!reviewer) { // make sure that the one accessing the page is a reviewer
       return res.status(400).json({
         status: 'Error',
@@ -325,7 +270,7 @@ exports.showLastWorked = async (req, res) => {
       result.push('Lawyer: ' + lawyer.fullName)
     }
     if (requestedCase.form.acceptedByReviewer !== -1) {
-      const reviewer = await Reviewer.findById(requestedCase.form.reviewerID)
+      const reviewer = await Model.findById(requestedCase.form.reviewerID)
       result.push('Reviewer: ' + reviewer.fullName)
     }
     return res.json({

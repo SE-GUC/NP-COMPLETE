@@ -26,4 +26,4 @@ const companyTypeSchema = new Schema({
     required: true
   }
 })
-module.exports = mongoose.model('companyType', companyTypeSchema)
+module.exports = mongoose.model('CompanyType', companyTypeSchema, 'companyType')

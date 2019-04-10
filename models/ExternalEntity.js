@@ -33,4 +33,4 @@ const ExternalEntitySchema = new Schema({
   }
 })
 
-module.exports = mongoose.model('externalEntities', ExternalEntitySchema)
+module.exports = mongoose.model('ExternalEntity', ExternalEntitySchema, 'externalEntity')

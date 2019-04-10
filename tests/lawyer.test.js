@@ -41,7 +41,7 @@ test('Delete a Lawyer by id', async () => {
   const createdData = created.data.data
   const id = createdData['_id']
   const deleted = await lawyer.deleteLawyer(id)
-  const deletedData = deleted.data.deletedLawyer
+  const deletedData = deleted.data.deleted
   expect.hasAssertions()
   expect(deletedData).toEqual(createdData)
 }, 10000)
@@ -452,7 +452,8 @@ test('Lawyer workPage', async () => {
     department: 'Lawyer',
     creationDate: '2019-02-02T00:00:00.000Z',
     deadline: '2019-02-06T00:00:00.000Z',
-    handler: [lawyerId]
+    handler: [lawyerId],
+    description: 'Review legal documents'
   }
 
   const createdTask = await task.createTask(taskData)
