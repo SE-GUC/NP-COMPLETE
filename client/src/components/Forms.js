@@ -3,9 +3,11 @@ import FormItem from './FormItem'
 
 class Forms extends Component {
   render () {
+    console.log( this.props.forms+'lolo')
+    console.log(this.props.forms)
     return this.props.forms.map((form) => (
       <FormItem key={form.id} form={form}
-        accept = {this.props.accept} reject = {this.props.reject} />
+        accept = {this.props.accept} reject = {this.props.reject} root={this.props.root} />
     ))
   }
 }

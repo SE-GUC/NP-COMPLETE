@@ -14,8 +14,9 @@ export class FormItem extends Component {
       return (
         <div style={this.getStyle()}>
           <p>
-          <button onClick= {this.props.accept} style={btnStyle}> Accept </button>
-          <button onClick= {this.props.reject} style={btnStyle}> Reject </button>
+          <h1>{this.props.form.name}</h1>
+          <button onClick= {e => this.props.accept(e, this.props.form._id, this.props.root)} style={btnStyle}> Accept </button>
+          <button onClick= {e => this.props.reject(e, this.props.form._id, this.props.root)} style={btnStyle}> Reject </button>
 
           </p>
         </div>

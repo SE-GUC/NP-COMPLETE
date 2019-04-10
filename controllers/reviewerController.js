@@ -129,7 +129,7 @@ exports.reviewForms = async (req, res) => {
     }
     var forms = []
     for (var i = 0; i < companies.length; i++) {
-      forms.push(companies[i].form) // extract form attribute only
+      forms.push(companies[i]) // extract form attribute only
     }
     res.json({ data: forms })
   } catch (error) {

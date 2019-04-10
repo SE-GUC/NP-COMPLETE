@@ -168,9 +168,9 @@ exports.viewForm = async (req, res) => {
       })
     } else {
       var i
-      var x = ''
+      var x = []
       for (i = 0; i < companies.length; i++) {
-        x += `Company: ${companies[i].name} has form: ${companies[i].form.data}, `
+        x += x.push(companies[i])
       }
       res.json({
         data: x
