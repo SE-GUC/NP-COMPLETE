@@ -24,7 +24,9 @@ class acceptOrReject extends Component {
     // .then(res => this.setState({ forms: res.data.data }))
     .then(res => this.setState({forms : res.data.data , loading: false}))
     // .then(console.log("form from axios ends"))
-    .catch(err => this.setState({ error: true }))
+    .catch(err => {
+      console.log(err)
+    })
     console.log("form from axios ends")
     console.log(this.state)
 }
