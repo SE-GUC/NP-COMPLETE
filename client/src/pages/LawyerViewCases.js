@@ -5,32 +5,26 @@ import MapCases from '../components/MapCases'
 import Spinner from 'react-bootstrap/Spinner'
 import { Button } from 'reactstrap';
 
-export class AdminViewCases extends Component {
+export class LawyerViewCases extends Component {
     _isMounted = false
     constructor(props) {
         super(props)
         this.state={
-          cases:[],
-          sorted:""
+          cases:[]
         }
       }
 
     componentDidMount() {
         const {id} = this.props.match.params
         this._isMounted = true
-        Axios.get('http://localhost:8000/api/admins/viewCases/'+ id)
-        .then(res => 
-        // this.state.sorted==="ID"?
-        // this.setState({cases:res.data.data.sort((a,b) => (a._id > b._id) ? 1 : ((b._id > a._id) ? -1 : 0))})
-        // :
-        this.setState({ cases: res.data.data }))
+        Axios.get('http://localhost:8000/api/lawyers/casesPage/'+ id)
+        .then(res => this.setState({ cases: res.data.data }))
         .catch(err => this.setState({ error: true }))
     }
 
     componentWillUnmount() {
         this._isMounted = false
       }
-    
   render() {
     return this.state.error? <h1>process could not be completed</h1>:this.state.loading?
     <div>
@@ -40,14 +34,14 @@ export class AdminViewCases extends Component {
     ( <div>
       <Button variant='danger' onClick={()=>this.setState({cases:this.state.cases.sort((a,b) => (a.establishmentDate > b.establishmentDate) ? 1 : ((b.establishmentDate > a.establishmentDate) ? -1 : 0))})}>Sort by Establishment Date</Button>
       <Button variant='danger' onClick={()=>this.setState({cases:this.state.cases.sort((a,b) => (a._id > b._id) ? 1 : ((b._id > a._id) ? -1 : 0))})}>Sort by ID</Button>
-      <MapCases cases = {this.state.cases} soted = {this.state.sorted}/>
+      <MapCases cases = {this.state.cases}/>
       </div>
     )
   }
 }
 
-AdminViewCases.propTypes = {
+LawyerViewCases.propTypes = {
 cases: PropTypes.array
 }
 
-export default AdminViewCases
+export default LawyerViewCases

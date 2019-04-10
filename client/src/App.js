@@ -11,8 +11,12 @@ import AddComment from './pages/AddComment'
 import Register from './pages/investorPages/Register'
 import acceptOrReject from './pages/acceptOrReject'
 import AdminViewCases from './pages/AdminViewCases'
-// import AdminViewCases from './pages/AdminViewCases'
-// import AdminViewCases from './pages/AdminViewCases'
+import LawyerViewCases from './pages/LawyerViewCases'
+import ReviewerViewCases from './pages/ReviewerViewCases'
+import AdminsViewMyTasks from './pages/AdminsViewMyTasks'
+import LawyersViewMyTasks from './pages/LawyersViewMyTasks'
+import ReviewersViewMyTasks from './pages/ReviewersViewMyTasks'
+
 import './App.css'
 import Admin from './pages/Admin'
 import Investor from './pages/Investor'
@@ -56,20 +60,26 @@ class App extends Component {
 
             <Route exact path='/investors/Register' component={Register} />
 
-            <Route exact path='/admins/deleteInvestor' component={Investor} />
-
             <Route exact path='/admins/deleteAdmin' component={Admin} />
-
-            <Route exact path='/admins/deleteReviewer' component={Reviewer} />
 
             <Route exact path='/admins/deleteLawyer' component={Lawyer} />
 
+            <Route exact path='/admins/deleteReviewer' component={Reviewer} />
+
+            <Route exact path='/admins/deleteInvestor' component={Investor} />
+
             <Route exact path='/admins/viewAllCases/:id' component={AdminViewCases} />
 
-            {/* <Route exact path='/lawyers/viewAllCases' component={LawyerViewCases} /> */}
+            <Route exact path='/admins/viewMyTasks/:id' component={AdminsViewMyTasks} />
 
-            {/* <Route exact path='/reviewers/viewAllCases' component={ReviewerViewCases} /> */}
+            <Route exact path='/lawyers/viewAllCases/:id' component={LawyerViewCases} />
 
+            <Route exact path='/lawyers/viewMyTasks/:id' component={LawyersViewMyTasks} />
+            
+            <Route exact path='/reviewers/viewAllCases/:id' component={ReviewerViewCases} />
+            
+            <Route exact path='/reviewers/viewMyTasks/:id' component={ReviewersViewMyTasks} />
+            
           </div>
         </div>
 
