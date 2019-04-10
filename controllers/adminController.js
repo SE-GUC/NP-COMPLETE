@@ -1,131 +1,42 @@
+// Entity model and validator
+const Model = require('../models/Admin')
+const validator = require('../validations/adminValidations')
+const entityController = require('./entityController')
+
+// Additional models
 const Task = require('../models/Task')
-const Admin = require('../models/Admin')
 const Lawyer = require('../models/Lawyer')
 const Company = require('../models/Company')
-const Investor = require('../models/Investor')
 const Reviewer = require('../models/Reviewer')
-const CompanyType = require('../models/CompanyType')
-const ExternalEntity = require('../models/ExternalEntity')
 
-// Validator
-const validator = require('../validations/adminValidations')
-
-exports.getAll = async (req, res) => {
-  const admins = await Admin.find()
-  res.json({ data: admins })
+exports.default = async (req, res) => {
+  await entityController.default(res, Model)
 }
 
 exports.create = async (req, res) => {
-  const data = req.body
-  try {
-    const isValidated = validator.createValidation(data)
-    if (isValidated.error) {
-      return res.status(400).json({
-        status: 'Error',
-        message: isValidated.error.details[0].message,
-        data: data
-      })
-    }
-    const newAdmin = await Admin.create(data)
-    return res.json({
-      status: 'Success',
-      message: `New admin created with id ${newAdmin.id}`,
-      data: newAdmin
-    })
-  } catch (error) {
-    console.log(error)
-  }
+  await entityController.create(req, res, validator, Model)
 }
 
-exports.getByID = async (req, res) => {
-  const adminId = req.params.id
-  const admin = await Admin.findById(adminId)
-  if (!admin) {
-    return res.status(400).json({
-      status: 'Error',
-      message: 'Admin not found',
-      availableAdmins: await Admin.find()
-    })
-  }
-  res.json({ data: admin })
+exports.read = async (req, res) => {
+  await entityController.read(req, res, Model)
 }
 
 exports.update = async (req, res) => {
-  var data = req.body
-  if (Object.keys(data).length === 0) {
-    return res.status(400).json({
-      status: 'Error',
-      message: 'No data to update'
-    })
-  }
-
-  try {
-    const adminId = req.params.id
-    const adminToUpdate = await Admin.findById(adminId)
-
-    if (!adminToUpdate) {
-      return res.status(400).json({
-        status: 'Error',
-        message: 'Admin not found',
-        availableAdmins: await Admin.find()
-      })
-    }
-
-    const isValidated = validator.updateValidation(data)
-    if (isValidated.error) {
-      return res.status(400).json({
-        status: 'Error',
-        message: isValidated.error.details[0].message,
-        data: data
-      })
-    }
-
-    const query = { '_id': adminId }
-    const updatedAdmin = await Admin.findByIdAndUpdate(query, data, { new: true })
-    data = updatedAdmin.body
-    return res.json({
-      status: 'Success',
-      message: `Updated admin with id ${adminId}`,
-      data: updatedAdmin
-    })
-  } catch (error) {
-    console.log(error)
-  }
+  await entityController.update(req, res, validator, Model)
 }
 
 exports.delete = async (req, res) => {
-  //! Delete first, ask questions later
-  try {
-    const adminId = req.params.id
-    const deletedAdmin = await Admin.findByIdAndRemove(adminId)
-
-    if (!deletedAdmin) {
-      return res.status(400).json({
-        status: 'Error',
-        message: 'Admin not found',
-        availableAdmins: await Admin.find()
-      })
-    }
-
-    res.json({
-      status: 'Success',
-      message: `Deleted admin with id ${adminId}`,
-      deletedAdmin: deletedAdmin,
-      remainingAdmins: await Admin.find()
-    })
-  } catch (error) {
-    console.log(error)
-  }
+  await entityController.delete(req, res, Model)
 }
 
 exports.viewTask = async (req, res) => {
   const adminId = req.params.id
-  const userAdmin = await Admin.findById(adminId)
+  const userAdmin = await Model.findById(adminId)
   if (!userAdmin) {
     return res.status(400).json({
       status: 'Error',
       message: 'Admin not found',
-      availableAdmins: await Admin.find()
+      availableAdmins: await Model.find()
     })
   }
   const query = { 'department': 'Admin' }
@@ -155,13 +66,13 @@ exports.updateDeadline = async (req, res) => {
   }
   try {
     const adminId = req.params.id
-    const adminToUpdate = await Admin.findById(adminId)
+    const adminToUpdate = await Model.findById(adminId)
     // check if there is no such admin
     if (!adminToUpdate) {
       return res.status(400).json({
         status: 'Error',
         message: 'Admin not found',
-        availableAdmins: await Admin.find()
+        availableAdmins: await Model.find()
       })
     }
     const taskID = req.body.TaskID
@@ -229,12 +140,12 @@ exports.publishCompany = async (req, res) => {
 exports.viewCases = async (req, res) => {
   try {
     const adminId = req.params.id
-    const admin = await Admin.findById(adminId)
+    const admin = await Model.findById(adminId)
     if (!admin) { // makes sure that the one accessing the data is an admin
       return res.status(400).json({
         status: 'Error',
         message: 'Admin access required',
-        availableAdmins: await Admin.find()
+        availableAdmins: await Model.find()
       })
     } else {
       res.redirect(307, '/api/companies/') // redirect to companies get all route
@@ -264,12 +175,12 @@ exports.updateProfile = async (req, res) => {
 exports.workPage = async (req, res) => {
   try {
     const adminId = req.params.id
-    const admin = await Admin.findOne({ _id: adminId })
+    const admin = await Model.findOne({ _id: adminId })
     if (!admin) { // Restrict access to reviewers only.
       return res.status(400).json({
         status: 'Error',
         message: 'Only Internal Users have access to this page',
-        availableReviewers: await Admin.find()
+        availableReviewers: await Model.find()
       })
     }
     const tasksAssigned = await Task.find() // query the database to retrieve all available tasks
@@ -336,7 +247,7 @@ exports.getFeedback = async (req, res) => {
 exports.showLastWorked = async (req, res) => {
   try {
     const adminId = req.params.adminId
-    const admin = await Admin.findById(adminId)
+    const admin = await Model.findById(adminId)
     if (!admin) { // make sure that the one accessing the page is an admin
       return res.status(400).json({
         status: 'Error',

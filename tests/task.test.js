@@ -42,7 +42,7 @@ test('Delete a Task by id', async () => {
   const createdData = created.data.data
   const id = createdData['_id']
   const deleted = await task.deleteTask(id)
-  const deletedData = deleted.data.deletedTask
+  const deletedData = deleted.data.deleted
   expect.assertions(1)
   expect(deletedData).toEqual(createdData)
 })

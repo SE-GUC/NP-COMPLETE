@@ -45,7 +45,7 @@ test('Delete an Investor by id', async () => {
   const createdData = created.data.data
   const id = createdData['_id']
   const deleted = await investor.deleteInvestor(id)
-  const deletedData = deleted.data.deletedInvestor
+  const deletedData = deleted.data.deleted
   expect.assertions(1)
   expect(deletedData).toEqual(createdData)
 })

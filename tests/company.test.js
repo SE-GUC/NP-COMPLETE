@@ -109,7 +109,7 @@ test('Delete a Company by id', async () => {
   const createdData = created.data.data
   const id = createdData['_id']
   const deleted = await company.deleteCompany(id)
-  const deletedData = deleted.data.deletedCompany
+  const deletedData = deleted.data.deleted
   expect.assertions(1)
   expect(deletedData).toMatchObject(data)
 })

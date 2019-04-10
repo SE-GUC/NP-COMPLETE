@@ -1,6 +1,5 @@
 const company = require('./company')
 const task = require('./task')
-const investor = require('./investor')
 jest.setTimeout(180000)
 
 const admin = require('./admin')
@@ -152,7 +151,7 @@ test('Delete an Admin by id', async () => {
   const createdData = created.data.data
   const id = createdData['_id']
   const deleted = await admin.deleteAdmin(id)
-  const deletedData = deleted.data.deletedAdmin
+  const deletedData = deleted.data.deleted
   expect.assertions(1)
   await expect(deletedData).toEqual(createdData)
 })
@@ -328,7 +327,7 @@ test('getFeedback of investors by admin', async () => {
   const feedbacksData = feedbacks.data.data
 
   expect.assertions(1)
-  expect(feedbacksData).toContain(originalFeedback1) 
+  expect(feedbacksData).toContain(originalFeedback1)
   expect(feedbacksData).toContain(originalFeedback)
 })
 

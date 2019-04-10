@@ -1,25 +1,21 @@
 // Load modules
 const express = require('express')
 const router = express.Router()
-
-// Company model and validator
-const Company = require('../../models/Company')
-const validator = require('../../validations/companyValidations')
-
-const companyControllers = require('../../controllers/companyControllers')
+const controller = require('../../controllers/companyController')
 
 // Read all Companies (Default route)
-router.get('/', companyControllers.getAll)
+router.get('/', controller.default)
+
 // Create a new Company
-router.post('/', companyControllers.create)
+router.post('/', controller.create)
 
 // Reads a specific Company given id in URL
-router.get('/:id', companyControllers.getByID)
+router.get('/:id', controller.read)
 
 // Update an existing Company given id in URL
-router.put('/:id', companyControllers.update)
+router.put('/:id', controller.update)
 
 // Delete a specific Company given ID in URL
-router.delete('/:id', companyControllers.delete)
+router.delete('/:id', controller.delete)
 
 module.exports = router

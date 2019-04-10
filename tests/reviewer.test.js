@@ -98,7 +98,7 @@ test('Delete a Reviewer by id', async () => {
   const createdData = created.data.data
   const id = createdData['_id']
   const deleted = await reviewer.deleteReviewer(id)
-  const deletedData = deleted.data.deletedReviewer
+  const deletedData = deleted.data.deleted
   expect.hasAssertions()
   expect(deletedData).toEqual(createdData)
 }, 10000)
@@ -216,7 +216,6 @@ test('Rejecting an application by company id and reviewer id', async () => {
   } catch (err) {
     console.log(err)
   }
-  
 }, 20000)
 
 test('Accepting an already accepted application by company id and reviewer id', async () => {
@@ -242,7 +241,6 @@ test('Accepting an already accepted application by company id and reviewer id', 
     await company.deleteCompany(companyId)
     await reviewer.deleteReviewer(reviewerId)
   }
-  
 }, 20000)
 
 test('Accepting an application No decision given', async () => {
@@ -268,7 +266,6 @@ test('Accepting an application No decision given', async () => {
     await company.deleteCompany(companyId)
     await reviewer.deleteReviewer(reviewerId)
   }
-  
 }, 20000)
 
 test('Accepting an application decision string rejected', async () => {
@@ -294,7 +291,6 @@ test('Accepting an application decision string rejected', async () => {
     await company.deleteCompany(companyId)
     await reviewer.deleteReviewer(reviewerId)
   }
- 
 }, 20000)
 
 test('Accepting an application not accepted by lawyer', async () => {
@@ -320,7 +316,6 @@ test('Accepting an application not accepted by lawyer', async () => {
     await company.deleteCompany(companyId)
     await reviewer.deleteReviewer(reviewerId)
   }
-  
 }, 20000)
 
 // As an Internal User I should be able to view all the cases in the system so that I can open them and check their details

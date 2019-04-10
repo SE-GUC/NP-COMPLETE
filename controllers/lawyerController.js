@@ -1,133 +1,46 @@
-// Lawyer models
-const Lawyer = require('../models/Lawyer')
+// Entity model and validator
+const Model = require('../models/Lawyer')
+const validator = require('../validations/lawyerValidations')
+const entityController = require('./entityController')
+
+// Additional Models
 const Reviewer = require('../models/Reviewer')
 const Company = require('../models/Company')
 const ExternalEntity = require('../models/ExternalEntity')
 const Task = require('../models/Task')
 const CompanyType = require('../models/CompanyType')
 
-// Lawyer validators
-const validator = require('../validations/lawyerValidations')
-
 // Company validators
 const companyValidator = require('../validations/companyValidations')
 
-exports.getAll = async (req, res) => {
-  const lawyers = await Lawyer.find()
-  res.json({ data: lawyers })
+exports.default = async (req, res) => {
+  await entityController.default(res, Model)
 }
 
 exports.create = async (req, res) => {
-  try {
-    const data = req.body
-
-    const isValidated = validator.createValidation(data)
-    if (isValidated.error) {
-      return res.status(400).json({
-        status: 'Error',
-        message: isValidated.error.details[0].message,
-        data: data
-      })
-    }
-
-    const newLawyer = await Lawyer.create(data)
-    return res.json({
-      status: 'Success',
-      message: `New lawyer created successfully`,
-      data: newLawyer
-    })
-  } catch (error) {
-    console.log(error)
-  }
+  await entityController.create(req, res, validator, Model)
 }
 
-exports.readByID = async (req, res) => {
-  try {
-    const lawyerId = req.params.id
-    const lawyer = await Lawyer.findById(lawyerId)
-    if (lawyer) {
-      res.json({ data: lawyer })
-    } else {
-      res.status(400).json({
-        status: 'Error',
-        message: 'Lawyer not found'
-      })
-    }
-  } catch (error) {
-    console.log(error)
-  }
+exports.read = async (req, res) => {
+  await entityController.read(req, res, Model)
 }
 
 exports.update = async (req, res) => {
-  try {
-    const data = req.body
-    if (Object.keys(data).length === 0) {
-      return res.status(400).json({
-        status: 'Error',
-        message: 'No data to update'
-      })
-    }
-    const id = req.params.id
-    const lawyer = await Lawyer.findById(id)
-
-    if (!lawyer) {
-      return res.status(400).json({
-        status: 'Error',
-        message: 'Lawyer not found'
-      })
-    }
-    const isValidated = validator.updateValidation(data)
-    if (isValidated.error) {
-      return res.status(400).json({
-        status: 'Error',
-        message: isValidated.error.details[0].message,
-        data: data
-      })
-    }
-    const query = { '_id': id }
-    const updatedLawyer = await Lawyer.findByIdAndUpdate(query, req.body, { new: true })
-    return res.json({
-      status: 'Success',
-      message: `Updated lawyer with id ${id}`,
-      data: updatedLawyer
-    })
-  } catch (error) {
-    console.log(error)
-  }
+  await entityController.update(req, res, validator, Model)
 }
 
 exports.delete = async (req, res) => {
-  try {
-    const lawyerId = req.params.id
-    const deletedLawyer = await Lawyer.findByIdAndRemove(lawyerId)
-
-    if (!deletedLawyer) {
-      return res.status(400).json({
-        status: 'Error',
-        message: 'lawyer not found',
-        availableLawyers: await Lawyer.find()
-      })
-    }
-
-    res.json({
-      status: 'Success',
-      message: `Deleted lawyer with id ${lawyerId}`,
-      deletedLawyer: deletedLawyer,
-      remainingLawyers: await Lawyer.find()
-    })
-  } catch (error) {
-    console.log(error)
-  }
+  await entityController.delete(req, res, Model)
 }
 
 exports.viewDepartmentTask = async (req, res) => {
   const lawyerId = req.params.id
-  const userLawyer = await Lawyer.findById(lawyerId)
+  const userLawyer = await Model.findById(lawyerId)
   if (!userLawyer) {
     return res.status(400).json({
       status: 'Error',
       message: 'Lawyer not found',
-      availableLawyer: await Lawyer.find()
+      availableLawyer: await Model.find()
     })
   }
   const query = { 'department': 'Lawyer' }
@@ -226,7 +139,7 @@ exports.review = async (req, res) => {
       newData['form.comment'] = comment
     }
     // check if the lawyer exists
-    const lawyer = await Lawyer.findById(req.params.lawyerID)
+    const lawyer = await Model.findById(req.params.lawyerID)
     if (!lawyer) {
       return res.status(400).json({
         status: 'Error',
@@ -267,7 +180,7 @@ exports.editForm = async (req, res) => {
     const lawyerId = req.params.lawyerId
     const companyId = req.params.companyId
 
-    const lawyer = await Lawyer.findById(lawyerId)
+    const lawyer = await Model.findById(lawyerId)
     if (!lawyer) {
       return res.status(400).json({
         status: 'Error',
@@ -310,7 +223,7 @@ exports.editForm = async (req, res) => {
 exports.casesPage = async (req, res) => {
   try {
     const lawyerId = req.params.id
-    const lawyer = await Lawyer.findById(lawyerId)
+    const lawyer = await Model.findById(lawyerId)
     if (!lawyer) { // make sure that the one accessing the page is a lawyer
       return res.status(400).json({
         status: 'Error',
@@ -340,7 +253,7 @@ exports.addComment = async (req, res) => {
     })
   }
   try {
-    const lawyer = await Lawyer.findById(lawyerId)
+    const lawyer = await Model.findById(lawyerId)
     if (!lawyer) {
       return res.status(400).json({
         status: 'Error',
@@ -380,12 +293,12 @@ exports.addComment = async (req, res) => {
 exports.workPage = async (req, res) => {
   try {
     const lawyerId = req.params.id
-    const lawyer = await Lawyer.findOne({ _id: lawyerId })
+    const lawyer = await Model.findOne({ _id: lawyerId })
     if (!lawyer) { // Restrict access to reviewers only.
       return res.status(400).json({
         status: 'Error',
         message: 'Only Internal Users have access to this page',
-        availableReviewers: await Lawyer.find()
+        availableReviewers: await Model.find()
       })
     }
     const tasksAssigned = await Task.find() // query the database to retrieve all available tasks
@@ -479,7 +392,7 @@ exports.updateMyProfile = async (req, res) => {
 exports.showLastWorked = async (req, res) => {
   try {
     const lawyerId = req.params.lawyerId
-    const lawyer = await Lawyer.findById(lawyerId)
+    const lawyer = await Model.findById(lawyerId)
     if (!lawyer) { // make sure that the one accessing the page is a reviewer
       return res.status(400).json({
         status: 'Error',
@@ -496,7 +409,7 @@ exports.showLastWorked = async (req, res) => {
     }
     const result = []
     if (requestedCase.form.acceptedByLawyer !== -1) {
-      const lawyer = await Lawyer.findById(requestedCase.form.lawyerID)
+      const lawyer = await Model.findById(requestedCase.form.lawyerID)
       result.push('Lawyer: ' + lawyer.fullName)
     }
     if (requestedCase.form.acceptedByReviewer !== -1) {

@@ -41,7 +41,7 @@ test('Delete a Lawyer by id', async () => {
   const createdData = created.data.data
   const id = createdData['_id']
   const deleted = await lawyer.deleteLawyer(id)
-  const deletedData = deleted.data.deletedLawyer
+  const deletedData = deleted.data.deleted
   expect.hasAssertions()
   expect(deletedData).toEqual(createdData)
 }, 10000)

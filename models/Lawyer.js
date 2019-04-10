@@ -27,4 +27,4 @@ const LawyerSchema = new Schema({
   }
 })
 
-module.exports = mongoose.model('lawyers', LawyerSchema)
+module.exports = mongoose.model('Lawyer', LawyerSchema, 'lawyer')

@@ -28,4 +28,4 @@ const ReviewerSchema = new Schema({
 
 })
 
-module.exports = mongoose.model('Reviewer', ReviewerSchema)
+module.exports = mongoose.model('Reviewer', ReviewerSchema, 'reviewer')
