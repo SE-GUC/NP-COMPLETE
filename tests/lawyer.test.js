@@ -452,7 +452,8 @@ test('Lawyer workPage', async () => {
     department: 'Lawyer',
     creationDate: '2019-02-02T00:00:00.000Z',
     deadline: '2019-02-06T00:00:00.000Z',
-    handler: [lawyerId]
+    handler: [lawyerId],
+    description: 'Review legal documents'
   }
 
   const createdTask = await task.createTask(taskData)

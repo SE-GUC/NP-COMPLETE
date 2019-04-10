@@ -26,6 +26,10 @@ const TaskSchema = new Schema({
   handler: {
     type: [String],
     required: false
+  },
+  description: {
+    type: String,
+    required: true
   }
 
 })

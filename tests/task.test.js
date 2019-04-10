@@ -14,7 +14,8 @@ test('Read a Task by id', async () => {
   const data = {
     department: 'Lawyer',
     creationDate: '1837-02-15',
-    deadline: '1998-02-15'
+    deadline: '1998-02-15',
+    description: 'Lawyering'
   }
   const created = await task.createTask(data)
   const createdData = created.data.data
@@ -36,7 +37,8 @@ test('Delete a Task by id', async () => {
   const data = {
     department: 'Admin',
     creationDate: '1837-02-15',
-    deadline: '1998-02-15'
+    deadline: '1998-02-15',
+    description: 'Supervise multiple running cases'
   }
   const created = await task.createTask(data)
   const createdData = created.data.data
@@ -56,7 +58,8 @@ test('Create a task', async () => {
   const data = {
     department: 'Lawyer',
     creationDate: '2019-01-01T00:00:00.000Z',
-    deadline: '2019-02-02T00:00:00.000Z'
+    deadline: '2019-02-02T00:00:00.000Z',
+    description: 'Lawyer stuff'
   }
   const created = await task.createTask(data)
   const createdData = created.data.data
@@ -75,7 +78,8 @@ test('Update a Task by id', async () => {
   const data = {
     department: 'Lawyer',
     creationDate: '2019-01-01',
-    deadline: '2019-02-02'
+    deadline: '2019-02-02',
+    description: 'legal'
   }
 
   const dataToUpdate = {
@@ -85,7 +89,8 @@ test('Update a Task by id', async () => {
   const dataUpdated = {
     department: 'Lawyer',
     creationDate: '2019-01-01T00:00:00.000Z',
-    deadline: '2019-03-03T00:00:00.000Z'
+    deadline: '2019-03-03T00:00:00.000Z',
+    description: 'legal'
   }
 
   const created = await task.createTask(data)
