@@ -15,6 +15,7 @@ import Admin from './pages/Admin'
 import Investor from './pages/Investor'
 import Lawyer from './pages/Lawyer'
 import Reviewer from './pages/Reviewer'
+import LawyerShowLastWorked from './pages/LawyerShowLastWorked'
 
 class App extends Component {
   render () {
@@ -50,6 +51,8 @@ class App extends Component {
             <Route exact path='/reviewers/acceptOrReject/:reviewerId/:companyId' component={acceptOrReject} />
 
             <Route exact path='/lawyers/addComment/:lawyerId/:companyId' component={AddComment} />
+
+            <Route exact path='/lawyers/showLastWorked' component={LawyerShowLastWorked} />
 
             <Route exact path='/investors/Register' component={Register} />
 
