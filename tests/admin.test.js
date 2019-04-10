@@ -328,9 +328,9 @@ test('getFeedback of investors by admin', async () => {
   const feedbacks = await admin.getFeedback('1')
   const feedbacksData = feedbacks.data.data
 
-  expect.assertions(1)
   expect(feedbacksData).toContain(originalFeedback1)
   expect(feedbacksData).toContain(originalFeedback)
+  expect.assertions(2)
 })
 
 test('Admin workPage-exists', async () => {

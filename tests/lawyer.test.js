@@ -143,11 +143,7 @@ test('Fill a form by lawyer exists', async () => {
 test('Filling form by lawyer', async () => {
   const data = {
     form: {
-      data: ['cairo', 23, 5555],
-      acceptedByLawyer: 1,
-      acceptedByReviewer: -1,
-      filledByLawyer: true,
-      paid: false
+      data: ['cairo', false, 5555]
     },
     name: 'test',
     type: 'SSC',
@@ -172,6 +168,24 @@ test('Add Comment', async () => {
   const data = {
     comment: 'sjwmvj'
   }
+  const lawyer1 = {
+    fullName: 'Mortada Mansour',
+    birthdate: '1980-02-26',
+    email: 'great@guy.com',
+    startDate: '2015-12-12'
+  }
+  const investor1 = {
+    fullName: 'Sam Water',
+    birthdate: '1837-02-15',
+    email: 'great@guy.com'
+  }
+  const lawyer1Created = await lawyer.createLawyer(lawyer1)
+  const lawyer1CreatedData = lawyer1Created.data.data
+  const lawyer1Id = lawyer1CreatedData['_id']
+  // investor
+  const investor1Created = await investor.createInvestor(investor1)
+  const investor1CreatedData = investor1Created.data.data
+  const investor1Id = investor1CreatedData['_id']
 
   const companyData = {
     name: 'Disney',
@@ -179,7 +193,7 @@ test('Add Comment', async () => {
     type: 'SSC',
     state: 'Pending',
     accepted: false,
-    investorId: '5c9614f2fe51f5258ce36f91',
+    investorId: investor1Id,
     form: {
       data: [],
       comment: 'No comment',
@@ -187,7 +201,7 @@ test('Add Comment', async () => {
       acceptedByReviewer: -1,
       filledByLawyer: false,
       paid: false,
-      lawyerID: '5c9a6888bca2114a80a5c124'
+      lawyerID: lawyer1Id
     }
   }
   const lawyerData = {

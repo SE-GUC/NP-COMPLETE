@@ -1,4 +1,5 @@
-
+// requiring mongoose for id validations
+const mongoose = require('mongoose')
 exports.default = async (res, Model) => {
   const entities = await Model.find()
   res.json({
@@ -32,6 +33,12 @@ exports.create = async (req, res, validator, Model) => {
 exports.read = async (req, res, Model) => {
   const entityName = Model.collection.name
   const entityId = req.params.id
+  if (!mongoose.Types.ObjectId.isValid(entityId)) {
+    return res.status(400).json({
+      status: 'Error',
+      message: 'not a valid ID'
+    })
+  }
   const entity = await Model.findById(entityId)
   if (!entity) {
     return res.status(400).json({
@@ -55,15 +62,21 @@ exports.update = async (req, res, validator, Model) => {
 
   try {
     const entityId = req.params.id
-    const entityToUpdate = await Model.findById(entityId)
-
-    if (!entityToUpdate) {
+    if (!mongoose.Types.ObjectId.isValid(entityId)) {
       return res.status(400).json({
         status: 'Error',
-        message: `${entityName} not found`,
-        available: await Model.find()
+        message: 'not a valid ID'
       })
     }
+    // const entityToUpdate = await Model.findById(entityId)
+
+    // if (!entityToUpdate) {
+    //   return res.status(400).json({
+    //     status: 'Error',
+    //     message: `${entityName} not found`,
+    //     available: await Model.find()
+    //   })
+    // }
 
     const isValidated = validator.updateValidation(data)
     if (isValidated.error) {
@@ -91,6 +104,12 @@ exports.delete = async (req, res, Model) => {
   const entityName = Model.collection.name
   try {
     const entityId = req.params.id
+    if (!mongoose.Types.ObjectId.isValid(entityId)) {
+      return res.status(400).json({
+        status: 'Error',
+        message: 'not a valid ID'
+      })
+    }
     const deletedEntity = await Model.findByIdAndRemove(entityId)
 
     if (!deletedEntity) {

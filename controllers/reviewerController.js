@@ -1,3 +1,5 @@
+// requiring mongoose for id validations
+const mongoose = require('mongoose')
 // Entity model and validator
 const Model = require('../models/Reviewer')
 const validator = require('../validations/reviewerValidations')
@@ -30,6 +32,12 @@ exports.delete = async (req, res) => {
 
 exports.viewDepartmentTask = async (req, res) => {
   const reviewerId = req.params.id
+  if (!mongoose.Types.ObjectId.isValid(reviewerId)) {
+    return res.status(400).json({
+      status: 'Error',
+      message: 'not a valid ID'
+    })
+  }
   const userReviewer = await Model.findById(reviewerId)
   if (!userReviewer) {
     return res.status(400).json({
@@ -56,6 +64,12 @@ exports.viewDepartmentTask = async (req, res) => {
 exports.reviewForms = async (req, res) => {
   try {
     const reviewerId = req.params.id
+    if (!mongoose.Types.ObjectId.isValid(reviewerId)) {
+      return res.status(400).json({
+        status: 'Error',
+        message: 'not a valid ID'
+      })
+    }
     const reviewer = await Model.findById(reviewerId)
     if (!reviewer) { // Restrict access to reviewers only.
       return res.status(400).json({
@@ -83,6 +97,12 @@ exports.reviewForms = async (req, res) => {
 exports.casePage = async (req, res) => {
   try {
     const reviewerId = req.params.id
+    if (!mongoose.Types.ObjectId.isValid(reviewerId)) {
+      return res.status(400).json({
+        status: 'Error',
+        message: 'not a valid ID'
+      })
+    }
     const reviewer = await Model.findById(reviewerId)
     if (!reviewer) { // make sure that the one accessing the page is a reviewer
       return res.status(400).json({
@@ -98,7 +118,19 @@ exports.casePage = async (req, res) => {
 
 exports.decideApplication = async (req, res) => {
   const reviewerId = req.params.reviewerId
+  if (!mongoose.Types.ObjectId.isValid(reviewerId)) {
+    return res.status(400).json({
+      status: 'Error',
+      message: 'not a valid ID'
+    })
+  }
   const companyId = req.params.companyId
+  if (!mongoose.Types.ObjectId.isValid(companyId)) {
+    return res.status(400).json({
+      status: 'Error',
+      message: 'not a valid ID'
+    })
+  }
   const decision = req.body.decision
 
   if (decision === null || decision === undefined) {
@@ -168,7 +200,19 @@ exports.decideApplication = async (req, res) => {
 
 exports.addComment = async (req, res) => {
   const reviewerID = req.params.reviewerID
+  if (!mongoose.Types.ObjectId.isValid(reviewerID)) {
+    return res.status(400).json({
+      status: 'Error',
+      message: 'not a valid ID'
+    })
+  }
   const companyID = req.params.companyID
+  if (!mongoose.Types.ObjectId.isValid(companyID)) {
+    return res.status(400).json({
+      status: 'Error',
+      message: 'not a valid ID'
+    })
+  }
 
   try {
     const query = { '_id': companyID, 'form.acceptedByReviewer': 0, 'form.reviewerID': reviewerID }
@@ -193,6 +237,12 @@ exports.addComment = async (req, res) => {
 exports.workPage = async (req, res) => {
   try {
     const reviewerId = req.params.id
+    if (!mongoose.Types.ObjectId.isValid(reviewerId)) {
+      return res.status(400).json({
+        status: 'Error',
+        message: 'not a valid ID'
+      })
+    }
     const reviewer = await Model.findOne({ _id: reviewerId })
     if (!reviewer) { // Restrict access to reviewers only.
       return res.status(400).json({
@@ -240,6 +290,12 @@ exports.updateProfile = async (req, res) => {
       })
     } else {
       const id = req.params.id
+      if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(400).json({
+          status: 'Error',
+          message: 'not a valid ID'
+        })
+      }
       res.redirect(307, `/api/reviewers/${id}`)
     }
   } catch (error) {
@@ -249,6 +305,12 @@ exports.updateProfile = async (req, res) => {
 exports.showLastWorked = async (req, res) => {
   try {
     const reviewerId = req.params.reviewerId
+    if (!mongoose.Types.ObjectId.isValid(reviewerId)) {
+      return res.status(400).json({
+        status: 'Error',
+        message: 'not a valid ID'
+      })
+    }
     const reviewer = await Model.findById(reviewerId)
     if (!reviewer) { // make sure that the one accessing the page is a reviewer
       return res.status(400).json({
@@ -257,6 +319,12 @@ exports.showLastWorked = async (req, res) => {
       })
     }
     const companyId = req.params.companyId
+    if (!mongoose.Types.ObjectId.isValid(companyId)) {
+      return res.status(400).json({
+        status: 'Error',
+        message: 'not a valid ID'
+      })
+    }
     const requestedCase = await Company.findById(companyId)
     if (!requestedCase) { // make sure that the one accessing the page is a reviewer
       return res.status(400).json({

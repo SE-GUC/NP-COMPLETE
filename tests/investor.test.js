@@ -160,6 +160,30 @@ test('Get Companies Exist', async () => {
 })
 
 test('Get my companies', async () => {
+  const lawyer1 = {
+    fullName: 'mortada',
+    birthdate: '1980-02-26',
+    email: 'great@guy.com',
+    startDate: '2015-12-12'
+  }
+  const lawyer2 = {
+    fullName: 'mansour',
+    birthdate: '1980-02-26',
+    email: 'great@guy.com',
+    startDate: '2015-12-12'
+  }
+  const reviewer1 = {
+    fullName: 'Omar Ayman Abdelmagied',
+    birthdate: '1998-07-09',
+    email: 'omar@valid.com',
+    startDate: '2010-01-01'
+  }
+  const reviewer2 = {
+    fullName: 'Omar Ayman Abdelmagied',
+    birthdate: '1998-07-09',
+    email: 'omar@valid.com',
+    startDate: '2010-01-01'
+  }
   const companyTypeTest1 = {
     companyType: 'SSC',
     fields: ['stringField', 'booleanField', 'NumberFeild'],
@@ -189,6 +213,22 @@ test('Get my companies', async () => {
   const createdInvestor = await investor.createInvestor(investorData)
   const createdInvestorData = createdInvestor.data.data
   const investorId = createdInvestorData['_id']
+  // lawyer 1
+  const createdLawyer1 = await lawyer.createLawyer(lawyer1)
+  const createdLawyer1Data = createdLawyer1.data.data
+  const lawyer1Id = createdLawyer1Data['_id']
+  // lawyer 2
+  const createdLawyer2 = await lawyer.createLawyer(lawyer2)
+  const createdLawyer2Data = createdLawyer2.data.data
+  const lawyer2Id = createdLawyer2Data['_id']
+  // reviewer 1
+  const createdReviewr1 = await reviewer.createReviewer(reviewer1)
+  const createdReviewer1Data = createdReviewr1.data.data
+  const reviewer1Id = createdReviewer1Data['_id']
+  // reviewer 2
+  const createdReviewr2 = await reviewer.createReviewer(reviewer2)
+  const createdReviewer2Data = createdReviewr2.data.data
+  const reviewer2Id = createdReviewer2Data['_id']
   const companyData1 = {
     name: 'Nike',
     establishmentDate: '1837-08-20',
@@ -203,8 +243,8 @@ test('Get my companies', async () => {
       acceptedByReviewer: 1,
       filledByLawyer: false,
       paid: true,
-      lawyerID: '5c9a6888bca2114a80a5c124',
-      reviewerID: '5c9660e5e008212d705efd15'
+      lawyerID: lawyer1Id,
+      reviewerID: reviewer1Id
     }
   }
   const companyData2 = {
@@ -221,8 +261,8 @@ test('Get my companies', async () => {
       acceptedByReviewer: 1,
       filledByLawyer: false,
       paid: true,
-      lawyerID: '5c9a6888bca2114a80a5c124',
-      reviewerID: '5c9660e5e008212d705efd15'
+      lawyerID: lawyer2Id,
+      reviewerID: reviewer2Id
     }
   }
   const company1 = await company.createCompany(companyData1)
@@ -241,6 +281,10 @@ test('Get my companies', async () => {
   await investor.deleteInvestor(investorId)
   await company.deleteCompany(firstCompanyId)
   await company.deleteCompany(secondcCompanyId)
+  await lawyer.deleteLawyer(lawyer1Id)
+  await lawyer.deleteLawyer(lawyer2Id)
+  await reviewer.deleteReviewer(reviewer1Id)
+  await reviewer.deleteReviewer(reviewer2Id)
 })
 // As an investor I should be able to fill an application form, so that I can establish a company.
 test('Fill Form Exist', async () => {
@@ -463,7 +507,7 @@ test('viewRejected form by an Investor ', async () => {
   const rejectedCompanyForm = rejectedCompany.data.data[0]
   const rejectedCompanyForm1 = rejectedCompany.data.data[1]
 
-  expect.assertions(1)
+  expect.assertions(2)
   expect(rejectedCompanyForm).toMatchObject(createdCompanyForm)
   expect(rejectedCompanyForm1).toMatchObject(createdCompanyForm1)
   await companyType.deleteCompanyType(companyTypeId)
@@ -507,7 +551,6 @@ test('pay a fees by an Investor', async () => {
       acceptedByReviewer: 1,
       filledByLawyer: true,
       paid: false
-      // fees: 200
     },
     investorId: investorId,
     name: 'Company',
@@ -610,6 +653,46 @@ test('give Feedback', async () => {
     validations: ['.required().string()', '.boolean()', '.required().integer()'],
     descriptions: ['df', 'dv', 'dv']
   }
+  const lawyer1 = {
+    fullName: 'mortada',
+    birthdate: '1980-02-26',
+    email: 'great@guy.com',
+    startDate: '2015-12-12'
+  }
+  const lawyer2 = {
+    fullName: 'mansour',
+    birthdate: '1980-02-26',
+    email: 'great@guy.com',
+    startDate: '2015-12-12'
+  }
+  const reviewer1 = {
+    fullName: 'Omar Ayman Abdelmagied',
+    birthdate: '1998-07-09',
+    email: 'omar@valid.com',
+    startDate: '2010-01-01'
+  }
+  const reviewer2 = {
+    fullName: 'Omar Ayman Abdelmagied',
+    birthdate: '1998-07-09',
+    email: 'omar@valid.com',
+    startDate: '2010-01-01'
+  }
+  // lawyer 1
+  const createdLawyer1 = await lawyer.createLawyer(lawyer1)
+  const createdLawyer1Data = createdLawyer1.data.data
+  const lawyer1Id = createdLawyer1Data['_id']
+  // lawyer 2
+  const createdLawyer2 = await lawyer.createLawyer(lawyer2)
+  const createdLawyer2Data = createdLawyer2.data.data
+  const lawyer2Id = createdLawyer2Data['_id']
+  // reviewer 1
+  const createdReviewr1 = await reviewer.createReviewer(reviewer1)
+  const createdReviewer1Data = createdReviewr1.data.data
+  const reviewer1Id = createdReviewer1Data['_id']
+  // reviewer 2
+  const createdReviewr2 = await reviewer.createReviewer(reviewer2)
+  const createdReviewer2Data = createdReviewr2.data.data
+  const reviewer2Id = createdReviewer2Data['_id']
   const createdCompanyType = await companyType.createCompanyType(companyTypeTest)
   const createdCompanyTypeData = createdCompanyType.data.data
   const companyTypeId = createdCompanyTypeData._id
@@ -624,8 +707,8 @@ test('give Feedback', async () => {
       acceptedByReviewer: 1,
       filledByLawyer: false,
       paid: true,
-      lawyerID: '5c9a6888bca2114a80a5c124',
-      reviewerID: '5c9660e5e008212d705efd15'
+      lawyerID: lawyer1Id,
+      reviewerID: reviewer1Id
     }
   }
   const review = {
@@ -643,8 +726,8 @@ test('give Feedback', async () => {
       acceptedByReviewer: 1,
       filledByLawyer: false,
       paid: true,
-      lawyerID: '5c9a6888bca2114a80a5c124',
-      reviewerID: '5c9660e5e008212d705efd15'
+      lawyerID: lawyer1Id,
+      reviewerID: reviewer1Id
     },
     feedback: 'Website gamed awy'
   }
@@ -659,6 +742,10 @@ test('give Feedback', async () => {
   await investor.deleteInvestor(investorId)
   await company.deleteCompany(companyId)
   await companyType.deleteCompanyType(companyTypeId)
+  await lawyer.deleteLawyer(lawyer1Id)
+  await lawyer.deleteLawyer(lawyer2Id)
+  await lawyer.deleteLawyer(reviewer1Id)
+  await lawyer.deleteLawyer(reviewer2Id)
 })
 
 test('Read Company Description exists', async () => {

@@ -1,3 +1,5 @@
+// requiring mongoose to validate the id
+const mongoose = require('mongoose')
 // Entity model and validator
 const Model = require('../models/Admin')
 const validator = require('../validations/adminValidations')
@@ -31,6 +33,12 @@ exports.delete = async (req, res) => {
 
 exports.viewTask = async (req, res) => {
   const adminId = req.params.id
+  if (!mongoose.Types.ObjectId.isValid(adminId)) {
+    return res.status(400).json({
+      status: 'Error',
+      message: 'not a valid ID for admin'
+    })
+  }
   const userAdmin = await Model.findById(adminId)
   if (!userAdmin) {
     return res.status(400).json({
@@ -66,6 +74,12 @@ exports.updateDeadline = async (req, res) => {
   }
   try {
     const adminId = req.params.id
+    if (!mongoose.Types.ObjectId.isValid(adminId)) {
+      return res.status(400).json({
+        status: 'Error',
+        message: 'not a valid ID for admin'
+      })
+    }
     const adminToUpdate = await Model.findById(adminId)
     // check if there is no such admin
     if (!adminToUpdate) {
@@ -76,6 +90,12 @@ exports.updateDeadline = async (req, res) => {
       })
     }
     const taskID = req.body.TaskID
+    if (!mongoose.Types.ObjectId.isValid(taskID)) {
+      return res.status(400).json({
+        status: 'Error',
+        message: 'not a valid ID for task'
+      })
+    }
     const task = await Task.findById(taskID)
     // check if there exist such tasj
     if (!task) {
@@ -100,6 +120,12 @@ exports.updateDeadline = async (req, res) => {
 exports.publishCompany = async (req, res) => {
   try {
     const id = req.params.id
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({
+        status: 'Error',
+        message: 'not a valid ID'
+      })
+    }
     const currentCompany = await Company.findById(id)
     if (!currentCompany) { // check if the company exists
       return res.status(400).json({
@@ -140,6 +166,12 @@ exports.publishCompany = async (req, res) => {
 exports.viewCases = async (req, res) => {
   try {
     const adminId = req.params.id
+    if (!mongoose.Types.ObjectId.isValid(adminId)) {
+      return res.status(400).json({
+        status: 'Error',
+        message: 'not a valid ID'
+      })
+    }
     const admin = await Model.findById(adminId)
     if (!admin) { // makes sure that the one accessing the data is an admin
       return res.status(400).json({
@@ -165,6 +197,12 @@ exports.updateProfile = async (req, res) => {
       })
     } else {
       const id = req.params.id
+      if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(400).json({
+          status: 'Error',
+          message: 'not a valid ID'
+        })
+      }
       res.redirect(307, `/api/admins/${id}`)
     }
   } catch (error) {
@@ -175,6 +213,12 @@ exports.updateProfile = async (req, res) => {
 exports.workPage = async (req, res) => {
   try {
     const adminId = req.params.id
+    if (!mongoose.Types.ObjectId.isValid(adminId)) {
+      return res.status(400).json({
+        status: 'Error',
+        message: 'not a valid ID'
+      })
+    }
     const admin = await Model.findOne({ _id: adminId })
     if (!admin) { // Restrict access to reviewers only.
       return res.status(400).json({
@@ -247,6 +291,12 @@ exports.getFeedback = async (req, res) => {
 exports.showLastWorked = async (req, res) => {
   try {
     const adminId = req.params.adminId
+    if (!mongoose.Types.ObjectId.isValid(adminId)) {
+      return res.status(400).json({
+        status: 'Error',
+        message: 'not a valid ID'
+      })
+    }
     const admin = await Model.findById(adminId)
     if (!admin) { // make sure that the one accessing the page is an admin
       return res.status(400).json({
@@ -255,6 +305,12 @@ exports.showLastWorked = async (req, res) => {
       })
     }
     const companyId = req.params.companyId
+    if (!mongoose.Types.ObjectId.isValid(companyId)) {
+      return res.status(400).json({
+        status: 'Error',
+        message: 'not a valid ID'
+      })
+    }
     const requestedCase = await Company.findById(companyId)
     if (!requestedCase) { // make sure that the one accessing the page is a reviewer
       return res.status(400).json({

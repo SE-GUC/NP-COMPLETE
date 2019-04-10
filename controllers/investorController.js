@@ -1,3 +1,5 @@
+// requiring mongoose for id validations
+const mongoose = require('mongoose')
 // Entity model and validator
 const Model = require('../models/Investor')
 const validator = require('../validations/investorValidations')
@@ -32,6 +34,12 @@ exports.delete = async (req, res) => {
 exports.cancelApplication = async (req, res) => {
   try {
     const id = req.params.id
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({
+        status: 'Error',
+        message: 'not a valid ID'
+      })
+    }
     const currentInvestor = await Model.findById(id)
     if (!currentInvestor) {
       return res.status(100).json({
@@ -46,6 +54,12 @@ exports.cancelApplication = async (req, res) => {
       })
     }
     const appId = req.body.id
+    if (!mongoose.Types.ObjectId.isValid(appId)) {
+      return res.status(400).json({
+        status: 'Error',
+        message: 'not a valid ID'
+      })
+    }
     const myCompany = await Company.findById(appId)
     if (!myCompany) {
       return res.status(300).json({
@@ -79,6 +93,12 @@ exports.cancelApplication = async (req, res) => {
 exports.viewRejectedForm = async (req, res) => {
   try {
     const investorId = req.params.id
+    if (!mongoose.Types.ObjectId.isValid(investorId)) {
+      return res.status(400).json({
+        status: 'Error',
+        message: 'not a valid ID'
+      })
+    }
     const query1 = { '_id': investorId }
     const investor = await Model.find(query1)
     if (!investor[0]) {
@@ -120,6 +140,12 @@ exports.viewRejectedForm = async (req, res) => {
 exports.editForms = async (req, res) => {
   try {
     const companyId = req.params.id
+    if (!mongoose.Types.ObjectId.isValid(companyId)) {
+      return res.status(400).json({
+        status: 'Error',
+        message: 'not a valid ID'
+      })
+    }
     const companyToBeUpdated = await Company.findById(companyId)
     if (!companyToBeUpdated) {
       return res.status(400).json({
@@ -181,6 +207,12 @@ exports.editForms = async (req, res) => {
 exports.trackApplication = async (req, res) => {
   try {
     const id = req.params.id
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({
+        status: 'Error',
+        message: 'not a valid ID'
+      })
+    }
     Company
       .find({
         investorId: id
@@ -198,6 +230,12 @@ exports.trackApplication = async (req, res) => {
 exports.getCompanies = async (req, res) => {
   try {
     const investorId = req.params.id
+    if (!mongoose.Types.ObjectId.isValid(investorId)) {
+      return res.status(400).json({
+        status: 'Error',
+        message: 'not a valid ID'
+      })
+    }
     const query = { 'investorId': investorId }
     const companies = await Company.find(query)
     return res.json({
@@ -213,6 +251,12 @@ exports.getCompanies = async (req, res) => {
 exports.fillForm = async (req, res) => {
   try {
     const investorId = req.params.id
+    if (!mongoose.Types.ObjectId.isValid(investorId)) {
+      return res.status(400).json({
+        status: 'Error',
+        message: 'not a valid ID'
+      })
+    }
     const isValidated = companyValidator.createValidation(req.body)
     if (isValidated.error) {
       return res.status(400).json({
@@ -272,6 +316,12 @@ exports.fillForm = async (req, res) => {
 exports.payFees = async (req, res) => {
   try {
     const investorId = req.params.id
+    if (!mongoose.Types.ObjectId.isValid(investorId)) {
+      return res.status(400).json({
+        status: 'Error',
+        message: 'not a valid ID'
+      })
+    }
     const investor = await Model.findById({ '_id': investorId })
     if (!investor) {
       return res.status(400).json({
@@ -335,6 +385,12 @@ exports.readDescription = async (req, res) => {
 exports.reviewOnlineService = async (req, res) => {
   try {
     const investorId = req.params.investorId
+    if (!mongoose.Types.ObjectId.isValid(investorId)) {
+      return res.status(400).json({
+        status: 'Error',
+        message: 'not a valid ID'
+      })
+    }
     const investor = await Model.findById(investorId)
     if (!investor) {
       return res.status(400).json({
