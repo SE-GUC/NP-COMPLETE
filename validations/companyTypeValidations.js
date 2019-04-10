@@ -3,12 +3,11 @@ const Joi = require('joi')
 module.exports = {
   createValidation: request => {
     const createSchema = {
-      companyType: Joi.string().valid('SSC', 'SPC').required(),
+      companyType: Joi.string().required(),
       fields: Joi.array().required(),
       types: Joi.array().required(),
       validations: Joi.array().required(),
-      descriptions: Joi.array().required(),
-      url: Joi.string().required()
+      descriptions: Joi.array().required()
     }
 
     return Joi.validate(request, createSchema)
@@ -20,8 +19,7 @@ module.exports = {
       fields: Joi.array(),
       types: Joi.array(),
       validations: Joi.array(),
-      descriptions: Joi.array(),
-      url: Joi.string()
+      descriptions: Joi.array()
     }
 
     return Joi.validate(request, updateSchema)

@@ -170,35 +170,40 @@ exports.viewRejectedForm = async (req, res) => {
         mesg: 'You don not have any rejected forms'
       })
     }
-    const data = []
-    for (let i = 0; i < companies.length; i++) {
-      const tempType = companies[i].type
+    var data = []
+    for (var i = 0; i < companies.length; i++) {
+      const company = companies[i]
+      const tempType = company.type
       const query1 = { 'companyType': tempType }
-      const tempCompanyTpe = await CompanyType.find(query1)
-      const tempFields = tempCompanyTpe[0].fields
-      const tempDescription = tempCompanyTpe[0].descriptions
-      const temp = {
-        'name': companies[i].name,
-        '_id': companies[i]._id,
-        'fomr': companies[i].form,
-        'establishmentDate': companies[i].establishmentDate,
-        'type': companies[i].type,
-        'state': companies[i].state,
-        'accepted': companies[i].accepted,
-        'investorId': companies[i].investorId,
-        'desription': tempDescription,
-        'fields': tempFields,
-        'feedback': companies[i].feedback,
-        'fees': companies[i].fees
+      const tempCompanyTpe = await CompanyType.findOne(query1)
+      const tempFields = tempCompanyTpe.fields
+      const tempDescription = tempCompanyTpe.descriptions
+      const myData = {
+        description: tempDescription,
+        fields: tempFields
       }
-      data[i] = temp
+      var result = { form: {} }
+      Object.keys(Company.schema.paths).forEach(key => {
+        const splits = key.split('.')
+        if (splits[0] === 'form') {
+          result.form[splits[1]] = company.form[splits[1]]
+        } else {
+          result[key] = company[key]
+        }
+      })
+      Object.keys(myData).forEach(key => {
+        result[key] = myData[key]
+      })
+      data.push(result)
     }
     return res.json({
       status: 'Success',
       data: data
     })
   } catch (error) {
-    console.log(error)
+    return res.status(400).json({
+      status: 'Error'
+    })
   }
 }
 

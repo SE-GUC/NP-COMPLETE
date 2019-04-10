@@ -5,7 +5,9 @@ const Schema = mongoose.Schema
 const companyTypeSchema = new Schema({
   companyType: {
     type: String,
-    required: true
+    unique: true,
+    required: true,
+    dropDups: true
   },
   fields: {
     type: [String],
