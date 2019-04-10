@@ -14,7 +14,7 @@ module.exports = {
     return Joi.validate(request, createSchema)
   },
 
-  updatevalidation: request => {
+  updateValidation: request => {
     const updateSchema = {
       fullName: Joi.string().min(3).max(80),
       birthdate: Joi.date().iso().max(Date.now()),
