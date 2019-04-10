@@ -26,6 +26,10 @@ const ExternalEntitySchema = new Schema({
   feesMax: {
     type: Number,
     required: true
+  },
+  url: {
+    type: String,
+    required: true
   }
 })
 

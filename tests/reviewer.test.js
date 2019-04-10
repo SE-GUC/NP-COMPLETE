@@ -193,8 +193,8 @@ test('Accepting an application by company id and reviewer id, not reviewed befor
     expect(reviewed).toEqual(1)
     await company.deleteCompany(companyId)
     await reviewer.deleteReviewer(reviewerId)
-  } catch (err) {
-    console.log(err)
+  } catch (error) {
+    console.log(error)
   }
 }, 20000)
 
@@ -213,8 +213,8 @@ test('Rejecting an application by company id and reviewer id', async () => {
     expect(reviewed).toBe(0)
     await company.deleteCompany(companyId)
     await reviewer.deleteReviewer(reviewerId)
-  } catch (err) {
-    console.log(err)
+  } catch (error) {
+    console.log(error)
   }
 }, 20000)
 

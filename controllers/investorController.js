@@ -99,41 +99,55 @@ exports.viewRejectedForm = async (req, res) => {
         message: 'not a valid ID'
       })
     }
-    const query1 = { '_id': investorId }
-    const investor = await Model.find(query1)
-    if (!investor[0]) {
-      res.status(400).json({
+    const investor = await Model.findById(investorId)
+    if (!investor) {
+      return res.status(400).json({
         status: 'Error',
         message: 'Investor not found'
       })
-    } else {
-      const query = { 'investorId': investorId }
-      const companies = await Company.find(query)
-      if (!companies[0]) {
-        res.status(400).json({
-          status: 'Error',
-          message: 'company not found'
-        })
-      } else {
-        var x = []
-        var i
-        for (i = 0; i < companies.length; i++) { // to check all the investor's companies
-          if (companies[i].form.acceptedByLawyer === 0) {
-            x.push(companies[i].form)
-          }
-        }
-        if (!x[0]) {
-          res.status(400).json({
-            status: 'Error',
-            message: 'There is no rejected company yet'
-          })
-        } else {
-          res.json({ data: x })
-        }
-      }
     }
+    const query = { 'investorId': investorId, 'form.acceptedByLawyer': 0 }
+    const companies = await Company.find(query)
+    if (companies.length === 0) {
+      return res.json({
+        status: 'Success',
+        mesg: 'You don not have any rejected forms'
+      })
+    }
+    var data = []
+    for (var i = 0; i < companies.length; i++) {
+      const company = companies[i]
+      const tempType = company.type
+      const query1 = { 'companyType': tempType }
+      const tempCompanyTpe = await CompanyType.findOne(query1)
+      const tempFields = tempCompanyTpe.fields
+      const tempDescription = tempCompanyTpe.descriptions
+      const myData = {
+        description: tempDescription,
+        fields: tempFields
+      }
+      var result = { form: {} }
+      Object.keys(Company.schema.paths).forEach(key => {
+        const splits = key.split('.')
+        if (splits[0] === 'form') {
+          result.form[splits[1]] = company.form[splits[1]]
+        } else {
+          result[key] = company[key]
+        }
+      })
+      Object.keys(myData).forEach(key => {
+        result[key] = myData[key]
+      })
+      data.push(result)
+    }
+    return res.json({
+      status: 'Success',
+      data: data
+    })
   } catch (error) {
-    console.log(error)
+    return res.status(400).json({
+      status: 'Error'
+    })
   }
 }
 
@@ -223,7 +237,7 @@ exports.trackApplication = async (req, res) => {
         companies: result
       }))
   } catch (error) {
-    console.error(error)
+    console.log(error)
   }
 }
 

@@ -4,14 +4,6 @@ jest.setTimeout(180000)
 
 const admin = require('./admin')
 
-// beforeEach(() => {
-//   admin.deleteAll()
-//  });
-
-//  afterEach(() => {
-//    admin.deleteAll()
-//   });
-
 test('read-multiple-Admins exists', async () => {
   expect.assertions(1)
   expect(typeof (admin.default)).toBe('function')
