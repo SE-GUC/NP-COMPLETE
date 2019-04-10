@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
-import { Button, Form, Alert, Col } from 'react-bootstrap'
+import { Button, Form, Alert } from 'react-bootstrap'
 import axios from 'axios'
-import './AddComment.css'
+import './LawyerAddComment.css'
+import queryString from 'query-string'
 
-class AddComment extends Component {
+class LawyerAddComment extends Component {
   constructor (props) {
     super(props)
     this.state = {
@@ -36,16 +37,16 @@ class AddComment extends Component {
             </Alert>
 
             : <div>
-              <Form>
+              {/* <Form>
                 <Form.Row id='IDs'>
                   <Col>
-                    <Form.Control id='lawyerId' placeholder='Reveiwer ID' onChange={(event) => { this.RID = event.target.value }} />
+                    <Form.Control id='lawyerId' placeholder='Lawyer ID' onChange={(event) => { this.LID = event.target.value }} />
                   </Col>
                   <Col>
                     <Form.Control id='companyId' placeholder='Company ID' onChange={(event) => { this.CID = event.target.value }} />
                   </Col>
                 </Form.Row>
-              </Form>
+              </Form> */}
 
               <Form.Group id='comments' controlId='exampleForm.ControlTextarea1'>
                 <Form.Label id='commLable'>Comments</Form.Label>
@@ -54,10 +55,11 @@ class AddComment extends Component {
 
               <Button id='submit' as='input' type='submit' value='Submit'
                 onClick={() => {
-                  const reviewerID = this.RID
-                  const companyID = this.CID
+                  const values = queryString.parse(this.props.location.search)
+                  const lawyerID = values.lawyerId
+                  const companyID = values.companyId
                   const comment = this.comm
-                  axios.put(`http://localhost:8000/api/reviewers/addComment/${reviewerID}/${companyID}`, { comment: comment })
+                  axios.put(`http://localhost:8000/api/lawyers/addComment/${lawyerID}/${companyID}`, { comment: comment })
                     .then(res => { this.setState({ response: res.data }) })
                     .catch(err => {
                       if (err.response && err.response.data) {
@@ -75,4 +77,4 @@ class AddComment extends Component {
   }
 }
 
-export default AddComment
+export default LawyerAddComment
