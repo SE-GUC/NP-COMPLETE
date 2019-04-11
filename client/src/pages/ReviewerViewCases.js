@@ -3,7 +3,7 @@ import Axios from 'axios'
 import PropTypes from 'prop-types'
 import MapCases from '../components/MapCases'
 import Spinner from 'react-bootstrap/Spinner'
-import { Button } from 'reactstrap';
+import Button from 'react-bootstrap/Button'
 
 export class ReviewerViewCases extends Component {
     _isMounted = false

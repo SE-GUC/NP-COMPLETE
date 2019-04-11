@@ -3,15 +3,14 @@ import Axios from 'axios'
 import PropTypes from 'prop-types'
 import MapCases from '../components/MapCases'
 import Spinner from 'react-bootstrap/Spinner'
-import { Button } from 'reactstrap';
+import Button from 'react-bootstrap/Button'
 
 export class AdminViewCases extends Component {
     _isMounted = false
     constructor(props) {
         super(props)
         this.state={
-          cases:[],
-          sorted:""
+          cases:[]
         }
       }
 
@@ -19,11 +18,7 @@ export class AdminViewCases extends Component {
         const {id} = this.props.match.params
         this._isMounted = true
         Axios.get('http://localhost:8000/api/admins/viewCases/'+ id)
-        .then(res => 
-        // this.state.sorted==="ID"?
-        // this.setState({cases:res.data.data.sort((a,b) => (a._id > b._id) ? 1 : ((b._id > a._id) ? -1 : 0))})
-        // :
-        this.setState({ cases: res.data.data }))
+        .then(res => this.setState({ cases: res.data.data }))
         .catch(err => this.setState({ error: true }))
     }
 
@@ -40,7 +35,7 @@ export class AdminViewCases extends Component {
     ( <div>
       <Button variant='danger' onClick={()=>this.setState({cases:this.state.cases.sort((a,b) => (a.establishmentDate > b.establishmentDate) ? 1 : ((b.establishmentDate > a.establishmentDate) ? -1 : 0))})}>Sort by Establishment Date</Button>
       <Button variant='danger' onClick={()=>this.setState({cases:this.state.cases.sort((a,b) => (a._id > b._id) ? 1 : ((b._id > a._id) ? -1 : 0))})}>Sort by ID</Button>
-      <MapCases cases = {this.state.cases} soted = {this.state.sorted}/>
+      <MapCases cases = {this.state.cases}/>
       </div>
     )
   }
