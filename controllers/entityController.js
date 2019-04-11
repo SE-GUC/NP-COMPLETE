@@ -71,16 +71,6 @@ exports.update = async (req, res, validator, Model) => {
         message: 'not a valid ID'
       })
     }
-    // const entityToUpdate = await Model.findById(entityId)
-
-    // if (!entityToUpdate) {
-    //   return res.status(400).json({
-    //     status: 'Error',
-    //     message: `${entityName} not found`,
-    //     available: await Model.find()
-    //   })
-    // }
-
     const isValidated = validator.updateValidation(data)
     if (isValidated.error) {
       return res.status(400).json({
@@ -93,6 +83,12 @@ exports.update = async (req, res, validator, Model) => {
     const query = { '_id': entityId }
     const updatedEntity = await Model.findByIdAndUpdate(query, data, { new: true })
     data = updatedEntity.body
+    if (!updatedEntity) {
+      return res.json({
+        status: 'Error',
+        message: `${entityName} doesnt exist`
+      })
+    }
     return res.json({
       status: 'Success',
       message: `Updated ${entityName} with id ${entityId}`,
