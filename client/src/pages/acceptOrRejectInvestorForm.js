@@ -4,7 +4,7 @@ import Forms from '../components/Forms'
 import Axios from 'axios';
 
 
-class acceptOrReject extends Component {
+class acceptOrRejectInvestorForm extends Component {
 
   state = {
     loading: true,
@@ -22,7 +22,7 @@ class acceptOrReject extends Component {
     // .then(console.log("form from axios starts"))
     // .then(res => this.setState({ forms: res.data.data }))
     .then(res => this.setState({forms : 
-      (res.data.data.form.acceptedByReviewer !== -1)?
+      (res.data.data.form.acceptedByLawyer !== -1)?
       []
       :
     (res.data.data.form )
@@ -41,12 +41,12 @@ class acceptOrReject extends Component {
 
   accept = (e , root) =>{
     e.preventDefault()
-    const { reviewerId , companyId } = this.props.match.params
+    const { lawyerId , companyId } = this.props.match.params
     Axios
-    .put(`http://localhost:8000/api/reviewers/decideAnApplication/${reviewerId}/${companyId}`  , {decision: true})
+    .put(`http://localhost:8000/api/lawyers/review/${lawyerId}/${companyId}`  , {acceptedByLawyer: 1 , comment: ' '})
     .then(res => {
       console.log(res.data.data)  
-      this.setState({ forms: [] })
+      this.setState({ forms: res.data.data.form })
     })
     .catch(err => {
       console.log(err)
@@ -54,13 +54,13 @@ class acceptOrReject extends Component {
   }
   reject = (e , root) =>{
     e.preventDefault()
-    const { reviewerId , companyId } = this.props.match.params
+    const { lawyerId , companyId } = this.props.match.params
 
     Axios
-    .put(`http://localhost:8000/api/reviewers/decideAnApplication/${reviewerId}/${companyId}`  , {decision: false})
+    .put(`http://localhost:8000/api/lawyers/review/${lawyerId}/${companyId}`  , {acceptedByLawyer: 0 , comment: ' '})
     .then(res => {
       console.log(res.data.data)
-      this.setState({ forms: [] })
+      this.setState({ forms: res.data.data.form })
     })
     .catch(err => {
       console.log(err)
@@ -82,4 +82,4 @@ class acceptOrReject extends Component {
   }
 }
 
-export default acceptOrReject;
+export default acceptOrRejectInvestorForm

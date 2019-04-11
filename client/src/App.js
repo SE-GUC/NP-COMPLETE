@@ -10,6 +10,7 @@ import Login from './pages/LoginPage'
 import AddComment from './pages/AddComment'
 import Register from './pages/investorPages/Register'
 import acceptOrReject from './pages/acceptOrReject'
+import acceptOrRejectInvestorForm from './pages/acceptOrRejectInvestorForm'
 import './App.css'
 import Admin from './pages/Admin'
 import Investor from './pages/Investor'
@@ -49,6 +50,8 @@ class App extends Component {
             <Route exact path='/LogIn' component={Login} />
 
             <Route exact path='/reviewers/acceptOrReject/:reviewerId/:companyId' component={acceptOrReject} />
+
+            <Route exact path='/lawyers/review/:lawyerId/:companyId' component={acceptOrRejectInvestorForm} />
 
             <Route exact path='/lawyers/addComment/:lawyerId/:companyId' component={AddComment} />
 
