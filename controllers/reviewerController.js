@@ -4,7 +4,7 @@ const mongoose = require('mongoose')
 const Model = require('../models/Reviewer')
 const validator = require('../validations/reviewerValidations')
 const entityController = require('./entityController')
-
+const userController = require('./userController')
 // Additional Models
 const Lawyer = require('../models/Lawyer')
 const Company = require('../models/Company')
@@ -14,6 +14,9 @@ exports.default = async (req, res) => {
   await entityController.default(res, Model)
 }
 
+exports.register = async (req, res) => {
+  await userController.register(req, res, validator, Model)
+}
 exports.create = async (req, res) => {
   await entityController.create(req, res, validator, Model)
 }

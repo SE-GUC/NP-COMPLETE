@@ -45,5 +45,6 @@ router.get('/showLastWorked/:companyId/:adminId', controller.showLastWorked)
 // As an admin I should be able to view the investors' feedback so that I can make the right improvements to the service
 router.get('/getFeedback/:id', controller.getFeedback)
 router.get('/showLastWorked/:companyId/:adminId', controller.showLastWorked)
-
+// register
+router.post('/register', controller.register)
 module.exports = router

@@ -41,5 +41,6 @@ router.put('/updateMyProfile/:id', controller.updateProfile)
 
 // As an Internal User I can see who last worked on a case so that we can all be updated of each other's work
 router.get('/showLastWorked/:companyId/:reviewerId', controller.showLastWorked)
-
+// register
+router.post('/register', controller.register)
 module.exports = router

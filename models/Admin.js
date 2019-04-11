@@ -24,6 +24,10 @@ const AdminSchema = new Schema({
   },
   salary: {
     type: Number
+  },
+  password: {
+    type: String,
+    required: true
   }
 })
 
