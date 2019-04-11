@@ -15,6 +15,8 @@ import Admin from './pages/Admin'
 import Investor from './pages/Investor'
 import Lawyer from './pages/Lawyer'
 import Reviewer from './pages/Reviewer'
+import payFees from './pages/payFees'
+
 
 class App extends Component {
   render () {
@@ -60,6 +62,8 @@ class App extends Component {
             <Route exact path='/admins/deleteReviewer' component={Reviewer} />
 
             <Route exact path='/admins/deleteLawyer' component={Lawyer} />
+
+            <Route exact path='/investors/payFees/:investorId/:companyId' component={payFees} />
 
           </div>
         </div>
