@@ -2,7 +2,7 @@ const lawyer = require('./lawyer')
 const company = require('./company')
 const investor = require('./investor')
 const task = require('./task')
-
+const companyType = require('./companyType')
 test('Read-a-Laywer exists', async () => {
   expect.hasAssertions()
   expect(typeof (lawyer.readLawyer)).toBe('function')
@@ -141,21 +141,28 @@ test('Fill a form by lawyer exists', async () => {
 10000)
 
 test('Filling form by lawyer', async () => {
+  const companyTypeTest = {
+    companyType: 'KHAKHA',
+    fields: ['stringField', 'booleanField', 'NumberFeild'],
+    types: ['string', 'boolean', 'number'],
+    validations: ['.required().string()', '.boolean()', '.required().integer()'],
+    descriptions: ['df', 'dv', 'dv']
+  }
+  const createdCompanyType = await companyType.createCompanyType(companyTypeTest)
+  const createdCompanyTypeData = createdCompanyType.data.data
+  const companyTypeId = createdCompanyTypeData._id
   const data = {
     form: {
       data: ['cairo', false, 5555]
     },
     name: 'test',
-    type: 'SSC',
-    accepted: false
+    type: 'KHAKHA'
   }
   const created = await lawyer.FillForm(data)
   const createdData = created.data.data
-  const id = createdData['_id']
-  const newCompany = await company.readCompany(id)
-  const newcompanyData = newCompany.data.data
   expect.hasAssertions()
-  expect(newcompanyData).toEqual(createdData)
+  expect(createdData).toMatchObject(data)
+  await companyType.deleteCompanyType(companyTypeId)
 })
 
 test('addComment exists', async () => {
@@ -327,14 +334,14 @@ test('View a form by investor id', async () => {
     type: 'SSC',
     accepted: false
   }
+  const compare = [companyData, companyData2]
   const createdCompany2 = await company.createCompany(companyData2)
   const createCompanyData2 = createdCompany2.data.data
   const companyId2 = createCompanyData2._id
   const returnedData = await lawyer.viewForm(id)
   const returnedFormsData = returnedData.data.data
-  const expectedResult = `Company: myCo has form: cairo,23,5555, Company: myCo2 has form: cairo,23,5555, `
   expect.hasAssertions()
-  expect(expectedResult).toEqual(returnedFormsData)
+  expect(returnedFormsData).toMatchObject(compare)
   await investor.deleteInvestor(id)
   await company.deleteCompany(companyId1)
   await company.deleteCompany(companyId2)

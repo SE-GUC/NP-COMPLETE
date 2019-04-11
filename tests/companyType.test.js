@@ -33,7 +33,7 @@ test('Update-a-companyType exists', async () => {
 
 test('Update a Company Type by id', async () => {
   const data = {
-    companyType: 'Type1',
+    companyType: 'Type2',
     fields: ['stringField', 'true', '123'],
     types: ['string', 'boolean', 'number'],
     validations: ['.required().string()', '.boolean()', '.required().integer()'],
@@ -45,7 +45,7 @@ test('Update a Company Type by id', async () => {
   }
 
   const dataUpdated = {
-    companyType: 'Type1',
+    companyType: 'Type2',
     fields: ['newfield', 'true', '123'],
     types: ['string', 'boolean', 'number'],
     validations: ['.required().string()', '.boolean()', '.required().integer()'],
@@ -69,7 +69,7 @@ test('read-a-companyType exists', async () => {
 
 test('read a Company Type by id', async () => {
   const data = {
-    companyType: 'Type1',
+    companyType: 'Type3',
     fields: ['stringField', 'true', '123'],
     types: ['string', 'boolean', 'number'],
     validations: ['.required().string()', '.boolean()', '.required().integer()'],
@@ -93,7 +93,7 @@ test('delete-a-companyType exists', async () => {
 
 test('delete a CompanyType by id', async () => {
   const data = {
-    companyType: 'Type1',
+    companyType: 'Type4',
     fields: ['stringField', 'true', '123'],
     types: ['string', 'boolean', 'number'],
     validations: ['.required().string()', '.boolean()', '.required().integer()'],

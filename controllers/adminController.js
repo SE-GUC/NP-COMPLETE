@@ -112,8 +112,11 @@ exports.updateDeadline = async (req, res) => {
       message: `Updated Task with id ${taskID}`,
       data: updatedTask
     })
-  } catch (err) {
-    console.log(err)
+  } catch (error) {
+    return res.status(400).json({
+      status: 'Error',
+      message: error.message
+    })
   }
 }
 
@@ -159,7 +162,10 @@ exports.publishCompany = async (req, res) => {
       })
     }
   } catch (error) {
-    console.log(error)
+    return res.status(400).json({
+      status: 'Error',
+      message: error.message
+    })
   }
 }
 
@@ -183,7 +189,10 @@ exports.viewCases = async (req, res) => {
       res.redirect(307, '/api/companies/') // redirect to companies get all route
     }
   } catch (error) {
-    console.log(error)
+    return res.status(400).json({
+      status: 'Error',
+      message: error.message
+    })
   }
 }
 
@@ -206,7 +215,10 @@ exports.updateProfile = async (req, res) => {
       res.redirect(307, `/api/admins/${id}`)
     }
   } catch (error) {
-    console.log(error)
+    return res.status(400).json({
+      status: 'Error',
+      message: error.message
+    })
   }
 }
 
@@ -251,7 +263,10 @@ exports.workPage = async (req, res) => {
       })
     }
   } catch (error) {
-    console.log(error)
+    return res.status(400).json({
+      status: 'Error',
+      message: error.message
+    })
   }
 }
 
@@ -285,7 +300,10 @@ exports.getFeedback = async (req, res) => {
       }
     }
   } catch (error) {
-    console.log(error)
+    return res.status(400).json({
+      status: 'Error',
+      message: error.message
+    })
   }
 }
 exports.showLastWorked = async (req, res) => {
@@ -333,6 +351,9 @@ exports.showLastWorked = async (req, res) => {
       data: result
     })
   } catch (error) {
-    console.log(error)
+    return res.status(400).json({
+      status: 'Error',
+      message: error.message
+    })
   }
 }

@@ -26,7 +26,10 @@ exports.create = async (req, res, validator, Model) => {
       data: newEntity
     })
   } catch (error) {
-    console.log(error)
+    return res.status(400).json({
+      status: 'Error',
+      message: error.message
+    })
   }
 }
 
@@ -96,7 +99,10 @@ exports.update = async (req, res, validator, Model) => {
       data: updatedEntity
     })
   } catch (error) {
-    console.log(error)
+    return res.status(400).json({
+      status: 'Error',
+      message: error.message
+    })
   }
 }
 
@@ -127,7 +133,10 @@ exports.delete = async (req, res, Model) => {
       remaining: await Model.find()
     })
   } catch (error) {
-    console.log(error)
+    return res.status(400).json({
+      status: 'Error',
+      message: error.message
+    })
   }
 }
 

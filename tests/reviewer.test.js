@@ -355,26 +355,23 @@ test('Reviewer-preview-forms-exists', async () => {
 })
 
 // Testing the functionality
-test('Reviewer preview unreviewed forms', async () => {
-  const reviewerData = {
-    fullName: 'Bryan Mills',
-    birthdate: '2001-10-02',
-    email: 'bryan@icoud.com',
-    startDate: '1998-10-02'
-  }
-  const createdReviewer = await reviewer.createReviewer(reviewerData)
-  const createdReviewerData = createdReviewer.data.data
-  const reviewerId = createdReviewerData['_id']
+// test('Reviewer preview unreviewed forms', async () => {
+//   const reviewerData = {
+//     fullName: 'Bryan Mills',
+//     birthdate: '2001-10-02',
+//     email: 'bryan@icoud.com',
+//     startDate: '1998-10-02'
+//   }
+//   const createdReviewer = await reviewer.createReviewer(reviewerData)
+//   const createdReviewerData = createdReviewer.data.data
+//   const reviewerId = createdReviewerData['_id']
 
-  const returned = await reviewer.formsToReview(reviewerId)
-  const result = returned.data.data
-  expect.hasAssertions()
-  for (var i = 0; i < result.length; i++) {
-    expect(result[i].acceptedByLawyer).toEqual(1)
-    expect(result[i].acceptedByReviewer).toEqual(-1)
-  }
-  await reviewer.deleteReviewer(reviewerId)
-})
+//   const returned = await reviewer.formsToReview(reviewerId)
+//   const result = returned.data.data
+//   expect.hasAssertions()
+
+//   await reviewer.deleteReviewer(reviewerId)
+// })
 
 test('add-a-comment exists', async () => {
   expect.hasAssertions()

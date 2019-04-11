@@ -74,8 +74,7 @@ exports.reviewForms = async (req, res) => {
     if (!reviewer) { // Restrict access to reviewers only.
       return res.status(400).json({
         status: 'Error',
-        message: 'Only reviewers have access to this page',
-        availableReviewers: await Model.find()
+        message: 'Only reviewers have access to this page'
       })
     }
     const query = { 'form.acceptedByLawyer': 1, 'form.acceptedByReviewer': -1 } // We want the forms accepted by the lawyer but not reviewed yet.
@@ -85,13 +84,15 @@ exports.reviewForms = async (req, res) => {
         message: 'No forms available to review'
       })
     }
-    var forms = []
-    for (var i = 0; i < companies.length; i++) {
-      forms.push(companies[i].form) // extract form attribute only
-    }
-    res.json({ data: forms })
+    return res.json({
+      status: 'Success',
+      data: companies
+    })
   } catch (error) {
-    console.log(error)
+    return res.status(400).json({
+      status: 'Error',
+      message: error.message
+    })
   }
 }
 exports.casePage = async (req, res) => {

@@ -9,7 +9,6 @@ const entityController = require('./entityController')
 const companyType = require('../models/CompanyType')
 const companyValidator = require('../validations/companyValidations')
 const Company = require('../models/Company')
-const CompanyType = require('../models/CompanyType')
 
 exports.default = async (req, res) => {
   await entityController.default(res, Model)
@@ -86,7 +85,10 @@ exports.cancelApplication = async (req, res) => {
       deletedApplication: deletedApp
     })
   } catch (error) {
-    console.log(error)
+    return res.status(400).json({
+      status: 'Error',
+      message: error.message
+    })
   }
 }
 
@@ -119,11 +121,11 @@ exports.viewRejectedForm = async (req, res) => {
       const company = companies[i]
       const tempType = company.type
       const query1 = { 'companyType': tempType }
-      const tempCompanyTpe = await CompanyType.findOne(query1)
+      const tempCompanyTpe = await companyType.findOne(query1)
       const tempFields = tempCompanyTpe.fields
       const tempDescription = tempCompanyTpe.descriptions
       const myData = {
-        description: tempDescription,
+        descriptions: tempDescription,
         fields: tempFields
       }
       var result = { form: {} }
@@ -146,7 +148,8 @@ exports.viewRejectedForm = async (req, res) => {
     })
   } catch (error) {
     return res.status(400).json({
-      status: 'Error'
+      status: 'Error',
+      message: error.message
     })
   }
 }
@@ -215,7 +218,10 @@ exports.editForms = async (req, res) => {
       updatedCompany: updatedCompany
     })
   } catch (error) {
-    console.log(error)
+    return res.status(400).json({
+      status: 'Error',
+      message: error.message
+    })
   }
 }
 exports.trackApplication = async (req, res) => {
@@ -237,20 +243,24 @@ exports.trackApplication = async (req, res) => {
         companies: result
       }))
   } catch (error) {
-    console.log(error)
+    return res.status(400).json({
+      status: 'Error',
+      message: error.message
+
+    })
   }
 }
 
 exports.getCompanies = async (req, res) => {
   try {
-    const investorId = req.params.id
-    if (!mongoose.Types.ObjectId.isValid(investorId)) {
+    const id = req.params.id
+    if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json({
         status: 'Error',
         message: 'not a valid ID'
       })
     }
-    const query = { 'investorId': investorId }
+    const query = { investorId: id }
     const companies = await Company.find(query)
     return res.json({
       status: 'Success',
@@ -258,7 +268,10 @@ exports.getCompanies = async (req, res) => {
       data: companies
     })
   } catch (error) {
-    console.log(error)
+    return res.status(400).json({
+      status: 'Error',
+      message: error.message
+    })
   }
 }
 
@@ -323,7 +336,10 @@ exports.fillForm = async (req, res) => {
       data: updateCompany
     })
   } catch (error) {
-    console.log(error)
+    return res.status(400).json({
+      status: 'Error',
+      message: error.message
+    })
   }
 }
 
@@ -375,17 +391,21 @@ exports.payFees = async (req, res) => {
       data: updateCompany
     })
   } catch (error) {
-    console.log(error)
+    return res.status(400).json({
+      status: 'Error',
+      message: error.message
+    })
   }
 }
 
 exports.readDescription = async (req, res) => {
   const type = req.params.type
-  const companyType = await CompanyType.find({ 'companyType': type })
-  if (companyType) {
+  const companyTypeTemp = await companyType.find({ 'companyType': type })
+  const data = companyTypeTemp[0].descriptions
+  if (companyTypeTemp) {
     res.json({
       status: 'Success',
-      description: companyType.description
+      description: data
     })
   } else {
     res.status(400).json({
@@ -399,7 +419,8 @@ exports.readDescription = async (req, res) => {
 exports.reviewOnlineService = async (req, res) => {
   try {
     const investorId = req.params.investorId
-    if (!mongoose.Types.ObjectId.isValid(investorId)) {
+    const companyId = req.params.companyId
+    if (!mongoose.Types.ObjectId.isValid(investorId) || !mongoose.Types.ObjectId.isValid(companyId)) {
       return res.status(400).json({
         status: 'Error',
         message: 'not a valid ID'
@@ -412,7 +433,6 @@ exports.reviewOnlineService = async (req, res) => {
         message: 'This investor doesnt exist'
       })
     }
-    const companyId = req.params.companyId
     const company = await Company.findById(companyId)
     if (!company) {
       return res.status(400).json({
@@ -428,13 +448,16 @@ exports.reviewOnlineService = async (req, res) => {
         data: updatedCompany
       })
     } else {
-      res.json({
+      res.status(400).json({
         status: 'Error',
         message: 'You are not the owner of this company'
       })
     }
   } catch (error) {
-    console.log(error)
+    res.status(400).json({
+      status: 'Error',
+      message: error.message
+    })
   }
 }
 

@@ -140,18 +140,16 @@ exports.viewForm = async (req, res) => {
         status: 'error',
         message: 'Form not found'
       })
-    } else {
-      var i
-      var x = ''
-      for (i = 0; i < companies.length; i++) {
-        x += `Company: ${companies[i].name} has form: ${companies[i].form.data}, `
-      }
-      res.json({
-        data: x
-      })
     }
+    return res.json({
+      status: 'Success',
+      data: companies
+    })
   } catch (error) {
-    console.log(error)
+    return res.status(400).json({
+      status: 'Error',
+      message: error.message
+    })
   }
 }
 
@@ -238,7 +236,10 @@ exports.review = async (req, res) => {
       data: updatedCompany.form
     })
   } catch (error) {
-    console.log(error)
+    return res.status(400).json({
+      status: 'Error',
+      message: error.message
+    })
   }
 }
 
@@ -295,7 +296,10 @@ exports.editForm = async (req, res) => {
       })
     }
   } catch (error) {
-    console.log(error)
+    return res.status(400).json({
+      status: 'Error',
+      message: error.message
+    })
   }
 }
 
@@ -317,7 +321,10 @@ exports.casesPage = async (req, res) => {
     }
     res.redirect(307, '/api/companies/') // redirect to companies get route.
   } catch (error) {
-    console.log(error)
+    return res.status(400).json({
+      status: 'Error',
+      message: error.message
+    })
   }
 }
 
@@ -383,7 +390,10 @@ exports.addComment = async (req, res) => {
       data: updatedCompany.form
     })
   } catch (error) {
-    console.log(error)
+    return res.status(400).json({
+      status: 'Error',
+      message: error.message
+    })
   }
 }
 
@@ -429,7 +439,10 @@ exports.workPage = async (req, res) => {
       })
     }
   } catch (error) {
-    console.log(error)
+    return res.status(400).json({
+      status: 'Error',
+      message: error.message
+    })
   }
 }
 
@@ -477,7 +490,10 @@ exports.calculateFees = async (req, res) => {
       company: updatedCompany
     })
   } catch (error) {
-    console.log(error)
+    return res.status(400).json({
+      status: 'Error',
+      message: error.message
+    })
   }
 }
 
@@ -500,7 +516,10 @@ exports.updateMyProfile = async (req, res) => {
       res.redirect(307, `/api/lawyers/${id}`)
     }
   } catch (error) {
-    console.log(error)
+    return res.status(400).json({
+      status: 'Error',
+      message: error.message
+    })
   }
 }
 
@@ -549,7 +568,10 @@ exports.showLastWorked = async (req, res) => {
       data: result
     })
   } catch (error) {
-    console.log(error)
+    return res.status(400).json({
+      status: 'Error',
+      message: error.message
+    })
   }
 }
 

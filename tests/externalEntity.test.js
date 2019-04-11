@@ -13,7 +13,8 @@ test('Create an External Entity', async () => {
     phone: 2323034,
     feesMin: 200,
     feesMax: 20000,
-    feesPercentage: 50
+    feesPercentage: 50,
+    url: 'asdgsaksnm'
   }
   const created = await externalEntity.createExternalEntity(data)
   const createdData = created.data.data
@@ -40,7 +41,8 @@ test('Read an External entity', async () => {
     phone: 12121212,
     feesMin: 200,
     feesMax: 20000,
-    feesPercentage: 50
+    feesPercentage: 50,
+    url: 'asdfasdf'
   }
   const created = await externalEntity.createExternalEntity(data)
   const createdData = created.data.data
@@ -64,7 +66,8 @@ test('Update an External Entity by id', async () => {
     phone: 2323034,
     feesMin: 200,
     feesMax: 20000,
-    feesPercentage: 50
+    feesPercentage: 50,
+    url: 'asdfasdf'
   }
 
   const dataToUpdate = {
@@ -77,7 +80,8 @@ test('Update an External Entity by id', async () => {
     phone: 2323034,
     feesMin: 200,
     feesMax: 20000,
-    feesPercentage: 50
+    feesPercentage: 50,
+    url: 'asdfasdf'
   }
 
   const created = await externalEntity.createExternalEntity(data)
@@ -102,7 +106,8 @@ test('Delete an External Entity by id', async () => {
     phone: 1331313,
     feesMin: 200,
     feesMax: 20000,
-    feesPercentage: 50
+    feesPercentage: 50,
+    url: 'asdfasdf'
   }
   const created = await externalEntity.createExternalEntity(data)
   const createdData = created.data.data

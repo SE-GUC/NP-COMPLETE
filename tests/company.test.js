@@ -8,11 +8,7 @@ test('Create-a-Company exists', async () => {
 test('Create a Company', async () => {
   const data = {
     name: 'Nike',
-    establishmentDate: '1837-02-15T00:00:00.000Z',
     type: 'SSC',
-    state: 'Established',
-    accepted: true,
-    investorId: '5c9614f2fe51f5258ce36f91',
     form: {
       data: []
     }
@@ -76,7 +72,7 @@ test('Read-a-Company exists', async () => {
 test('Read a Company by id', async () => {
   const data = {
     name: 'Disney',
-    type: 'SSC',
+    type: 'CBC',
     form: {
       data: []
     }

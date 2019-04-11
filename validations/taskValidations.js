@@ -9,7 +9,7 @@ module.exports = {
       assigned: Joi.boolean(),
       done: Joi.boolean(),
       handler: Joi.array(),
-      description: Joi.string().required() 
+      description: Joi.string().required()
     }
     return Joi.validate(request, createSchema)
   },
