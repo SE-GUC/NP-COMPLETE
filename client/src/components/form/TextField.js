@@ -2,32 +2,36 @@ import React, { Component } from 'react'
 import { Col, FormGroup, Label, Input, FormText, FormFeedback } from 'reactstrap'
 
 class TextField extends Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      fieldName: props.fields.fieldName,
-      required: props.fields.required,
-      inputType: props.fields.inputType,
-      validations: props.fields.validations,
-      validate: '',
-      errorMessage: ''
+    constructor(props){
+        super(props)
+        this.state = {
+            fieldName: props.fields.fieldName,
+            required: props.fields.required,
+            inputType: props.fields.inputType,       
+            validations: props.fields.validations,
+            validate: '',
+            errorMessage: '',
+            value: ''
+        }
+        this.validate = this.validate.bind(this)
     }
-    this.validate = this.validate.bind(this)
-  }
 
-  validate (e) {
-    if (!this.state.validations) {
-      return
+
+  validate = async (e) => {
+    if (this.state.validations) {
+      
+        const min = this.state.validations[0].min
+        if (Number(e) < min) {
+          this.setState({ validate: 'danger', errorMessage: `Minimum amount is ${min}` })
+        } else {
+          this.setState({ validate: 'safe', errorMessage: '' })
+        }
+        console.log(`e: ${e}, type of e ${typeof e} min: ${this.state.validations[0].min}, state: ${this.setState.validate}, errorM: ${this.setState.errorMessage}`)
     }
-    const min = this.state.validations[0].min
-    if (Number(e) < min) {
-      this.setState({ validate: 'danger', errorMessage: `Minimum amount is ${min}` })
-    } else {
-      this.setState({ validate: 'safe', errorMessage: '' })
-    }
-    console.log(`e: ${e}, type of e ${typeof e} min: ${this.state.validations[0].min}, state: ${this.setState.validate}, errorM: ${this.setState.errorMessage}`)
+    await this.setState({value:e})
   }
   render () {
+      const value = this.state.value
     return (
       <FormGroup row>
         <Label for={this.state.fieldName} sm={2}> {this.state.fieldName} </Label>
@@ -36,13 +40,13 @@ class TextField extends Component {
             name={this.state.fieldName}
             id={this.state.fieldName}
             placeholder={this.state.fieldName}
+            value={value}
             valid={this.state.validate === 'safe'}
             invalid={this.state.validate === 'danger'}
             onChange={e => {
               const { target } = e
               const value = target.type === 'checkbox' ? target.checked : target.value
               this.validate(value)
-              console.log(this.valid)
             }}
           />
           <FormFeedback valid>
