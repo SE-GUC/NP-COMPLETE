@@ -21,6 +21,7 @@ import AdminsViewMyTasks from './pages/AdminsViewMyTasks'
 import LawyersViewMyTasks from './pages/LawyersViewMyTasks'
 import ReviewerAddComment from './pages/ReviewerAddComment'
 import ViewForm from './pages/investorPages/ViewRejectedForms'
+import LawyerShowLastWorked from './pages/LawyerShowLastWorked'
 import ReviewersViewMyTasks from './pages/ReviewersViewMyTasks'
 import InvestorLogin from './pages/investorPages/InvestorLogin'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
@@ -78,6 +79,8 @@ class App extends Component {
             <Route exact path='/lawyers/viewAllCases/:id' component={LawyerViewCases} />
 
             <Route exact path='/lawyers/viewMyTasks/:id' component={LawyersViewMyTasks} />
+
+            <Route exact path='/lawyers/showLastWorked' component={LawyerShowLastWorked} />
 
             <Route exact path='/reviewers/viewAllCases/:id' component={ReviewerViewCases} />
 
