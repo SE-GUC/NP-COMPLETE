@@ -30,7 +30,7 @@ export class LawyersViewMyTasks extends Component {
         </div>
         :
         ( <div>
-            <MapTasks koko = {this.state.tasks}/>
+            <MapTasks tasks = {this.state.tasks}/>
           </div>
         )
   }

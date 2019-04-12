@@ -4,7 +4,7 @@ import TaskCard from './TaskCard'
 export class MapTasks extends react.Component {
   render() {
     return (
-        this.props.koko.map(task => {
+        this.props.tasks.map(task => {
             return <TaskCard data={task}/>
           })
     )
