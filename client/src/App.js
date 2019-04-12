@@ -15,6 +15,9 @@ import Admin from './pages/Admin'
 import Investor from './pages/Investor'
 import Lawyer from './pages/Lawyer'
 import Reviewer from './pages/Reviewer'
+import ChooseCompanyType from './pages/investorPages/ChooseCompanyType'
+import CancelApplication from './pages/investorPages/CancelApplication'
+import InvestorLogin from './pages/investorPages/InvestorLogin'
 
 class App extends Component {
   render () {
@@ -61,6 +64,11 @@ class App extends Component {
 
             <Route exact path='/admins/deleteLawyer' component={Lawyer} />
 
+            <Route exact path='/investors/chooseCompanyType/:investorId' component={ChooseCompanyType} />
+
+            <Route exact path='/investors/cancelApplication/:investorId' component={CancelApplication} />
+
+            <Route exact path='/investors/login' component={InvestorLogin} />
           </div>
         </div>
 
