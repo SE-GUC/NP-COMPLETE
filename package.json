@@ -33,6 +33,7 @@
   "scripts": {
     "start": "node server.js",
     "server": "nodemon server.js",
+    "client": "npm start --prefix client",
     "client-install": "npm install --prefix client",
     "test": "jest --runInBand",
     "testWatch": "jest --runInBand --watchAll",
