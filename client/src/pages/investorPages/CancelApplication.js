@@ -76,7 +76,7 @@ export class CancelApplication extends Component {
     const investorId = this.props.match.params
     console.log(investorId)
     axios
-      .put(`http://localhost:8000/api/investors/cancelApplication/${investorId}`,{'id': id})
+      .put(`http://localhost:8000/api/investors/cancelApplication/${investorId}`,{id: id})
       .then( res => {
         this.setState({apps: res.data.data})
         //  console.log(this.state.apps)
