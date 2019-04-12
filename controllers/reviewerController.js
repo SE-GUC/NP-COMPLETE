@@ -47,9 +47,9 @@ exports.viewDepartmentTask = async (req, res) => {
     })
   }
   const query = { 'department': 'Reviewer' }
-  const task = await Task.find(query)
+  const tasks = await Task.find(query)
   // check if there exist such task
-  if (!task) {
+  if (!tasks.length) {
     return res.status(404).json({
       status: 'Error',
       message: 'There are no tasks for your department'
@@ -58,7 +58,7 @@ exports.viewDepartmentTask = async (req, res) => {
   // view the tasks of the given depratment
   res.json({
     status: 'Success',
-    data: task
+    data: tasks
   })
 }
 exports.reviewForms = async (req, res) => {
@@ -79,7 +79,7 @@ exports.reviewForms = async (req, res) => {
     }
     const query = { 'form.acceptedByLawyer': 1, 'form.acceptedByReviewer': -1 } // We want the forms accepted by the lawyer but not reviewed yet.
     const companies = await Company.find(query) // query the database to retrieve all available cases
-    if (!companies) { // if no cases in the system
+    if (!companies.length) { // if no cases in the system
       return res.json({
         message: 'No forms available to review'
       })
@@ -253,7 +253,7 @@ exports.workPage = async (req, res) => {
       })
     }
     const tasksAssigned = await Task.find() // query the database to retrieve all available tasks
-    if (!tasksAssigned) { // check if there's no tasks
+    if (!tasksAssigned.length) { // check if there's no tasks
       return res.json({
         message: 'No tasks available'
       })

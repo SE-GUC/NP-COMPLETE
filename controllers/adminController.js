@@ -48,9 +48,9 @@ exports.viewTask = async (req, res) => {
     })
   }
   const query = { 'department': 'Admin' }
-  const task = await Task.find(query)
+  const tasks = await Task.find(query)
   // check if there exist such task
-  if (!task) {
+  if (!tasks.length) {
     return res.status(404).json({
       status: 'Error',
       message: 'There are no tasks for your department'
@@ -59,7 +59,7 @@ exports.viewTask = async (req, res) => {
   // view the tasks of the given depratment
   res.json({
     status: 'Success',
-    data: task
+    data: tasks
   })
 }
 
@@ -240,7 +240,7 @@ exports.workPage = async (req, res) => {
       })
     }
     const tasksAssigned = await Task.find() // query the database to retrieve all available tasks
-    if (!tasksAssigned) { // no tasks
+    if (!tasksAssigned.length) { // no tasks
       return res.json({
         message: 'No tasks available'
       })
@@ -273,7 +273,7 @@ exports.workPage = async (req, res) => {
 exports.getFeedback = async (req, res) => {
   try {
     const companies = await Company.find()
-    if (!companies[0]) {
+    if (!companies.length) {
       return res.status(400).json({
         status: 'Error',
         message: 'No companies found'

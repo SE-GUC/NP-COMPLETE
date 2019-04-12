@@ -30,9 +30,9 @@ exports.viewDepartmentTask = async (req, res) => {
   // check that the given department in the body is valid
   if (department === 'Lawyer' || department === 'Reviewer' || department === 'Admin' || department === 'External Entity') {
     const query = { 'department': department }
-    const task = await Model.find(query)
+    const tasks = await Model.find(query)
     // check if there exist such task
-    if (!task) {
+    if (!tasks.length) {
       return res.status(404).json({
         status: 'Error',
         message: 'Task does not exist'
@@ -41,7 +41,7 @@ exports.viewDepartmentTask = async (req, res) => {
     // view the tasks of the given depratment
     res.json({
       status: 'Success',
-      data: task
+      data: tasks
     })
   } else {
     // the given department was not valid

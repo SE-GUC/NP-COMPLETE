@@ -110,7 +110,7 @@ exports.viewRejectedForm = async (req, res) => {
     }
     const query = { 'investorId': investorId, 'form.acceptedByLawyer': 0 }
     const companies = await Company.find(query)
-    if (companies.length === 0) {
+    if (!companies.length) {
       return res.json({
         status: 'Success',
         mesg: 'You don not have any rejected forms'

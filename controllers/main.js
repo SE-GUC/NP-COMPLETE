@@ -159,19 +159,6 @@ const findByIdAndRemove = exports.findByIdAndRemove = async (res, Model, entityI
   return removedEntity
 }
 
-exports.find = async (res, Model, query) => {
-  const entityName = Model.collection.name
-  const currentEntity = await Model.find(query)
-  if (!currentEntity) {
-    res.status(400).json({
-      status: 'Error',
-      message: `Could not find the ${entityName} you are looking for!`
-    })
-    return false
-  }
-  return true
-}
-
 const getBody = exports.getBody = (req, res) => {
   if (Object.keys(req.body).length === 0) {
     res.status(400).json({
