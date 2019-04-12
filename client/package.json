@@ -13,13 +13,21 @@
     "reactstrap": "^8.0.0",
     "react-transition-group": "^2.8.0",
     "sass": "^1.17.4",
-    "uuid": "^3.3.2"
+    "uuid": "^3.3.2",
+    "jsonwebtoken": "^8.5.0",
+    "bcryptjs": "^2.4.3"
+  },
+  "devDependencies": {
+    "standard": "^12.0.1",
+    "babel-eslint": "^10.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint": "./node_modules/.bin/standard",
+    "lint-fix": "./node_modules/.bin/standard --fix"
   },
   "proxy": "http://localhost:8000",
   "eslintConfig": {
@@ -30,5 +38,8 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "standard": {
+    "parser": "babel-eslint"
+  }
 }

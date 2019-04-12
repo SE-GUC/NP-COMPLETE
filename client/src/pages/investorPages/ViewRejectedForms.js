@@ -1,4 +1,8 @@
 import React, { Component } from 'react'
+import FormDisplay from '../../components/form/FormDisplay'
+import Container from 'react-bootstrap/Container'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
 import '../../App.css'
 import Axios from 'axios'
 
@@ -23,31 +27,62 @@ class ViewForm extends Component {
           const formItems = []
           var i
           for (i = 0; i < resultArr.length; i++) {
-            formItems.push(resultArr[i].data)
+            formItems.push(
+              // resultArr[i].data
+              {
+                data: resultArr[i].data,
+                comment: resultArr[i].comment
+              }
+
+            )
           }
           this.setState({ formItems: formItems, loading: false })
         }
       )
       .catch(error => {
-        console.log(error['response'].data)
-        this.setState({ errorMessage: error['response'].data })
-        this.setState({ error: true })
+        if (error['response']) {
+          console.log(error['response'].data)
+          this.setState({ error: true, loading: false, errorMessage: error['response'].data.message })
+        } else {
+          console.log(error)
+        }
       })
   }
   render () {
-    if (this.state.error) {
+    console.log(this.state)
+    console.log(this.props)
+    if (this.state.loading) {
+      return <h1> Loading </h1>
+    }
+    if (this.state.loading === false && this.state.error) {
       return (
         <div>
-          <h1> Error </h1>
+          <div>
+            <h1>Error </h1>
+          </div>
+          <div>
+            <h1> {this.state.errorMessage} </h1>
+          </div>
         </div>
       )
     }
+
+    if (this.state.loading === false && this.state.formItems.length === 0) {
+      return (
+        <h1> No companies to display</h1>
+      )
+    }
     return (
-      <div>
-        <div className='Forms'>
-          <p> {this.state.formItems} </p>
-        </div>
-      </div>
+      this.state.formItems.map((x, i) => (
+        <Container>
+          <FormDisplay form={x.data} key={i} />
+          <Row>
+            <Col> Comment: </Col>
+            <Col> {x.comment} </Col>
+          </Row>
+          <hr />
+        </Container>
+      ))
     )
   }
 }
