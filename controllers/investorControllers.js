@@ -5,6 +5,9 @@ const companyType = require('../models/CompanyType')
 const companyValidator = require('../validations/companyValidations')
 const Company = require('../models/Company')
 const CompanyType = require('../models/CompanyType')
+const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
+const tokenKey = require('../config/keys').secretOrKey
 
 exports.getAll = async (req, res) => {
   const investors = await Investor.find()
@@ -144,10 +147,13 @@ exports.cancelApplication = async (req, res) => {
       })
     }
     const deletedApp = await Company.findByIdAndRemove(appId)
+    const query = { 'investorId': id }
+    const remainingCompanies = await Company.find(query)
     return res.json({
       status: 'Success',
       message: `Cancelled the Application with id ${appId}`,
-      deletedApplication: deletedApp
+      // deletedApplication: deletedApp,
+      data: remainingCompanies
     })
   } catch (error) {
     console.log(error)
@@ -449,4 +455,22 @@ exports.reviewOnlineService = async (req, res) => {
 const isValidDate = stringDate => {
   const date = new Date(stringDate)
   return date && Object.prototype.toString.call(date) === '[object Date]' && !isNaN(date)
+}
+
+exports.login = async (req, res) => {
+  try {
+    const { email, password } = req.body
+    const investor = await Investor.findOne({ email })
+    if (!investor) return res.status(404).json({ email: 'Email does not exist' })
+    const match = bcrypt.compareSync(password, investor.password)
+    if (match) {
+      const payload = {
+        id: investor._id,
+        name: investor.name,
+        email: investor.email
+      }
+      const token = jwt.sign(payload, tokenKey, { expiresIn: '1h' })
+      return res.json({ token: `Bearer ${token}` })
+    } else return res.status(400).send({ password: 'Wrong password' })
+  } catch (e) {}
 }
