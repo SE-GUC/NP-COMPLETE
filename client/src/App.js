@@ -20,6 +20,7 @@ import LawyersViewMyTasks from './pages/LawyersViewMyTasks'
 import ViewForm from './pages/investorPages/ViewRejectedForms'
 import ReviewersViewMyTasks from './pages/ReviewersViewMyTasks'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
+import UpdateProfile from './pages/UpdateProfile'
 
 class App extends Component {
   render () {
@@ -75,6 +76,8 @@ class App extends Component {
             <Route exact path='/lawyers/addComment/:lawyerId/:companyId' component={AddComment} />
 
             <Route exact path='/reviewers/acceptOrReject/:reviewerId/:companyId' component={acceptOrReject} />
+
+            <Route exact path='/user/UpdateProfile' component={UpdateProfile} />
 
           </div>
         </div>
