@@ -1,12 +1,10 @@
-// requiring mongoose for id validations
-const mongoose = require('mongoose')
 // Entity model and validator
 const Model = require('../models/Investor')
 const validator = require('../validations/investorValidations')
 const main = require('./main')
 
 // Additional Models
-const companyType = require('../models/CompanyType')
+const CompanyType = require('../models/CompanyType')
 const companyValidator = require('../validations/companyValidations')
 const Company = require('../models/Company')
 
@@ -33,18 +31,9 @@ exports.delete = async (req, res) => {
 exports.cancelApplication = async (req, res) => {
   try {
     const id = req.params.id
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-      return res.status(400).json({
-        status: 'Error',
-        message: 'not a valid ID'
-      })
-    }
-    const currentInvestor = await Model.findById(id)
+    const currentInvestor = await main.findById(res, Model, id)
     if (!currentInvestor) {
-      return res.status(100).json({
-        status: 'Error',
-        message: 'could not find Investor you are looking for'
-      })
+      return
     }
     if (Object.keys(req.body).length === 0) {
       return res.status(200).json({
@@ -53,25 +42,19 @@ exports.cancelApplication = async (req, res) => {
       })
     }
     const appId = req.body.id
-    if (!mongoose.Types.ObjectId.isValid(appId)) {
-      return res.status(400).json({
-        status: 'Error',
-        message: 'not a valid ID'
-      })
-    }
-    const myCompany = await Company.findById(appId)
+
+    const myCompany = await main.findById(res, Company, appId)
     if (!myCompany) {
-      return res.status(300).json({
-        status: 'Error',
-        message: 'could not find the Company you are looking for'
-      })
+      return
     }
+
     if (!(myCompany.investorId === id)) {
       return res.status(400).json({
         status: 'Error',
         message: 'This is not your company'
       })
     }
+
     if (!(myCompany.form.acceptedByReviewer === -1)) {
       return res.status(500).json({
         status: 'Error',
@@ -95,19 +78,11 @@ exports.cancelApplication = async (req, res) => {
 exports.viewRejectedForm = async (req, res) => {
   try {
     const investorId = req.params.id
-    if (!mongoose.Types.ObjectId.isValid(investorId)) {
-      return res.status(400).json({
-        status: 'Error',
-        message: 'not a valid ID'
-      })
-    }
-    const investor = await Model.findById(investorId)
+    const investor = await main.findById(res, Model, investorId)
     if (!investor) {
-      return res.status(400).json({
-        status: 'Error',
-        message: 'Investor not found'
-      })
+      return
     }
+
     const query = { 'investorId': investorId, 'form.acceptedByLawyer': 0 }
     const companies = await Company.find(query)
     if (!companies.length) {
@@ -121,7 +96,7 @@ exports.viewRejectedForm = async (req, res) => {
       const company = companies[i]
       const tempType = company.type
       const query1 = { 'companyType': tempType }
-      const tempCompanyTpe = await companyType.findOne(query1)
+      const tempCompanyTpe = await CompanyType.findOne(query1)
       const tempFields = tempCompanyTpe.fields
       const tempDescription = tempCompanyTpe.descriptions
       const myData = {
@@ -157,19 +132,11 @@ exports.viewRejectedForm = async (req, res) => {
 exports.editForms = async (req, res) => {
   try {
     const companyId = req.params.id
-    if (!mongoose.Types.ObjectId.isValid(companyId)) {
-      return res.status(400).json({
-        status: 'Error',
-        message: 'not a valid ID'
-      })
-    }
-    const companyToBeUpdated = await Company.findById(companyId)
+    const companyToBeUpdated = await main.findById(res, Company, companyId)
     if (!companyToBeUpdated) {
-      return res.status(400).json({
-        status: 'Error',
-        message: 'could not find Form you are looking for'
-      })
+      return
     }
+
     if (companyToBeUpdated.form.filledByLawyer === true || companyToBeUpdated.form.acceptedByLawyer === 1) {
       return res.status(400).json({
         status: 'error',
@@ -185,7 +152,7 @@ exports.editForms = async (req, res) => {
     }
     const type = companyToBeUpdated.type
     const query = { 'companyType': type }
-    const companyTypeTemp = await companyType.find(query)
+    const companyTypeTemp = await CompanyType.find(query)
     if (!companyTypeTemp) {
       return res.status(400).json({
         status: 'error',
@@ -228,12 +195,11 @@ exports.editForms = async (req, res) => {
 exports.getCompanies = async (req, res) => {
   try {
     const id = req.params.id
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-      return res.status(400).json({
-        status: 'Error',
-        message: 'not a valid ID'
-      })
+    const isValidId = main.validId(res, Model, id)
+    if (!isValidId) {
+      return
     }
+
     const query = { investorId: id }
     const companies = await Company.find(query)
     return res.json({
@@ -252,12 +218,11 @@ exports.getCompanies = async (req, res) => {
 exports.fillForm = async (req, res) => {
   try {
     const investorId = req.params.id
-    if (!mongoose.Types.ObjectId.isValid(investorId)) {
-      return res.status(400).json({
-        status: 'Error',
-        message: 'not a valid ID'
-      })
+    const isValidId = main.validId(res, Model, investorId)
+    if (!isValidId) {
+      return
     }
+
     const isValidated = companyValidator.createValidation(req.body)
     if (isValidated.error) {
       return res.status(400).json({
@@ -267,7 +232,7 @@ exports.fillForm = async (req, res) => {
     }
     const type = req.body.type
     const query = { 'companyType': type }
-    const companyTypeTemp = await companyType.find(query)
+    const companyTypeTemp = await CompanyType.find(query)
     if (companyTypeTemp.length === 0) {
       return res.status(400).json({
         status: 'error',
@@ -320,19 +285,11 @@ exports.fillForm = async (req, res) => {
 exports.payFees = async (req, res) => {
   try {
     const investorId = req.params.id
-    if (!mongoose.Types.ObjectId.isValid(investorId)) {
-      return res.status(400).json({
-        status: 'Error',
-        message: 'not a valid ID'
-      })
-    }
-    const investor = await Model.findById({ '_id': investorId })
+    const investor = await main.findById(res, Model, investorId)
     if (!investor) {
-      return res.status(400).json({
-        status: 'Error',
-        message: 'investor doesnt exist'
-      })
+      return
     }
+
     const companyId = req.body.id
     const company = await Company.findById(companyId)
     if (!company) {
@@ -374,7 +331,7 @@ exports.payFees = async (req, res) => {
 
 exports.readDescription = async (req, res) => {
   const type = req.params.type
-  const companyTypeTemp = await companyType.find({ 'companyType': type })
+  const companyTypeTemp = await CompanyType.find({ 'companyType': type })
   const data = companyTypeTemp[0].descriptions
   if (companyTypeTemp) {
     res.json({
@@ -394,26 +351,17 @@ exports.reviewOnlineService = async (req, res) => {
   try {
     const investorId = req.params.investorId
     const companyId = req.params.companyId
-    if (!mongoose.Types.ObjectId.isValid(investorId) || !mongoose.Types.ObjectId.isValid(companyId)) {
-      return res.status(400).json({
-        status: 'Error',
-        message: 'not a valid ID'
-      })
-    }
-    const investor = await Model.findById(investorId)
+
+    const investor = await main.findById(res, Model, investorId)
     if (!investor) {
-      return res.status(400).json({
-        status: 'Error',
-        message: 'This investor doesnt exist'
-      })
+      return
     }
-    const company = await Company.findById(companyId)
+
+    const company = await main.findById(res, Company, companyId)
     if (!company) {
-      return res.status(400).json({
-        status: 'Error',
-        message: 'This company doesnt exist'
-      })
+      return
     }
+
     if (investorId === company.investorId) {
       const newData = { 'feedback': req.body.feedback }
       const updatedCompany = await Company.findByIdAndUpdate(companyId, newData, { new: true })

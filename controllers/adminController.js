@@ -1,5 +1,3 @@
-// requiring mongoose to validate the id
-const mongoose = require('mongoose')
 // Entity model and validator
 const Model = require('../models/Admin')
 const validator = require('../validations/adminValidations')
@@ -33,31 +31,14 @@ exports.delete = async (req, res) => {
 
 exports.viewTask = async (req, res) => {
   const adminId = req.params.id
-  if (!mongoose.Types.ObjectId.isValid(adminId)) {
-    return res.status(400).json({
-      status: 'Error',
-      message: 'not a valid ID for admin'
-    })
-  }
-  const userAdmin = await Model.findById(adminId)
+  const userAdmin = await main.findById(res, Model, adminId)
   if (!userAdmin) {
-    return res.status(400).json({
-      status: 'Error',
-      message: 'Admin not found',
-      availableAdmins: await Model.find()
-    })
+    return
   }
+
   const query = { 'department': 'Admin' }
   const tasks = await Task.find(query)
-  // check if there exist such task
-  if (!tasks.length) {
-    return res.status(404).json({
-      status: 'Error',
-      message: 'There are no tasks for your department'
-    })
-  }
-  // view the tasks of the given depratment
-  res.json({
+  return res.json({
     status: 'Success',
     data: tasks
   })
@@ -74,35 +55,16 @@ exports.updateDeadline = async (req, res) => {
   }
   try {
     const adminId = req.params.id
-    if (!mongoose.Types.ObjectId.isValid(adminId)) {
-      return res.status(400).json({
-        status: 'Error',
-        message: 'not a valid ID for admin'
-      })
-    }
-    const adminToUpdate = await Model.findById(adminId)
-    // check if there is no such admin
+
+    const adminToUpdate = await main.findById(res, Model, adminId)
     if (!adminToUpdate) {
-      return res.status(400).json({
-        status: 'Error',
-        message: 'Admin not found',
-        availableAdmins: await Model.find()
-      })
+      return
     }
+
     const taskID = req.body.TaskID
-    if (!mongoose.Types.ObjectId.isValid(taskID)) {
-      return res.status(400).json({
-        status: 'Error',
-        message: 'not a valid ID for task'
-      })
-    }
-    const task = await Task.findById(taskID)
-    // check if there exist such tasj
+    const task = await main.findById(res, Task, taskID)
     if (!task) {
-      return res.status(404).json({
-        status: 'Error',
-        error: 'Task does not exist'
-      })
+      return
     }
     // update the deadline (if given in the body)
     const query = { '_id': taskID }
@@ -123,18 +85,9 @@ exports.updateDeadline = async (req, res) => {
 exports.publishCompany = async (req, res) => {
   try {
     const id = req.params.id
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-      return res.status(400).json({
-        status: 'Error',
-        message: 'not a valid ID'
-      })
-    }
-    const currentCompany = await Company.findById(id)
+    const currentCompany = await main.findById(res, Company, id)
     if (!currentCompany) { // check if the company exists
-      return res.status(400).json({
-        status: 'Error',
-        message: 'Could not find the Company you are looking for'
-      })
+      return
     }
     if (!(currentCompany.accepted === true)) { // check if the company is accepted
       return res.status(400).json({
@@ -172,22 +125,12 @@ exports.publishCompany = async (req, res) => {
 exports.viewCases = async (req, res) => {
   try {
     const adminId = req.params.id
-    if (!mongoose.Types.ObjectId.isValid(adminId)) {
-      return res.status(400).json({
-        status: 'Error',
-        message: 'not a valid ID'
-      })
-    }
-    const admin = await Model.findById(adminId)
+    const admin = await main.findById(res, Model, adminId)
     if (!admin) { // makes sure that the one accessing the data is an admin
-      return res.status(400).json({
-        status: 'Error',
-        message: 'Admin access required',
-        availableAdmins: await Model.find()
-      })
-    } else {
-      res.redirect(307, '/api/companies/') // redirect to companies get all route
+      return
     }
+
+    return res.redirect(307, '/api/companies/') // redirect to companies get all route
   } catch (error) {
     return res.status(400).json({
       status: 'Error',
@@ -206,12 +149,6 @@ exports.updateProfile = async (req, res) => {
       })
     } else {
       const id = req.params.id
-      if (!mongoose.Types.ObjectId.isValid(id)) {
-        return res.status(400).json({
-          status: 'Error',
-          message: 'not a valid ID'
-        })
-      }
       res.redirect(307, `/api/admins/${id}`)
     }
   } catch (error) {
@@ -225,26 +162,18 @@ exports.updateProfile = async (req, res) => {
 exports.workPage = async (req, res) => {
   try {
     const adminId = req.params.id
-    if (!mongoose.Types.ObjectId.isValid(adminId)) {
-      return res.status(400).json({
-        status: 'Error',
-        message: 'not a valid ID'
-      })
-    }
-    const admin = await Model.findOne({ _id: adminId })
+    const admin = await main.findById(res, Model, adminId)
     if (!admin) { // Restrict access to reviewers only.
-      return res.status(400).json({
-        status: 'Error',
-        message: 'Only Internal Users have access to this page',
-        availableReviewers: await Model.find()
-      })
+      return
     }
+
     const tasksAssigned = await Task.find() // query the database to retrieve all available tasks
     if (!tasksAssigned.length) { // no tasks
       return res.json({
         message: 'No tasks available'
       })
     }
+
     var tasks = []
     for (var i = 0; i < tasksAssigned.length; i++) {
       if (tasksAssigned[i].handler.indexOf(adminId) > -1) {
@@ -309,33 +238,17 @@ exports.getFeedback = async (req, res) => {
 exports.showLastWorked = async (req, res) => {
   try {
     const adminId = req.params.adminId
-    if (!mongoose.Types.ObjectId.isValid(adminId)) {
-      return res.status(400).json({
-        status: 'Error',
-        message: 'not a valid ID'
-      })
-    }
-    const admin = await Model.findById(adminId)
+    const admin = await main.findById(res, Model, adminId)
     if (!admin) { // make sure that the one accessing the page is an admin
-      return res.status(400).json({
-        status: 'Error',
-        message: 'Access denied'
-      })
+      return
     }
+
     const companyId = req.params.companyId
-    if (!mongoose.Types.ObjectId.isValid(companyId)) {
-      return res.status(400).json({
-        status: 'Error',
-        message: 'not a valid ID'
-      })
-    }
-    const requestedCase = await Company.findById(companyId)
+    const requestedCase = await main.findById(res, Company, companyId)
     if (!requestedCase) { // make sure that the one accessing the page is a reviewer
-      return res.status(400).json({
-        status: 'Error',
-        message: 'Case not found'
-      })
+      return
     }
+
     const result = []
     if (requestedCase.form.acceptedByLawyer !== -1) {
       const lawyer = await Lawyer.findById(requestedCase.form.lawyerID)

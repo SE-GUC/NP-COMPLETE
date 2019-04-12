@@ -1,5 +1,3 @@
-// requiring mongoose for id validations
-const mongoose = require('mongoose')
 // Entity model and validator
 const Model = require('../models/Task')
 const validator = require('../validations/taskValidations')

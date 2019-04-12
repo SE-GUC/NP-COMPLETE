@@ -1,5 +1,3 @@
-// requiring mongoose for id validations
-const mongoose = require('mongoose')
 // Entity model and validator
 const Model = require('../models/Lawyer')
 const validator = require('../validations/lawyerValidations')
@@ -11,6 +9,7 @@ const Company = require('../models/Company')
 const ExternalEntity = require('../models/ExternalEntity')
 const Task = require('../models/Task')
 const companyType = require('../models/CompanyType')
+const Investor = require('../models/Investor')
 
 // Company validators
 const companyValidator = require('../validations/companyValidations')
@@ -37,19 +36,9 @@ exports.delete = async (req, res) => {
 
 exports.viewDepartmentTask = async (req, res) => {
   const lawyerId = req.params.id
-  if (!mongoose.Types.ObjectId.isValid(lawyerId)) {
-    return res.status(400).json({
-      status: 'Error',
-      message: 'not a valid ID'
-    })
-  }
-  const userLawyer = await Model.findById(lawyerId)
+  const userLawyer = await main.findById(res, Model, lawyerId)
   if (!userLawyer) {
-    return res.status(400).json({
-      status: 'Error',
-      message: 'Lawyer not found',
-      availableLawyer: await Model.find()
-    })
+    return
   }
   const query = { 'department': 'Lawyer' }
   const tasks = await Task.find(query)
@@ -127,12 +116,11 @@ exports.newForm = async (req, res) => {
 exports.viewForm = async (req, res) => {
   try {
     const investorId = req.params.id
-    if (!mongoose.Types.ObjectId.isValid(investorId)) {
-      return res.status(400).json({
-        status: 'Error',
-        message: 'not a valid ID'
-      })
+    const isValidId = main.validId(res, Investor, investorId)
+    if (!isValidId) {
+      return
     }
+
     const query = { 'investorId': investorId }
     const companies = await Company.find(query)
     if (!companies.length) {
@@ -155,12 +143,6 @@ exports.viewForm = async (req, res) => {
 
 exports.review = async (req, res) => {
   try {
-    if (!mongoose.Types.ObjectId.isValid(req.params.companyID)) {
-      return res.status(400).json({
-        status: 'Error',
-        message: 'not a valid ID'
-      })
-    }
     // Check if the body is empty
     if (Object.keys(req.body).length === 0) {
       return res.status(400).json({
@@ -212,12 +194,9 @@ exports.review = async (req, res) => {
       })
     }
     // check if the company exists
-    const company = await Company.findById(req.params.companyID)
+    const company = await main.findById(res, Company, req.params.companyID)
     if (!company) {
-      return res.status(400).json({
-        status: 'Error',
-        message: 'This company doesnt exist'
-      })
+      return
     }
 
     if (company.form.acceptedByLawyer !== -1) {
@@ -246,26 +225,11 @@ exports.review = async (req, res) => {
 exports.editForm = async (req, res) => {
   try {
     const lawyerId = req.params.lawyerId
-    if (!mongoose.Types.ObjectId.isValid(lawyerId)) {
-      return res.status(400).json({
-        status: 'Error',
-        message: 'not a valid ID'
-      })
-    }
     const companyId = req.params.companyId
-    if (!mongoose.Types.ObjectId.isValid(companyId)) {
-      return res.status(400).json({
-        status: 'Error',
-        message: 'not a valid ID'
-      })
-    }
 
-    const lawyer = await Model.findById(lawyerId)
+    const lawyer = await main.findById(res, Model, lawyerId)
     if (!lawyer) {
-      return res.status(400).json({
-        status: 'Error',
-        message: 'Access denied, only internal users allowed'
-      })
+      return
     }
 
     const isValidated = companyValidator.editFormValidation(req.body)
@@ -282,12 +246,9 @@ exports.editForm = async (req, res) => {
         'form.acceptedByLawyer': 1
       }
     }
-    const updatedCompany = await Company.findByIdAndUpdate(companyId, update, { new: true })
+    const updatedCompany = await main.findByIdAndUpdate(res, Company, companyId, update)
     if (!updatedCompany) {
-      return res.status(400).json({
-        status: 'Error',
-        message: 'Could not find Form you are looking for'
-      })
+      return
     } else {
       return res.json({
         status: 'Success',
@@ -306,18 +267,9 @@ exports.editForm = async (req, res) => {
 exports.casesPage = async (req, res) => {
   try {
     const lawyerId = req.params.id
-    if (!mongoose.Types.ObjectId.isValid(lawyerId)) {
-      return res.status(400).json({
-        status: 'Error',
-        message: 'not a valid ID'
-      })
-    }
-    const lawyer = await Model.findById(lawyerId)
+    const lawyer = await main.findById(res, Model, lawyerId)
     if (!lawyer) { // make sure that the one accessing the page is a lawyer
-      return res.status(400).json({
-        status: 'Error',
-        message: 'Lawyer access required'
-      })
+      return
     }
     res.redirect(307, '/api/companies/') // redirect to companies get route.
   } catch (error) {
@@ -330,19 +282,8 @@ exports.casesPage = async (req, res) => {
 
 exports.addComment = async (req, res) => {
   const lawyerId = req.params.lawyerId
-  if (!mongoose.Types.ObjectId.isValid(lawyerId)) {
-    return res.status(400).json({
-      status: 'Error',
-      message: 'not a valid ID'
-    })
-  }
   const companyId = req.params.companyId
-  if (!mongoose.Types.ObjectId.isValid(companyId)) {
-    return res.status(400).json({
-      status: 'Error',
-      message: 'not a valid ID'
-    })
-  }
+
   const comment = req.body.comment
   if (!comment) {
     return res.status(400).json({
@@ -357,20 +298,14 @@ exports.addComment = async (req, res) => {
     })
   }
   try {
-    const lawyer = await Model.findById(lawyerId)
+    const lawyer = await main.findById(res, Model, lawyerId)
     if (!lawyer) {
-      return res.status(400).json({
-        status: 'Error',
-        message: 'Access denied'
-      })
+      return
     }
 
-    const company = await Company.findById(companyId)
+    const company = await main.findById(res, Company, companyId)
     if (!company) {
-      return res.status(404).json({
-        status: 'Error',
-        message: 'Form not found'
-      })
+      return
     }
 
     if (company.form.acceptedByLawyer !== 0) {
@@ -400,20 +335,11 @@ exports.addComment = async (req, res) => {
 exports.workPage = async (req, res) => {
   try {
     const lawyerId = req.params.id
-    if (!mongoose.Types.ObjectId.isValid(lawyerId)) {
-      return res.status(400).json({
-        status: 'Error',
-        message: 'not a valid ID'
-      })
-    }
-    const lawyer = await Model.findOne({ _id: lawyerId })
+    const lawyer = await main.findById(res, Model, lawyerId)
     if (!lawyer) { // Restrict access to reviewers only.
-      return res.status(400).json({
-        status: 'Error',
-        message: 'Only Internal Users have access to this page',
-        availableReviewers: await Model.find()
-      })
+      return
     }
+
     const tasksAssigned = await Task.find() // query the database to retrieve all available tasks
     if (!tasksAssigned.length) { // check if there's no tasks
       return res.status(400).json({
@@ -449,19 +375,11 @@ exports.workPage = async (req, res) => {
 exports.calculateFees = async (req, res) => {
   try {
     const companyId = req.params.id
-    if (!mongoose.Types.ObjectId.isValid(companyId)) {
-      return res.status(400).json({
-        status: 'Error',
-        message: 'not a valid ID'
-      })
-    }
-    const company = await Company.findById(companyId)
+    const company = await main.findById(res, Company, companyId)
     if (!company) {
-      return res.status(400).json({
-        status: 'Error',
-        message: 'Company cannot be found'
-      })
+      return
     }
+
     const type = company.type
     const CompanyType = companyType.findOne({ companyType: type })
     if (!CompanyType) {
@@ -507,12 +425,6 @@ exports.updateMyProfile = async (req, res) => {
       })
     } else {
       const id = req.params.id
-      if (!mongoose.Types.ObjectId.isValid(id)) {
-        return res.status(400).json({
-          status: 'Error',
-          message: 'not a valid ID'
-        })
-      }
       res.redirect(307, `/api/lawyers/${id}`)
     }
   } catch (error) {
@@ -526,33 +438,17 @@ exports.updateMyProfile = async (req, res) => {
 exports.showLastWorked = async (req, res) => {
   try {
     const lawyerId = req.params.lawyerId
-    if (!mongoose.Types.ObjectId.isValid(lawyerId)) {
-      return res.status(400).json({
-        status: 'Error',
-        message: 'not a valid ID'
-      })
-    }
-    const lawyer = await Model.findById(lawyerId)
+    const lawyer = await main.findById(res, Model, lawyerId)
     if (!lawyer) { // make sure that the one accessing the page is a reviewer
-      return res.status(400).json({
-        status: 'Error',
-        message: 'Access denied'
-      })
+      return
     }
+
     const companyId = req.params.companyId
-    if (!mongoose.Types.ObjectId.isValid(companyId)) {
-      return res.status(400).json({
-        status: 'Error',
-        message: 'not a valid ID'
-      })
-    }
-    const requestedCase = await Company.findById(companyId)
+    const requestedCase = await main.findById(res, Company, companyId)
     if (!requestedCase) { // make sure that the one accessing the page is a lawyer
-      return res.status(400).json({
-        status: 'Error',
-        message: 'Case not found'
-      })
+      return
     }
+
     const result = []
     if (requestedCase.form.acceptedByLawyer !== -1) {
       const lawyer = await Model.findById(requestedCase.form.lawyerID)

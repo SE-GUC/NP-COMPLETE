@@ -1,5 +1,3 @@
-// requiring mongoose for id validations
-const mongoose = require('mongoose')
 // Entity model and validator
 const Model = require('../models/Reviewer')
 const validator = require('../validations/reviewerValidations')
@@ -32,20 +30,11 @@ exports.delete = async (req, res) => {
 
 exports.viewDepartmentTask = async (req, res) => {
   const reviewerId = req.params.id
-  if (!mongoose.Types.ObjectId.isValid(reviewerId)) {
-    return res.status(400).json({
-      status: 'Error',
-      message: 'not a valid ID'
-    })
-  }
-  const userReviewer = await Model.findById(reviewerId)
+  const userReviewer = await main.findById(res, Model, reviewerId)
   if (!userReviewer) {
-    return res.status(400).json({
-      status: 'Error',
-      message: 'Reviewer not found',
-      availableReviewers: await Model.find()
-    })
+    return
   }
+
   const query = { 'department': 'Reviewer' }
   const tasks = await Task.find(query)
   // check if there exist such task
@@ -64,19 +53,11 @@ exports.viewDepartmentTask = async (req, res) => {
 exports.reviewForms = async (req, res) => {
   try {
     const reviewerId = req.params.id
-    if (!mongoose.Types.ObjectId.isValid(reviewerId)) {
-      return res.status(400).json({
-        status: 'Error',
-        message: 'not a valid ID'
-      })
-    }
-    const reviewer = await Model.findById(reviewerId)
+    const reviewer = await main.findById(res, Model, reviewerId)
     if (!reviewer) { // Restrict access to reviewers only.
-      return res.status(400).json({
-        status: 'Error',
-        message: 'Only reviewers have access to this page'
-      })
+      return
     }
+
     const query = { 'form.acceptedByLawyer': 1, 'form.acceptedByReviewer': -1 } // We want the forms accepted by the lawyer but not reviewed yet.
     const companies = await Company.find(query) // query the database to retrieve all available cases
     if (!companies.length) { // if no cases in the system
@@ -98,19 +79,11 @@ exports.reviewForms = async (req, res) => {
 exports.casePage = async (req, res) => {
   try {
     const reviewerId = req.params.id
-    if (!mongoose.Types.ObjectId.isValid(reviewerId)) {
-      return res.status(400).json({
-        status: 'Error',
-        message: 'not a valid ID'
-      })
-    }
-    const reviewer = await Model.findById(reviewerId)
+    const reviewer = await main.findById(res, Model, reviewerId)
     if (!reviewer) { // make sure that the one accessing the page is a reviewer
-      return res.status(400).json({
-        status: 'Error',
-        message: 'Reviewer access required'
-      })
+      return
     }
+
     res.redirect(307, '/api/companies/') // redirect to companies get route.
   } catch (error) {
     console.log(error)
@@ -119,19 +92,8 @@ exports.casePage = async (req, res) => {
 
 exports.decideApplication = async (req, res) => {
   const reviewerId = req.params.reviewerId
-  if (!mongoose.Types.ObjectId.isValid(reviewerId)) {
-    return res.status(400).json({
-      status: 'Error',
-      message: 'not a valid ID'
-    })
-  }
   const companyId = req.params.companyId
-  if (!mongoose.Types.ObjectId.isValid(companyId)) {
-    return res.status(400).json({
-      status: 'Error',
-      message: 'not a valid ID'
-    })
-  }
+
   const decision = req.body.decision
 
   if (decision === null || decision === undefined) {
@@ -148,20 +110,14 @@ exports.decideApplication = async (req, res) => {
     })
   }
   try {
-    const reviewer = await Model.findById(reviewerId)
+    const reviewer = await main.findById(res, Model, reviewerId)
     if (!reviewer) {
-      return res.status(400).json({
-        status: 'Error',
-        message: 'Access denied'
-      })
+      return
     }
 
-    const company = await Company.findById(companyId)
+    const company = await main.findById(res, Company, companyId)
     if (!company) {
-      return res.status(400).json({
-        status: 'Error',
-        message: 'Form not found'
-      })
+      return
     }
 
     if (company.form.acceptedByLawyer !== 1) {
@@ -201,18 +157,15 @@ exports.decideApplication = async (req, res) => {
 
 exports.addComment = async (req, res) => {
   const reviewerID = req.params.reviewerID
-  if (!mongoose.Types.ObjectId.isValid(reviewerID)) {
-    return res.status(400).json({
-      status: 'Error',
-      message: 'not a valid ID'
-    })
-  }
   const companyID = req.params.companyID
-  if (!mongoose.Types.ObjectId.isValid(companyID)) {
-    return res.status(400).json({
-      status: 'Error',
-      message: 'not a valid ID'
-    })
+
+  const isValidId = main.validId(res, Model, reviewerID)
+  if (!isValidId) {
+    return
+  }
+  const isValidCompanyId = main.validId(res, Model, companyID)
+  if (!isValidCompanyId) {
+    return
   }
 
   try {
@@ -238,20 +191,11 @@ exports.addComment = async (req, res) => {
 exports.workPage = async (req, res) => {
   try {
     const reviewerId = req.params.id
-    if (!mongoose.Types.ObjectId.isValid(reviewerId)) {
-      return res.status(400).json({
-        status: 'Error',
-        message: 'not a valid ID'
-      })
-    }
-    const reviewer = await Model.findOne({ _id: reviewerId })
+    const reviewer = await main.findById(res, Model, reviewerId)
     if (!reviewer) { // Restrict access to reviewers only.
-      return res.status(400).json({
-        status: 'Error',
-        message: 'Only Internal Users have access to this page',
-        availableReviewers: await Model.find()
-      })
+      return
     }
+
     const tasksAssigned = await Task.find() // query the database to retrieve all available tasks
     if (!tasksAssigned.length) { // check if there's no tasks
       return res.json({
@@ -291,12 +235,6 @@ exports.updateProfile = async (req, res) => {
       })
     } else {
       const id = req.params.id
-      if (!mongoose.Types.ObjectId.isValid(id)) {
-        return res.status(400).json({
-          status: 'Error',
-          message: 'not a valid ID'
-        })
-      }
       res.redirect(307, `/api/reviewers/${id}`)
     }
   } catch (error) {
@@ -306,33 +244,17 @@ exports.updateProfile = async (req, res) => {
 exports.showLastWorked = async (req, res) => {
   try {
     const reviewerId = req.params.reviewerId
-    if (!mongoose.Types.ObjectId.isValid(reviewerId)) {
-      return res.status(400).json({
-        status: 'Error',
-        message: 'not a valid ID'
-      })
-    }
-    const reviewer = await Model.findById(reviewerId)
+    const reviewer = await main.findById(res, Model, reviewerId)
     if (!reviewer) { // make sure that the one accessing the page is a reviewer
-      return res.status(400).json({
-        status: 'Error',
-        message: 'Access denied'
-      })
+      return
     }
+
     const companyId = req.params.companyId
-    if (!mongoose.Types.ObjectId.isValid(companyId)) {
-      return res.status(400).json({
-        status: 'Error',
-        message: 'not a valid ID'
-      })
-    }
-    const requestedCase = await Company.findById(companyId)
+    const requestedCase = await main.findById(res, Company, companyId)
     if (!requestedCase) { // make sure that the one accessing the page is a reviewer
-      return res.status(400).json({
-        status: 'Error',
-        message: 'Case not found'
-      })
+      return
     }
+
     const result = []
     if (requestedCase.form.acceptedByLawyer !== -1) {
       const lawyer = await Lawyer.findById(requestedCase.form.lawyerID)
