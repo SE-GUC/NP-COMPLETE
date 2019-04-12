@@ -21,7 +21,6 @@ import LawyersViewMyTasks from './pages/LawyersViewMyTasks'
 import ViewForm from './pages/investorPages/ViewRejectedForms'
 import ReviewersViewMyTasks from './pages/ReviewersViewMyTasks'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
-import CancelApplication from './pages/investorPages/CancelApplication'
 
 
 class App extends Component {
