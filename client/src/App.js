@@ -7,7 +7,7 @@ import Investor from './pages/Investor'
 import Reviewer from './pages/Reviewer'
 import React, { Component } from 'react'
 import ViewCases from './pages/ViewCases'
-import AddComment from './pages/AddComment'
+import LawyerAddComment from './pages/LawyerAddComment'
 import Faqs from './pages/investorPages/Faqs'
 import Header from './components/generic/Header'
 import Ejournals from './pages/CompaniesEjournals'
@@ -25,7 +25,6 @@ import InvestorLogin from './pages/investorPages/InvestorLogin'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import ChooseCompanyType from './pages/investorPages/ChooseCompanyType'
 import CancelApplication from './pages/investorPages/CancelApplication'
-
 
 class App extends Component {
   render () {
@@ -84,7 +83,7 @@ class App extends Component {
 
             <Route exact path='/investors/payFees/:investorId/:companyId' component={payFees} />
 
-            <Route exact path='/lawyers/addComment/:lawyerId/:companyId' component={AddComment} />            
+            <Route exact path='/lawyers/addComment/:lawyerId/:companyId' component={LawyerAddComment} />            
             
             <Route exact path='/investors/chooseCompanyType/:investorId' component={ChooseCompanyType} />
 

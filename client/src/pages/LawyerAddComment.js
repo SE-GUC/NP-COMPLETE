@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { Button, Form, Alert, Col } from 'react-bootstrap'
 import axios from 'axios'
-import './AddComment.css'
+import './LawyerAddComment.css'
 
-class AddComment extends Component {
+class LawyerAddComment extends Component {
   constructor (props) {
     super(props)
     this.state = {
@@ -75,4 +75,4 @@ class AddComment extends Component {
   }
 }
 
-export default AddComment
+export default LawyerAddComment
