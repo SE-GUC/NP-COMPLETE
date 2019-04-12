@@ -23,10 +23,6 @@ class Section extends Component {
                    return  <TextField fields={fields} />
                 }
             })
-
-            // <Container> 
-            //  { <h1> {this.state.sectionName} </h1> }
-            // </Container>
         )
     }
 }

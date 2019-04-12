@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Section from './Section'
-import { Form } from 'reactstrap'
+import { Form, Container, Button} from 'reactstrap'
 
 class FillForm extends Component {
   constructor (props) {
@@ -12,12 +12,18 @@ class FillForm extends Component {
 
   render () {
     const renderSections = this.state.form.sections.map((section, i) => {
-      return <Section number={i} section={section} />
+        return (
+            <Container>
+                <h1> {section.sectionName} </h1>
+                <Section number={i} section={section} /> 
+            </Container>
+        )
     })
 
     return (
-      <Form>
+      <Form onSubmit={(e)=> this.submitForm(e)}>
         {renderSections}
+        <Button type="submit" >Submit</Button>
       </Form>
     )
   }
