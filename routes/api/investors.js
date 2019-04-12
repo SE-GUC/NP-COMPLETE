@@ -43,6 +43,5 @@ router.put('/payFees/:id', controller.payFees)
 // so that I can understand what to fill in each field
 router.get('/readDescription/:type', controller.readDescription)
 
-router.get('/trackApplication/:id', controller.trackApplication)
 router.put('/reviewOnlineService/:companyId/:investorId', controller.reviewOnlineService)
 module.exports = router

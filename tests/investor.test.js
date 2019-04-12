@@ -272,59 +272,6 @@ test('Fill Form to create a company', async () => {
   await company.deleteCompany(companyId)
 }, 5500)
 
-test('TrackApplication exists', async () => {
-  expect.assertions(1)
-  expect(typeof (investor.trackApplication)).toBe('function')
-})
-
-test('Track Applications', async () => {
-  const data = {
-    fullName: 'Sir Abraham Smith',
-    birthdate: '1638-04-27',
-    email: 'sir@smith.com'
-  }
-  const created = await investor.createInvestor(data)
-  const investorId = created.data.data._id
-
-  const company1 = {
-    name: 'Corp Co',
-    type: 'SSC',
-    investorId: investorId,
-    form: {
-    }
-  }
-
-  const createdCompany1 = await company.createCompany(company1)
-  const constCompnaydata1 = createdCompany1.data.data
-  const companyId1 = constCompnaydata1._id
-
-  const company2 = {
-    name: 'Robb Co',
-    type: 'SSC',
-    investorId: investorId,
-    form: {
-    }
-  }
-
-  const createdCompany2 = await company.createCompany(company2)
-  const constCompnaydata2 = createdCompany2.data.data
-  const companyId2 = constCompnaydata2._id
-
-  const createdCompanies = [company1, company2]
-  const retrieved = await investor.trackApplication(investorId)
-  const retrievedCompanies = retrieved.data.companies
-  expect.assertions(2)
-
-  for (var j = 0; j < 2; j++) {
-    const createdCompany = createdCompanies[j]
-    const retrievedCompany = retrievedCompanies[j]
-    expect(retrievedCompany).toMatchObject(createdCompany)
-  }
-  await investor.deleteInvestor(investorId)
-  await company.deleteCompany(companyId1)
-  await company.deleteCompany(companyId2)
-}, 10000)
-
 // user story 1.04 part 1
 test('viewRejected-form-by-Lawyer exists', async () => {
   expect.assertions(1)

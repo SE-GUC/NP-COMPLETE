@@ -224,32 +224,6 @@ exports.editForms = async (req, res) => {
     })
   }
 }
-exports.trackApplication = async (req, res) => {
-  try {
-    const id = req.params.id
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-      return res.status(400).json({
-        status: 'Error',
-        message: 'not a valid ID'
-      })
-    }
-    Company
-      .find({
-        investorId: id
-      })
-      .then(result => res.json({
-        status: 'Success',
-        message: `Companies for investor ${id}`,
-        companies: result
-      }))
-  } catch (error) {
-    return res.status(400).json({
-      status: 'Error',
-      message: error.message
-
-    })
-  }
-}
 
 exports.getCompanies = async (req, res) => {
   try {
