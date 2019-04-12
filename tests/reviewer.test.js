@@ -18,7 +18,8 @@ test('Create a Reviewer', async () => {
     fullName: 'Omar Ayman Abdelmagied',
     birthdate: '1998-07-09',
     email: 'omar@valid.com',
-    startDate: '2010-01-01'
+    startDate: '2010-01-01',
+    password: 'mr123456'
   }
   const created = await reviewer.createReviewer(data)
   const createdData = created.data.data
@@ -41,7 +42,8 @@ test('Read a Reviewer by id', async () => {
     fullName: 'Mostafa test',
     birthdate: '1888-02-15',
     email: 'Notsogreat@guy.com',
-    startDate: '1998-10-02'
+    startDate: '1998-10-02',
+    password: 'mr123456'
   }
   const created = await reviewer.createReviewer(data)
   const createdData = created.data.data
@@ -63,7 +65,8 @@ test('Update a Reviewer by id', async () => {
     fullName: 'Omar Ayman Abdelmagied',
     birthdate: '1998-07-09',
     email: 'omar@valid.com',
-    startDate: '2010-01-01'
+    startDate: '2010-01-01',
+    password: 'mr123456'
   }
   const created = await reviewer.createReviewer(data)
   const createdData = created.data.data
@@ -94,7 +97,8 @@ test('Delete a Reviewer by id', async () => {
     fullName: 'Lujine el Feky',
     birthdate: '2001-10-02',
     email: 'Lujine@Girl.net',
-    startDate: '1998-10-02'
+    startDate: '1998-10-02',
+    password: 'mr123456'
   }
   const created = await reviewer.createReviewer(data)
   const createdData = created.data.data
@@ -116,7 +120,8 @@ const reviewerData = {
   fullName: 'Mostafa test',
   birthdate: '1888-02-15',
   email: 'Notsogreat@guy.com',
-  startDate: '1998-10-02'
+  startDate: '1998-10-02',
+  password: 'mr123456'
 }
 
 const companyNotReviewedData = {
@@ -334,7 +339,8 @@ test('Reviewer view all cases', async () => {
     fullName: 'Elliot Alderson',
     birthdate: '2001-10-02',
     email: 'mrRobot@fsociety.com',
-    startDate: '1998-12-02'
+    startDate: '1998-12-02',
+    password: 'mr123456'
   }
   const createdReviewer = await reviewer.createReviewer(reviewerData)
   const createdReviewerData = createdReviewer.data.data
@@ -385,7 +391,8 @@ test('Adding a comment on a rejected application', async () => {
     fullName: 'R K L',
     birthdate: '1940',
     email: 'R@K.L',
-    startDate: '1966'
+    startDate: '1966',
+    password: 'mr123456'
   }
   const createdReviewer = await reviewer.createReviewer(reviewerData)
   const id = createdReviewer.data.data._id
@@ -435,7 +442,8 @@ test('Reviewer view his department tasks by id', async () => {
     fullName: 'John Smith',
     birthdate: '1996-10-02',
     email: 'mko@tower.net',
-    startDate: '2019-02-02T00:00:00.000Z'
+    startDate: '2019-02-02',
+    password: 'mr123456'
   }
   const createdReviewer = await reviewer.createReviewer(reviewerData)
   const createdReviewerData = createdReviewer.data.data
@@ -459,7 +467,8 @@ test('Reviewer workPage', async () => {
     fullName: 'Elliot Alderson',
     birthdate: '1995-10-02',
     email: 'mrRobot@fsociety.com',
-    startDate: '1998-12-02'
+    startDate: '1998-12-02',
+    password: 'mr123456'
   }
   const createdReviewer = await reviewer.createReviewer(reviewerData)
   const createdReviewerData = createdReviewer.data.data

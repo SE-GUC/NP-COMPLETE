@@ -19,7 +19,8 @@ test('Read an Investor by id', async () => {
   const data = {
     fullName: 'Sam Water',
     birthdate: '1837-02-15',
-    email: 'great@guy.com'
+    email: 'great@guy.com',
+    password: 'mr123456'
   }
   const created = await investor.createInvestor(data)
   const createdData = created.data.data
@@ -40,7 +41,8 @@ test('Delete an Investor by id', async () => {
   const data = {
     fullName: 'Kevin Smith',
     birthdate: '2001-10-02',
-    email: 'high@tower.net'
+    email: 'high@tower.net',
+    password: 'mr123456'
   }
   const created = await investor.createInvestor(data)
   const createdData = created.data.data
@@ -60,7 +62,8 @@ test('Create-an-Investor', async () => {
   const data = {
     fullName: 'Anthony Martial',
     birthdate: '1996-12-20T00:00:00.000Z',
-    email: 'hey@everyone.com'
+    email: 'hey@everyone.com',
+    password: 'mr123456'
   }
   const created = await investor.createInvestor(data)
   const createdData = created.data.data
@@ -79,7 +82,8 @@ test('Update an Investor by id', async () => {
   const data = {
     fullName: 'Bill Marks',
     birthdate: '1990-10-18',
-    email: 'hello@world.com'
+    email: 'hello@world.com',
+    password: 'mr123456'
   }
   const createdInvestor = await investor.createInvestor(data)
   const createdInvestorData = createdInvestor.data.data
@@ -123,7 +127,8 @@ test('edit a form by an Investor', async () => {
   const investorTest = {
     fullName: 'Kevin Smith',
     birthdate: '2001-10-02',
-    email: 'high@tower.net'
+    email: 'high@tower.net',
+    password: 'mr123456'
   }
   const createdInvestor = await investor.createInvestor(investorTest)
   const createdInvestorData = createdInvestor.data.data
@@ -164,7 +169,8 @@ test('Get my companies', async () => {
   const investorData = {
     fullName: 'Naguib sawiris',
     birthdate: '1950-05-15',
-    email: 'sawiris@gmail.com'
+    email: 'sawiris@gmail.com',
+    password: 'mr123456'
   }
   const createdInvestor = await investor.createInvestor(investorData)
   const createdInvestorData = createdInvestor.data.data
@@ -232,7 +238,8 @@ test('Fill Form to create a company', async () => {
   const investorData = {
     fullName: 'Naguib sawiris',
     birthdate: '1950-02-18',
-    email: 'sawiris@gmail.com'
+    email: 'sawiris@gmail.com',
+    password: 'mr123456'
   }
   const createdInvestor = await investor.createInvestor(investorData)
   const createdInvestorData = createdInvestor.data.data
@@ -285,19 +292,22 @@ test('viewRejected form by an Investor ', async () => {
   const investorData = {
     fullName: 'Anothony Martial',
     birthdate: '1996-12-20',
-    email: 'hey@everyone.com'
+    email: 'hey@everyone.com',
+    password: 'mr123456'
   }
   const lawyerData = {
     fullName: 'test',
     birthdate: '1996-12-20',
     email: 'hey@everyone.com',
-    startDate: '1996-12-20'
+    startDate: '1996-12-20',
+    password: 'mr123456'
   }
   const reviewerData = {
     fullName: 'test',
     birthdate: '1996-12-20',
     email: 'hey@everyone.com',
-    startDate: '1996-12-20'
+    startDate: '1996-12-20',
+    password: 'mr123456'
   }
   const reviewerCreated = await reviewer.createReviewer(reviewerData)
   const reviewerCreatedData = reviewerCreated.data.data
@@ -405,9 +415,10 @@ test('payFees-by-Investor exists', async () => {
 
 test('pay a fees by an Investor', async () => {
   const investorTest = {
-    fullName: 'jon snow',
+    fullName: 'jon snow1',
     birthdate: '2001-10-02',
-    email: 'kingInTheNorth@nightswatch.got'
+    email: 'kingInTheNorth@nightswatch.got',
+    password: 'mr123456'
   }
   const createdInvestor = await investor.createInvestor(investorTest)
   const createdInvestorData = createdInvestor.data.data
@@ -464,9 +475,10 @@ test('Cancel-Unreviewed-Application exists', async () => {
 // Test functionalty
 test('Cancel Unreviewed Application an Investor', async () => {
   const investorTest = {
-    fullName: 'jon snow',
+    fullName: 'jon snow2',
     birthdate: '2001-10-02',
-    email: 'kingInTheNorth@nightswatch.got'
+    email: 'kingInTheNorth@nightswatch.got',
+    password: 'mr123456'
   }
   const createdInvestor = await investor.createInvestor(investorTest)
   const createdInvestorData = createdInvestor.data.data
@@ -508,7 +520,8 @@ test('give Feedback', async () => {
   const investorData = {
     fullName: 'Shiko elgamed',
     birthdate: '1998-07-20',
-    email: 'shiko@gmail.com'
+    email: 'shiko@gmail.com',
+    password: 'mr123456'
   }
   const investorCreated = await investor.createInvestor(investorData)
   const createdInvestorData = investorCreated.data.data

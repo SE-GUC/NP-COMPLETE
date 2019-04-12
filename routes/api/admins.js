@@ -19,7 +19,7 @@ router.put('/:id', controller.update)
 router.delete('/:id', controller.delete)
 
 // As an Internal User I should be able to view tasks assigned to my department, so that I can be aware of coworkers updates.
-router.get('/viewDepartmentTask/:id', controller.viewTask)
+router.get('/viewDepartmentTask/:id', controller.viewDepartmentTask)
 
 // update the deadline of a specfic task given the task id and the new deadline in the body
 router.put('/updateDeadline/:id', controller.updateDeadline)

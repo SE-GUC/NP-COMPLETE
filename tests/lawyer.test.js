@@ -15,7 +15,8 @@ test('Read a Lawyer by id', async () => {
     fullName: 'Mortada Mansour',
     birthdate: '1980-02-26',
     email: 'great@guy.com',
-    startDate: '2015-12-12'
+    startDate: '2015-12-12',
+    password: 'mr123456'
   }
   const created = await lawyer.createLawyer(data)
   const createdData = created.data.data
@@ -37,7 +38,8 @@ test('Delete a Lawyer by id', async () => {
     fullName: 'Soul Goodman',
     birthdate: '1990-10-02',
     email: 'high@tower.net',
-    startDate: '2018-07-20'
+    startDate: '2018-07-20',
+    password: 'mr123456'
   }
   const created = await lawyer.createLawyer(data)
   const createdData = created.data.data
@@ -59,7 +61,8 @@ test('Accepting a form by company id, not reviewed before', async () => {
     fullName: 'Mostafa test',
     birthdate: '1888-02-15',
     email: 'Notsogreat@guy.com',
-    startDate: '1998-10-02'
+    startDate: '1998-10-02',
+    password: 'mr123456'
   }
   const createdLawyer = await lawyer.createLawyer(lawyerData)
   const createdLawyerData = createdLawyer.data.data
@@ -101,7 +104,8 @@ test('Rejecting an application by company id', async () => {
     fullName: 'Mostafa test',
     birthdate: '1888-02-15',
     email: 'Notsogreat@guy.com',
-    startDate: '1998-10-02'
+    startDate: '1998-10-02',
+    password: 'mr123456'
   }
   const createdLawyer = await lawyer.createLawyer(lawyerData)
   const createdLawyerData = createdLawyer.data.data
@@ -179,12 +183,14 @@ test('Add Comment', async () => {
     fullName: 'Mortada Mansour',
     birthdate: '1980-02-26',
     email: 'great@guy.com',
-    startDate: '2015-12-12'
+    startDate: '2015-12-12',
+    password: 'mr123456'
   }
   const investor1 = {
     fullName: 'Sam Water',
     birthdate: '1837-02-15',
-    email: 'great@guy.com'
+    email: 'great@guy.com',
+    password: 'mr123456'
   }
   const lawyer1Created = await lawyer.createLawyer(lawyer1)
   const lawyer1CreatedData = lawyer1Created.data.data
@@ -215,7 +221,8 @@ test('Add Comment', async () => {
     fullName: 'Mostafa test',
     birthdate: '1888-02-15',
     email: 'Notsogreat@guy.com',
-    startDate: '1998-10-02'
+    startDate: '1998-10-02',
+    password: 'mr123456'
   }
 
   const createdLawyer = await lawyer.createLawyer(lawyerData)
@@ -245,7 +252,8 @@ test('Create a lawyer', async () => {
     fullName: 'Mohamed Yasser Tarawa',
     birthdate: '1998-06-07T00:00:00.000Z',
     email: 'mohamedyasser0000@gmail.com',
-    startDate: '2016-06-06T00:00:00.000Z'
+    startDate: '2016-06-06T00:00:00.000Z',
+    password: 'mr123456'
   }
   const created = await lawyer.createLawyer(data)
   const createdData = created.data.data
@@ -265,7 +273,8 @@ test('Update a Lawyer by id', async () => {
     fullName: 'Mohamed Yasser Tarawa',
     birthdate: '1998-06-07',
     email: 'mohamedyasser0000@gmail.com',
-    startDate: '2016-06-06'
+    startDate: '2016-06-06',
+    password: 'mr123456'
   }
 
   const dataToUpdate = {
@@ -276,7 +285,8 @@ test('Update a Lawyer by id', async () => {
     fullName: 'Mohamed Yasser Tarawa',
     birthdate: '1998-06-07T00:00:00.000Z',
     email: 'mohamed.tarawa@gmail.com',
-    startDate: '2016-06-06T00:00:00.000Z'
+    startDate: '2016-06-06T00:00:00.000Z',
+    password: 'mr123456'
   }
 
   const created = await lawyer.createLawyer(data)
@@ -298,7 +308,8 @@ test('View a form by investor id', async () => {
   const investorData = {
     fullName: 'Sam Water',
     birthdate: '1837-02-15',
-    email: 'great@guy.com'
+    email: 'great@guy.com',
+    password: 'mr123456'
   }
   const createdInvestor = await investor.createInvestor(investorData)
   const createdInvestorData = createdInvestor.data.data
@@ -356,7 +367,8 @@ test('Edit Form declined by Reviewer', async () => {
     fullName: 'Omar Ayman Abdelmagied',
     birthdate: '1998-09-07',
     email: 'omar@valid.com',
-    startDate: '2010-02-02'
+    startDate: '2010-02-02',
+    password: 'mr123456'
   }
   const createdLawyer = await lawyer.createLawyer(lawyerData)
   const createdLawyerData = createdLawyer.data.data
@@ -409,7 +421,8 @@ test('Lawyer view his department tasks by id', async () => {
     fullName: 'John Smith',
     birthdate: '1996-10-02',
     email: 'mko@tower.net',
-    startDate: '2019-02-02T00:00:00.000Z'
+    startDate: '2019-02-02',
+    password: 'mr123456'
   }
   const createdLawyer = await lawyer.createLawyer(lawyerData)
   const createdLawyerData = createdLawyer.data.data
@@ -437,7 +450,8 @@ test('Lawyer view all cases', async () => {
     fullName: 'Elliot Alderson',
     birthdate: '1995-10-02',
     email: 'mrRobot@fsociety.com',
-    startDate: '1998-12-02'
+    startDate: '1998-12-02',
+    password: 'mr123456'
   }
   const createdLawyer = await lawyer.createLawyer(lawyerData)
   const createdLawyerData = createdLawyer.data.data
@@ -461,7 +475,8 @@ test('Lawyer workPage', async () => {
     fullName: 'Elliot Alderson',
     birthdate: '1995-10-02',
     email: 'mrRobot@fsociety.com',
-    startDate: '1998-12-02'
+    startDate: '1998-12-02',
+    password: 'mr123456'
   }
   const createdLawyer = await lawyer.createLawyer(lawyerData)
   const createdLawyerData = createdLawyer.data.data

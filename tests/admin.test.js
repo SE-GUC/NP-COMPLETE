@@ -20,7 +20,8 @@ test('Create an admin', async () => {
     fullName: 'Jane Doe',
     birthdate: '1995-05-05T00:00:00.000Z',
     email: 'jane-doe@gmail.com',
-    startDate: '2019-02-02T00:00:00.000Z'
+    startDate: '2019-02-02T00:00:00.000Z',
+    password: 'mr123456'
   }
   const created = await admin.createAdmin(data)
   const createdData = created.data.data
@@ -45,7 +46,8 @@ test('Assign Deadline', async () => {
     fullName: 'Jane Doe',
     birthdate: '1995-05-05',
     email: 'jane-doe@gmail.com',
-    startDate: '2019-02-02'
+    startDate: '2019-02-02',
+    password: 'mr123456'
   }
   const created = await admin.createAdmin(data)
   const createdData = created.data.data
@@ -84,7 +86,8 @@ test('Update an Admin by id', async () => {
     fullName: 'Jane Doe',
     birthdate: '1995-05-05',
     email: 'jane-doe@gmail.com',
-    startDate: '2019-02-02'
+    startDate: '2019-02-02',
+    password: 'mr123456'
   }
 
   const dataToUpdate = {
@@ -95,7 +98,8 @@ test('Update an Admin by id', async () => {
     fullName: 'Jane Doe',
     birthdate: '1997-05-05T00:00:00.000Z',
     email: 'jane-doe@gmail.com',
-    startDate: '2019-02-02T00:00:00.000Z'
+    startDate: '2019-02-02T00:00:00.000Z',
+    password: 'mr123456'
   }
 
   const created = await admin.createAdmin(data)
@@ -118,7 +122,8 @@ test('Read an Admin by id', async () => {
     fullName: 'Sam Water',
     birthdate: '1837-02-15',
     email: 'balabizo@test.com',
-    startDate: '2019-02-02T00:00:00.000Z'
+    startDate: '2019-02-02T00:00:00.000Z',
+    password: 'mr123456'
   }
   const created = await admin.createAdmin(data)
   const createdData = created.data.data
@@ -140,7 +145,8 @@ test('Delete an Admin by id', async () => {
     fullName: 'Kevin Smith',
     birthdate: '2001-10-02',
     email: 'high@tower.net',
-    startDate: '2019-02-02T00:00:00.000Z'
+    startDate: '2019-02-02T00:00:00.000Z',
+    password: 'mr123456'
   }
   const created = await admin.createAdmin(data)
   const createdData = created.data.data
@@ -160,7 +166,8 @@ test('Admin view cases by id', async () => {
     fullName: 'John Smith',
     birthdate: '1996-10-02',
     email: 'mko@tower.net',
-    startDate: '2019-02-02T00:00:00.000Z'
+    startDate: '2019-02-02T00:00:00.000Z',
+    password: 'mr123456'
   }
   const createdAdmin = await admin.createAdmin(adminData)
   const createdAdminData = createdAdmin.data.data
@@ -188,7 +195,8 @@ test('Admin view his department tasks by id', async () => {
     fullName: 'John Smith',
     birthdate: '1996-10-02',
     email: 'mko@tower.net',
-    startDate: '2019-02-02T00:00:00.000Z'
+    startDate: '2019-02-02T00:00:00.000Z',
+    password: 'mr123456'
   }
   const createdAdmin = await admin.createAdmin(adminData)
   const createdAdminData = createdAdmin.data.data
@@ -335,7 +343,8 @@ test('Admin workPage', async () => {
     fullName: 'Elliot Alderson',
     birthdate: '1995-10-02',
     email: 'mrRobot@fsociety.com',
-    startDate: '1998-12-02'
+    startDate: '1998-12-02',
+    password: 'mr123456'
   }
   const createdAdmin = await admin.createAdmin(adminData)
   const createdAdminData = createdAdmin.data.data

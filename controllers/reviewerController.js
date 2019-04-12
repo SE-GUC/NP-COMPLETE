@@ -40,19 +40,13 @@ exports.viewDepartmentTask = async (req, res) => {
   if (!userReviewer) {
     return
   }
-
   const query = { 'department': 'Reviewer' }
   const tasks = await Task.find(query)
-  // check if there exist such task
-  if (!tasks.length) {
-    return res.status(404).json({
-      status: 'Error',
-      message: 'There are no tasks for your department'
-    })
-  }
   // view the tasks of the given depratment
-  res.json({
+  
+  return res.json({
     status: 'Success',
+    message: tasks.length ? 'Task Assigned' : 'No tasks available',
     data: tasks
   })
 }

@@ -34,17 +34,17 @@ exports.delete = async (req, res) => {
   await main.delete(req, res, Model)
 }
 
-exports.viewTask = async (req, res) => {
+exports.viewDepartmentTask = async (req, res) => {
   const adminId = req.params.id
   const userAdmin = await main.findById(res, Model, adminId)
   if (!userAdmin) {
     return
   }
-
   const query = { 'department': 'Admin' }
   const tasks = await Task.find(query)
   return res.json({
     status: 'Success',
+    message: tasks.length ? 'Tasks Assigned' : 'No tasks available',
     data: tasks
   })
 }
