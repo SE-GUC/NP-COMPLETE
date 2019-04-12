@@ -18,6 +18,8 @@ import Reviewer from './pages/Reviewer'
 import ChooseCompanyType from './pages/investorPages/ChooseCompanyType'
 import CancelApplication from './pages/investorPages/CancelApplication'
 import InvestorLogin from './pages/investorPages/InvestorLogin'
+import payFees from './pages/payFees'
+
 
 class App extends Component {
   render () {
@@ -69,6 +71,8 @@ class App extends Component {
             <Route exact path='/investors/cancelApplication/:investorId' component={CancelApplication} />
 
             <Route exact path='/investors/login' component={InvestorLogin} />
+            <Route exact path='/investors/payFees/:investorId/:companyId' component={payFees} />
+
           </div>
         </div>
 
