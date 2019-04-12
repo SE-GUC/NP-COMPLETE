@@ -7,8 +7,6 @@ import Investor from './pages/Investor'
 import Reviewer from './pages/Reviewer'
 import React, { Component } from 'react'
 import ViewCases from './pages/ViewCases'
-import LawyerAddComment from './pages/LawyerAddComment'
-import ReviewerAddComment from './pages/ReviewerAddComment'
 import Faqs from './pages/investorPages/Faqs'
 import Header from './components/generic/Header'
 import Ejournals from './pages/CompaniesEjournals'
@@ -17,13 +15,16 @@ import acceptOrReject from './pages/acceptOrReject'
 import AdminViewCases from './pages/AdminViewCases'
 import LawyerViewCases from './pages/LawyerViewCases'
 import Register from './pages/investorPages/Register'
+import LawyerAddComment from './pages/LawyerAddComment'
 import ReviewerViewCases from './pages/ReviewerViewCases'
 import AdminsViewMyTasks from './pages/AdminsViewMyTasks'
 import LawyersViewMyTasks from './pages/LawyersViewMyTasks'
+import ReviewerAddComment from './pages/ReviewerAddComment'
 import ViewForm from './pages/investorPages/ViewRejectedForms'
 import ReviewersViewMyTasks from './pages/ReviewersViewMyTasks'
 import InvestorLogin from './pages/investorPages/InvestorLogin'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
+import ReviewerShowLastWorked from './pages/ReviewerShowLastWorked'
 import ChooseCompanyType from './pages/investorPages/ChooseCompanyType'
 import CancelApplication from './pages/investorPages/CancelApplication'
 
@@ -81,6 +82,8 @@ class App extends Component {
             <Route exact path='/reviewers/viewAllCases/:id' component={ReviewerViewCases} />
 
             <Route exact path='/reviewers/viewMyTasks/:id' component={ReviewersViewMyTasks} />
+
+            <Route exact path='/reviewers/showLastWorked' component={ReviewerShowLastWorked} />
 
             <Route exact path='/investors/payFees/:investorId/:companyId' component={payFees} />
 
