@@ -7,7 +7,7 @@ const Company = require('../models/Company')
 const CompanyType = require('../models/CompanyType')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
-const tokenKey = require('../../config/keys').secretOrKey
+const tokenKey = require('../config/keys').secretOrKey
 
 exports.getAll = async (req, res) => {
   const investors = await Investor.find()
