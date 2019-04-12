@@ -1,5 +1,7 @@
 const companyType = require('./companyType')
 
+jest.setTimeout(10000)
+
 test('default exists', async () => {
   expect.assertions(1)
   return expect(typeof (companyType.default)).toBe('function')

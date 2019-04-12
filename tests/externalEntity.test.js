@@ -1,6 +1,7 @@
 const externalEntity = require('./externalEntity')
 
-jest.setTimeout(180000)
+jest.setTimeout(10000)
+
 test('Create-an-External-Entity exists', async () => {
   expect.assertions(1)
   expect(typeof (externalEntity.createExternalEntity)).toBe('function')

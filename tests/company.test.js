@@ -1,5 +1,7 @@
 const company = require('./company')
 
+jest.setTimeout(10000)
+
 test('Create-a-Company exists', async () => {
   expect.assertions(1)
   return expect(typeof (company.createCompany)).toBe('function')
@@ -90,8 +92,7 @@ test('Read a Company by id', async () => {
 test('Delete-a-Company exists', async () => {
   expect.assertions(1)
   return expect(typeof (company.deleteCompany)).toBe('function')
-},
-10000)
+})
 
 test('Delete a Company by id', async () => {
   const data = {

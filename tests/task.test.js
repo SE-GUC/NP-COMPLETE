@@ -1,5 +1,7 @@
 const task = require('./task')
 
+jest.setTimeout(10000)
+
 test('Read-multiple-Tasks exists', async () => {
   expect.assertions(1)
   return expect(typeof (task.default)).toBe('function')
@@ -30,8 +32,7 @@ test('Read a Task by id', async () => {
 test('Delete-a-Task exists', async () => {
   expect.assertions(1)
   return expect(typeof (task.deleteTask)).toBe('function')
-},
-10000)
+})
 
 test('Delete a Task by id', async () => {
   const data = {

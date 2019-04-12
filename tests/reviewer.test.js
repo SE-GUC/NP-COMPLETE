@@ -1,6 +1,9 @@
 const reviewer = require('./reviewer')
 const company = require('./company')
 const task = require('./task')
+
+jest.setTimeout(10000)
+
 test('fet all reviewers exists', async () => {
   expect.hasAssertions()
   return expect(typeof (reviewer.default)).toBe('function')
@@ -48,7 +51,7 @@ test('Read a Reviewer by id', async () => {
   expect.hasAssertions()
   expect(readData).toEqual(createdData)
   await reviewer.deleteReviewer(id)
-}, 10000)
+})
 
 test('Update-a-Reviewer exists', async () => {
   expect.hasAssertions()
@@ -84,8 +87,7 @@ test('Update a Reviewer by id', async () => {
 test('Delete-a-Reviewer exists', async () => {
   expect.hasAssertions()
   expect(typeof (reviewer.deleteReviewer)).toBe('function')
-},
-10000)
+})
 
 test('Delete a Reviewer by id', async () => {
   const data = {
@@ -101,7 +103,7 @@ test('Delete a Reviewer by id', async () => {
   const deletedData = deleted.data.deleted
   expect.hasAssertions()
   expect(deletedData).toEqual(createdData)
-}, 10000)
+})
 
 // 4.01
 const trueDecisionData = {
@@ -196,7 +198,7 @@ test('Accepting an application by company id and reviewer id, not reviewed befor
   } catch (error) {
     console.log(error)
   }
-}, 20000)
+})
 
 test('Rejecting an application by company id and reviewer id', async () => {
   const createdReviewer = await reviewer.createReviewer(reviewerData)
@@ -216,7 +218,7 @@ test('Rejecting an application by company id and reviewer id', async () => {
   } catch (error) {
     console.log(error)
   }
-}, 20000)
+})
 
 test('Accepting an already accepted application by company id and reviewer id', async () => {
   const createdReviewer = await reviewer.createReviewer(reviewerData)
@@ -241,7 +243,7 @@ test('Accepting an already accepted application by company id and reviewer id', 
     await company.deleteCompany(companyId)
     await reviewer.deleteReviewer(reviewerId)
   }
-}, 20000)
+})
 
 test('Accepting an application No decision given', async () => {
   const createdReviewer = await reviewer.createReviewer(reviewerData)
@@ -266,7 +268,7 @@ test('Accepting an application No decision given', async () => {
     await company.deleteCompany(companyId)
     await reviewer.deleteReviewer(reviewerId)
   }
-}, 20000)
+})
 
 test('Accepting an application decision string rejected', async () => {
   const createdReviewer = await reviewer.createReviewer(reviewerData)
@@ -291,7 +293,7 @@ test('Accepting an application decision string rejected', async () => {
     await company.deleteCompany(companyId)
     await reviewer.deleteReviewer(reviewerId)
   }
-}, 20000)
+})
 
 test('Accepting an application not accepted by lawyer', async () => {
   const createdReviewer = await reviewer.createReviewer(reviewerData)
@@ -316,7 +318,7 @@ test('Accepting an application not accepted by lawyer', async () => {
     await company.deleteCompany(companyId)
     await reviewer.deleteReviewer(reviewerId)
   }
-}, 20000)
+})
 
 // As an Internal User I should be able to view all the cases in the system so that I can open them and check their details
 
@@ -417,7 +419,7 @@ test('Adding a comment on a rejected application', async () => {
   expect(response.form.comment).toEqual(commentData.comment)
   await reviewer.deleteReviewer(id)
   await company.deleteCompany(companyId)
-}, 20000)
+})
 
 // As an Internal User I should be able to view tasks assigned to my department, so that I can be aware of coworkers updates.
 

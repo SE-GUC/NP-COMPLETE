@@ -3,6 +3,9 @@ const company = require('./company')
 const investor = require('./investor')
 const task = require('./task')
 const companyType = require('./companyType')
+
+jest.setTimeout(10000)
+
 test('Read-a-Laywer exists', async () => {
   expect.hasAssertions()
   expect(typeof (lawyer.readLawyer)).toBe('function')
@@ -27,8 +30,7 @@ test('Read a Lawyer by id', async () => {
 test('Delete-a-Lawyer exists', async () => {
   expect.hasAssertions()
   expect(typeof (lawyer.deleteLawyer)).toBe('function')
-},
-12000)
+})
 
 test('Delete a Lawyer by id', async () => {
   const data = {
@@ -44,7 +46,7 @@ test('Delete a Lawyer by id', async () => {
   const deletedData = deleted.data.deleted
   expect.hasAssertions()
   expect(deletedData).toEqual(createdData)
-}, 10000)
+})
 
 test('decideAForm exists', async () => {
   expect.hasAssertions()
@@ -92,7 +94,7 @@ test('Accepting a form by company id, not reviewed before', async () => {
   expect(reviewed).toEqual(1)
   await lawyer.deleteLawyer(lawyerId)
   await company.deleteCompany(companyId)
-}, 20000)
+})
 
 test('Rejecting an application by company id', async () => {
   const lawyerData = {
@@ -137,8 +139,7 @@ test('Rejecting an application by company id', async () => {
 test('Fill a form by lawyer exists', async () => {
   expect.hasAssertions()
   expect(typeof (lawyer.FillForm)).toBe('function')
-},
-10000)
+})
 
 test('Filling form by lawyer', async () => {
   const companyTypeTest = {
@@ -168,8 +169,7 @@ test('Filling form by lawyer', async () => {
 test('addComment exists', async () => {
   expect.hasAssertions()
   expect(typeof (lawyer.addComment)).toBe('function')
-},
-10000)
+})
 
 test('Add Comment', async () => {
   const data = {
@@ -292,8 +292,7 @@ test('Update a Lawyer by id', async () => {
 test('View-a-form exists', async () => {
   expect.hasAssertions()
   return expect(typeof (lawyer.viewForm)).toBe('function')
-},
-10000)
+})
 
 test('View a form by investor id', async () => {
   const investorData = {
@@ -345,7 +344,7 @@ test('View a form by investor id', async () => {
   await investor.deleteInvestor(id)
   await company.deleteCompany(companyId1)
   await company.deleteCompany(companyId2)
-}, 10000)
+})
 
 test('Edit Form exists', async () => {
   expect.hasAssertions()
@@ -394,8 +393,7 @@ test('Edit Form declined by Reviewer', async () => {
 test('Update-my-profile exists', async () => {
   expect.hasAssertions()
   expect(typeof (lawyer.updateMyProfile)).toBe('function')
-},
-10000)
+})
 
 // As an Internal User I should be able to view tasks assigned to my department, so that I can be aware of coworkers updates.
 
@@ -451,7 +449,7 @@ test('Lawyer view all cases', async () => {
   expect.hasAssertions()
   expect(availableCompaniesData).toMatchObject(lawyerViewedCasesData)
   await lawyer.deleteLawyer(lawyerId)
-}, 15000)
+})
 
 test('Lawyer workPage-exists', async () => {
   expect.hasAssertions()

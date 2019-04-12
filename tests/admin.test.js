@@ -1,6 +1,7 @@
 const company = require('./company')
 const task = require('./task')
-jest.setTimeout(180000)
+
+jest.setTimeout(10000)
 
 const admin = require('./admin')
 
@@ -267,8 +268,7 @@ test('Publish a company by id', async () => {
 test('Update-my-profile exists', async () => {
   expect.assertions(1)
   expect(typeof (admin.updateMyProfile)).toBe('function')
-},
-10000)
+})
 
 // user story 2.04 part 1
 test('getFeedback exists', async () => {

@@ -4,6 +4,8 @@ const companyType = require('./companyType')
 const lawyer = require('./lawyer')
 const reviewer = require('./reviewer')
 
+jest.setTimeout(10000)
+
 test('Read-all-Investors exists', async () => {
   expect.assertions(1)
   expect(typeof (investor.default)).toBe('function')
@@ -32,8 +34,7 @@ test('Read an Investor by id', async () => {
 test('Delete-an-Investor exists', async () => {
   expect.assertions(1)
   expect(typeof (investor.deleteInvestor)).toBe('function')
-},
-10000)
+})
 
 test('Delete an Investor by id', async () => {
   const data = {
@@ -270,7 +271,7 @@ test('Fill Form to create a company', async () => {
   await companyType.deleteCompanyType(companyTypeId)
   await investor.deleteInvestor(investorId)
   await company.deleteCompany(companyId)
-}, 5500)
+})
 
 // user story 1.04 part 1
 test('viewRejected-form-by-Lawyer exists', async () => {
