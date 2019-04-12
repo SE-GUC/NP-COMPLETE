@@ -278,11 +278,11 @@ exports.workPage = async (req, res) => {
         message: 'No tasks available'
       })
     }
-    var tasks = ''
+    var tasks = []
     for (var i = 0; i < tasksAssigned.length; i++) {
       for (var j = 0; j < tasksAssigned[i].handler.length; j++) {
         if (tasksAssigned[i].handler[j] === req.params.id) {
-          tasks += tasksAssigned[i]
+          tasks.push(tasksAssigned[i])
         }
       }
     }
