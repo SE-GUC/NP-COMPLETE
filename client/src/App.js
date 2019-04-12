@@ -20,6 +20,7 @@ import LawyersViewMyTasks from './pages/LawyersViewMyTasks'
 import ViewForm from './pages/investorPages/ViewRejectedForms'
 import ReviewersViewMyTasks from './pages/ReviewersViewMyTasks'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
+import AllMyCompanies from './pages/investorPages/AllMyCompanies'
 
 class App extends Component {
   render () {
@@ -51,6 +52,8 @@ class App extends Component {
             <Route exact path='/investors/Register' component={Register} />
 
             <Route exact path='/companies/Ejournals' component={Ejournals} />
+
+            <Route exact path='/investors/MyCompanies/:id' component={AllMyCompanies} />
 
             <Route exact path='/investors/tracker/:id' component={Tracker} />
 
