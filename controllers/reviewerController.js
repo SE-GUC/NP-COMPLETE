@@ -2,7 +2,7 @@
 const Model = require('../models/Reviewer')
 const validator = require('../validations/reviewerValidations')
 const main = require('./main')
-
+const userController = require('./userController')
 // Additional Models
 const Lawyer = require('../models/Lawyer')
 const Company = require('../models/Company')
@@ -12,6 +12,12 @@ exports.default = async (req, res) => {
   await main.default(res, Model)
 }
 
+exports.register = async (req, res) => {
+  await userController.register(req, res, validator, Model)
+}
+exports.login = async (req, res) => {
+  await userController.login(req, res, Model)
+}
 exports.create = async (req, res) => {
   await main.create(req, res, validator, Model)
 }

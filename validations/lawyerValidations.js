@@ -8,7 +8,8 @@ module.exports = {
       email: Joi.string().email().required(),
       startDate: Joi.date().iso().max(Date.now()).required(),
       workingHours: Joi.number().min(5),
-      salary: Joi.number()
+      salary: Joi.number(),
+      password: Joi.string().min(8).required()
     }
 
     return Joi.validate(request, createSchema)
@@ -21,7 +22,8 @@ module.exports = {
       email: Joi.string().email(),
       startDate: Joi.date().iso().max(Date.now()),
       workingHours: Joi.number().min(5),
-      salary: Joi.number()
+      salary: Joi.number(),
+      password: Joi.string().min(8)
     }
 
     return Joi.validate(request, updateSchema)

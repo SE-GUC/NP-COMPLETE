@@ -24,6 +24,10 @@ const LawyerSchema = new Schema({
   },
   salary: {
     type: Number
+  },
+  password: {
+    type: String,
+    required: true
   }
 })
 
