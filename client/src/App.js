@@ -20,6 +20,7 @@ import ReviewerViewCases from './pages/ReviewerViewCases'
 import AdminsViewMyTasks from './pages/AdminsViewMyTasks'
 import LawyersViewMyTasks from './pages/LawyersViewMyTasks'
 import ReviewerAddComment from './pages/ReviewerAddComment'
+import AdminShowLastWorked from './pages/AdminShowLastWorked'
 import ViewForm from './pages/investorPages/ViewRejectedForms'
 import LawyerShowLastWorked from './pages/LawyerShowLastWorked'
 import ReviewersViewMyTasks from './pages/ReviewersViewMyTasks'
@@ -77,6 +78,8 @@ class App extends Component {
             <Route exact path='/admins/viewMyTasks/:id' component={AdminsViewMyTasks} />
 
             <Route exact path='/lawyers/viewAllCases/:id' component={LawyerViewCases} />
+
+            <Route exact path='/admins/showLastWorked' component={AdminShowLastWorked} />
 
             <Route exact path='/lawyers/viewMyTasks/:id' component={LawyersViewMyTasks} />
 
