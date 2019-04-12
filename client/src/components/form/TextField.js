@@ -47,6 +47,7 @@ class TextField extends Component {
               const { target } = e
               const value = target.type === 'checkbox' ? target.checked : target.value
               this.validate(value)
+              this.props.change(e, this.props.index, this.props.number)
             }}
           />
           <FormFeedback valid>

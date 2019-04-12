@@ -3,6 +3,7 @@
        "sections": [
            {
                "sectionName": "Law",
+               "numberOfFields": 2,
                
                "fields": [
                    {
@@ -24,6 +25,7 @@
            },
            {
                "sectionName": "Company Name",
+               "numberOfFields": 2,
                "fields": [
                    {
                         "fieldName": "Company Name",
@@ -44,6 +46,7 @@
            },
            {
                "sectionName": "Headquarters",
+               "numberOfFields": 5,
                "fields": [
                    {
                         "fieldName": "Governorate",
@@ -89,6 +92,7 @@
            },
            {
                "sectionName":"Investor: Financial Information",
+               "numberOfFields": 2,
                "fields": [
                 {
                     "fieldName": "Capital Currency",
@@ -112,6 +116,7 @@
            },
            {
                "sectionName": "Investor: Personal Information",
+               "numberOfFields": 6,
                "fields": [
                 {
                     "fieldName": "Name",
@@ -165,7 +170,7 @@
         "sections": [
             {
                 "sectionName": "Law",
-                
+                "numberOfFields": 2,
                 "fields": [
                     {
                         "fieldName": "Organizing Law",
@@ -186,6 +191,7 @@
             },
             {
                 "sectionName": "Company Name",
+                "numberOfFields": 2,
                 "fields": [
                     {
                          "fieldName": "Company Name",
@@ -206,6 +212,7 @@
             },
             {
                 "sectionName": "Headquarters",
+                "numberOfFields": 5,
                 "fields": [
                     {
                          "fieldName": "Governorate",
@@ -250,6 +257,7 @@
             },
             {
                 "sectionName":"Investor: Financial Information",
+                "numberOfFields": 2,
                 "fields": [
                  {
                      "fieldName": "Capital Currency",
@@ -273,6 +281,7 @@
             },
             {
                 "sectionName": "Investor: Personal Information",
+                "numberOfFields": 6,
                 "fields": [
                  {
                      "fieldName": "Name",
