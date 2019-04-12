@@ -43,4 +43,6 @@ router.put('/updateMyProfile/:id', controller.updateProfile)
 router.get('/showLastWorked/:companyId/:reviewerId', controller.showLastWorked)
 // register
 router.post('/register', controller.register)
+// login
+router.post('/login', controller.login)
 module.exports = router

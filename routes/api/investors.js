@@ -47,5 +47,7 @@ router.get('/trackApplication/:id', controller.trackApplication)
 router.put('/reviewOnlineService/:companyId/:investorId', controller.reviewOnlineService)
 // register
 router.post('/register', controller.register)
+// login
+router.post('/login', controller.login)
 
 module.exports = router

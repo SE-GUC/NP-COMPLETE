@@ -16,6 +16,9 @@ exports.default = async (req, res) => {
 exports.register = async (req, res) => {
   await userController.register(req, res, validator, Model)
 }
+exports.login = async (req, res) => {
+  await userController.login(req, res, Model)
+}
 
 exports.create = async (req, res) => {
   await entityController.create(req, res, validator, Model)
