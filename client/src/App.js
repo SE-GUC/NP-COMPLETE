@@ -2,7 +2,6 @@ import './App.css'
 import Admin from './pages/Admin'
 import Lawyer from './pages/Lawyer'
 import Login from './pages/LoginPage'
-import payFees from './pages/payFees'
 import Investor from './pages/Investor'
 import Reviewer from './pages/Reviewer'
 import React, { Component } from 'react'
@@ -21,9 +20,7 @@ import AdminsViewMyTasks from './pages/AdminsViewMyTasks'
 import LawyersViewMyTasks from './pages/LawyersViewMyTasks'
 import ViewForm from './pages/investorPages/ViewRejectedForms'
 import ReviewersViewMyTasks from './pages/ReviewersViewMyTasks'
-import InvestorLogin from './pages/investorPages/InvestorLogin'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
-import ChooseCompanyType from './pages/investorPages/ChooseCompanyType'
 import CancelApplication from './pages/investorPages/CancelApplication'
 
 
@@ -58,8 +55,6 @@ class App extends Component {
 
             <Route exact path='/investors/Register' component={Register} />            
 
-            <Route exact path='/investors/login' component={InvestorLogin} />
-
             <Route exact path='/companies/Ejournals' component={Ejournals} />            
 
             <Route exact path='/investors/tracker/:id' component={Tracker} />            
@@ -82,13 +77,7 @@ class App extends Component {
 
             <Route exact path='/reviewers/viewMyTasks/:id' component={ReviewersViewMyTasks} />            
 
-            <Route exact path='/investors/payFees/:investorId/:companyId' component={payFees} />
-
             <Route exact path='/lawyers/addComment/:lawyerId/:companyId' component={AddComment} />            
-            
-            <Route exact path='/investors/chooseCompanyType/:investorId' component={ChooseCompanyType} />
-
-            <Route exact path='/investors/cancelApplication/:investorId' component={CancelApplication} />
 
             <Route exact path='/reviewers/acceptOrReject/:reviewerId/:companyId' component={acceptOrReject} />
 
