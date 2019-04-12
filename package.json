@@ -2,7 +2,7 @@
   "name": "np-complete",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "dependencies": {
     "@types/jest": "^24.0.11",
     "axios": "^0.18.0",
@@ -18,16 +18,22 @@
     "react-bootstrap": "^1.0.0-beta.6",
     "react-router-dom": "^5.0.0",
     "stripe": "^6.28.0",
-    "uuid": "^3.3.2"
+    "uuid": "^3.3.2",
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^8.5.0"
   },
   "devDependencies": {
     "babel-preset-env": "^1.6.1",
     "jest": "^24.5.0",
-    "nodemon": "^1.18.10",
+    "nodemon": "^1.18.11",
     "standard": "^12.0.1"
   },
   "scripts": {
-    "start": "node index.js",
+    "start": "node server.js",
+    "server": "nodemon server.js",
+    "client": "npm start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "client-install": "npm install --prefix client",
     "test": "jest --runInBand",
     "testWatch": "jest --runInBand --watchAll"
   },
