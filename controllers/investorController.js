@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 // Entity model and validator
 const Model = require('../models/Investor')
 const validator = require('../validations/investorValidations')
-const entityController = require('./entityController')
+const main = require('./main')
 
 // Additional Models
 const companyType = require('../models/CompanyType')
@@ -11,23 +11,23 @@ const companyValidator = require('../validations/companyValidations')
 const Company = require('../models/Company')
 
 exports.default = async (req, res) => {
-  await entityController.default(res, Model)
+  await main.default(res, Model)
 }
 
 exports.create = async (req, res) => {
-  await entityController.create(req, res, validator, Model)
+  await main.create(req, res, validator, Model)
 }
 
 exports.read = async (req, res) => {
-  await entityController.read(req, res, Model)
+  await main.read(req, res, Model)
 }
 
 exports.update = async (req, res) => {
-  await entityController.update(req, res, validator, Model)
+  await main.update(req, res, validator, Model)
 }
 
 exports.delete = async (req, res) => {
-  await entityController.delete(req, res, Model)
+  await main.delete(req, res, Model)
 }
 
 exports.cancelApplication = async (req, res) => {

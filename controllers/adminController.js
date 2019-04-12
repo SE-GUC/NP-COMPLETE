@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 // Entity model and validator
 const Model = require('../models/Admin')
 const validator = require('../validations/adminValidations')
-const entityController = require('./entityController')
+const main = require('./main')
 
 // Additional models
 const Task = require('../models/Task')
@@ -12,23 +12,23 @@ const Company = require('../models/Company')
 const Reviewer = require('../models/Reviewer')
 
 exports.default = async (req, res) => {
-  await entityController.default(res, Model)
+  await main.default(res, Model)
 }
 
 exports.create = async (req, res) => {
-  await entityController.create(req, res, validator, Model)
+  await main.create(req, res, validator, Model)
 }
 
 exports.read = async (req, res) => {
-  await entityController.read(req, res, Model)
+  await main.read(req, res, Model)
 }
 
 exports.update = async (req, res) => {
-  await entityController.update(req, res, validator, Model)
+  await main.update(req, res, validator, Model)
 }
 
 exports.delete = async (req, res) => {
-  await entityController.delete(req, res, Model)
+  await main.delete(req, res, Model)
 }
 
 exports.viewTask = async (req, res) => {
