@@ -1,16 +1,9 @@
 const company = require('./company')
 const task = require('./task')
-jest.setTimeout(180000)
+
+jest.setTimeout(10000)
 
 const admin = require('./admin')
-
-// beforeEach(() => {
-//   admin.deleteAll()
-//  });
-
-//  afterEach(() => {
-//    admin.deleteAll()
-//   });
 
 test('read-multiple-Admins exists', async () => {
   expect.assertions(1)
@@ -27,12 +20,15 @@ test('Create an admin', async () => {
     fullName: 'Jane Doe',
     birthdate: '1995-05-05T00:00:00.000Z',
     email: 'jane-doe@gmail.com',
-    startDate: '2019-02-02T00:00:00.000Z'
+    startDate: '2019-02-02T00:00:00.000Z',
+    password: 'mr123456'
   }
   const created = await admin.createAdmin(data)
   const createdData = created.data.data
+  const id = createdData._id
   expect.assertions(1)
   expect(createdData).toMatchObject(data)
+  await admin.deleteAdmin(id)
 })
 
 test('Update-an-Admin exists', async () => {
@@ -50,7 +46,8 @@ test('Assign Deadline', async () => {
     fullName: 'Jane Doe',
     birthdate: '1995-05-05',
     email: 'jane-doe@gmail.com',
-    startDate: '2019-02-02'
+    startDate: '2019-02-02',
+    password: 'mr123456'
   }
   const created = await admin.createAdmin(data)
   const createdData = created.data.data
@@ -59,7 +56,8 @@ test('Assign Deadline', async () => {
   const modifiedTask = {
     department: 'Lawyer',
     creationDate: '2018-02-02',
-    deadline: '2019-02-02'
+    deadline: '2019-02-02',
+    description: 'Legal writing'
   }
 
   const oldTask = await task.createTask(modifiedTask)
@@ -74,11 +72,13 @@ test('Assign Deadline', async () => {
   const newTask = {
     department: 'Lawyer',
     creationDate: '2018-02-02T00:00:00.000Z',
-    deadline: '2019-03-03T00:00:00.000Z'
+    deadline: '2019-03-03T00:00:00.000Z',
+    description: 'Legal writing'
   }
   const nowTaskData = nowTask.data.data
   expect.assertions(1)
   expect(nowTaskData).toMatchObject(newTask)
+  await admin.deleteAdmin(id)
 })
 
 test('Update an Admin by id', async () => {
@@ -86,7 +86,8 @@ test('Update an Admin by id', async () => {
     fullName: 'Jane Doe',
     birthdate: '1995-05-05',
     email: 'jane-doe@gmail.com',
-    startDate: '2019-02-02'
+    startDate: '2019-02-02',
+    password: 'mr123456'
   }
 
   const dataToUpdate = {
@@ -97,7 +98,8 @@ test('Update an Admin by id', async () => {
     fullName: 'Jane Doe',
     birthdate: '1997-05-05T00:00:00.000Z',
     email: 'jane-doe@gmail.com',
-    startDate: '2019-02-02T00:00:00.000Z'
+    startDate: '2019-02-02T00:00:00.000Z',
+    password: 'mr123456'
   }
 
   const created = await admin.createAdmin(data)
@@ -107,6 +109,7 @@ test('Update an Admin by id', async () => {
   const updatedData = updated.data.data
   expect.assertions(1)
   expect(updatedData).toMatchObject(dataUpdated)
+  await admin.deleteAdmin(id)
 })
 
 test('Read-an-Admin exists', async () => {
@@ -119,7 +122,8 @@ test('Read an Admin by id', async () => {
     fullName: 'Sam Water',
     birthdate: '1837-02-15',
     email: 'balabizo@test.com',
-    startDate: '2019-02-02T00:00:00.000Z'
+    startDate: '2019-02-02T00:00:00.000Z',
+    password: 'mr123456'
   }
   const created = await admin.createAdmin(data)
   const createdData = created.data.data
@@ -128,6 +132,7 @@ test('Read an Admin by id', async () => {
   const readData = read.data.data
   expect.assertions(1)
   expect(readData).toEqual(createdData)
+  await admin.deleteAdmin(id)
 })
 
 test('Delete-an-Admin exists', async () => {
@@ -140,24 +145,29 @@ test('Delete an Admin by id', async () => {
     fullName: 'Kevin Smith',
     birthdate: '2001-10-02',
     email: 'high@tower.net',
-    startDate: '2019-02-02T00:00:00.000Z'
+    startDate: '2019-02-02T00:00:00.000Z',
+    password: 'mr123456'
   }
   const created = await admin.createAdmin(data)
   const createdData = created.data.data
   const id = createdData['_id']
   const deleted = await admin.deleteAdmin(id)
-  const deletedData = deleted.data.deletedAdmin
+  const deletedData = deleted.data.deleted
   expect.assertions(1)
-  expect(deletedData).toEqual(createdData)
+  await expect(deletedData).toEqual(createdData)
 })
-
+test('ViewCases exists', async () => {
+  expect.assertions(1)
+  expect(typeof (admin.viewCases)).toBe('function')
+})
 // User story 4.09 - view All cases (Companies) on the system
 test('Admin view cases by id', async () => {
   const adminData = {
     fullName: 'John Smith',
     birthdate: '1996-10-02',
     email: 'mko@tower.net',
-    startDate: '2019-02-02T00:00:00.000Z'
+    startDate: '2019-02-02T00:00:00.000Z',
+    password: 'mr123456'
   }
   const createdAdmin = await admin.createAdmin(adminData)
   const createdAdminData = createdAdmin.data.data
@@ -168,6 +178,7 @@ test('Admin view cases by id', async () => {
   const availableCompaniesData = availableCompanies.data.data
   expect.assertions(1)
   expect(adminViewedCasesData).toMatchObject(availableCompaniesData)
+  await admin.deleteAdmin(adminId)
 })
 
 // As an Internal User I should be able to view tasks assigned to my department, so that I can be aware of coworkers updates.
@@ -184,7 +195,8 @@ test('Admin view his department tasks by id', async () => {
     fullName: 'John Smith',
     birthdate: '1996-10-02',
     email: 'mko@tower.net',
-    startDate: '2019-02-02T00:00:00.000Z'
+    startDate: '2019-02-02T00:00:00.000Z',
+    password: 'mr123456'
   }
   const createdAdmin = await admin.createAdmin(adminData)
   const createdAdminData = createdAdmin.data.data
@@ -195,6 +207,7 @@ test('Admin view his department tasks by id', async () => {
   const myDepartmentTasksData = myDepartmentTasks.data.data
   expect.assertions(1)
   expect(adminDepartmentTasksData).toEqual(myDepartmentTasksData)
+  await admin.deleteAdmin(adminId)
 })
 // user story 4.07 part 1
 test('Publish a company exists', async () => {
@@ -208,7 +221,7 @@ test('Publish a company by id', async () => {
     name: 'Nike',
     establishmentDate: '1837-02-15',
     type: 'SSC',
-    state: 'pending',
+    state: 'Pending',
     accepted: true,
     investorId: '5c9614f2fe51f5258ce36f91',
     form: {
@@ -235,7 +248,7 @@ test('Publish a company by id', async () => {
     name: 'Nike',
     establishmentDate: datenow.toISOString(),
     type: 'SSC',
-    state: 'published',
+    state: 'Established',
     accepted: true,
     investorId: '5c9614f2fe51f5258ce36f91',
     form: {
@@ -253,18 +266,17 @@ test('Publish a company by id', async () => {
   }
 
   const publishedCompanyData = publishedCompany.data.data
-  await company.deleteCompany(companyId)
 
   expect.assertions(1)
   expect(publishedCompanyData).toMatchObject(updatedData)
+  await company.deleteCompany(companyId)
 })
 
 // User story 5.06 - update profile
 test('Update-my-profile exists', async () => {
   expect.assertions(1)
   expect(typeof (admin.updateMyProfile)).toBe('function')
-},
-10000)
+})
 
 // user story 2.04 part 1
 test('getFeedback exists', async () => {
@@ -275,50 +287,50 @@ test('getFeedback exists', async () => {
 // user story 2.04 part 2
 test('getFeedback of investors by admin', async () => {
   const data = {
-    'form': {
-      'data': [
+    form: {
+      data: [
         'cairo',
         23,
         5555
       ],
-      'acceptedByLawyer': -1,
-      'acceptedByReviewer': -1,
-      'filledByLawyer': false,
-      'paid': false
+      acceptedByLawyer: -1,
+      acceptedByReviewer: -1,
+      filledByLawyer: false,
+      paid: false
     },
-    'investorId': '5c9f4a53df42f6a988998b59',
-    'name': 'myCo',
-    'type': 'SSC',
-    'accepted': false,
-    'feedback': 'hello'
+    name: 'myCo',
+    type: 'SSC',
+    accepted: false,
+    feedback: 'hello'
   }
   const data1 = {
-    'form': {
-      'data': [
+    form: {
+      data: [
         'cairo',
         23,
         5555
       ],
-      'acceptedByLawyer': -1,
-      'acceptedByReviewer': -1,
-      'filledByLawyer': false,
-      'paid': false
+      acceptedByLawyer: -1,
+      acceptedByReviewer: -1,
+      filledByLawyer: false,
+      paid: false
     },
-    'investorId': '5c9f4a53df42f6a988998b59',
-    'name': 'myCo',
-    'type': 'SSC',
-    'accepted': false,
-    'feedback': 'hello'
+    name: 'myCo',
+    type: 'SSC',
+    accepted: false,
+    feedback: 'hello'
   }
   const originalFeedback = data['feedback']
   const originalFeedback1 = data1['feedback']
 
   await company.createCompany(data)
+  await company.createCompany(data1)
   const feedbacks = await admin.getFeedback('1')
   const feedbacksData = feedbacks.data.data
 
-  expect.assertions(1)
-  expect(feedbacksData).toContain(originalFeedback1) && expect(feedbacksData).toContain(originalFeedback)
+  expect(feedbacksData).toContain(originalFeedback1)
+  expect(feedbacksData).toContain(originalFeedback)
+  expect.assertions(2)
 })
 
 test('Admin workPage-exists', async () => {
@@ -331,26 +343,30 @@ test('Admin workPage', async () => {
     fullName: 'Elliot Alderson',
     birthdate: '1995-10-02',
     email: 'mrRobot@fsociety.com',
-    startDate: '1998-12-02'
+    startDate: '1998-12-02',
+    password: 'mr123456'
   }
   const createdAdmin = await admin.createAdmin(adminData)
   const createdAdminData = createdAdmin.data.data
-  const adminId = createdAdminData['_id']
+  const adminId = createdAdminData._id
 
   const taskData = {
     department: 'Admin',
     creationDate: '2019-02-02T00:00:00.000Z',
     deadline: '2019-02-06T00:00:00.000Z',
-    handler: [adminId]
+    handler: [adminId],
+    description: 'Admin work'
   }
 
   const createdTask = await task.createTask(taskData)
   const createdTaskData = createdTask.data.data
+  const taskId = createdTaskData._id
   const taskhandler = createdTaskData['handler']
 
   const adminWorkPage = await admin.workPage(adminId)
   const adminWorkPageData = adminWorkPage.data.data[0].handler[0]
-  console.log(adminWorkPageData)
   expect.assertions(1)
   expect(adminWorkPageData).toEqual(taskhandler[0])
+  await admin.deleteAdmin(adminId)
+  await task.deleteTask(taskId)
 })

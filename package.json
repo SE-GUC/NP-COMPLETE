@@ -13,6 +13,7 @@
     "jest": "^24.5.0",
     "jest-cli": "^24.5.0",
     "joi": "^14.3.1",
+    "joi-password-complexity": "^2.0.1",
     "mon": "0.0.8",
     "mongoose": "^5.4.22",
     "node": "^11.12.0",
@@ -28,16 +29,23 @@
     "babel-preset-env": "^1.6.1",
     "jest": "^24.5.0",
     "nodemon": "^1.18.11",
-    "standard": "^12.0.1"
+    "standard": "^12.0.1",
+    "mongoose": "^5.5.1",
+    "node": "^11.12.0",
+    "passport": "^0.4.0",
+    "passport-jwt": "^4.0.0",
+    "stripe": "^6.28.0",
+    "token": "^0.1.0",
+    "uuid": "^3.3.2"
   },
   "scripts": {
     "start": "node server.js",
     "server": "nodemon server.js",
     "client": "npm start --prefix client",
+    "dev": "concurrently \"npm run start\" \"npm run client\"",
     "client-install": "npm install --prefix client",
     "test": "jest --runInBand",
-    "testWatch": "jest --runInBand --watchAll",
-    "dev": "concurrently \"npm run start\" \"npm run client\""
+    "testWatch": "jest --runInBand --watchAll"
   },
   "repository": {
     "type": "git",

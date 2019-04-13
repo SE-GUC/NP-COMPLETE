@@ -26,7 +26,11 @@ const ExternalEntitySchema = new Schema({
   feesMax: {
     type: Number,
     required: true
+  },
+  url: {
+    type: String,
+    required: true
   }
 })
 
-module.exports = mongoose.model('externalEntities', ExternalEntitySchema)
+module.exports = mongoose.model('ExternalEntity', ExternalEntitySchema, 'externalEntity')

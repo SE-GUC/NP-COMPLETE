@@ -21,6 +21,8 @@ import ViewForm from './pages/investorPages/ViewRejectedForms'
 import ReviewersViewMyTasks from './pages/ReviewersViewMyTasks'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import UpdateProfile from './pages/UpdateProfile'
+import UpdateForm from './pages/UpdateForm'
+import ChooseForm from './pages/investorPages/ChooseForm'
 
 class App extends Component {
   render () {
@@ -78,6 +80,10 @@ class App extends Component {
             <Route exact path='/reviewers/acceptOrReject/:reviewerId/:companyId' component={acceptOrReject} />
 
             <Route exact path='/user/UpdateProfile' component={UpdateProfile} />
+            
+            <Route exact path='/investors/fillForm' component={ChooseForm} />
+
+            <Route exact path='/investors/editForm' component={UpdateForm} />
 
           </div>
         </div>
