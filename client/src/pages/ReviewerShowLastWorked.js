@@ -3,7 +3,7 @@ import { Alert, Card } from 'react-bootstrap'
 import axios from 'axios'
 import queryString from 'query-string'
 
-class ReviewerAddComment extends Component {
+class ReviewerShowLastWroked extends Component {
   constructor (props) {
     super(props)
     const values = queryString.parse(this.props.location.search)
@@ -70,4 +70,4 @@ class ReviewerAddComment extends Component {
   }
 }
 
-export default ReviewerAddComment
+export default ReviewerShowLastWroked
