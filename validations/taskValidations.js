@@ -8,7 +8,8 @@ module.exports = {
       deadline: Joi.date().iso().required(),
       assigned: Joi.boolean(),
       done: Joi.boolean(),
-      handler: Joi.array()
+      handler: Joi.array(),
+      description: Joi.string().required()
     }
     return Joi.validate(request, createSchema)
   },
@@ -20,7 +21,8 @@ module.exports = {
       deadline: Joi.date().iso(),
       assigned: Joi.boolean(),
       done: Joi.boolean(),
-      handler: Joi.array()
+      handler: Joi.array(),
+      description: Joi.string()
     }
 
     return Joi.validate(request, updateSchema)

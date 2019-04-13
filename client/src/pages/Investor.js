@@ -16,7 +16,7 @@ export class Investor extends Component {
             Axios
             .delete(`http://localhost:8000/api/investors/${id}`)
             .then(res =>{
-             this.setState({users:res.data.remainingInvestors})}) 
+             this.setState({users:res.data.remaining})}) 
             .catch(err => this.setState({error:true}))
       }
 
