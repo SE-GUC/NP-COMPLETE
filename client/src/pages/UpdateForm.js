@@ -26,11 +26,10 @@ class UpdateForm extends Component {
   }
   submitForm = (e)=>{
     e.preventDefault()
-    var sentData={name:this.state.companyName,type:this.props.type ,form:{data:this.state.filledform}}
+    var sentData={data:this.state.filledform}
     Axios
-    .put(`http://localhost:8000/api/investors/editForm/${this.state.investorID}`, sentData)
-    .then(res=>alert(`company created with name ${res.data.data.name}`))
-    .then(alert('form submitted!!'))
+    .put(`http://localhost:8000/api/investors/editForm/${this.state.companyID}`, sentData)
+    .then(res=>alert(res.data.message))
     .catch(error=>console.log(error))
     
   }
@@ -65,6 +64,7 @@ class UpdateForm extends Component {
     await this.setState({oldData:res.data.data.form.data,formType:res.data.data.type})
     console.log(this.state.oldData)
     await this.state.formType==="SSC"?(this.setState({form:form.SSC})):(this.setState({form:form.SPC}))
+    this.setState({filledform:this.state.oldData})
     await this.setState({idEntered:true})
   }
   render () {
