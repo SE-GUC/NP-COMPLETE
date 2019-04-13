@@ -26,6 +26,7 @@ import InvestorLogin from './pages/investorPages/InvestorLogin'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import ChooseCompanyType from './pages/investorPages/ChooseCompanyType'
 import CancelApplication from './pages/investorPages/CancelApplication'
+import PublishCompany from './pages/PublishCompany'
 
 class App extends Component {
   render () {
@@ -93,6 +94,8 @@ class App extends Component {
             <Route exact path='/reviewers/acceptOrReject/:reviewerId/:companyId' component={acceptOrReject} />
 
             <Route exact path='/admins/showLastWroked' component={AdminShowLastWorked} />
+
+            <Route exact path='/admins/publishCompany/:id' component={PublishCompany} />
 
           </div>
         </div>
