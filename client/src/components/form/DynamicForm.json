@@ -10,15 +10,13 @@
                        "fieldName": "Organizing Law",
                        "fieldType": "dropdownList",
                        "dropdownOptions": [72, 159],
-                       "required": true,
-                       "validations": null
+                       "required": true
                    },
                    {
                         "fieldName": "Company's Legal Form",
                         "fieldType": "dropdownList",
                         "dropdownOptions": ["A", "B", "C"],
-                        "required": true,
-                        "validations": null
+                        "required": true
                    }
                ]
 
@@ -32,7 +30,10 @@
                         "fieldType": "textField",
                         "inputType": "string",
                         "required": true,
-                        "validations": null
+                        "validations": [
+                            {"minLength": 3}
+                        ],
+                        "placeholder": "شركتي"
                    },
                    {
                         "fieldName": "Company Name in English",
@@ -72,21 +73,24 @@
                         "fieldType": "textField",
                         "inputType": "string",
                         "required": true,
-                        "validations": null
+                        "validations": null,
+                        "placeholder": "31 Tahrir St. Ad Dawawin, Abdeen, Cairo Governorate"
                     },
                     {
                         "fieldName": "Telephone Number",
                         "fieldType": "textField",
                         "inputType": "string",
                         "required": false,
-                        "validations": null
+                        "validations": null,
+                        "placeholder": "01234567890"
                     },
                     {
                         "fieldName": "Fax",
                         "fieldType": "textField",
                         "inputType": "string",
                         "required": false,
-                        "validations": null
+                        "validations": null,
+                        "placeholder": "2290708090"
                     }
                ]
            },
@@ -109,21 +113,23 @@
                     "validations": [
                         {"min": 50000},
                         {"max": 999999999999}
-                    ]
+                    ],
+                    "placeholder": "80000"
                 }
 
                ]
            },
            {
                "sectionName": "Investor: Personal Information",
-               "numberOfFields": 6,
+               "numberOfFields": 11,
                "fields": [
                 {
                     "fieldName": "Name",
                     "fieldType": "textField",
                     "inputType": "string",
                     "required": true,
-                    "validations": null
+                    "validations": null,
+                    "placeholder": "John Doe"
                 },
                 {
                     "fieldName": "Type",
@@ -156,11 +162,128 @@
                 {
                     "fieldName": "Identification number",
                     "fieldType": "textField",
-                    "inputType": ["number"],
+                    "inputType": "number",
+                    "required": true,
+                    "validations": null,
+                    "placeholder": "123******909"
+                },
+                {
+                    "fieldName": "Birth Date",
+                    "fieldType": "textField",
+                    "inputType": "date",
+                    "required": true,
+                    "validations": [
+                        {"minAge": 21}
+                    ]
+                },
+                {
+                    "fieldName": "Addrress",
+                    "fieldType": "textField",
+                    "inputType": "string",
+                    "required": true,
+                    "validations": null,
+                    "placeholder":"21 El Hegaz StEl-Montaza, Heliopolis, Cairo"
+                },
+                {
+                    "fieldName": "Telephone number",
+                    "fieldType": "textField",
+                    "inputType": "number",
+                    "required": false,
+                    "validations": null,
+                    "placeholder": "01234567890"
+                },
+                {
+                    "fieldName": "Fax",
+                    "fieldType": "textField",
+                    "inputType": "number",
+                    "required": false,
+                    "validations": null,
+                    "placeholder": "2290708090"
+                },
+                {
+                    "fieldName": "Email",
+                    "fieldType": "textField",
+                    "inputType": "string",
+                    "required": false,
+                    "validations": null,
+                    "placeholder":"john-doe@example.com"
+                }
+               ]
+           },
+           {
+            "sectionName": "Board of Directors",
+            "numberOfFields": 9,
+            "fields": [
+                {
+                    "fieldName": "Name",
+                    "fieldType": "textField",
+                    "inputType": "string",
+                    "required": true,
+                    "validations": null,
+                    "placeholder":"John Doe"
+                },
+                {
+                    "fieldName": "Type",
+                    "fieldType": "dropdownList",
+                    "dropdownOptions": ["Person"],
+                    "required": true,
+                    "validations": null
+                },
+                {
+                    "fieldName": "Gender",
+                    "fieldType": "dropdownList",
+                    "dropdownOptions": ["Male", "Female"],
+                    "required": true,
+                    "validations": null
+                },
+                {
+                    "fieldName": "Nationality",
+                    "fieldType": "dropdownList",
+                    "dropdownOptions": ["Egyptian", "American", "Spanish", "Dutch", "German", "Ganian", "Brazilian", "Japanese", "Chineese", "South African", "Lebenese"],
+                    "required": true,
+                    "validations": null
+                },
+                {
+                    "fieldName": "Identification type",
+                    "fieldType": "dropdownList",
+                    "dropdownOptions": ["NationalId", "Passport"],
+                    "required": true,
+                    "validations": null
+                },
+                {
+                    "fieldName": "Identification number",
+                    "fieldType": "textField",
+                    "inputType": "number",
+                    "required": true,
+                    "validations": null,
+                    "placeholder": "123******909"
+                },
+                {
+                    "fieldName": "Birth Date",
+                    "fieldType": "textField",
+                    "inputType": "date",
+                    "required": true,
+                    "validations": [
+                        {"minAge": 21}
+                    ],
+                    "placeholder":"date placeholder"
+                },
+                {
+                    "fieldName": "Addrress",
+                    "fieldType": "textField",
+                    "inputType": "string",
+                    "required": true,
+                    "validations": null,
+                    "placeholder":"21 El Hegaz StEl-Montaza, Heliopolis, Cairo"
+                },
+                {
+                    "fieldName": "Role in Board of Directors",
+                    "fieldType": "dropdownList",
+                    "dropdownOptions": ["CEO", "CTO", "CFO", "Shareholder"],
                     "required": true,
                     "validations": null
                 }
-               ]
+            ]
            }
        ] 
 
@@ -190,22 +313,24 @@
  
             },
             {
-                "sectionName": "Company Name",
+                "sectionName": "Enterprise Name",
                 "numberOfFields": 2,
                 "fields": [
                     {
-                         "fieldName": "Company Name",
+                         "fieldName": "Enterprise Name",
                          "fieldType": "textField",
                          "inputType": "string",
                          "required": true,
-                         "validations": null
+                         "validations": null,
+                         "placeholder": "مؤسستي"
                     },
                     {
-                         "fieldName": "Company Name in English",
+                         "fieldName": "Enterprise Name in English",
                          "fieldType": "textField",
                          "inputType": "string",
                          "required": false,
-                         "validations": null
+                         "validations": null,
+                         "placeholder": "My Coorporation"
                      }
                 ]
  
@@ -238,20 +363,23 @@
                          "fieldType": "textField",
                          "inputType": "string",
                          "required": true,
-                         "validations": null
+                         "validations": null,
+                         "placeholder": "31 Tahrir St. Ad Dawawin, Abdeen, Cairo Governorate"
                      },
                      {
                          "fieldName": "Telephone Number",
                          "fieldType": "textField",
                          "inputType": "string",
-                         "required": false
+                         "required": false,
+                         "placeholder": "01234567890"
                      },
                      {
                          "fieldName": "Fax",
                          "fieldType": "textField",
                          "inputType": "string",
                          "required": false,
-                         "validations": null
+                         "validations": null,
+                         "placeholder": "2290708090"
                      }
                 ]
             },
@@ -271,31 +399,23 @@
                      "fieldType": "textField",
                      "inputType": "number",
                      "required": true,
-                     "validations": [
-                         {"min": 50000},
-                         {"max": 999999999999}
-                     ]
+                     "validations": null,
+                     "placeholder": "800000"
                  }
  
                 ]
             },
             {
                 "sectionName": "Investor: Personal Information",
-                "numberOfFields": 6,
+                "numberOfFields": 10,
                 "fields": [
                  {
                      "fieldName": "Name",
                      "fieldType": "textField",
                      "inputType": "string",
                      "required": true,
-                     "validations": null
-                 },
-                 {
-                     "fieldName": "Type",
-                     "fieldType": "dropdownList",
-                     "dropdownOptions": ["Person"],
-                     "required": true,
-                     "validations": null
+                     "validations": null,
+                     "placeholder": "John Doe"
                  },
                  {
                      "fieldName": "Gender",
@@ -321,10 +441,53 @@
                  {
                      "fieldName": "Identification number",
                      "fieldType": "textField",
-                     "inputType": ["number"],
+                     "inputType": "number",
                      "required": true,
-                     "validations": null
-                 }
+                     "validations": null,
+                     "placeholder": "123******909"
+                 },
+                 {
+                    "fieldName": "Birth Date",
+                    "fieldType": "textField",
+                    "inputType": "date",
+                    "required": true,
+                    "validations": [
+                        {"minAge": 21}
+                    ],
+                    "placeholder": "date placeholder"
+                },
+                {
+                    "fieldName": "Addrress",
+                    "fieldType": "textField",
+                    "inputType": "string",
+                    "required": true,
+                    "validations": null,
+                    "placeholder":"21 El Hegaz StEl-Montaza, Heliopolis, Cairo"
+                },
+                {
+                    "fieldName": "Telephone number",
+                    "fieldType": "textField",
+                    "inputType": "number",
+                    "required": false,
+                    "validations": null,
+                    "placeholder": "2290708090"
+                },
+                {
+                    "fieldName": "Fax",
+                    "fieldType": "textField",
+                    "inputType": "number",
+                    "required": false,
+                    "validations": null,
+                    "placeholder": "01234567890"
+                },
+                {
+                    "fieldName": "Email",
+                    "fieldType": "textField",
+                    "inputType": "string",
+                    "required": false,
+                    "validations": null,
+                    "placeholder":"john-doe@example.com"
+                }
                 ]
             }
         ] 
