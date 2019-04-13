@@ -31,8 +31,9 @@
     "standard": "^12.0.1"
   },
   "scripts": {
-    "start": "node server.js",
+    "start": "concurrently \"npm run server\" \"npm run client\"",
     "server": "nodemon server.js",
+    "client": "npm start --prefix client",
     "client-install": "npm install --prefix client",
     "test": "jest --runInBand",
     "testWatch": "jest --runInBand --watchAll",
