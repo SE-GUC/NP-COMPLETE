@@ -13,7 +13,6 @@ import Header from './components/generic/Header'
 import Ejournals from './pages/CompaniesEjournals'
 import Tracker from './pages/investorPages/Tracker'
 import acceptOrReject from './pages/acceptOrReject'
-import acceptOrRejectInvestorForm from './pages/acceptOrRejectInvestorForm'
 import AdminViewCases from './pages/AdminViewCases'
 import LawyerViewCases from './pages/LawyerViewCases'
 import Register from './pages/investorPages/Register'
@@ -26,6 +25,7 @@ import InvestorLogin from './pages/investorPages/InvestorLogin'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import ChooseCompanyType from './pages/investorPages/ChooseCompanyType'
 import CancelApplication from './pages/investorPages/CancelApplication'
+import acceptOrRejectInvestorForm from './pages/acceptOrRejectInvestorForm'
 
 class App extends Component {
   render () {
@@ -62,8 +62,6 @@ class App extends Component {
 
             <Route exact path='/companies/Ejournals' component={Ejournals} />
 
-            <Route exact path='/lawyers/review/:lawyerId/:companyId' component={acceptOrRejectInvestorForm} />
-
             <Route exact path='/investors/tracker/:id' component={Tracker} />
 
             <Route exact path='/admins/deleteInvestor' component={Investor} />
@@ -93,6 +91,8 @@ class App extends Component {
             <Route exact path='/investors/cancelApplication/:investorId' component={CancelApplication} />
 
             <Route exact path='/reviewers/acceptOrReject/:reviewerId/:companyId' component={acceptOrReject} />
+
+            <Route exact path='/lawyers/review/:lawyerId/:companyId' component={acceptOrRejectInvestorForm} />
 
           </div>
         </div>

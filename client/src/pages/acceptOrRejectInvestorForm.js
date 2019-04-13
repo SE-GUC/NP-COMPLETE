@@ -28,14 +28,14 @@ class acceptOrRejectInvestorForm extends Component {
     (res.data.data.form )
     }))
     .then(res => this.setState({loading: false}))
-    .then(res => console.log(this.state.forms ))
+    // .then(res => console.log(this.state.forms ))
 
     // .then(console.log("form from axios ends"))
     .catch(err => {
       console.log(err)
     })
     // console.log("form from axios ends")
-    console.log(this.state)
+    // console.log(this.state)
 }
 
 
