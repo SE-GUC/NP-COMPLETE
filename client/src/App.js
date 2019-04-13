@@ -53,8 +53,6 @@ class App extends Component {
 
             <Route exact path='/companies/Ejournals' component={Ejournals} />
 
-            <Route exact path='/investors/MyCompanies/:id' component={AllMyCompanies} />
-
             <Route exact path='/investors/tracker/:id' component={Tracker} />
 
             <Route exact path='/admins/deleteInvestor' component={Investor} />
@@ -68,6 +66,8 @@ class App extends Component {
             <Route exact path='/admins/viewMyTasks/:id' component={AdminsViewMyTasks} />
 
             <Route exact path='/lawyers/viewAllCases/:id' component={LawyerViewCases} />
+
+            <Route exact path='/investors/MyCompanies/:id' component={AllMyCompanies} />
 
             <Route exact path='/lawyers/viewMyTasks/:id' component={LawyersViewMyTasks} />
 
