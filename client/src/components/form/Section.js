@@ -9,7 +9,8 @@ class Section extends Component {
     this.state = {
       number: props.number,
       sectionName: props.section.sectionName,
-      fields: props.section.fields
+      fields: props.section.fields,
+      oldData: props.oldData
     }
   }
 
@@ -17,9 +18,9 @@ class Section extends Component {
     return (
       this.state.fields.map((fields, i) => {
         if (fields.fieldType === 'dropdownList') {
-          return <DropDown index={i} fields={fields} number={this.props.number} change={this.props.change} />
+          return <DropDown form={this.props.form} index={i} fields={fields} edit={this.props.edit} oldData={this.state.oldData} number={this.props.number} change={this.props.change} />
         } else if (fields.fieldType === 'textField') {
-          return <TextField index={i} fields={fields} number={this.props.number} change={this.props.change} />
+          return <TextField form={this.props.form} index={i} fields={fields} edit={this.props.edit} oldData={this.state.oldData} number={this.props.number} change={this.props.change} />
         }
       })
     )

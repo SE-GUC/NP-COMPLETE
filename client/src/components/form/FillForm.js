@@ -53,7 +53,7 @@ class FillForm extends Component {
       return (
         <Container className="Section">
           <h1> {section.sectionName} </h1>
-          <Section number={i} section={section} change={this.handleChange} />
+          <Section number={i} edit={false} section={section} change={this.handleChange} />
         </Container>
       )
     })
