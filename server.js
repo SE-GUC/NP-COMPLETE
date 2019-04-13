@@ -1,5 +1,6 @@
 const express = require('express')
 const mongoose = require('mongoose')
+const passport = require('passport')
 
 // Require Router Handlers
 
@@ -18,13 +19,15 @@ const app = express()
 // Init middleware
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
+app.use(passport.initialize())
 
 // DB Config
 const db = require('./config/keys').mongoURI
-
+// // Passport configuration
+require('./config/passport')(passport)
 // Connect to mongo
 mongoose
-  .connect(db, { useNewUrlParser: true })
+  .connect(db, { useNewUrlParser: true, useFindAndModify: false, useCreateIndex: true })
   .then(() => console.log('Connected to MongoDB'))
   .catch(err => console.log(err))
 

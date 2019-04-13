@@ -3,7 +3,6 @@ import Axios from 'axios'
 import DeleteAccounts from '../components/DeleteAccounts'
 import PropTypes from 'prop-types'
 
-
 export class Admin extends Component {
     _isMounted = false
     constructor(props) {
@@ -16,7 +15,7 @@ export class Admin extends Component {
             Axios
             .delete(`http://localhost:8000/api/admins/${id}`)
             .then(res =>{
-             this.setState({users:res.data.remainingAdmins})}) 
+             this.setState({users:res.data.remaining})}) 
             .catch(err => this.setState({error:true}))
       }
 

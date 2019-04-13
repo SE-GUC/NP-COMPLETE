@@ -30,8 +30,11 @@ class ViewForm extends Component {
             formItems.push(
               // resultArr[i].data
               {
-                data: resultArr[i].data,
-                comment: resultArr[i].comment
+                fields: resultArr[i].fields,
+                descriptions: resultArr[i].descriptions,
+                data: resultArr[i].form.data,
+                comment: resultArr[i].form.comment,
+                companyNames: resultArr[i].name
               }
 
             )
@@ -75,7 +78,8 @@ class ViewForm extends Component {
     return (
       this.state.formItems.map((x, i) => (
         <Container>
-          <FormDisplay form={x.data} key={i} />
+          <h1> {x.companyNames} </h1>
+          <FormDisplay form={x.data} fields={x.fields} key={i} />
           <Row>
             <Col> Comment: </Col>
             <Col> {x.comment} </Col>

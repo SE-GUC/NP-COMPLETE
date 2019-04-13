@@ -16,7 +16,7 @@ export class Reviewer extends Component {
             Axios
             .delete(`http://localhost:8000/api/reviewers/${id}`)
             .then(res =>{
-             this.setState({users:res.data.remainingReviewers})}) 
+             this.setState({users:res.data.remaining})}) 
             .catch(err => this.setState({error:true}))
       }
 
