@@ -3,7 +3,6 @@ import Axios from 'axios'
 import DeleteAccounts from '../components/DeleteAccounts'
 import PropTypes from 'prop-types'
 
-
 export class Admin extends Component {
     _isMounted = false
     constructor(props) {

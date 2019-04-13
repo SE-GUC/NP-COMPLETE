@@ -34,15 +34,15 @@ class ViewForm extends Component {
                 comment: resultArr[i].comment
               }
 
-              )
+            )
           }
           this.setState({ formItems: formItems, loading: false })
         }
       )
       .catch(error => {
-        if(error['response']) {
+        if (error['response']) {
           console.log(error['response'].data)
-          this.setState({error: true, loading: false, errorMessage: error['response'].data.message })
+          this.setState({ error: true, loading: false, errorMessage: error['response'].data.message })
         } else {
           console.log(error)
         }
@@ -51,14 +51,14 @@ class ViewForm extends Component {
   render () {
     console.log(this.state)
     console.log(this.props)
-    if(this.state.loading) {
+    if (this.state.loading) {
       return <h1> Loading </h1>
     }
     if (this.state.loading === false && this.state.error) {
       return (
         <div>
           <div>
-             <h1> Error </h1>
+            <h1>Error </h1>
           </div>
           <div>
             <h1> {this.state.errorMessage} </h1>
@@ -67,13 +67,13 @@ class ViewForm extends Component {
       )
     }
 
-    if(this.state.loading === false && this.state.formItems.length === 0){
+    if (this.state.loading === false && this.state.formItems.length === 0) {
       return (
         <h1> No companies to display</h1>
       )
     }
     return (
-      this.state.formItems.map( (x, i) => (
+      this.state.formItems.map((x, i) => (
         <Container>
           <FormDisplay form={x.data} key={i} />
           <Row>
@@ -82,7 +82,7 @@ class ViewForm extends Component {
           </Row>
           <hr />
         </Container>
-         ))
+      ))
     )
   }
 }
