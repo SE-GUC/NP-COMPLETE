@@ -1,24 +1,47 @@
 import React, { Component } from 'react'
 import Button from 'react-bootstrap/Button'
+import FillForm from '../../components/form/FillForm'
+const form = require('../../components/form/DynamicForm.json')
 
 export class ChooseCompanyType extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      loading: true
+      loading: true,
+      showOptions: true,
+      renderSSC: false,
+      renderSPC: false
     }
+    this.clickSPC = this.clickSPC.bind(this)
+    this.clickSSC = this.clickSSC.bind(this)
+  }
+
+  clickSPC () {
+    // alert('SPC')
+    this.setState({ showOptions: false, renderSPC: true })
+  }
+  clickSSC () {
+    // alert('SSC')
+    this.setState({ showOptions: false, renderSSC: true })
   }
 
   render () {
-    return (
-      <div className='App'>
-        <h1>Choose your company type</h1>
-        <Button style={btnStyle} href='https://www.google.com/'>SSC</Button> 
-        <Button style={btnStyle} href='https://www.facebook.com/'>SPC</Button>
+    if (this.state.showOptions) {
+      return (
+        <div className='App'>
+          <h1>Choose your company type</h1>
+          <Button style={btnStyle} onClick={this.clickSSC}>SSC</Button>
+          <Button style={btnStyle} onClick={this.clickSPC}>SPC</Button>
+        </div>
 
-      </div>
-
-    )
+      )
+    }
+    if (this.state.renderSPC) {
+      return <FillForm type={'SPC'} form={form.SPC} />
+    }
+    if (this.state.renderSSC) {
+      return <FillForm type={'SSC'} form={form.SSC} />
+    }
   }
 }
 
