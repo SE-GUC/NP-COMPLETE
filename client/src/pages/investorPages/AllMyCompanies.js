@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
 import Mycompanies from '../../components/MyCompanies'
 export class AllMyCompanies extends Component {
+
   render() {
     return (
       <div>
         <div className='AllMyCompanies'>
-        <Mycompanies keys />
+        <Mycompanies keys id={this.props.match.params.id} />
       </div>
       </div>
     )

@@ -9,7 +9,7 @@ export class MyCompanies extends Component {
         }
       }
       componentDidMount () {
-        const id = this.props.match.params
+        const {id} = this.props
         axios
           .get(`http://localhost:8000/api/investors/getCompanies/${id}`)
           .then(res => this.setState({companies: res.data.data}))
