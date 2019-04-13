@@ -26,8 +26,12 @@ const TaskSchema = new Schema({
   handler: {
     type: [String],
     required: false
+  },
+  description: {
+    type: String,
+    required: true
   }
 
 })
 
-module.exports = mongoose.model('Task', TaskSchema)
+module.exports = mongoose.model('Task', TaskSchema, 'task')
