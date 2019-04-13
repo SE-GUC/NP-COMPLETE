@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import Apps from '../../components/company/Apps'
+import Header2 from '../../components/Header2'
 
 export class CancelApplication extends Component {
   constructor (props) {
@@ -66,7 +67,8 @@ export class CancelApplication extends Component {
       <div className='App'>
         <div>
           {this.state.loading ? <h1>Loading..</h1>
-            : <Apps forms={this.state.apps} cancel={this.cancel} />}
+            : <div> <Header2 /> 
+            <Apps forms={this.state.apps} cancel={this.cancel} /> </div>}
         </div>
       </div>
 

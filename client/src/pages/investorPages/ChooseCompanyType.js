@@ -13,7 +13,7 @@ export class ChooseCompanyType extends Component {
     return (
       <div className='App'>
         <h1>Choose your company type</h1>
-        <Button style={btnStyle} href='https://www.google.com/'>SSC</Button>
+        <Button style={btnStyle} href='https://www.google.com/'>SSC</Button> 
         <Button style={btnStyle} href='https://www.facebook.com/'>SPC</Button>
 
       </div>
@@ -29,8 +29,9 @@ const btnStyle = {
   padding: '10px 90px',
   cursor: 'pointer',
   float: 'center',
-  fontSize: 30,
-  margin: '20px'
+  fontSize: 20,
+  margin: '20px',
+  hover: true
 }
 
 export default ChooseCompanyType

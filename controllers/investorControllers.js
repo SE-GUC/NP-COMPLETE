@@ -457,6 +457,7 @@ const isValidDate = stringDate => {
   return date && Object.prototype.toString.call(date) === '[object Date]' && !isNaN(date)
 }
 
+// Added for login story => not finalized (needs modifications)
 exports.login = async (req, res) => {
   try {
     const { email, password } = req.body
