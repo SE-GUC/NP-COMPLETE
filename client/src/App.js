@@ -14,7 +14,6 @@ import Ejournals from './pages/CompaniesEjournals'
 import Tracker from './pages/investorPages/Tracker'
 import acceptOrReject from './pages/acceptOrReject'
 import acceptOrRejectInvestorForm from './pages/acceptOrRejectInvestorForm'
-import LawyerShowLastWorked from './pages/LawyerShowLastWorked'
 import AdminViewCases from './pages/AdminViewCases'
 import LawyerViewCases from './pages/LawyerViewCases'
 import Register from './pages/investorPages/Register'
@@ -64,8 +63,6 @@ class App extends Component {
             <Route exact path='/companies/Ejournals' component={Ejournals} />
 
             <Route exact path='/lawyers/review/:lawyerId/:companyId' component={acceptOrRejectInvestorForm} />
-
-            <Route exact path='/lawyers/showLastWorked' component={LawyerShowLastWorked} />
 
             <Route exact path='/investors/tracker/:id' component={Tracker} />
 
