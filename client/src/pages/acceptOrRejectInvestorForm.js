@@ -4,7 +4,7 @@ import Forms from '../components/Forms'
 import Axios from 'axios';
 
 
-class acceptOrReject extends Component {
+class acceptOrRejectInvestorForm extends Component {
 
   state = {
     loading: true,
@@ -17,24 +17,25 @@ class acceptOrReject extends Component {
     this.setState({loading: true})
     Axios
     
-    .get(`api/companies/${companyId}`)
+    .get(`http://localhost:8000/api/companies/${companyId}`)
     .then(res => this.setState({forms : 
-      (res.data.data.form.acceptedByReviewer !== -1)?
+      (res.data.data.form.acceptedByLawyer !== -1)?
       []
       :
     (res.data.data.form )
     }))
     .then(res => this.setState({loading: false}))
-    .then(res => console.log(this.state.forms ))
-    .catch(err => {console.log(err)})
+    .catch(err => {
+      console.log(err)
+    })
 }
 
 
   accept = (e , root) =>{
     e.preventDefault()
-    const { reviewerId , companyId } = this.props.match.params
+    const { lawyerId , companyId } = this.props.match.params
     Axios
-    .put(`/api/reviewers/decideAnApplication/${reviewerId}/${companyId}`  , {decision: true})
+    .put(`http://localhost:8000/api/lawyers/review/${lawyerId}/${companyId}`  , {acceptedByLawyer: 1 , comment: ' '})
     .then(res => {
       this.setState({ forms: [] })
     })
@@ -44,12 +45,12 @@ class acceptOrReject extends Component {
   }
   reject = (e , root) =>{
     e.preventDefault()
-    const { reviewerId , companyId } = this.props.match.params
+    const { lawyerId , companyId } = this.props.match.params
 
     Axios
-    .put(`/api/reviewers/decideAnApplication/${reviewerId}/${companyId}`  , {decision: false})
+    .put(`http://localhost:8000/api/lawyers/review/${lawyerId}/${companyId}`  , {acceptedByLawyer: 0 , comment: ' '})
     .then(res => {
-       this.setState({ forms: [] })
+      this.setState({ forms: [] })
     })
     .catch(err => {
       console.log(err)
@@ -71,4 +72,4 @@ class acceptOrReject extends Component {
   }
 }
 
-export default acceptOrReject;
+export default acceptOrRejectInvestorForm
