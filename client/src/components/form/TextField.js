@@ -25,24 +25,80 @@ class TextField extends Component {
 
 
   validate = async (e) => {
-    if (this.state.validations) {
-      
-        const min = this.state.validations[0].min
-        if (Number(e) < min) {
-          this.setState({ validate: 'danger', errorMessage: `Minimum amount is ${min}` })
-        } else {
-          this.setState({ validate: 'safe', errorMessage: '' })
+    const {validations} = this.state
+
+    if (validations) {
+      var error = false
+      validations.map((v,i)=> {
+        console.log(Object.keys(v)[0])
+        const key = Object.keys(v)[0]
+         
+        
+        if(!error && key === 'min') {
+          const value = v.min
+          console.log(`key ${key} value ${value}`)
+            if (Number(e) < value){
+              error = true
+              return this.setState({ validate: 'danger', errorMessage: `Minimum amount is ${value}` })
+            }
+            else
+              this.setState({ validate: 'safe', errorMessage: '' })
+         } 
+
+        if(!error && key === 'max') {
+          const value = v.max
+          if (Number(e) > value){
+            error = true
+            return this.setState({ validate: 'danger', errorMessage: `Maximum amount is ${value}` })
+          }
+          else
+            this.setState({ validate: 'safe', errorMessage: '' })
+       } 
+
+       if(!error && key === 'email') {
+        const emailRex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        if (!emailRex.test(e)){
+          error = true
+          return this.setState({ validate: 'danger', errorMessage: `This is not a valid email` })
         }
-        console.log(`e: ${e}, type of e ${typeof e} min: ${this.state.validations[0].min}, state: ${this.setState.validate}, errorM: ${this.setState.errorMessage}`)
+        else
+          this.setState({ validate: 'safe', errorMessage: '' })
+      } 
+
+       if(!error && key === 'minAge') {
+        const measureDays = function(dateObj) {
+          return 31*dateObj.getMonth()+dateObj.getDate();
+        }
+        const value = v.minAge
+        const date = new Date(e)
+        const now = new Date()
+        const diff = now.getFullYear() - date.getFullYear() - (measureDays(now) < measureDays(date))
+        console.log(`${diff}, ${typeof diff}`)
+        console.log(value)
+        if (diff < value){
+          error = true
+          return this.setState({ validate: 'danger', errorMessage: `Minimum age is ${value}` })
+        }
+        else
+          this.setState({ validate: 'safe', errorMessage: '' })
+     } 
+            
+        
+      })
+      
+      console.log(`e: ${e}, type of e ${typeof e} min: ${this.state.validations[0].min}, state: ${this.setState.validate}, errorM: ${this.setState.errorMessage}`)
     }
     await this.setState({value:e})
   }
   componentDidMount () {
-    var relativeindex = this.state.index
-    for (var i = 0; i < this.state.section; i++) {
-      relativeindex += this.state.form.sections[i].numberOfFields
+    if(this.state.edit){
+
+      var relativeindex = this.state.index
+      for (var i = 0; i < this.state.section; i++) {
+        relativeindex += this.state.form.sections[i].numberOfFields
+      }
+      this.setState({ relativeIndex: relativeindex })
     }
-    this.setState({ relativeIndex: relativeindex })
   }
   render () {
       const value = this.state.value

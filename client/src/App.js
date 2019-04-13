@@ -16,7 +16,7 @@ import Investor from './pages/Investor'
 import Lawyer from './pages/Lawyer'
 import Reviewer from './pages/Reviewer'
 import ChooseForm from './pages/investorPages/ChooseForm'
-import UpdateForm from './pages/UpdateForm';
+import UpdateForm from './pages/UpdateForm'
 
 class App extends Component {
   render () {

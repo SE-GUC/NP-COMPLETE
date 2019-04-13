@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Col, Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap'
+import { Col, FormGroup, Label, Input } from 'reactstrap'
 
 class DropDown extends Component {
   constructor (props) {
@@ -17,17 +17,15 @@ class DropDown extends Component {
     }
   }
   componentDidMount () {
-    var relativeindex = this.state.index
-    for (var i = 0; i < this.state.section; i++) {
-      relativeindex += this.state.form.sections[i].numberOfFields
+    if (this.state.edit) {
+      var relativeindex = this.state.index
+      for (var i = 0; i < this.state.section; i++) {
+        relativeindex += this.state.form.sections[i].numberOfFields
+      }
+      this.setState({ relativeIndex: relativeindex })
     }
-    this.setState({ relativeIndex: relativeindex })
   }
   render () {
-    console.log()
-    console.log(this.state.fieldName)
-    console.log(this.state.relativeIndex)
-    console.log()
     const renderOptions = this.state.dropdownOptions.map(option => {
       return <option diabeled> {option} </option>
     })

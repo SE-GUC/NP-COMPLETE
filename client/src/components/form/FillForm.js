@@ -16,7 +16,7 @@ class FillForm extends Component {
       companyName:""
     }
   }
-  handleIDChange =(e)=>{
+  handleIDChange = (e)=> {
     this.setState({investorID:e.target.value})
     console.log(e.target.value)
   }
@@ -41,11 +41,9 @@ class FillForm extends Component {
      for(var i =0; i<section; i++){
       relativeindex += this.state.form.sections[i].numberOfFields
      }
-     console.log(relativeindex)
      const formData=this.state.filledform
      formData[relativeindex]=e.target.value
      this.setState({filledform:formData})
-     console.log(this.state.filledform)
      
   }
   render () {
