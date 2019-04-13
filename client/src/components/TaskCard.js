@@ -22,7 +22,7 @@ export class TaskCard extends Component {
     return (
         <CardDeck> 
           <Card>
-          <Button variant='primary' onClick={this.toggle} >{this.props.data.deadline}</Button>
+          <Button variant = 'primary' onClick={this.toggle} >{this.props.data.deadline}</Button>
           <Collapse isOpen={this.state.collapse}>
             <Card.Body>
               <Card.Title><h4>Name : {this.props.data._id}</h4></Card.Title>

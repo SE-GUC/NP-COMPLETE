@@ -14,7 +14,7 @@ export class Reviewer extends Component {
       }
       deleteMe =id =>{
             Axios
-            .delete(`http://localhost:8000/api/reviewers/${id}`)
+            .delete(`/api/reviewers/${id}`)
             .then(res =>{
              this.setState({users:res.data.remaining})}) 
             .catch(err => this.setState({error:true}))
@@ -23,7 +23,7 @@ export class Reviewer extends Component {
     componentDidMount() {
         this._isMounted = true
         Axios
-        .get('http://localhost:8000/api/reviewers')
+        .get('/api/reviewers')
         .then(res => this.setState({ users: res.data.data }))
         .catch(err => this.setState({ error: true }))
     }

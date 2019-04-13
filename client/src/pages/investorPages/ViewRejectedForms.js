@@ -20,7 +20,7 @@ class ViewForm extends Component {
   componentDidMount () {
     const { id } = this.props.match.params
     Axios
-      .get('http://localhost:8000/api/investors/viewRejected/' + id)
+      .get('/api/investors/viewRejected/' + id)
       .then(
         res => {
           const resultArr = res.data.data
