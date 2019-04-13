@@ -15,7 +15,7 @@ export class AdminsViewMyTasks extends Component {
     componentDidMount() {
         const {id} = this.props.match.params
         this._isMounted = true
-        Axios.get('https://gafi-web.herokuapp.com/api/admins/workPage/'+ id)
+        Axios.get('/api/admins/workPage/'+ id)
         .then(res => this.setState({ tasks: res.data.data }))
         .catch(err => this.setState({ error: true }))
     }

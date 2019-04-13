@@ -50,7 +50,7 @@ export class Register extends Component {
     e.preventDefault()
     console.log(this.state)
     axios
-        .post(`https://gafi-web.herokuapp.com/api/investors/`, this.state)
+        .post(`/api/investors/`, this.state)
         .then(res => alert(`You are now registered with id ${res.data.data._id}`))
         .catch(error => alert(error.response.data.message))
     } 

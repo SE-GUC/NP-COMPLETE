@@ -35,7 +35,7 @@ export class AdminViewCases extends Component {
     componentDidMount() {
         const {id} = this.props.match.params
         this._isMounted = true
-        Axios.get('https://gafi-web.herokuapp.com/api/admins/viewCases/'+ id)
+        Axios.get('/api/admins/viewCases/'+ id)
         .then(res => this.setState({ cases: res.data.data,loading:false }))
         .catch(err => this.setState({ error: true }))
     }

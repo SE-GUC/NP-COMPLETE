@@ -15,7 +15,7 @@ export class ReviewersViewMyTasks extends Component {
     componentDidMount() {
         const {id} = this.props.match.params
         this._isMounted = true
-        Axios.get('https://gafi-web.herokuapp.com/api/reviewers/workPage/'+ id)
+        Axios.get('/api/reviewers/workPage/'+ id)
         .then(res => this.setState({ tasks: res.data.data }))
         .catch(err => this.setState({ error: true }))
     }

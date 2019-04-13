@@ -11,7 +11,7 @@ export class Ejournals extends Component {
   }
   componentDidMount () {
     axios
-      .get('https://gafi-web.herokuapp.com/api/users/showEstablishedCompanies')
+      .get('/api/users/showEstablishedCompanies')
       .then(res => this.setState({ ejornals: res.data.data }))
       .catch(err => {
         return this.setState({ error: err })

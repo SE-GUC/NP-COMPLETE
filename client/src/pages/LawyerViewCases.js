@@ -17,7 +17,7 @@ export class LawyerViewCases extends Component {
     componentDidMount() {
         const {id} = this.props.match.params
         this._isMounted = true
-        Axios.get('https://gafi-web.herokuapp.com/api/lawyers/casesPage/'+ id)
+        Axios.get('/api/lawyers/casesPage/'+ id)
         .then(res => this.setState({ cases: res.data.data }))
         .catch(err => this.setState({ error: true }))
     }

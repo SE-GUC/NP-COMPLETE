@@ -17,7 +17,7 @@ class acceptOrReject extends Component {
   accept = () =>{
     const { reviewerId , companyId } = this.props.match.params
     Axios
-    .put(`https://gafi-web.herokuapp.com/api/reviewers/decideAnApplication/${reviewerId}/${companyId}`  , {decision: true})
+    .put(`/api/reviewers/decideAnApplication/${reviewerId}/${companyId}`  , {decision: true})
     .then(res => {
       console.log(res.data.data)  
     })
@@ -29,7 +29,7 @@ class acceptOrReject extends Component {
     const { reviewerId , companyId } = this.props.match.params
 
     Axios
-    .put(`https://gafi-web.herokuapp.com/api/reviewers/decideAnApplication/${reviewerId}/${companyId}`  , {decision: false})
+    .put(`/api/reviewers/decideAnApplication/${reviewerId}/${companyId}`  , {decision: false})
     .then(res => {
       console.log(res.data.data)
     })

@@ -57,7 +57,7 @@ class AddComment extends Component {
                   const lawyerID = this.LID
                   const companyID = this.CID
                   const comment = this.comm
-                  axios.put(`https://gafi-web.herokuapp.com/api/lawyers/addComment/${lawyerID}/${companyID}`, { comment: comment })
+                  axios.put(`/api/lawyers/addComment/${lawyerID}/${companyID}`, { comment: comment })
                     .then(res => { this.setState({ response: res.data }) })
                     .catch(err => {
                       if (err.response && err.response.data) {

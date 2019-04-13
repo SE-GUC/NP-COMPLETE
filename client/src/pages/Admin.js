@@ -13,7 +13,7 @@ export class Admin extends Component {
       }
       deleteMe =id =>{
             Axios
-            .delete(`https://gafi-web.herokuapp.com/api/admins/${id}`)
+            .delete(`/api/admins/${id}`)
             .then(res =>{
              this.setState({users:res.data.remainingAdmins})}) 
             .catch(err => this.setState({error:true}))
@@ -22,7 +22,7 @@ export class Admin extends Component {
     componentDidMount() {
         this._isMounted = true
         Axios
-        .get('https://gafi-web.herokuapp.com/api/admins')
+        .get('/api/admins')
         .then(res => this.setState({ users: res.data.data }))
         .catch(err => this.setState({ error: true }))
     }
