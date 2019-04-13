@@ -11,6 +11,9 @@
     "react-router-dom": "^5.0.0",
     "react-scripts": "2.1.8",
     "reactstrap": "^8.0.0",
+    "react-transition-group": "^2.8.0",
+    "sass": "^1.17.4",
+    "uuid": "^3.3.2",
     "jsonwebtoken": "^8.5.0",
     "bcryptjs": "^2.4.3"
   },
@@ -26,6 +29,7 @@
     "lint": "./node_modules/.bin/standard",
     "lint-fix": "./node_modules/.bin/standard --fix"
   },
+  "proxy": "http://localhost:8000",
   "eslintConfig": {
     "extends": "react-app"
   },

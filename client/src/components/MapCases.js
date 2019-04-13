@@ -4,7 +4,7 @@ export class MapCases extends react.Component {
   render () {
     return (
       this.props.cases.map(company => {
-        return <CaseCard data={company}/>
+        return <CaseCard data={company} />
       })
     )
   }
