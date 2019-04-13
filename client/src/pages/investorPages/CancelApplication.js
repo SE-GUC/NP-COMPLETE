@@ -23,7 +23,9 @@ export class CancelApplication extends Component {
           const applications = []
           var i
           for (i = 0; i < resultArr.length; i++) {
-            if (resultArr[i].investorId === investorId) { applications.push(resultArr[i]) }
+            if (resultArr[i].investorId === investorId && resultArr[i].form.acceptedByReviewer === -1) { 
+                applications.push(resultArr[i]) 
+            }
           }
           this.setState({ apps: applications, loading: false })
         }
@@ -44,7 +46,7 @@ export class CancelApplication extends Component {
 
     if (this.state.loading === false && this.state.apps.length === 0) {
         return (
-          <h1> You don't have any applications yet</h1>
+          <h1> You don't have any unreviewed applications</h1>
         )
       }
       if (this.state.loading === false && this.state.error) {
@@ -76,11 +78,10 @@ export class CancelApplication extends Component {
     const investorId = this.props.match.params
     console.log(investorId)
     axios
-      .put(`http://localhost:8000/api/investors/cancelApplication/${investorId}`,{id: id})
+      .delete('http://localhost:8000/api/companies/'+ id)
       .then( res => {
-        this.setState({apps: res.data.data})
-        //  console.log(this.state.apps)
-          // this.setState({apps: [...this.state.apps.filter(app => app._id !== id )]})
+        //console.log(res.data.deletedCompany)
+          this.setState({apps: [...this.state.apps.filter(app => app._id !== id )]})
       })
           
       .catch(error => {
