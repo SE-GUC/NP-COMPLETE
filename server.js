@@ -1,5 +1,6 @@
 const express = require('express')
 const mongoose = require('mongoose')
+const path = require('path')
 
 // Require Router Handlers
 
@@ -27,6 +28,9 @@ mongoose
   .connect(db, { useNewUrlParser: true })
   .then(() => console.log('Connected to MongoDB'))
   .catch(err => console.log(err))
+
+// Serve static files from the React app
+app.use(express.static(path.join(__dirname, 'client/build')))
 
 // added cors access
 app.use((req, res, next) => {
