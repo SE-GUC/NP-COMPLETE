@@ -5,13 +5,19 @@ class TextField extends Component {
     constructor(props){
         super(props)
         this.state = {
+            form: props.form,
             fieldName: props.fields.fieldName,
             required: props.fields.required,
             inputType: props.fields.inputType,       
             validations: props.fields.validations,
             validate: '',
             errorMessage: '',
-            value: ''
+            value: '',
+            edit:props.edit,
+            relativeIndex: props.relativeIndex,
+            oldData: props.oldData,
+            index: props.index,
+            section: props.number
         }
         this.validate = this.validate.bind(this)
     }
@@ -30,6 +36,13 @@ class TextField extends Component {
     }
     await this.setState({value:e})
   }
+  componentDidMount () {
+    var relativeindex = this.state.index
+    for (var i = 0; i < this.state.section; i++) {
+      relativeindex += this.state.form.sections[i].numberOfFields
+    }
+    this.setState({ relativeIndex: relativeindex })
+  }
   render () {
       const value = this.state.value
     return (
@@ -39,7 +52,7 @@ class TextField extends Component {
           <Input type={this.state.inputType}
             name={this.state.fieldName}
             id={this.state.fieldName}
-            placeholder={this.state.fieldName}
+            placeholder={this.state.edit? this.state.oldData[this.state.relativeIndex]:this.state.fieldName}
             value={value}
             valid={this.state.validate === 'safe'}
             invalid={this.state.validate === 'danger'}

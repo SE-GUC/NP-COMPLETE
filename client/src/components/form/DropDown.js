@@ -5,13 +5,29 @@ class DropDown extends Component {
   constructor (props) {
     super(props)
     this.state = {
+      form: props.form,
       fieldName: props.fields.fieldName,
       dropdownOptions: props.fields.dropdownOptions,
-      required: props.fields.required
+      required: props.fields.required,
+      relativeIndex: 0,
+      oldData: props.oldData,
+      edit: props.edit,
+      index: props.index,
+      section: props.number
     }
   }
-
+  componentDidMount () {
+    var relativeindex = this.state.index
+    for (var i = 0; i < this.state.section; i++) {
+      relativeindex += this.state.form.sections[i].numberOfFields
+    }
+    this.setState({ relativeIndex: relativeindex })
+  }
   render () {
+    console.log()
+    console.log(this.state.fieldName)
+    console.log(this.state.relativeIndex)
+    console.log()
     const renderOptions = this.state.dropdownOptions.map(option => {
       return <option diabeled> {option} </option>
     })
@@ -26,7 +42,7 @@ class DropDown extends Component {
               console.log(e.target.value)
               this.props.change(e, this.props.index, this.props.number)
             }}>
-            <option default>Select an option</option>
+            <option default>{this.state.edit ? (this.state.oldData[this.state.relativeIndex]) : 'Please Select An Option'}</option>
             {renderOptions}
           </Input>
         </Col>
