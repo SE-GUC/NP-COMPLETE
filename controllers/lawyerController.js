@@ -1,167 +1,129 @@
-// Lawyer models
-const Lawyer = require('../models/Lawyer')
+// Entity model and validator
+const Model = require('../models/Lawyer')
+const validator = require('../validations/lawyerValidations')
+const main = require('./main')
+const userController = require('./userController')
+// Additional Models
 const Reviewer = require('../models/Reviewer')
 const Company = require('../models/Company')
 const ExternalEntity = require('../models/ExternalEntity')
 const Task = require('../models/Task')
-const CompanyType = require('../models/CompanyType')
-
-// Lawyer validators
-const validator = require('../validations/lawyerValidations')
+const companyType = require('../models/CompanyType')
+const Investor = require('../models/Investor')
 
 // Company validators
 const companyValidator = require('../validations/companyValidations')
 
-exports.getAll = async (req, res) => {
-  const lawyers = await Lawyer.find()
-  res.json({ data: lawyers })
+exports.default = async (req, res) => {
+  await main.default(res, Model)
 }
 
+exports.register = async (req, res) => {
+  await userController.register(req, res, validator, Model)
+}
+exports.login = async (req, res) => {
+  await userController.login(req, res, Model)
+}
 exports.create = async (req, res) => {
-  try {
-    const data = req.body
-
-    const isValidated = validator.createValidation(data)
-    if (isValidated.error) {
-      return res.status(400).json({
-        status: 'Error',
-        message: isValidated.error.details[0].message,
-        data: data
-      })
-    }
-
-    const newLawyer = await Lawyer.create(data)
-    return res.json({
-      status: 'Success',
-      message: `New lawyer created successfully`,
-      data: newLawyer
-    })
-  } catch (error) {
-    console.log(error)
-  }
+  await main.create(req, res, validator, Model)
 }
 
-exports.readByID = async (req, res) => {
-  try {
-    const lawyerId = req.params.id
-    const lawyer = await Lawyer.findById(lawyerId)
-    if (lawyer) {
-      res.json({ data: lawyer })
-    } else {
-      res.status(400).json({
-        status: 'Error',
-        message: 'Lawyer not found'
-      })
-    }
-  } catch (error) {
-    console.log(error)
-  }
+exports.read = async (req, res) => {
+  await main.read(req, res, Model)
 }
 
 exports.update = async (req, res) => {
-  try {
-    const data = req.body
-    if (Object.keys(data).length === 0) {
-      return res.status(400).json({
-        status: 'Error',
-        message: 'No data to update'
-      })
-    }
-    const id = req.params.id
-    const lawyer = await Lawyer.findById(id)
-
-    if (!lawyer) {
-      return res.status(400).json({
-        status: 'Error',
-        message: 'Lawyer not found'
-      })
-    }
-    const isValidated = validator.updateValidation(data)
-    if (isValidated.error) {
-      return res.status(400).json({
-        status: 'Error',
-        message: isValidated.error.details[0].message,
-        data: data
-      })
-    }
-    const query = { '_id': id }
-    const updatedLawyer = await Lawyer.findByIdAndUpdate(query, req.body, { new: true })
-    return res.json({
-      status: 'Success',
-      message: `Updated lawyer with id ${id}`,
-      data: updatedLawyer
-    })
-  } catch (error) {
-    console.log(error)
-  }
+  await main.update(req, res, validator, Model)
 }
 
 exports.delete = async (req, res) => {
-  try {
-    const lawyerId = req.params.id
-    const deletedLawyer = await Lawyer.findByIdAndRemove(lawyerId)
-
-    if (!deletedLawyer) {
-      return res.status(400).json({
-        status: 'Error',
-        message: 'lawyer not found',
-        availableLawyers: await Lawyer.find()
-      })
-    }
-
-    res.json({
-      status: 'Success',
-      message: `Deleted lawyer with id ${lawyerId}`,
-      deletedLawyer: deletedLawyer,
-      remainingLawyers: await Lawyer.find()
-    })
-  } catch (error) {
-    console.log(error)
-  }
+  await main.delete(req, res, Model)
 }
 
 exports.viewDepartmentTask = async (req, res) => {
   const lawyerId = req.params.id
-  const userLawyer = await Lawyer.findById(lawyerId)
+  const userLawyer = await main.findById(res, Model, lawyerId)
   if (!userLawyer) {
-    return res.status(400).json({
-      status: 'Error',
-      message: 'Lawyer not found',
-      availableLawyer: await Lawyer.find()
-    })
+    return
   }
   const query = { 'department': 'Lawyer' }
-  const task = await Task.find(query)
-  // check if there exist such task
-  if (!task) {
-    return res.status(404).json({
-      status: 'Error',
-      message: 'There are no tasks for your department'
-    })
-  }
+  const tasks = await Task.find(query)
   // view the tasks of the given depratment
   res.json({
     status: 'Success',
-    data: task
+    message: tasks.length ? 'Task Assigned' : 'No tasks available',
+    data: tasks
   })
 }
 
 exports.newForm = async (req, res) => {
-  if (req.body.form.filledByLawyer !== true || req.body.form.acceptedByLawyer !== 1) {
-    return res.status(400).json({
-      status: 'error',
-      message: 'the filled/accepted by lawyer field must be true'
+  try {
+    const isValidated = companyValidator.createValidation(req.body)
+    if (isValidated.error) {
+      return res.status(400).json({
+        status: 'Error',
+        message: isValidated.error.details[0].message
+      })
+    }
+    const type = req.body.type
+    const query = { 'companyType': type }
+    const companyTypeTemp = await companyType.find(query)
+    if (companyTypeTemp.length === 0) {
+      return res.status(400).json({
+        status: 'error',
+        message: 'It is empty'
+      })
+    }
+    const fieldsTemp = companyTypeTemp[0].fields
+    const dataTypesArray = companyTypeTemp[0].types
+    const data = req.body.form.data
+    if (data.length !== dataTypesArray.length) {
+      return res.status(400).json({
+        status: 'Error',
+        message: 'You must enter all the required data'
+      })
+    }
+    for (let i = 0; i < dataTypesArray.length; i++) {
+      const dataType = typeof (data[i])
+      if (!(dataType === dataTypesArray[i])) {
+        if (!(dataTypesArray[i] === 'date' && isValidDate(data[i]))) {
+          return res.status(400).json({
+            status: 'Error',
+            message: 'wrong data type: ' + fieldsTemp[i] + ' should be ' + dataTypesArray[i]
+          })
+        }
+      }
+    }
+    const newCompany = await Company.create(req.body)
+    const companyId = newCompany._id
+    const query2 = { '_id': companyId }
+    const data2 = { 'state': 'Pending',
+      'accepted': false,
+      'form.acceptedByLawyer': 1,
+      'form.acceptedByReviewer': -1,
+      'form.filledByLawyer': true,
+      'form.paid': false }
+    const updateCompany = await Company.findByIdAndUpdate(query2, data2, { new: true })
+    return res.json({
+      status: 'You applied for establishing a new copmany',
+      data: updateCompany
     })
+  } catch (error) {
+    console.log(error)
   }
-  res.redirect(307, '/api/companies/')
 }
 
 exports.viewForm = async (req, res) => {
   try {
     const investorId = req.params.id
+    const isValidId = main.validId(res, Investor, investorId)
+    if (!isValidId) {
+      return
+    }
+
     const query = { 'investorId': investorId }
     const companies = await Company.find(query)
-    if (!companies) {
+    if (!companies.length) {
       return res.status(404).json({
         status: 'error',
         message: 'Form not found'
@@ -176,8 +138,15 @@ exports.viewForm = async (req, res) => {
         data: x
       })
     }
+    return res.json({
+      status: 'Success',
+      data: companies
+    })
   } catch (error) {
-    console.log(error)
+    return res.status(400).json({
+      status: 'Error',
+      message: error.message
+    })
   }
 }
 
@@ -226,7 +195,7 @@ exports.review = async (req, res) => {
       newData['form.comment'] = comment
     }
     // check if the lawyer exists
-    const lawyer = await Lawyer.findById(req.params.lawyerID)
+    const lawyer = await Model.findById(req.params.lawyerID)
     if (!lawyer) {
       return res.status(400).json({
         status: 'Error',
@@ -234,12 +203,9 @@ exports.review = async (req, res) => {
       })
     }
     // check if the company exists
-    const company = await Company.findById(req.params.companyID)
+    const company = await main.findById(res, Company, req.params.companyID)
     if (!company) {
-      return res.status(400).json({
-        status: 'Error',
-        message: 'This company doesnt exist'
-      })
+      return
     }
 
     if (company.form.acceptedByLawyer !== -1) {
@@ -258,7 +224,10 @@ exports.review = async (req, res) => {
       data: updatedCompany.form
     })
   } catch (error) {
-    console.log(error)
+    return res.status(400).json({
+      status: 'Error',
+      message: error.message
+    })
   }
 }
 
@@ -267,12 +236,9 @@ exports.editForm = async (req, res) => {
     const lawyerId = req.params.lawyerId
     const companyId = req.params.companyId
 
-    const lawyer = await Lawyer.findById(lawyerId)
+    const lawyer = await main.findById(res, Model, lawyerId)
     if (!lawyer) {
-      return res.status(400).json({
-        status: 'Error',
-        message: 'Access denied, only internal users allowed'
-      })
+      return
     }
 
     const isValidated = companyValidator.editFormValidation(req.body)
@@ -289,12 +255,9 @@ exports.editForm = async (req, res) => {
         'form.acceptedByLawyer': 1
       }
     }
-    const updatedCompany = await Company.findByIdAndUpdate(companyId, update, { new: true })
+    const updatedCompany = await main.findByIdAndUpdate(res, Company, companyId, update)
     if (!updatedCompany) {
-      return res.status(400).json({
-        status: 'Error',
-        message: 'Could not find Form you are looking for'
-      })
+      return
     } else {
       return res.json({
         status: 'Success',
@@ -303,29 +266,33 @@ exports.editForm = async (req, res) => {
       })
     }
   } catch (error) {
-    console.log(error)
+    return res.status(400).json({
+      status: 'Error',
+      message: error.message
+    })
   }
 }
 
 exports.casesPage = async (req, res) => {
   try {
     const lawyerId = req.params.id
-    const lawyer = await Lawyer.findById(lawyerId)
+    const lawyer = await main.findById(res, Model, lawyerId)
     if (!lawyer) { // make sure that the one accessing the page is a lawyer
-      return res.status(400).json({
-        status: 'Error',
-        message: 'Lawyer access required'
-      })
+      return
     }
     res.redirect(307, '/api/companies/') // redirect to companies get route.
   } catch (error) {
-    console.log(error)
+    return res.status(400).json({
+      status: 'Error',
+      message: error.message
+    })
   }
 }
 
 exports.addComment = async (req, res) => {
   const lawyerId = req.params.lawyerId
   const companyId = req.params.companyId
+
   const comment = req.body.comment
   if (!comment) {
     return res.status(400).json({
@@ -340,20 +307,14 @@ exports.addComment = async (req, res) => {
     })
   }
   try {
-    const lawyer = await Lawyer.findById(lawyerId)
+    const lawyer = await main.findById(res, Model, lawyerId)
     if (!lawyer) {
-      return res.status(400).json({
-        status: 'Error',
-        message: 'Access denied'
-      })
+      return
     }
 
-    const company = await Company.findById(companyId)
+    const company = await main.findById(res, Company, companyId)
     if (!company) {
-      return res.status(404).json({
-        status: 'Error',
-        message: 'Form not found'
-      })
+      return
     }
 
     if (company.form.acceptedByLawyer !== 0) {
@@ -373,23 +334,23 @@ exports.addComment = async (req, res) => {
       data: updatedCompany.form
     })
   } catch (error) {
-    console.log(error)
+    return res.status(400).json({
+      status: 'Error',
+      message: error.message
+    })
   }
 }
 
 exports.workPage = async (req, res) => {
   try {
     const lawyerId = req.params.id
-    const lawyer = await Lawyer.findOne({ _id: lawyerId })
+    const lawyer = await main.findById(res, Model, lawyerId)
     if (!lawyer) { // Restrict access to reviewers only.
-      return res.status(400).json({
-        status: 'Error',
-        message: 'Only Internal Users have access to this page',
-        availableReviewers: await Lawyer.find()
-      })
+      return
     }
+
     const tasksAssigned = await Task.find() // query the database to retrieve all available tasks
-    if (!tasksAssigned) { // check if there's no tasks
+    if (!tasksAssigned.length) { // check if there's no tasks
       return res.status(400).json({
         status: 'Error',
         message: 'No tasks available'
@@ -413,23 +374,24 @@ exports.workPage = async (req, res) => {
       })
     }
   } catch (error) {
-    console.log(error)
+    return res.status(400).json({
+      status: 'Error',
+      message: error.message
+    })
   }
 }
 
 exports.calculateFees = async (req, res) => {
   try {
     const companyId = req.params.id
-    const company = await Company.findById(companyId)
+    const company = await main.findById(res, Company, companyId)
     if (!company) {
-      return res.status(400).json({
-        status: 'Error',
-        message: 'Company cannot be found'
-      })
+      return
     }
+
     const type = company.type
-    const companyType = await CompanyType.findOne({ companyType: type })
-    if (!companyType) {
+    const CompanyType = companyType.findOne({ companyType: type })
+    if (!CompanyType) {
       return res.status(400).json({
         status: 'Error',
         message: 'Company type cannot be found'
@@ -451,7 +413,10 @@ exports.calculateFees = async (req, res) => {
       company: updatedCompany
     })
   } catch (error) {
-    console.log(error)
+    return res.status(400).json({
+      status: 'Error',
+      message: error.message
+    })
   }
 }
 
@@ -468,31 +433,30 @@ exports.updateMyProfile = async (req, res) => {
       res.redirect(307, `/api/lawyers/${id}`)
     }
   } catch (error) {
-    console.log(error)
+    return res.status(400).json({
+      status: 'Error',
+      message: error.message
+    })
   }
 }
 
 exports.showLastWorked = async (req, res) => {
   try {
     const lawyerId = req.params.lawyerId
-    const lawyer = await Lawyer.findById(lawyerId)
+    const lawyer = await main.findById(res, Model, lawyerId)
     if (!lawyer) { // make sure that the one accessing the page is a reviewer
-      return res.status(400).json({
-        status: 'Error',
-        message: 'Access denied'
-      })
+      return
     }
+
     const companyId = req.params.companyId
-    const requestedCase = await Company.findById(companyId)
+    const requestedCase = await main.findById(res, Company, companyId)
     if (!requestedCase) { // make sure that the one accessing the page is a lawyer
-      return res.status(400).json({
-        status: 'Error',
-        message: 'Case not found'
-      })
+      return
     }
+
     const result = []
     if (requestedCase.form.acceptedByLawyer !== -1) {
-      const lawyer = await Lawyer.findById(requestedCase.form.lawyerID)
+      const lawyer = await Model.findById(requestedCase.form.lawyerID)
       result.push('Lawyer: ' + lawyer.fullName)
     }
     if (requestedCase.form.acceptedByReviewer !== -1) {
@@ -505,7 +469,10 @@ exports.showLastWorked = async (req, res) => {
       data: result
     })
   } catch (error) {
-    console.log(error)
+    return res.status(400).json({
+      status: 'Error',
+      message: error.message
+    })
   }
 }
 
@@ -524,4 +491,8 @@ const calculateFees = async capital => {
     fees += fee
   })
   return fees
+}
+const isValidDate = stringDate => {
+  const date = new Date(stringDate)
+  return date && Object.prototype.toString.call(date) === '[object Date]' && !isNaN(date)
 }

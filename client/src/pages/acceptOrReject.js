@@ -17,7 +17,7 @@ class acceptOrReject extends Component {
     this.setState({loading: true})
     Axios
     
-    .get(`http://localhost:8000/api/companies/${companyId}`)
+    .get(`api/companies/${companyId}`)
     .then(res => this.setState({forms : 
       (res.data.data.form.acceptedByReviewer !== -1)?
       []
@@ -34,7 +34,7 @@ class acceptOrReject extends Component {
     e.preventDefault()
     const { reviewerId , companyId } = this.props.match.params
     Axios
-    .put(`http://localhost:8000/api/reviewers/decideAnApplication/${reviewerId}/${companyId}`  , {decision: true})
+    .put(`/api/reviewers/decideAnApplication/${reviewerId}/${companyId}`  , {decision: true})
     .then(res => {
       this.setState({ forms: [] })
     })
@@ -47,8 +47,10 @@ class acceptOrReject extends Component {
     const { reviewerId , companyId } = this.props.match.params
 
     Axios
-    .put(`http://localhost:8000/api/reviewers/decideAnApplication/${reviewerId}/${companyId}`  , {decision: false})
-    .then(res => {this.setState({ forms: [] })})
+    .put(`/api/reviewers/decideAnApplication/${reviewerId}/${companyId}`  , {decision: false})
+    .then(res => {
+       this.setState({ forms: [] })
+    })
     .catch(err => {
       console.log(err)
     })

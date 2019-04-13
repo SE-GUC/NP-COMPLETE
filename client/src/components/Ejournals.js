@@ -11,7 +11,7 @@ export class Ejournals extends Component {
   }
   componentDidMount () {
     axios
-      .get('http://localhost:8000/api/users/showEstablishedCompanies')
+      .get('/api/users/showEstablishedCompanies')
       .then(res => this.setState({ ejornals: res.data.data }))
       .catch(err => {
         return this.setState({ error: err })

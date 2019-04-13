@@ -5,25 +5,19 @@ const investor = require('./investor')
 const task = require('./task')
 const externalEntity = require('./externalEntity')
 
-// beforeEach(() => {
-//   admin.deleteAll()
-//  });
- 
-//  afterEach(() => {
-//    admin.deleteAll()
-//   });
+jest.setTimeout(10000)
 
-test('Read-a-Laywer exists', async () => {    
+test('Read-a-Laywer exists', async () => {
   expect.hasAssertions()
   expect(typeof (lawyer.readLawyer)).toBe('function')
- })
-
-test('Read a Lawyer by id', async () => {    
+})
+test('Read a Lawyer by id', async () => {
   const data = {
     fullName: 'Mortada Mansour',
     birthdate: '1980-02-26',
     email: 'great@guy.com',
-    startDate: '2015-12-12'
+    startDate: '2015-12-12',
+    password: 'mr123456'
   }
   const created = await lawyer.createLawyer(data)
   const createdData = created.data.data
@@ -32,42 +26,44 @@ test('Read a Lawyer by id', async () => {
   const readData = read.data.data
   expect.hasAssertions()
   expect(readData).toEqual(createdData)
+  await lawyer.deleteLawyer(id)
 }, 1500000)
 
-test('Delete-a-Lawyer exists', async () => {    
+test('Delete-a-Lawyer exists', async () => {
   expect.hasAssertions()
   expect(typeof (lawyer.deleteLawyer)).toBe('function')
-},
-12000)
+})
 
-test('Delete a Lawyer by id', async () => {    
+test('Delete a Lawyer by id', async () => {
   const data = {
     fullName: 'Soul Goodman',
     birthdate: '1990-10-02',
     email: 'high@tower.net',
-    startDate: '2018-07-20'
+    startDate: '2018-07-20',
+    password: 'mr123456'
   }
   const created = await lawyer.createLawyer(data)
   const createdData = created.data.data
   const id = createdData['_id']
   const deleted = await lawyer.deleteLawyer(id)
-  const deletedData = deleted.data.deletedLawyer
+  const deletedData = deleted.data.deleted
   expect.hasAssertions()
   expect(deletedData).toEqual(createdData)
-}, 10000)
+})
 
-test('decideAForm exists', async () => {    
+test('decideAForm exists', async () => {
   expect.hasAssertions()
   expect(typeof (lawyer.decideAForm)).toBe('function')
- })
+})
 
 // starts
-test('Accepting a form by company id, not reviewed before', async () => {    
+test('Accepting a form by company id, not reviewed before', async () => {
   const lawyerData = {
     fullName: 'Mostafa test',
     birthdate: '1888-02-15',
     email: 'Notsogreat@guy.com',
-    startDate: '1998-10-02'
+    startDate: '1998-10-02',
+    password: 'mr123456'
   }
   const createdLawyer = await lawyer.createLawyer(lawyerData)
   const createdLawyerData = createdLawyer.data.data
@@ -100,14 +96,17 @@ test('Accepting a form by company id, not reviewed before', async () => {
   expect.hasAssertions()
   expect(id).toEqual(lawyerId)
   expect(reviewed).toEqual(1)
-}, 20000)
+  await lawyer.deleteLawyer(lawyerId)
+  await company.deleteCompany(companyId)
+})
 
-test('Rejecting an application by company id', async () => {    
+test('Rejecting an application by company id', async () => {
   const lawyerData = {
     fullName: 'Mostafa test',
     birthdate: '1888-02-15',
     email: 'Notsogreat@guy.com',
-    startDate: '1998-10-02'
+    startDate: '1998-10-02',
+    password: 'mr123456'
   }
   const createdLawyer = await lawyer.createLawyer(lawyerData)
   const createdLawyerData = createdLawyer.data.data
@@ -138,54 +137,77 @@ test('Rejecting an application by company id', async () => {
   const reviewed = form.data.data['acceptedByLawyer']
   expect.hasAssertions()
   expect(reviewed).toBe(0)
+  await lawyer.deleteLawyer(lawyerId)
+  await company.deleteCompany(companyId)
 }, 20000)
 
-test('Fill a form by lawyer exists', async () => {    
+test('Fill a form by lawyer exists', async () => {
   expect.hasAssertions()
   expect(typeof (lawyer.FillForm)).toBe('function')
-},
-10000)
+})
 
-test('Filling form by lawyer', async () => {    
+test('Filling form by lawyer', async () => {
+  const companyTypeTest = {
+    companyType: 'KHAKHA',
+    fields: ['stringField', 'booleanField', 'NumberFeild'],
+    types: ['string', 'boolean', 'number'],
+    validations: ['.required().string()', '.boolean()', '.required().integer()'],
+    descriptions: ['df', 'dv', 'dv']
+  }
+  const createdCompanyType = await companyType.createCompanyType(companyTypeTest)
+  const createdCompanyTypeData = createdCompanyType.data.data
+  const companyTypeId = createdCompanyTypeData._id
   const data = {
     form: {
-      data: ['cairo', 23, 5555],
-      acceptedByLawyer: 1,
-      acceptedByReviewer: -1,
-      filledByLawyer: true,
-      paid: false
+      data: ['cairo', false, 5555]
     },
     name: 'test',
-    type: 'SSC',
-    accepted: false
+    type: 'KHAKHA'
   }
   const created = await lawyer.FillForm(data)
   const createdData = created.data.data
-  const id = createdData['_id']
-  const newCompany = await company.readCompany(id)
-  const newcompanyData = newCompany.data.data
   expect.hasAssertions()
-  expect(newcompanyData).toEqual(createdData)
- })
+  expect(createdData).toMatchObject(data)
+  await companyType.deleteCompanyType(companyTypeId)
+})
 
-test('addComment exists', async () => {    
+test('addComment exists', async () => {
   expect.hasAssertions()
   expect(typeof (lawyer.addComment)).toBe('function')
-},
-10000)
+})
 
-test('Add Comment', async () => {    
+test('Add Comment', async () => {
   const data = {
     comment: 'sjwmvj'
   }
+  const lawyer1 = {
+    fullName: 'Mortada Mansour',
+    birthdate: '1980-02-26',
+    email: 'great@guy.com',
+    startDate: '2015-12-12',
+    password: 'mr123456'
+  }
+  const investor1 = {
+    fullName: 'Sam Water',
+    birthdate: '1837-02-15',
+    email: 'great@guy.com',
+    password: 'mr123456'
+  }
+  const lawyer1Created = await lawyer.createLawyer(lawyer1)
+  const lawyer1CreatedData = lawyer1Created.data.data
+  const lawyer1Id = lawyer1CreatedData['_id']
+  // investor
+  const investor1Created = await investor.createInvestor(investor1)
+  const investor1CreatedData = investor1Created.data.data
+  const investor1Id = investor1CreatedData['_id']
 
   const companyData = {
     name: 'Disney',
     establishmentDate: '1923-10-16T00:00:00.000Z',
     type: 'SSC',
-    state: 'pending',
+    state: 'Pending',
     accepted: false,
-    investorId: '5c9614f2fe51f5258ce36f91',
+    investorId: investor1Id,
     form: {
       data: [],
       comment: 'No comment',
@@ -193,14 +215,15 @@ test('Add Comment', async () => {
       acceptedByReviewer: -1,
       filledByLawyer: false,
       paid: false,
-      lawyerID: '5c9a6888bca2114a80a5c124'
+      lawyerID: lawyer1Id
     }
   }
   const lawyerData = {
     fullName: 'Mostafa test',
     birthdate: '1888-02-15',
     email: 'Notsogreat@guy.com',
-    startDate: '1998-10-02'
+    startDate: '1998-10-02',
+    password: 'mr123456'
   }
 
   const createdLawyer = await lawyer.createLawyer(lawyerData)
@@ -216,37 +239,43 @@ test('Add Comment', async () => {
   const comment = form['comment']
   expect.hasAssertions()
   expect(comment).toEqual(data.comment)
- })
+  await company.deleteCompany(companyId)
+  await lawyer.deleteLawyer(lawyerId)
+})
 
-test('Create-a-Lawyer exists', async () => {    
+test('Create-a-Lawyer exists', async () => {
   expect.hasAssertions()
   expect(typeof (lawyer.createLawyer)).toBe('function')
- })
+})
 
-test('Create a lawyer', async () => {    
+test('Create a lawyer', async () => {
   const data = {
     fullName: 'Mohamed Yasser Tarawa',
     birthdate: '1998-06-07T00:00:00.000Z',
     email: 'mohamedyasser0000@gmail.com',
-    startDate: '2016-06-06T00:00:00.000Z'
+    startDate: '2016-06-06T00:00:00.000Z',
+    password: 'mr123456'
   }
   const created = await lawyer.createLawyer(data)
   const createdData = created.data.data
+  const lawyerId = createdData._id
   expect.hasAssertions()
   expect(createdData).toMatchObject(data)
- })
+  await lawyer.deleteLawyer(lawyerId)
+})
 
-test('Update-a-Lawyer exists', async () => {    
+test('Update-a-Lawyer exists', async () => {
   expect.hasAssertions()
   expect(typeof (lawyer.updateLawyer)).toBe('function')
- })
+})
 
-test('Update a Lawyer by id', async () => {    
+test('Update a Lawyer by id', async () => {
   const data = {
     fullName: 'Mohamed Yasser Tarawa',
     birthdate: '1998-06-07',
     email: 'mohamedyasser0000@gmail.com',
-    startDate: '2016-06-06'
+    startDate: '2016-06-06',
+    password: 'mr123456'
   }
 
   const dataToUpdate = {
@@ -257,7 +286,8 @@ test('Update a Lawyer by id', async () => {
     fullName: 'Mohamed Yasser Tarawa',
     birthdate: '1998-06-07T00:00:00.000Z',
     email: 'mohamed.tarawa@gmail.com',
-    startDate: '2016-06-06T00:00:00.000Z'
+    startDate: '2016-06-06T00:00:00.000Z',
+    password: 'mr123456'
   }
 
   const created = await lawyer.createLawyer(data)
@@ -267,19 +297,20 @@ test('Update a Lawyer by id', async () => {
   const updatedData = updated.data.data
   expect.hasAssertions()
   expect(updatedData).toMatchObject(dataUpdated)
- })
+  await lawyer.deleteLawyer(id)
+})
 
-test('View-a-form exists', async () => {    
+test('View-a-form exists', async () => {
   expect.hasAssertions()
   return expect(typeof (lawyer.viewForm)).toBe('function')
-},
-10000)
+})
 
-test('View a form by investor id', async () => {    
+test('View a form by investor id', async () => {
   const investorData = {
     fullName: 'Sam Water',
     birthdate: '1837-02-15',
-    email: 'great@guy.com'
+    email: 'great@guy.com',
+    password: 'mr123456'
   }
   const createdInvestor = await investor.createInvestor(investorData)
   const createdInvestorData = createdInvestor.data.data
@@ -298,8 +329,9 @@ test('View a form by investor id', async () => {
     type: 'SSC',
     accepted: false
   }
-  await company.createCompany(companyData)
-
+  const createdCompany1 = await company.createCompany(companyData)
+  const createCompanyData1 = createdCompany1.data.data
+  const companyId1 = createCompanyData1._id
   const companyData2 = {
     form: {
       data: ['cairo', 23, 5555],
@@ -313,25 +345,31 @@ test('View a form by investor id', async () => {
     type: 'SSC',
     accepted: false
   }
-  await company.createCompany(companyData2)
+  const compare = [companyData, companyData2]
+  const createdCompany2 = await company.createCompany(companyData2)
+  const createCompanyData2 = createdCompany2.data.data
+  const companyId2 = createCompanyData2._id
   const returnedData = await lawyer.viewForm(id)
   const returnedFormsData = returnedData.data.data
-  const expectedResult = `Company: myCo has form: cairo,23,5555, Company: myCo2 has form: cairo,23,5555, `
   expect.hasAssertions()
-  expect(expectedResult).toEqual(returnedFormsData)
-}, 10000)
+  expect(returnedFormsData).toMatchObject(compare)
+  await investor.deleteInvestor(id)
+  await company.deleteCompany(companyId1)
+  await company.deleteCompany(companyId2)
+})
 
-test('Edit Form exists', async () => {    
+test('Edit Form exists', async () => {
   expect.hasAssertions()
   expect(typeof (lawyer.editForm)).toBe('function')
- })
+})
 
-test('Edit Form declined by Reviewer', async () => {    
+test('Edit Form declined by Reviewer', async () => {
   const lawyerData = {
     fullName: 'Omar Ayman Abdelmagied',
     birthdate: '1998-09-07',
     email: 'omar@valid.com',
-    startDate: '2010-02-02'
+    startDate: '2010-02-02',
+    password: 'mr123456'
   }
   const createdLawyer = await lawyer.createLawyer(lawyerData)
   const createdLawyerData = createdLawyer.data.data
@@ -360,57 +398,61 @@ test('Edit Form declined by Reviewer', async () => {
   expect.hasAssertions()
   expect(updatedCompanyForm.data).toEqual(data.data)
   expect(updatedCompanyForm.acceptedByLawyer).toBe(1)
- })
+  await lawyer.deleteLawyer(lawyerId)
+  await company.deleteCompany(companyId)
+})
 
 // User story 5.06 - update profile
-test('Update-my-profile exists', async () => {    
+test('Update-my-profile exists', async () => {
   expect.hasAssertions()
   expect(typeof (lawyer.updateMyProfile)).toBe('function')
-},
-10000)
+})
 
 // As an Internal User I should be able to view tasks assigned to my department, so that I can be aware of coworkers updates.
 
 // Test that the function exists
-test('View-my-department-tasks exists', async () => {    
+test('View-my-department-tasks exists', async () => {
   expect.hasAssertions()
   expect(typeof (lawyer.viewDepartmentTasks)).toBe('function')
- })
+})
 
 // Test the functionalty
-test('Lawyer view his department tasks by id', async () => {    
+test('Lawyer view his department tasks by id', async () => {
   const lawyerData = {
     fullName: 'John Smith',
     birthdate: '1996-10-02',
     email: 'mko@tower.net',
-    startDate: '2019-02-02T00:00:00.000Z'
+    startDate: '2019-02-02',
+    password: 'mr123456'
   }
   const createdLawyer = await lawyer.createLawyer(lawyerData)
   const createdLawyerData = createdLawyer.data.data
   const lawyerId = createdLawyerData['_id']
   const lawyerDepartmentTasks = await lawyer.viewDepartmentTasks(lawyerId)
   const lawyerDepartmentTasksData = lawyerDepartmentTasks.data.data
-  const myDepartmentTasks = await task.viewDepartmentTask({ department: 'Lawyer'  })
+  const myDepartmentTasks = await task.viewDepartmentTask({ department: 'Lawyer' })
   const myDepartmentTasksData = myDepartmentTasks.data.data
   expect.hasAssertions()
   expect(lawyerDepartmentTasksData).toEqual(myDepartmentTasksData)
- })
+  await lawyer.deleteLawyer(lawyerId)
+})
 
 // As an Internal User I should be able to view all the cases in the system so that I can open them and check their details
 
 // Test the function exists
-test('View-Cases-exists', async () => {    
+test('View-Cases-exists', async () => {
   expect.hasAssertions()
   return expect(typeof (lawyer.casesPage)).toBe('function')
- })
+})
 
 // Test the functionality
-test('Lawyer view all cases', async () => {   
+test('Lawyer view all cases', async () => {
   const lawyerData = {
     fullName: 'Elliot Alderson',
     birthdate: '1995-10-02',
     email: 'mrRobot@fsociety.com',
-    startDate: '1998-12-02'
+    startDate: '1998-12-02',
+    password: 'mr123456'
   }
   const createdLawyer = await lawyer.createLawyer(lawyerData)
   const createdLawyerData = createdLawyer.data.data
@@ -421,19 +463,21 @@ test('Lawyer view all cases', async () => {
   const availableCompaniesData = availableCompanies.data.data
   expect.hasAssertions()
   expect(availableCompaniesData).toMatchObject(lawyerViewedCasesData)
-}, 15000)
+  await lawyer.deleteLawyer(lawyerId)
+})
 
-test('Lawyer workPage-exists', async () => {    
+test('Lawyer workPage-exists', async () => {
   expect.hasAssertions()
   return expect(typeof (lawyer.workPage)).toBe('function')
- })
+})
 
-test('Lawyer workPage', async () => {    
+test('Lawyer workPage', async () => {
   const lawyerData = {
     fullName: 'Elliot Alderson',
     birthdate: '1995-10-02',
     email: 'mrRobot@fsociety.com',
-    startDate: '1998-12-02'
+    startDate: '1998-12-02',
+    password: 'mr123456'
   }
   const createdLawyer = await lawyer.createLawyer(lawyerData)
   const createdLawyerData = createdLawyer.data.data
@@ -443,17 +487,21 @@ test('Lawyer workPage', async () => {
     department: 'Lawyer',
     creationDate: '2019-02-02T00:00:00.000Z',
     deadline: '2019-02-06T00:00:00.000Z',
-    handler: [lawyerId]
+    handler: [lawyerId],
+    description: 'Review legal documents'
   }
 
   const createdTask = await task.createTask(taskData)
   const createdTaskData = createdTask.data.data
   const taskhandler = createdTaskData['handler']
+  const taskId = createdTaskData._id
 
   const lawyerWorkPage = await lawyer.workPage(lawyerId)
   const lawyerWorkPageData = lawyerWorkPage.data.data[0].handler[0]
   expect.hasAssertions()
   expect(lawyerWorkPageData).toEqual(taskhandler[0])
+  await lawyer.deleteLawyer(lawyerId)
+  await task.deleteTask(taskId)
  })
 
 test('Calculate Fees exists', async () => {
@@ -471,7 +519,7 @@ test('Calculate Fees', async () => {
     feesMax: 1000
   }
   const createdEE1 = await externalEntity.createExternalEntity(EE1Data)
-  const createdEE1Data = createdEE1.data.data
+  const createdEE1Id = createdEE1.data.data['_id']
 
   const EE2Data = {
     name: 'Elictricity',
@@ -482,7 +530,7 @@ test('Calculate Fees', async () => {
     feesMax: 1000
   }
   const createdEE2 = await externalEntity.createExternalEntity(EE2Data)
-  const createdEE2Data = createdEE2.data.data
+  const createdEE2Id = createdEE2.data.data['_id']
 
   const EE3Data = {
     name: 'GAFI',
@@ -493,7 +541,7 @@ test('Calculate Fees', async () => {
     feesMax: 1000
   }
   const createdEE3 = await externalEntity.createExternalEntity(EE3Data)
-  const createdEE3Data = createdEE3.data.data
+  const createdEE3Id = createdEE3.data.data['_id']
 
   const companyTypeData = {
     companyType: 'MyType',
@@ -527,4 +575,10 @@ test('Calculate Fees', async () => {
 
   expect.assertions(1)
   expect(updatedCompanyFees).toEqual(fees)
+  
+  await externalEntity.deleteExternalEntity(createdEE1Id)
+  await externalEntity.deleteExternalEntity(createdEE2Id)
+  await externalEntity.deleteExternalEntity(createdEE3Id)
+  await companyType.deleteCompanyType(createdCompanyData['_id'])
+  await company.deleteCompany(companyId)
 })

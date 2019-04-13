@@ -20,9 +20,12 @@ import LawyersViewMyTasks from './pages/LawyersViewMyTasks'
 import ViewForm from './pages/investorPages/ViewRejectedForms'
 import ReviewersViewMyTasks from './pages/ReviewersViewMyTasks'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
-import ChooseCompanyType from './pages/investorPages/ChooseCompanyType'
 import CancelApplication from './pages/investorPages/CancelApplication'
 import acceptOrRejectInvestorForm from './pages/acceptOrRejectInvestorForm'
+import AllMyCompanies from './pages/investorPages/AllMyCompanies'
+import UpdateProfile from './pages/UpdateProfile'
+import UpdateForm from './pages/UpdateForm'
+import ChooseForm from './pages/investorPages/ChooseCompanyType'
 
 class App extends Component {
   render () {
@@ -51,11 +54,11 @@ class App extends Component {
 
             <Route exact path='/admins/deleteLawyer' component={Lawyer} />
 
-            <Route exact path='/admins/ViewCases' component={ViewCases} />
+            <Route exact path='/admins/ViewCases' component={AdminViewCases} />
 
             <Route exact path='/investors/Register' component={Register} />
 
-            <Route exact path='/investors/login' component={InvestorLogin} />
+            {/* <Route exact path='/investors/login' component={InvestorLogin} /> */}
 
             <Route exact path='/companies/Ejournals' component={Ejournals} />
 
@@ -73,15 +76,15 @@ class App extends Component {
 
             <Route exact path='/lawyers/viewAllCases/:id' component={LawyerViewCases} />
 
+            <Route exact path='/investors/MyCompanies/:id' component={AllMyCompanies} />
+
             <Route exact path='/lawyers/viewMyTasks/:id' component={LawyersViewMyTasks} />
 
             <Route exact path='/reviewers/viewAllCases/:id' component={ReviewerViewCases} />
 
             <Route exact path='/reviewers/viewMyTasks/:id' component={ReviewersViewMyTasks} />
             
-            <Route exact path='/investors/payFees/:investorId/:companyId' component={payFees} />
-
-            <Route exact path='/investors/chooseCompanyType/:investorId' component={ChooseCompanyType} />
+            {/* <Route exact path='/investors/payFees/:investorId/:companyId' component={payFees} /> */}
 
             <Route exact path='/investors/cancelApplication/:investorId' component={CancelApplication} />
 
@@ -90,6 +93,12 @@ class App extends Component {
             <Route exact path='/reviewers/acceptOrReject/:reviewerId/:companyId' component={acceptOrReject} />
 
             <Route exact path='/lawyers/review/:lawyerId/:companyId' component={acceptOrRejectInvestorForm} />
+
+            <Route exact path='/user/UpdateProfile' component={UpdateProfile} />
+            
+            <Route exact path='/investors/fillForm' component={ChooseForm} />
+
+            <Route exact path='/investors/editForm' component={UpdateForm} />
 
           </div>
         </div>

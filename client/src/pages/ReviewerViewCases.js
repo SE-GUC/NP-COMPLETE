@@ -17,7 +17,7 @@ export class ReviewerViewCases extends Component {
     componentDidMount() {
         const {id} = this.props.match.params
         this._isMounted = true
-        Axios.get('http://localhost:8000/api/reviewers/casesPage/'+ id)
+        Axios.get('/api/reviewers/casesPage/'+ id)
         .then(res => this.setState({ cases: res.data.data }))
         .catch(err => this.setState({ error: true }))
     }
