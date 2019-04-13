@@ -36,13 +36,13 @@ class UpdateForm extends Component {
    if(!this.state.lawyer)
     {
       Axios
-      .put(`http://localhost:8000/api/investors/editForm/${this.state.companyID}`, sentData)
+      .put(`api/investors/editForm/${this.state.companyID}`, sentData)
       .then(res=>alert(res.data.message))
       .catch(error=>console.log(error))
     }
     else {
       Axios
-      .put(`http://localhost:8000/api/lawyers/editForm/${this.state.lawyerID}/${this.state.companyID}`, sentData)
+      .put(`api/lawyers/editForm/${this.state.lawyerID}/${this.state.companyID}`, sentData)
       .then(res=>alert(res.data.message))
       .catch(error=>console.log(error))
     }
@@ -64,7 +64,7 @@ class UpdateForm extends Component {
      
   }
   findForm = async ()=>{
-    const res= await Axios.get(`http://localhost:8000/api/companies/${this.state.companyID}`) 
+    const res= await Axios.get(`api/companies/${this.state.companyID}`) 
     console.log(res.data.data)
     await this.setState({oldData:res.data.data.form.data,formType:res.data.data.type})
     console.log(this.state.oldData)
