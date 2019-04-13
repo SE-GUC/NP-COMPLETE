@@ -14,7 +14,7 @@ export class Lawyer extends Component {
       }
       deleteMe =id =>{
             Axios
-            .delete(`http://localhost:8000/api/lawyers/${id}`)
+            .delete(`https://gafi-web.herokuapp.com/api/lawyers/${id}`)
             .then(res =>{
              this.setState({users:res.data.remainingLawyers})}) 
             .catch(err => this.setState({error:true}))
@@ -23,7 +23,7 @@ export class Lawyer extends Component {
     componentDidMount() {
         this._isMounted = true
         Axios
-        .get('http://localhost:8000/api/lawyers')
+        .get('https://gafi-web.herokuapp.com/api/lawyers')
         .then(res => this.setState({ users: res.data.data }))
         .catch(err => this.setState({ error: true }))
     }

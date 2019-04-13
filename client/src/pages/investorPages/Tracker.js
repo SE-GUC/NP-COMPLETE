@@ -15,7 +15,7 @@ class Tracker extends Component {
     const {id} = this.props.match.params
     this._isMounted = true
     axios
-    .get('http://localhost:8000/api/investors/getCompanies/' + id)
+    .get('https://gafi-web.herokuapp.com/api/investors/getCompanies/' + id)
     .then(res => {
       const data = res.data.data
       this.setState({companies:data })

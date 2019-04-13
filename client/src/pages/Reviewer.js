@@ -14,7 +14,7 @@ export class Reviewer extends Component {
       }
       deleteMe =id =>{
             Axios
-            .delete(`http://localhost:8000/api/reviewers/${id}`)
+            .delete(`https://gafi-web.herokuapp.com/api/reviewers/${id}`)
             .then(res =>{
              this.setState({users:res.data.remainingReviewers})}) 
             .catch(err => this.setState({error:true}))
@@ -23,7 +23,7 @@ export class Reviewer extends Component {
     componentDidMount() {
         this._isMounted = true
         Axios
-        .get('http://localhost:8000/api/reviewers')
+        .get('https://gafi-web.herokuapp.com/api/reviewers')
         .then(res => this.setState({ users: res.data.data }))
         .catch(err => this.setState({ error: true }))
     }
