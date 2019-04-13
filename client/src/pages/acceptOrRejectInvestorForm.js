@@ -14,13 +14,10 @@ class acceptOrRejectInvestorForm extends Component {
   componentDidMount() {
     const { companyId } = this.props.match.params 
     this._isMounted = true
-    // console.log("form from axios starts")
     this.setState({loading: true})
     Axios
     
     .get(`http://localhost:8000/api/companies/${companyId}`)
-    // .then(console.log("form from axios starts"))
-    // .then(res => this.setState({ forms: res.data.data }))
     .then(res => this.setState({forms : 
       (res.data.data.form.acceptedByLawyer !== -1)?
       []
@@ -28,14 +25,9 @@ class acceptOrRejectInvestorForm extends Component {
     (res.data.data.form )
     }))
     .then(res => this.setState({loading: false}))
-    // .then(res => console.log(this.state.forms ))
-
-    // .then(console.log("form from axios ends"))
     .catch(err => {
       console.log(err)
     })
-    // console.log("form from axios ends")
-    // console.log(this.state)
 }
 
 
@@ -45,8 +37,7 @@ class acceptOrRejectInvestorForm extends Component {
     Axios
     .put(`http://localhost:8000/api/lawyers/review/${lawyerId}/${companyId}`  , {acceptedByLawyer: 1 , comment: ' '})
     .then(res => {
-      console.log(res.data.data)  
-      this.setState({ forms: res.data.data.form })
+      this.setState({ forms: [] })
     })
     .catch(err => {
       console.log(err)
@@ -59,8 +50,7 @@ class acceptOrRejectInvestorForm extends Component {
     Axios
     .put(`http://localhost:8000/api/lawyers/review/${lawyerId}/${companyId}`  , {acceptedByLawyer: 0 , comment: ' '})
     .then(res => {
-      console.log(res.data.data)
-      this.setState({ forms: res.data.data.form })
+      this.setState({ forms: [] })
     })
     .catch(err => {
       console.log(err)
