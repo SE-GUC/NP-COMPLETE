@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Header from '../components/Header'
-import Forms from '../components/Forms'
+import DecisionForms from '../components/DecisionForms'
 import Axios from 'axios';
 
 
@@ -72,7 +72,7 @@ class acceptOrReject extends Component {
       <div className="App">
       <Header/>
       {this.state.loading? <h1>loading please be patient</h1>: 
-      <Forms forms = {[this.state.forms]}
+      <DecisionForms forms = {[this.state.forms]}
          accept = {this.accept}
          reject = {this.reject}
          root = {this}
