@@ -57,7 +57,7 @@ export default class NavbarGafi extends React.Component {
                   placeholder="Search"
                   className="mr-sm-2"
                 />
-                <Button variant="outline-success">Search</Button>
+                <Button variant="outline-danger">Search</Button>
               </Form>
               <UncontrolledDropdown nav inNavbar>
                 <DropdownToggle nav caret />
