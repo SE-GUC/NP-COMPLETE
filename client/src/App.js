@@ -23,7 +23,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom'
 import AllMyCompanies from './pages/investorPages/AllMyCompanies'
 import UpdateProfile from './pages/UpdateProfile'
 import UpdateForm from './pages/UpdateForm'
-import ChooseForm from './pages/investorPages/ChooseForm'
+import ChooseForm from './pages/investorPages/ChooseCompanyType'
 
 class App extends Component {
   render () {
