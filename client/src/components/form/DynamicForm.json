@@ -176,7 +176,7 @@
                     ]
                 },
                 {
-                    "fieldName": "Addrress",
+                    "fieldName": "Address",
                     "fieldType": "textField",
                     "inputType": "string",
                     "required": true,
@@ -270,7 +270,7 @@
                     "placeholder":"date placeholder"
                 },
                 {
-                    "fieldName": "Addrress",
+                    "fieldName": "Address",
                     "fieldType": "textField",
                     "inputType": "string",
                     "required": true,
@@ -462,7 +462,7 @@
                     "placeholder": "date placeholder"
                 },
                 {
-                    "fieldName": "Addrress",
+                    "fieldName": "Address",
                     "fieldType": "textField",
                     "inputType": "string",
                     "required": true,

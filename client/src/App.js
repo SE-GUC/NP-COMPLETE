@@ -20,8 +20,10 @@ import LawyersViewMyTasks from './pages/LawyersViewMyTasks'
 import ViewForm from './pages/investorPages/ViewRejectedForms'
 import ReviewersViewMyTasks from './pages/ReviewersViewMyTasks'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
+import AllMyCompanies from './pages/investorPages/AllMyCompanies'
+import UpdateProfile from './pages/UpdateProfile'
 import UpdateForm from './pages/UpdateForm'
-import ChooseForm from './pages/investorPages/ChooseForm'
+import ChooseForm from './pages/investorPages/ChooseCompanyType'
 
 class App extends Component {
   render () {
@@ -68,6 +70,8 @@ class App extends Component {
 
             <Route exact path='/lawyers/viewAllCases/:id' component={LawyerViewCases} />
 
+            <Route exact path='/investors/MyCompanies/:id' component={AllMyCompanies} />
+
             <Route exact path='/lawyers/viewMyTasks/:id' component={LawyersViewMyTasks} />
 
             <Route exact path='/reviewers/viewAllCases/:id' component={ReviewerViewCases} />
@@ -78,6 +82,8 @@ class App extends Component {
 
             <Route exact path='/reviewers/acceptOrReject/:reviewerId/:companyId' component={acceptOrReject} />
 
+            <Route exact path='/user/UpdateProfile' component={UpdateProfile} />
+            
             <Route exact path='/investors/fillForm' component={ChooseForm} />
 
             <Route exact path='/investors/editForm' component={UpdateForm} />

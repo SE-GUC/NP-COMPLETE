@@ -24,7 +24,11 @@ const LawyerSchema = new Schema({
   },
   salary: {
     type: Number
+  },
+  password: {
+    type: String,
+    required: true
   }
 })
 
-module.exports = mongoose.model('lawyers', LawyerSchema)
+module.exports = mongoose.model('Lawyer', LawyerSchema, 'lawyer')

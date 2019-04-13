@@ -7,7 +7,7 @@ module.exports = {
       accepted: Joi.boolean(),
       establishmentDate: Joi.date().iso().max(Date.now()),
       type: Joi.string().required(),
-      state: Joi.string(),
+      state: Joi.string().valid('Pending', 'Established'),
       investorId: Joi.string(),
       feedback: Joi.string(),
       form: Joi.object().keys({
@@ -31,7 +31,7 @@ module.exports = {
       accepted: Joi.boolean(),
       establishmentDate: Joi.date().iso().max(Date.now()),
       type: Joi.string(),
-      state: Joi.string(),
+      state: Joi.string().valid('Pending', 'Established'),
       investorId: Joi.string(),
       feedback: Joi.string(),
       form: Joi.object().keys({
