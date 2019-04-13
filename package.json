@@ -31,7 +31,7 @@
     "standard": "^12.0.1"
   },
   "scripts": {
-    "start": "concurrently \"npm run server\" \"npm run client\"",
+    "start": "node server",
     "server": "node server.js",
     "client": "npm start --prefix client",
     "client-install": "npm install --prefix client",
