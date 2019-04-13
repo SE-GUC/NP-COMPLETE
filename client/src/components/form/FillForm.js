@@ -2,12 +2,14 @@ import React, { Component } from 'react'
 import Section from './Section'
 import { Form, Container, Button } from 'reactstrap'
 import Axios from 'axios';
+import '../../layout/fillform.css'
 
 class FillForm extends Component {
   constructor (props) {
     super(props)
     this.state = {
       form: props.form,
+      type: props.type,
       filledform: [],
       error:false,
       investorID:"",
@@ -49,7 +51,7 @@ class FillForm extends Component {
   render () {
     const renderSections = this.state.form.sections.map((section, i) => {
       return (
-        <Container>
+        <Container className="Section">
           <h1> {section.sectionName} </h1>
           <Section number={i} section={section} change={this.handleChange} />
         </Container>
@@ -57,15 +59,18 @@ class FillForm extends Component {
     })
 
     return this.state.error? <h1>and error has occured please try again!</h1>:(
-     <div>
+      <div>
         <input
           type="text"
           onChange={this.handleIDChange}
-        />
-        <Form onSubmit={(e) => this.submitForm(e)}>
-          {renderSections}
-          <Button >Submit</Button>
-        </Form>
+          />
+        <Container className="FormContainer">
+          <h1> {this.state.type} </h1>
+          <Form className="form" onSubmit={(e) => this.submitForm(e)}>
+            {renderSections}
+            <Button >Submit</Button>
+          </Form>
+        </Container>
       </div>
     )
   }

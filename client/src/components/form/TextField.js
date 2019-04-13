@@ -9,6 +9,7 @@ class TextField extends Component {
             required: props.fields.required,
             inputType: props.fields.inputType,       
             validations: props.fields.validations,
+            placeholder: props.fields.placeholder,
             validate: '',
             errorMessage: '',
             value: ''
@@ -39,7 +40,7 @@ class TextField extends Component {
           <Input type={this.state.inputType}
             name={this.state.fieldName}
             id={this.state.fieldName}
-            placeholder={this.state.fieldName}
+            placeholder={this.state.placeholder}
             value={value}
             valid={this.state.validate === 'safe'}
             invalid={this.state.validate === 'danger'}
@@ -51,7 +52,7 @@ class TextField extends Component {
             }}
           />
           <FormFeedback valid>
-                        All good!
+            All good!
           </FormFeedback>
           <FormFeedback>
             {`Uh Oh! ${this.state.errorMessage}`}
