@@ -28,7 +28,7 @@ class FillForm extends Component {
     console.log(sentData)
     if(!this.state.lawyer) {
         Axios
-        .post(`api/investors/fillForm/${this.state.investorID}`, sentData)
+        .post(`/api/investors/fillForm/${this.state.investorID}`, sentData)
         .then(res=>alert(`company created with name ${res.data.data.name}`))
         .then(alert('form submitted!!'))
         .catch(error=>console.log(error))
@@ -44,7 +44,7 @@ class FillForm extends Component {
               }
           }
         Axios
-        .post(`api/lawyers/newForm`, sentData)
+        .post(`/api/lawyers/newForm`, sentData)
         .then(res=>alert(`company created with name ${res.data.data.name}`))
         .then(alert('form submitted!!'))
         .catch(error=>console.log(error))
