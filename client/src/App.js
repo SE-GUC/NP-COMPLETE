@@ -79,17 +79,17 @@ class App extends Component {
 
             <Route exact path='/lawyers/viewAllCases/:id' component={LawyerViewCases} />
 
-            <Route exact path='/admins/showLastWorked' component={AdminShowLastWorked} />
+            <Route exact path='/admins/showLastWorked/:companyId/:adminId' component={AdminShowLastWorked} />
 
             <Route exact path='/lawyers/viewMyTasks/:id' component={LawyersViewMyTasks} />
 
-            <Route exact path='/lawyers/showLastWorked' component={LawyerShowLastWorked} />
+            <Route exact path='/lawyers/showLastWorked/:companyId/:lawyerId' component={LawyerShowLastWorked} />
 
             <Route exact path='/reviewers/viewAllCases/:id' component={ReviewerViewCases} />
 
             <Route exact path='/reviewers/viewMyTasks/:id' component={ReviewersViewMyTasks} />
 
-            <Route exact path='/reviewers/showLastWorked' component={ReviewerShowLastWorked} />
+            <Route exact path='/reviewers/showLastWorked/:companyId/:reviewerId' component={ReviewerShowLastWorked} />
 
             <Route exact path='/investors/payFees/:investorId/:companyId' component={payFees} />
 

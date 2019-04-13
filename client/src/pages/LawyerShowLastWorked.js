@@ -1,18 +1,16 @@
 import React, { Component } from 'react'
 import { Alert, Card } from 'react-bootstrap'
 import axios from 'axios'
-import queryString from 'query-string'
 
 class LawyerShowLastWorked extends Component {
   constructor (props) {
     super(props)
-    const values = queryString.parse(this.props.location.search)
-    const lawyerID = values.lawyerId
-    const companyID = values.companyId
+    const lawyerId = this.props.match.params.lawyerId
+    const companyId = this.props.match.params.companyId
     this.state = {
       response: undefined
     }
-    axios.get(`http://localhost:8000/api/lawyers/showLastWorked/${companyID}/${lawyerID}`)
+    axios.get(`http://localhost:8000/api/lawyers/showLastWorked/${companyId}/${lawyerId}`)
       .then(res => { this.setState({ response: res.data }) })
       .catch(err => {
         if (err.response && err.response.data) {
