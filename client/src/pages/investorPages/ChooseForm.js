@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import Button from 'react-bootstrap/Button'
-import FillForm from './FillForm'
+import FillForm from '../../components/form/FillForm'
+const form = require('../../components/form/DynamicForm.json')
 
-const form = require('./DynamicForm.json')
 class ChooseForm extends Component {
   constructor (props) {
     super(props)
@@ -35,10 +35,10 @@ class ChooseForm extends Component {
       )
     }
     if (this.state.renderSPC) {
-      return <FillForm form={form.SPC} />
+      return <FillForm type={'SPC'} form={form.SPC} />
     }
     if (this.state.renderSSC) {
-      return <FillForm form={form.SSC} />
+      return <FillForm type={'SSC'} form={form.SSC} />
     }
   }
 }

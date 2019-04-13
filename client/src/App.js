@@ -15,6 +15,7 @@ import Admin from './pages/Admin'
 import Investor from './pages/Investor'
 import Lawyer from './pages/Lawyer'
 import Reviewer from './pages/Reviewer'
+import ChooseForm from './pages/investorPages/ChooseForm'
 
 class App extends Component {
   render () {
@@ -60,6 +61,8 @@ class App extends Component {
             <Route exact path='/admins/deleteReviewer' component={Reviewer} />
 
             <Route exact path='/admins/deleteLawyer' component={Lawyer} />
+
+            <Route exact path='/investors/fillForm' component={ChooseForm} />
 
           </div>
         </div>
