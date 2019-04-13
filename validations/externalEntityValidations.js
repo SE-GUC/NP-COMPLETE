@@ -8,7 +8,8 @@ module.exports = {
       phone: Joi.number().required(),
       feesPercentage: Joi.number().required(),
       feesMin: Joi.number().required(),
-      feesMax: Joi.number().required()
+      feesMax: Joi.number().required(),
+      url: Joi.string().required()
     }
 
     return Joi.validate(request, createSchema)
@@ -21,7 +22,8 @@ module.exports = {
       phone: Joi.number(),
       feesPercentage: Joi.number(),
       feesMin: Joi.number(),
-      feesMax: Joi.number()
+      feesMax: Joi.number(),
+      url: Joi.string()
     }
 
     return Joi.validate(request, updateSchema)

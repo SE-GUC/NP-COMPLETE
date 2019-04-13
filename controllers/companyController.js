@@ -1,6 +1,6 @@
 // Entity model and validator
-const Model = require('../models/CompanyType')
-const validator = require('../validations/companyTypeValidations')
+const Model = require('../models/Company')
+const validator = require('../validations/companyValidations')
 const main = require('./main')
 
 exports.default = async (req, res) => {
