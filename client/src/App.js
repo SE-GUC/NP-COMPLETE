@@ -82,6 +82,10 @@ class App extends Component {
 
             <Route exact path='/investors/editForm' component={UpdateForm} />
 
+            <Route exact path='/lawyers/fillForm' component={ChooseForm} />
+
+            <Route exact path='/lawyers/editForm' component={UpdateForm} />
+
           </div>
         </div>
 

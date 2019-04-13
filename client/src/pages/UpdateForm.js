@@ -13,25 +13,39 @@ class UpdateForm extends Component {
       oldData:[],
       error:false,
       investorID:"",
+      lawyerID:"",
       companyName:"",
       loading:true,
       companyID:"",
       formType:"",
-      idEntered:false
+      idEntered:false,
+      lawyer:false
     }
   }
   handleIDChange =(e)=>{
     this.setState({companyID:e.target.value})
     console.log(e.target.value)
   }
+  handleLawyerIDChange =(e)=>{
+    this.setState({lawyerID:e.target.value})
+    console.log(e.target.value)
+  }
   submitForm = (e)=>{
     e.preventDefault()
     var sentData={data:this.state.filledform}
-    Axios
-    .put(`http://localhost:8000/api/investors/editForm/${this.state.companyID}`, sentData)
-    .then(res=>alert(res.data.message))
-    .catch(error=>console.log(error))
-    
+   if(!this.state.lawyer)
+    {
+      Axios
+      .put(`http://localhost:8000/api/investors/editForm/${this.state.companyID}`, sentData)
+      .then(res=>alert(res.data.message))
+      .catch(error=>console.log(error))
+    }
+    else {
+      Axios
+      .put(`http://localhost:8000/api/lawyers/editForm/${this.state.lawyerID}/${this.state.companyID}`, sentData)
+      .then(res=>alert(res.data.message))
+      .catch(error=>console.log(error))
+    }
   }
   handleChange = (e, index,section)=>
   {
@@ -50,15 +64,6 @@ class UpdateForm extends Component {
      
   }
   findForm = async ()=>{
-    // Axios
-    // .get(`http://localhost:8000/api/companies/${this.state.companyID}`)
-    // .then(res=> {
-    //     console.log(res.data.data)
-    //     this.setState({oldData:res.data.data.form.data,formType:res.data.data.type})
-    // })
-    // .then(console.log(this.state.oldData))
-    // .then(this.state.formType==="SSC"?(this.setState({form:form.SSC})):(this.setState({form:form.SPC})))
-    // .catch(error=>this.setState({error:true}))
     const res= await Axios.get(`http://localhost:8000/api/companies/${this.state.companyID}`) 
     console.log(res.data.data)
     await this.setState({oldData:res.data.data.form.data,formType:res.data.data.type})
@@ -66,6 +71,11 @@ class UpdateForm extends Component {
     await this.state.formType==="SSC"?(this.setState({form:form.SSC})):(this.setState({form:form.SPC}))
     this.setState({filledform:this.state.oldData})
     await this.setState({idEntered:true})
+  }
+  componentDidMount(){
+    if(window.location.pathname.includes('lawyers')){
+      this.setState({lawyer:true})
+    }
   }
   render () {
     const renderSections = this.state.form.sections.map((section, i) => {
@@ -77,11 +87,22 @@ class UpdateForm extends Component {
       )
     })
 
-    return this.state.error? <h1>and error has occured please try again!</h1>: !this.state.idEntered?
-    (
+    return this.state.error? <h1>and error has occured please try again!</h1>: (!this.state.idEntered?
+    (     
         <div>
+          {
+            this.state.lawyer? 
+            <input
+            type="text"
+            placeholder={"LaywerID"}
+            onChange={this.handleLawyerIDChange}
+            />  
+        :
+            <h1>Update Form</h1>
+        }
             <input
                 type="text"
+                placeholder={"FormID"}
                 onChange={this.handleIDChange}
             />
             <Button variant="primary" onClick={()=>this.findForm()} >Select Form</Button>
@@ -96,6 +117,7 @@ class UpdateForm extends Component {
             </Form>
         </div>
     )
+  )    
   }
 }
 

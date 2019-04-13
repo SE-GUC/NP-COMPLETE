@@ -13,7 +13,8 @@ class FillForm extends Component {
       filledform: [],
       error:false,
       investorID:"",
-      companyName:""
+      companyName:"",
+      lawyer:false
     }
   }
   handleIDChange = (e)=> {
@@ -25,12 +26,29 @@ class FillForm extends Component {
     var sentData={name:this.state.companyName,type:this.props.type ,form:{data:this.state.filledform}}
     console.log(this.state.investorID)
     console.log(sentData)
-    Axios
-    .post(`http://localhost:8000/api/investors/fillForm/${this.state.investorID}`, sentData)
-    .then(res=>alert(`company created with name ${res.data.data.name}`))
-    .then(alert('form submitted!!'))
-    .catch(error=>console.log(error))
-    
+    if(!this.state.lawyer) {
+        Axios
+        .post(`http://localhost:8000/api/investors/fillForm/${this.state.investorID}`, sentData)
+        .then(res=>alert(`company created with name ${res.data.data.name}`))
+        .then(alert('form submitted!!'))
+        .catch(error=>console.log(error))
+    } else {
+        sentData={
+          name:this.state.companyName,
+          type:this.props.type,
+          form:
+              {
+                data:this.state.filledform,
+                filledByLawyer: true,
+                acceptedByLawyer:1
+              }
+          }
+        Axios
+        .post(`http://localhost:8000/api/lawyers/newForm`, sentData)
+        .then(res=>alert(`company created with name ${res.data.data.name}`))
+        .then(alert('form submitted!!'))
+        .catch(error=>console.log(error))
+    }
   }
   handleChange = (e, index,section)=>
   {
@@ -46,6 +64,11 @@ class FillForm extends Component {
      this.setState({filledform:formData})
      
   }
+  componentDidMount(){
+    if(window.location.pathname.includes('lawyers')){
+      this.setState({lawyer:true})
+    }
+  }
   render () {
     const renderSections = this.state.form.sections.map((section, i) => {
       return (
@@ -58,10 +81,14 @@ class FillForm extends Component {
 
     return this.state.error? <h1>and error has occured please try again!</h1>:(
       <div>
-        <input
+       
+       {this.state.lawyer? 
+       <h1>Fill Form</h1>
+       :
+       <input
           type="text"
           onChange={this.handleIDChange}
-          />
+          />}
         <Container className="FormContainer">
           <h1> {this.state.type} </h1>
           <Form className="form" onSubmit={(e) => this.submitForm(e)}>
