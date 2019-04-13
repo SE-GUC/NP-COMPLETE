@@ -183,7 +183,7 @@ const validId = exports.validId = (res, Model, entityId) => {
 }
 
 const isValidated = exports.isValidated = (res, data, validationFunction) => {
-  const validationResult = validationFunction.call(data)
+  const validationResult = validationFunction(data)
   if (validationResult.error) {
     res.status(400).json({
       status: 'Error',
