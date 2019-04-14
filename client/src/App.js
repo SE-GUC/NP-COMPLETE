@@ -10,9 +10,6 @@ import ViewCases from './pages/ViewCases'
 import Faqs from './pages/investorPages/Faqs'
 import Header from './components/generic/Header'
 import Ejournals from './pages/CompaniesEjournals'
-import LawyerAddComment from './pages/LawyerAddComment'
-import ReviewerAddComment from './pages/ReviewerAddComment'
-import ReviewerShowLastWorked from './pages/ReviewerShowLastWorked'
 import Tracker from './pages/investorPages/Tracker'
 import acceptOrReject from './pages/acceptOrReject'
 import AdminViewCases from './pages/AdminViewCases'
@@ -62,12 +59,6 @@ class App extends Component {
             <Route exact path='/investors/login' component={InvestorLogin} />
 
             <Route exact path='/companies/Ejournals' component={Ejournals} />            
-
-            <Route exact path='/reviewers/showLastWorked' component={ReviewerShowLastWorked} />
-
-            <Route exact path='/lawyers/addComment' component={LawyerAddComment} />
-
-            <Route exact path='/reviewers/addComment' component={ReviewerAddComment} />
 
             <Route exact path='/investors/tracker/:id' component={Tracker} />            
 
