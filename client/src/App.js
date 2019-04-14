@@ -42,49 +42,6 @@ class App extends Component {
                 <h1> Welcome to Gafi Web</h1>
               </React.Fragment>
             )} />
-            
-            <Route exact path='/admin' component={AdminLandingPage} />
-
-            <Route exact path='/investor' component={InvestorLandingPage} />
-
-            <Route exact path='/LogIn' component={Login} />
-
-            <Route exact path='/investors/Faqs' component={Faqs} />
-
-            <Route exact path='/admins/deleteAdmin' component={Admin} />
-
-            <Route exact path='/admins/deleteLawyer' component={Lawyer} />
-
-            <Route exact path='/admins/ViewCases' component={ViewCases} />
-
-            <Route exact path='/investors/Register' component={Register} />
-
-            <Route exact path='/companies/Ejournals' component={Ejournals} />
-
-            <Route exact path='/investors/tracker/:id' component={Tracker} />
-
-            <Route exact path='/admins/deleteInvestor' component={Investor} />
-
-            <Route exact path='/admins/deleteReviewer' component={Reviewer} />
-
-            <Route exact path='/investors/viewRejected/:id' component={ViewForm} />
-
-            <Route exact path='/admins/viewAllCases/:id' component={AdminViewCases} />
-
-            <Route exact path='/admins/viewMyTasks/:id' component={AdminsViewMyTasks} />
-
-            <Route exact path='/lawyers/viewAllCases/:id' component={LawyerViewCases} />
-
-            <Route exact path='/lawyers/viewMyTasks/:id' component={LawyersViewMyTasks} />
-
-            <Route exact path='/reviewers/viewAllCases/:id' component={ReviewerViewCases} />
-
-            <Route exact path='/reviewers/viewMyTasks/:id' component={ReviewersViewMyTasks} />
-
-            <Route exact path='/lawyers/addComment/:lawyerId/:companyId' component={AddComment} />
-
-            <Route exact path='/reviewers/acceptOrReject/:reviewerId/:companyId' component={acceptOrReject} />
-
           </div>
         </div>
 
