@@ -1,7 +1,18 @@
 import React, { Component } from 'react'
 import { Card, Button, CardTitle, CardText, Row, Col } from 'reactstrap'
+import {Redirect} from 'react-router-dom'
 
 export class AdminLandingPage extends Component {
+
+  clicked=()=>{
+    if(!localStorage.getItem('id')){
+      window.location.href='/LogIn'
+    }
+    else{
+      window.location.href='/admins/viewAllCases/'+localStorage.getItem('id')
+    }
+  }
+
   render () {
     return (
       <div>
@@ -11,7 +22,8 @@ export class AdminLandingPage extends Component {
             <Card body>
               <CardTitle><h4>Cases Page</h4></CardTitle>
               <CardText> View all cases in the system</CardText>
-              <Button variant='primary' href='/admins/viewAllCases/5cafc730199ec12808cac488'>Click me</Button>
+              <Button variant='primary' onClick={this.clicked}>View Cases</Button>
+              {/* href={`/admins/viewAllCases/${localStorage.getItem('id')}`} */}
             </Card>
           </Col>
           <Col sm='6'>
