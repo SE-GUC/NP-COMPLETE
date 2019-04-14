@@ -100,7 +100,7 @@ class App extends Component {
 
             <Route exact path='/investors/cancelApplication/:investorId' component={CancelApplication} />
 
-            <Route exact path='/reviewers/addComment/:lawyerId/:companyId' component={ReviewerAddComment} />
+            <Route exact path='/reviewers/addComment/:reviewerId/:companyId' component={ReviewerAddComment} />
 
             <Route exact path='/reviewers/acceptOrReject/:reviewerId/:companyId' component={acceptOrReject} />
 

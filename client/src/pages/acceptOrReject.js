@@ -16,8 +16,7 @@ class acceptOrReject extends Component {
     this._isMounted = true
     this.setState({loading: true})
     Axios
-    
-    .get(`api/companies/${companyId}`)
+    .get(`/api/companies/${companyId}`)
     .then(res => this.setState({forms : 
       (res.data.data.form.acceptedByReviewer !== -1)?
       []
