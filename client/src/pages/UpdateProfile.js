@@ -64,7 +64,7 @@ export class UpdateProfile extends Component {
     console.log(this.state)
     const updatedData = {fullName:this.state.fullName,birthdate:this.state.birthdate,email:this.state.email}
     axios
-        .put(`http://localhost:8000/api/investors/${this.state.id}`, updatedData)
+        .put(`/api/investors/${this.state.id}`, updatedData)
         .then(res => alert(`Profile updated successfully`))
         .catch(error => alert(error.response.data.message))
     } 

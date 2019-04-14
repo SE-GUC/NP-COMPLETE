@@ -16,11 +16,9 @@ class ChooseForm extends Component {
   }
 
   clickSPC () {
-    // alert('SPC')
     this.setState({ showOptions: false, renderSPC: true })
   }
   clickSSC () {
-    // alert('SSC')
     this.setState({ showOptions: false, renderSSC: true })
   }
 

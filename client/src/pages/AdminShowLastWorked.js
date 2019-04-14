@@ -10,7 +10,7 @@ class AdminShowLastWorked extends Component {
     this.state = {
       response: undefined
     }
-    axios.get(`http://localhost:8000/api/admins/showLastWorked/${companyId}/${adminId}`)
+    axios.get(`/api/admins/showLastWorked/${companyId}/${adminId}`)
       .then(res => { this.setState({ response: res.data }) })
       .catch(err => {
         if (err.response && err.response.data) {
