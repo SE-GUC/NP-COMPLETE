@@ -22,6 +22,7 @@ import ViewForm from './pages/investorPages/ViewRejectedForms'
 import ReviewersViewMyTasks from './pages/ReviewersViewMyTasks'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import AdminLandingPage from './pages/adminPages/AdminLandingPage'
+import InvestorLandingPage from './pages/investorPages/InvestorLandingPage'
 
 class App extends Component {
   render () {
@@ -41,11 +42,14 @@ class App extends Component {
                 <h1> Welcome to Gafi Web</h1>
               </React.Fragment>
             )} />
+            
+            <Route exact path='/admin' component={AdminLandingPage} />
+
+            <Route exact path='/investor' component={InvestorLandingPage} />
+
             <Route exact path='/LogIn' component={Login} />
 
             <Route exact path='/investors/Faqs' component={Faqs} />
-
-            <Route exact path='/admin' component={AdminLandingPage} />
 
             <Route exact path='/admins/deleteAdmin' component={Admin} />
 
