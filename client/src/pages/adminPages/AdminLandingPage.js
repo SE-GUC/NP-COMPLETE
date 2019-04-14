@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import { Card, Button, CardTitle, CardText, Row, Col } from 'reactstrap'
 import {Redirect} from 'react-router-dom'
+import Header2 from '../../components/Header2'
 
-export class AdminLandingPage extends Component {
+class AdminLandingPage extends Component {
 
   clicked=()=>{
     if(!localStorage.getItem('id')){
@@ -16,7 +17,8 @@ export class AdminLandingPage extends Component {
   render () {
     return (
       <div>
-        <h1>Welcome Admin</h1>
+        <Header2 title='Welcome Admin' />
+      
         <Row>
           <Col sm='6'>
             <Card body>

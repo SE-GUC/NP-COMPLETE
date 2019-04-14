@@ -33,7 +33,7 @@ const Styles = styled.div`
     text-align: center;
     vertical-align: center;
   }
-  .fontP {
+  .fontH2 {
     font-family: Garamond, Baskerville, "Baskerville Old Face", "Hoefler Text", "Times New Roman", serif;
     font-size: 25px;
     font-style: normal; font-variant: normal;
@@ -52,7 +52,7 @@ function Header () {
         <Container>
           <h1 className='fontH1'>GAFI Web</h1>
           <br />
-          <p className='fontP'>Start your investment now</p>
+          <h2 className='fontH2'>Start your investment now</h2>
         </Container>
 
       </Jumbotron>

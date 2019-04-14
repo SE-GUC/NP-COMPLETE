@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { Card, Button, CardTitle, CardText, Row, Col } from 'reactstrap'
+import Header2 from '../../components/Header2'
 
-export class InvestorLandingPage extends Component {
+class InvestorLandingPage extends Component {
   state = {
     id: this.props.match.params
   }
@@ -11,7 +12,8 @@ export class InvestorLandingPage extends Component {
     console.log(this.state.id)
     return (
       <div>
-        <h1>Welcome Investor</h1>
+        <Header2 title='Welcome Investor' />
+        
         <Row>
           <Col sm='6'>
             <Card body>
