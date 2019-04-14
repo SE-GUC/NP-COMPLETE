@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 
-export class FormItem extends Component {
-  
+export class DecisionItem extends Component {
     getStyle = () =>{
         return {
             background: 'a3b4a4', 
@@ -24,13 +23,13 @@ export class FormItem extends Component {
             (this.props.form.length !==0)?
             <button onClick= {e=> this.props.accept(e , this.props.root)} style={btnStyle}> Accept </button>
             :
-          <h1> </h1>
+          <h1></h1>
           }
           {
             (this.props.form.length !==0)?
             <button onClick= {e=> this.props.reject(e , this.props.root)} style={btnStyle}> Reject </button>
             :
-          <h1></h1>
+          <h1> </h1>
           }
 
           </p>
@@ -50,4 +49,4 @@ export class FormItem extends Component {
     }
 
 
-export default FormItem
+export default DecisionItem
