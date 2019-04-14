@@ -16,7 +16,7 @@ exports.register = async (req, res) => {
   await userController.register(req, res, validator, Model)
 }
 exports.login = async (req, res) => {
-  await userController.login(req, res, Model)
+  await userController.login(req, res, Model, 'Reviewer')
 }
 exports.create = async (req, res) => {
   await main.create(req, res, validator, Model)
@@ -278,30 +278,3 @@ exports.showLastWorked = async (req, res) => {
   }
 }
 
-//   exports.login = async (req, res) => {
-//     try {
-//       const reviewerEmail = req.body.email
-//       const password = req.body.password
-//       const query = {'email': reviewerEmail}
-//       const reviewer = await Reviewer.find(query)
-//       if (!reviewer) {
-//         return res.status(400).json({
-//           status: 'Error',
-//           message: 'Please enter a valid email'
-//         })
-//       }
-//       else if(password !== reviewer.password)
-//       {
-//         return res.status(400).json({
-//             status: 'Error',
-//             message: 'Wrong password'
-//           })
-//       }
-//       else{
-//         res.redirect(307, '/api/reviewers/reviewer._id')
-//       }
-
-//     } catch (error) {
-//       console.log(error)
-//     }
-// }
