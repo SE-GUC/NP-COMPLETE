@@ -1,5 +1,6 @@
 // requiring mongoose for id validations
 const mongoose = require('mongoose')
+const bcrypt = require('bcryptjs')
 
 exports.default = async (res, Model) => {
   const entities = await Model.find()
@@ -62,7 +63,11 @@ exports.update = async (req, res, validator, Model) => {
     if (!validated) {
       return
     }
-
+    if (req.body.password) {
+      const salt = bcrypt.genSaltSync(10)
+      const hashedPassword = bcrypt.hashSync(data.password, salt)
+      data.password = hashedPassword
+    }
     const updatedEntity = await findByIdAndUpdate(res, Model, entityId, data)
     if (!updatedEntity) {
       return
@@ -74,6 +79,7 @@ exports.update = async (req, res, validator, Model) => {
       data: updatedEntity
     })
   } catch (error) {
+    console.log(50555)
     return res.status(400).json({
       status: 'Error',
       message: error.message
