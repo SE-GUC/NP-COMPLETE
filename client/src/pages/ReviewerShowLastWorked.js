@@ -10,7 +10,7 @@ class ReviewerShowLastWorked extends Component {
     this.state = {
       response: undefined
     }
-    axios.get(`http://localhost:8000/api/reviewers/showLastWorked/${companyId}/${reviewerId}`)
+    axios.get(`/api/reviewers/showLastWorked/${companyId}/${reviewerId}`)
       .then(res => { this.setState({ response: res.data }) })
       .catch(err => {
         if (err.response && err.response.data) {

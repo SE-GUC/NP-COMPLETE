@@ -6,9 +6,6 @@ import axios from 'axios'
 
 export class Register extends Component {
     
-    state = {
-    }
-
   render () {
     return (
       <Form>

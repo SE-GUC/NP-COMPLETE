@@ -17,7 +17,7 @@ export class CancelApplication extends Component {
   componentDidMount () {
     const { investorId } = this.props.match.params
      axios
-      .get('http://localhost:8000/api/companies/')
+      .get('/api/companies/')
       .then(
         res => {
           const resultArr = res.data.data
@@ -80,9 +80,8 @@ export class CancelApplication extends Component {
     const investorId = this.props.match.params
     console.log(investorId)
     axios
-      .delete('http://localhost:8000/api/companies/'+ id)
+      .delete('/api/companies/'+ id)
       .then( res => {
-        //console.log(res.data.deletedCompany)
           this.setState({apps: [...this.state.apps.filter(app => app._id !== id )]})
       })
           

@@ -4,6 +4,7 @@
   "description": "",
   "main": "server.js",
   "dependencies": {
+    "@material-ui/core": "^3.9.3",
     "@types/jest": "^24.0.11",
     "axios": "^0.18.0",
     "bcryptjs": "^2.4.3",
@@ -14,7 +15,6 @@
     "jest": "^24.5.0",
     "jest-cli": "^24.5.0",
     "joi": "^14.3.1",
-    "jsonwebtoken": "^8.5.0",
     "joi-password-complexity": "^2.0.1",
     "jsonwebtoken": "^8.5.0",
     "mon": "0.0.8",

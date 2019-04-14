@@ -9,7 +9,6 @@ class InvestorLogin extends Component {
       console.log(email)
       console.log(password)
     }
-
   render () {
     return (
       <div className='App-header'>

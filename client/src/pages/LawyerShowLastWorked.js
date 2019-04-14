@@ -10,7 +10,7 @@ class LawyerShowLastWorked extends Component {
     this.state = {
       response: undefined
     }
-    axios.get(`http://localhost:8000/api/lawyers/showLastWorked/${companyId}/${lawyerId}`)
+    axios.get(`/api/lawyers/showLastWorked/${companyId}/${lawyerId}`)
       .then(res => { this.setState({ response: res.data }) })
       .catch(err => {
         if (err.response && err.response.data) {

@@ -74,7 +74,7 @@ export class UpdateProfile extends Component {
         }
       })
         axios
-        .put(`http://localhost:8000/api/investors/${this.state.id}`, temp)
+        .put(`/api/investors/${this.state.id}`, temp)
         .then(res => alert(`Profile updated successfully`))
         .catch(error => alert(error.response.data.message))
     } 
