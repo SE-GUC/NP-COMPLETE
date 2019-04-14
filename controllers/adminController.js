@@ -8,7 +8,7 @@ const Task = require('../models/Task')
 const Lawyer = require('../models/Lawyer')
 const Company = require('../models/Company')
 const Reviewer = require('../models/Reviewer')
-
+const Investor = require('../models/Investor')
 exports.default = async (req, res) => {
   await main.default(res, Model)
 }
@@ -108,6 +108,12 @@ exports.publishCompany = async (req, res) => {
       date.setMinutes(0)
       const data = { 'state': 'Established', 'establishmentDate': date }
       const updatedCompany = await Company.findByIdAndUpdate(query, data, { new: true })
+      
+      const investor = await Investor.findById(currentCompany.investorId)
+      const noti = investor.notifications
+      noti.push(`Your company (${currentCompany.name}) has been Established`)
+      const newNoti = {'notifications': noti}
+      await Investor.findByIdAndUpdate(currentCompany.investorId, newNoti , { new: true })
       return res.json({
         status: 'Success',
         message: `Updated company successfully`,

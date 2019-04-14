@@ -7,7 +7,7 @@ const userController = require('./userController')
 const Lawyer = require('../models/Lawyer')
 const Company = require('../models/Company')
 const Task = require('../models/Task')
-
+const Investor = require('../models/Investor')
 exports.default = async (req, res) => {
   await main.default(res, Model)
 }
@@ -138,14 +138,19 @@ exports.decideApplication = async (req, res) => {
         message: 'Form already accepted by reviewer'
       })
     }
+    const investor = await Investor.findById(company.investorId)
+    const noti = investor.notifications
 
     let acceptedbyReviewer
     if (decision === true) {
       acceptedbyReviewer = 1
+      noti.push(`Your form has been accepted by ${reviewer.fullName}`)
     } else {
       acceptedbyReviewer = 0
+      noti.push(`Your form has been accepted by ${reviewer.fullName}`)
     }
-
+    const newNoti = {'notifications': noti}
+    await Investor.findByIdAndUpdate(company.investorId, newNoti, { new: true })
     const newData = { 'form.acceptedByReviewer': acceptedbyReviewer, 'form.reviewerID': reviewerId }
     const updatedCompany = await Company.findByIdAndUpdate(companyId, newData, { new: true })
 

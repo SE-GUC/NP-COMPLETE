@@ -18,6 +18,9 @@ const investorSchema = new Schema({
   password: {
     type: String,
     required: true
+  },
+  notifications: {
+    type: [String]
   }
 })
 module.exports = mongoose.model('Investor', investorSchema, 'investor')

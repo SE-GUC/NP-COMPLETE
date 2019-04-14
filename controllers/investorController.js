@@ -396,6 +396,25 @@ exports.reviewOnlineService = async (req, res) => {
   }
 }
 
+exports.notifications = async (req,res) => {
+  try{
+    const investorId = req.params.id
+    const investor = await main.findById(res, Model, investorId)
+    if (!investor) {
+      return
+    }
+    res.json({
+      status: 'Success',
+      data: investor.notifications
+    })
+  } catch (error){
+    res.status(400).json({
+      status: 'Error',
+      message: error.message
+    })
+  }
+}
+
 // helper functions
 const isValidDate = stringDate => {
   const date = new Date(stringDate)

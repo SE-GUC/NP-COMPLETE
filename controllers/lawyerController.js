@@ -152,6 +152,7 @@ exports.viewForm = async (req, res) => {
 
 exports.review = async (req, res) => {
   try {
+
     // Check if the body is empty
     if (Object.keys(req.body).length === 0) {
       return res.status(400).json({
@@ -174,7 +175,6 @@ exports.review = async (req, res) => {
         message: 'Review value is not valid'
       })
     }
-
     // create the update body
     const newData = { 'form.acceptedByLawyer': req.body.acceptedByLawyer, 'form.lawyerID': req.params.lawyerID }
     if (review === 0) {
@@ -218,6 +218,16 @@ exports.review = async (req, res) => {
     // Changing value to the new value
     const updatedCompany = await Company.findByIdAndUpdate(req.params.companyID, newData, { new: true })
 
+    const investor = await Investor.findById(company.investorId)
+    const noti = investor.notifications
+
+    if(review === 1){
+      noti.push(`Your form has been accepted by ${lawyer.fullName}`)
+    }else{
+      noti.push(`Your form has been rejected by ${lawyer.fullName}`)
+    }
+    const newNoti = {'notifications': noti}
+    await Investor.findByIdAndUpdate(company.investorId, newNoti , { new: true })
     return res.json({
       status: 'Success',
       message: `Reviewed Form of Company with id ${req.params.id}`,

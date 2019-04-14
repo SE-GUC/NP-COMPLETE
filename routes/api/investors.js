@@ -49,4 +49,6 @@ router.post('/register', controller.register)
 // login
 router.post('/login', controller.login)
 
+router.get('/notifications/:id', controller.notifications)
+
 module.exports = router
