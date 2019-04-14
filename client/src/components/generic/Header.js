@@ -23,12 +23,23 @@ const Styles = styled.div`
     right: 0;
     z-index: -1;
   }
-  .font {
+  .fontH1 {
     font-family: Garamond, Baskerville, "Baskerville Old Face", "Hoefler Text", "Times New Roman", serif;
+    font-size: 50px;
     font-style: normal; font-variant: normal;
     font-weight: 700; 
     line-height: 26.4px;
-    color: #6882ad;
+    color: #5574a8;
+    text-align: center;
+    vertical-align: center;
+  }
+  .fontP {
+    font-family: Garamond, Baskerville, "Baskerville Old Face", "Hoefler Text", "Times New Roman", serif;
+    font-size: 25px;
+    font-style: normal; font-variant: normal;
+    font-weight: 700; 
+    line-height: 26.4px;
+    color: #c27070;
     text-align: center;
   }
   `
@@ -39,7 +50,9 @@ function Header () {
       <Jumbotron fluid className='jumbo'>
         <div className='overlay' />
         <Container>
-          <h1 className='font'>GAFI Web</h1>
+          <h1 className='fontH1'>GAFI Web</h1>
+          <br />
+          <p className='fontP'>Start your investment now</p>
         </Container>
 
       </Jumbotron>
