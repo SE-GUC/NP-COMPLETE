@@ -34,13 +34,13 @@ class App extends Component {
 
           <div className='Container'>
 
-            <Route exact path='/p' render={props => (
+            <Route exact path='/' render={props => (
               <React.Fragment>
                 <h1> Welcome to Gafi Web</h1>
               </React.Fragment>
             )} />
 
-            <Route exact path='/' component={Login} />
+            <Route exact path='/login' component={Login} />
 
             <Route exact path='/investors/Faqs' component={Faqs} />
 
