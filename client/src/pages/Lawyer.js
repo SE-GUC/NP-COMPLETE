@@ -14,16 +14,16 @@ export class Lawyer extends Component {
       }
       deleteMe =id =>{
             Axios
-            .delete(`http://localhost:8000/api/lawyers/${id}`)
+            .delete(`/api/lawyers/${id}`)
             .then(res =>{
-             this.setState({users:res.data.remainingLawyers})}) 
+             this.setState({users:res.data.remaining})}) 
             .catch(err => this.setState({error:true}))
       }
 
     componentDidMount() {
         this._isMounted = true
         Axios
-        .get('http://localhost:8000/api/lawyers')
+        .get('/api/lawyers')
         .then(res => this.setState({ users: res.data.data }))
         .catch(err => this.setState({ error: true }))
     }

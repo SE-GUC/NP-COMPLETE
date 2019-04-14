@@ -15,7 +15,7 @@ module.exports = {
 
   updateValidation: request => {
     const updateSchema = {
-      companyType: Joi.string(),
+      companyType: Joi.string().valid('SSC', 'SPC'),
       fields: Joi.array(),
       types: Joi.array(),
       validations: Joi.array(),

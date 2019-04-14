@@ -15,7 +15,7 @@ export class ReviewersViewMyTasks extends Component {
     componentDidMount() {
         const {id} = this.props.match.params
         this._isMounted = true
-        Axios.get('http://localhost:8000/api/reviewers/workPage/'+ id)
+        Axios.get('/api/reviewers/workPage/'+ id)
         .then(res => this.setState({ tasks: res.data.data }))
         .catch(err => this.setState({ error: true }))
     }

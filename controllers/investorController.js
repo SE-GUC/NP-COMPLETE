@@ -1,147 +1,72 @@
-// Investor model and validator
-const Investor = require('../models/Investor')
+// Entity model and validator
+const Model = require('../models/Investor')
 const validator = require('../validations/investorValidations')
-const companyType = require('../models/CompanyType')
+const main = require('./main')
+const userController = require('./userController')
+// Additional Models
+const CompanyType = require('../models/CompanyType')
 const companyValidator = require('../validations/companyValidations')
 const Company = require('../models/Company')
-const CompanyType = require('../models/CompanyType')
-const bcrypt = require('bcryptjs')
-const jwt = require('jsonwebtoken')
-const tokenKey = require('../config/keys').secretOrKey
 
-exports.getAll = async (req, res) => {
-  const investors = await Investor.find()
-  res.json({ data: investors })
+// const bcrypt = require('bcryptjs')
+// const jwt = require('jsonwebtoken')
+// const tokenKey = require('../config/keys').secretOrKey
+
+exports.default = async (req, res) => {
+  await main.default(res, Model)
+}
+exports.register = async (req, res) => {
+  await userController.register(req, res, validator, Model)
+}
+exports.login = async (req, res) => {
+  await userController.login(req, res, Model)
 }
 
 exports.create = async (req, res) => {
-  try {
-    const isValidated = validator.createValidation(req.body)
-    if (isValidated.error) {
-      return res.status(400).json({
-        status: 'Error',
-        message: isValidated.error.details[0].message
-      })
-    }
-    const newInvestor = await Investor.create(req.body)
-    return res.json({
-      status: 'Success',
-      message: `New investor created with id ${newInvestor.id}`,
-      data: newInvestor
-    })
-  } catch (error) {
-    console.log(error)
-  }
+  await main.create(req, res, validator, Model)
 }
 
-exports.getByID = async (req, res) => {
-  const investorId = req.params.id
-  const investor = await Investor.findById(investorId)
-  if (investor) {
-    res.json({ data: investor })
-  } else {
-    res.status(400).json({
-      status: 'Error',
-      message: 'Investor not found',
-      availableInvestors: Investor
-    })
-  }
+exports.read = async (req, res) => {
+  await main.read(req, res, Model)
 }
 
 exports.update = async (req, res) => {
-  try {
-    const id = req.params.id
-    if (Object.keys(req.body).length === 0) {
-      return res.status(400).json({
-        status: 'Error',
-        message: 'No data to update'
-      })
-    }
-    const currentInvestor = await Investor.findById(id)
-    if (!currentInvestor) {
-      return res.status(400).json({
-        status: 'Error',
-        message: 'could not find Investor you are looking for',
-        availableInvestors: Investor
-      })
-    }
-    const isValidated = validator.updateValidation(req.body)
-    if (isValidated.error) {
-      return res.status(400).json({
-        status: 'Error',
-        message: isValidated.error.details[0].message
-      })
-    }
-    const query = { '_id': id }
-    const updatedInvestor = await Investor.findByIdAndUpdate(query, req.body, { new: true })
-
-    return res.json({
-      status: 'Success',
-      message: `Updated investor successfully`,
-      data: updatedInvestor
-    })
-  } catch (error) {
-    console.log(error)
-  }
+  await main.update(req, res, validator, Model)
 }
 
 exports.delete = async (req, res) => {
-  try {
-    const id = req.params.id
-    const investorToBeDeleted = await Investor.findByIdAndRemove(id)
-    const AllInvestors = await Investor.find()
-    if (!investorToBeDeleted) {
-      return res.status(400).json({
-        status: 'Error',
-        message: 'could not find Investor you are looking for',
-        availableInvestors: AllInvestors
-      })
-    }
-    return res.json({
-      status: 'Success',
-      message: `Deleted investor with id ${id}`,
-      deletedInvestor: investorToBeDeleted,
-      remainingInvestors: AllInvestors
-    })
-  } catch (error) {
-    console.log(error)
-  }
+  await main.delete(req, res, Model)
 }
 
 exports.cancelApplication = async (req, res) => {
   try {
     const id = req.params.id
-    const currentInvestor = await Investor.findById(id)
-    const AllInvestors = await Investor.find()
+    const currentInvestor = await main.findById(res, Model, id)
     if (!currentInvestor) {
-      return res.status(400).json({
-        status: 'Error',
-        message: 'could not find Investor you are looking for',
-        availableInvestors: AllInvestors
-      })
+      return
     }
     if (Object.keys(req.body).length === 0) {
-      return res.status(400).json({
+      return res.status(200).json({
         status: 'Error',
         message: 'You did not enter an id'
       })
     }
     const appId = req.body.id
-    const myCompany = await Company.findById(appId)
+
+    const myCompany = await main.findById(res, Company, appId)
     if (!myCompany) {
-      return res.status(400).json({
-        status: 'Error',
-        message: 'could not find the Company you are looking for'
-      })
+      return
     }
+
     if (!(myCompany.investorId === id)) {
       return res.status(400).json({
         status: 'Error',
         message: 'This is not your company'
       })
     }
+
     if (!(myCompany.form.acceptedByReviewer === -1)) {
-      return res.status(400).json({
+      return res.status(500).json({
         status: 'Error',
         message: 'You can not cancel a reviewed application'
       })
@@ -152,65 +77,79 @@ exports.cancelApplication = async (req, res) => {
     return res.json({
       status: 'Success',
       message: `Cancelled the Application with id ${appId}`,
-      // deletedApplication: deletedApp,
+      deletedApplication: deletedApp,
       data: remainingCompanies
     })
   } catch (error) {
-    console.log(error)
+    return res.status(400).json({
+      status: 'Error',
+      message: error.message
+    })
   }
 }
 
 exports.viewRejectedForm = async (req, res) => {
   try {
     const investorId = req.params.id
-    const query1 = { '_id': investorId }
-    const investor = await Investor.find(query1)
-    if (!investor[0]) {
-      res.status(400).json({
-        status: 'Error',
-        message: 'Investor not found'
-      })
-    } else {
-      const query = { 'investorId': investorId }
-      const companies = await Company.find(query)
-      if (!companies[0]) {
-        res.status(400).json({
-          status: 'Error',
-          message: 'company not found'
-        })
-      } else {
-        var x = []
-        var i
-        for (i = 0; i < companies.length; i++) { // to check all the investor's companies
-          if (companies[i].form.acceptedByLawyer === 0) {
-            x.push(companies[i].form)
-          }
-        }
-        if (!x[0]) {
-          res.status(400).json({
-            status: 'Error',
-            message: 'There is no rejected company yet'
-          })
-        } else {
-          res.json({ data: x })
-        }
-      }
+    const investor = await main.findById(res, Model, investorId)
+    if (!investor) {
+      return
     }
+
+    const query = { 'investorId': investorId, 'form.acceptedByLawyer': 0 }
+    const companies = await Company.find(query)
+    if (!companies.length) {
+      return res.json({
+        status: 'Success',
+        mesg: 'You don not have any rejected forms'
+      })
+    }
+    var data = []
+    for (var i = 0; i < companies.length; i++) {
+      const company = companies[i]
+      const tempType = company.type
+      const query1 = { 'companyType': tempType }
+      const tempCompanyTpe = await CompanyType.findOne(query1)
+      const tempFields = tempCompanyTpe.fields
+      const tempDescription = tempCompanyTpe.descriptions
+      const myData = {
+        descriptions: tempDescription,
+        fields: tempFields
+      }
+      var result = { form: {} }
+      Object.keys(Company.schema.paths).forEach(key => {
+        const splits = key.split('.')
+        if (splits[0] === 'form') {
+          result.form[splits[1]] = company.form[splits[1]]
+        } else {
+          result[key] = company[key]
+        }
+      })
+      Object.keys(myData).forEach(key => {
+        result[key] = myData[key]
+      })
+      data.push(result)
+    }
+    return res.json({
+      status: 'Success',
+      data: data
+    })
   } catch (error) {
-    console.log(error)
+    return res.status(400).json({
+      status: 'Error',
+      message: error.message
+    })
   }
 }
 
 exports.editForms = async (req, res) => {
   try {
     const companyId = req.params.id
-    const companyToBeUpdated = await Company.findById(companyId)
+    const companyToBeUpdated = await main.findById(res, Company, companyId)
     if (!companyToBeUpdated) {
-      return res.status(400).json({
-        status: 'Error',
-        message: 'could not find Form you are looking for'
-      })
+      return
     }
+
     if (companyToBeUpdated.form.filledByLawyer === true || companyToBeUpdated.form.acceptedByLawyer === 1) {
       return res.status(400).json({
         status: 'error',
@@ -226,7 +165,7 @@ exports.editForms = async (req, res) => {
     }
     const type = companyToBeUpdated.type
     const query = { 'companyType': type }
-    const companyTypeTemp = await companyType.find(query)
+    const companyTypeTemp = await CompanyType.find(query)
     if (!companyTypeTemp) {
       return res.status(400).json({
         status: 'error',
@@ -259,30 +198,22 @@ exports.editForms = async (req, res) => {
       updatedCompany: updatedCompany
     })
   } catch (error) {
-    console.log(error)
-  }
-}
-exports.trackApplication = async (req, res) => {
-  try {
-    const id = req.params.id
-    Company
-      .find({
-        investorId: id
-      })
-      .then(result => res.json({
-        status: 'Success',
-        message: `Companies for investor ${id}`,
-        companies: result
-      }))
-  } catch (error) {
-    console.error(error)
+    return res.status(400).json({
+      status: 'Error',
+      message: error.message
+    })
   }
 }
 
 exports.getCompanies = async (req, res) => {
   try {
-    const investorId = req.params.id
-    const query = { 'investorId': investorId }
+    const id = req.params.id
+    const isValidId = main.validId(res, Model, id)
+    if (!isValidId) {
+      return
+    }
+
+    const query = { investorId: id }
     const companies = await Company.find(query)
     return res.json({
       status: 'Success',
@@ -290,13 +221,21 @@ exports.getCompanies = async (req, res) => {
       data: companies
     })
   } catch (error) {
-    console.log(error)
+    return res.status(400).json({
+      status: 'Error',
+      message: error.message
+    })
   }
 }
 
 exports.fillForm = async (req, res) => {
   try {
     const investorId = req.params.id
+    const isValidId = main.validId(res, Model, investorId)
+    if (!isValidId) {
+      return
+    }
+
     const isValidated = companyValidator.createValidation(req.body)
     if (isValidated.error) {
       return res.status(400).json({
@@ -306,7 +245,7 @@ exports.fillForm = async (req, res) => {
     }
     const type = req.body.type
     const query = { 'companyType': type }
-    const companyTypeTemp = await companyType.find(query)
+    const companyTypeTemp = await CompanyType.find(query)
     if (companyTypeTemp.length === 0) {
       return res.status(400).json({
         status: 'error',
@@ -336,7 +275,7 @@ exports.fillForm = async (req, res) => {
     const newCompany = await Company.create(req.body)
     const companyId = newCompany._id
     const query2 = { '_id': companyId }
-    const data2 = { 'state': 'pending',
+    const data2 = { 'state': 'Pending',
       'accepted': false,
       'investorId': investorId,
       'form.acceptedByLawyer': -1,
@@ -349,20 +288,21 @@ exports.fillForm = async (req, res) => {
       data: updateCompany
     })
   } catch (error) {
-    console.log(error)
+    return res.status(400).json({
+      status: 'Error',
+      message: error.message
+    })
   }
 }
 
 exports.payFees = async (req, res) => {
   try {
     const investorId = req.params.id
-    const investor = await Investor.findById({ '_id': investorId })
+    const investor = await main.findById(res, Model, investorId)
     if (!investor) {
-      return res.status(400).json({
-        status: 'Error',
-        message: 'investor doesnt exist'
-      })
+      return
     }
+
     const companyId = req.body.id
     const company = await Company.findById(companyId)
     if (!company) {
@@ -395,16 +335,21 @@ exports.payFees = async (req, res) => {
       data: updateCompany
     })
   } catch (error) {
-    console.log(error)
+    return res.status(400).json({
+      status: 'Error',
+      message: error.message
+    })
   }
 }
 
 exports.readDescription = async (req, res) => {
   const type = req.params.type
-  const companyType = await CompanyType.findOne({ 'companyType': type })
-  if (companyType) {
+  const companyTypeTemp = await CompanyType.find({ 'companyType': type })
+  const data = companyTypeTemp[0].descriptions
+  if (companyTypeTemp) {
     res.json({
-      description: companyType.description
+      status: 'Success',
+      description: data
     })
   } else {
     res.status(400).json({
@@ -418,21 +363,18 @@ exports.readDescription = async (req, res) => {
 exports.reviewOnlineService = async (req, res) => {
   try {
     const investorId = req.params.investorId
-    const investor = await Investor.findById(investorId)
-    if (!investor) {
-      return res.status(400).json({
-        status: 'Error',
-        message: 'This investor doesnt exist'
-      })
-    }
     const companyId = req.params.companyId
-    const company = await Company.findById(companyId)
-    if (!company) {
-      return res.status(400).json({
-        status: 'Error',
-        message: 'This company doesnt exist'
-      })
+
+    const investor = await main.findById(res, Model, investorId)
+    if (!investor) {
+      return
     }
+
+    const company = await main.findById(res, Company, companyId)
+    if (!company) {
+      return
+    }
+
     if (investorId === company.investorId) {
       const newData = { 'feedback': req.body.feedback }
       const updatedCompany = await Company.findByIdAndUpdate(companyId, newData, { new: true })
@@ -441,13 +383,16 @@ exports.reviewOnlineService = async (req, res) => {
         data: updatedCompany
       })
     } else {
-      res.json({
+      res.status(400).json({
         status: 'Error',
         message: 'You are not the owner of this company'
       })
     }
   } catch (error) {
-    console.log(error)
+    res.status(400).json({
+      status: 'Error',
+      message: error.message
+    })
   }
 }
 
@@ -457,20 +402,20 @@ const isValidDate = stringDate => {
   return date && Object.prototype.toString.call(date) === '[object Date]' && !isNaN(date)
 }
 
-exports.login = async (req, res) => {
-  try {
-    const { email, password } = req.body
-    const investor = await Investor.findOne({ email })
-    if (!investor) return res.status(404).json({ email: 'Email does not exist' })
-    const match = bcrypt.compareSync(password, investor.password)
-    if (match) {
-      const payload = {
-        id: investor._id,
-        name: investor.name,
-        email: investor.email
-      }
-      const token = jwt.sign(payload, tokenKey, { expiresIn: '1h' })
-      return res.json({ token: `Bearer ${token}` })
-    } else return res.status(400).send({ password: 'Wrong password' })
-  } catch (e) {}
-}
+// exports.login = async (req, res) => {
+//   try {
+//     const { email, password } = req.body
+//     const investor = await Investor.findOne({ email })
+//     if (!investor) return res.status(404).json({ email: 'Email does not exist' })
+//     const match = bcrypt.compareSync(password, investor.password)
+//     if (match) {
+//       const payload = {
+//         id: investor._id,
+//         name: investor.name,
+//         email: investor.email
+//       }
+//       const token = jwt.sign(payload, tokenKey, { expiresIn: '1h' })
+//       return res.json({ token: `Bearer ${token}` })
+//     } else return res.status(400).send({ password: 'Wrong password' })
+//   } catch (e) {}
+// }
