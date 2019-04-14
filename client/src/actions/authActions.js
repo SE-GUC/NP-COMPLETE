@@ -1,16 +1,24 @@
 import { LOGIN } from './actionTypes'
 import axios from 'axios'
-
 import setAuthToken from '../setAuthToken'
 
 export const login = (userData) => dispatch => {
-  axios.post('http://localhost:5000/api/users/login', userData)
+  console.log('koko wawa')
+  console.log(userData)
+  axios.post('/api/investors/login', userData)
     .then(res => {
-      const { token } = res.data
+      const { token, id, type } = res.data
       localStorage.setItem('jwtToken', token)
+      localStorage.setItem('id', id)
+      localStorage.setItem('type', type)
+      console.log(localStorage)
       setAuthToken(token)
+      dispatch({
+        type: LOGIN,
+        payload: res.data
+      })
     })
-    .catch(err => console.log('error'))
+    .catch(err => {
+      console.log(err)
+    })
 }
-// local storage ??????????????????????????????
-// the axios link should be changed and the body also according to the new login
