@@ -27,6 +27,11 @@ import UpdateProfile from './pages/UpdateProfile'
 import UpdateForm from './pages/UpdateForm'
 import ChooseForm from './pages/investorPages/ChooseCompanyType'
 import InvestorLogin from './pages/investorPages/InvestorLogin'
+import setAuthToken from './setAuthToken'
+
+if (localStorage.jwtToken) {
+  setAuthToken(localStorage.jwtToken)
+}
 
 class App extends Component {
   render () {

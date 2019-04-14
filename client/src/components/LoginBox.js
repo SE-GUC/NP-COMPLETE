@@ -55,8 +55,8 @@ onClick = (e) =>
   
             <button type='button' 
               className='login-btn' 
-              onClick= {async ()  => {
-                await this.onClick()
+              onClick= { ()  => {
+                 this.onClick()
                 this.setState({route: true})
                 } }> 
               Login 
@@ -71,7 +71,7 @@ onClick = (e) =>
       // return <Redirect to='/admins/deleteAdmin' />
       // if(this.props.isLoggedIn){
 
-        return <Redirect to='/investor' />
+        return <Redirect to='/investors/MyCompanies' />
       // } else {
       //   alert('Log in failed')
       // }
