@@ -19,7 +19,7 @@ exports.register = async (req, res, validator, Model) => {
     if (user) {
       return res.status(400).json({
         status: 'Error',
-        email: 'Email already exists'
+        message: 'Email already exists'
       })
     }
     const salt = bcrypt.genSaltSync(10)
