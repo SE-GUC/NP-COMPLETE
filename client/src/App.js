@@ -52,6 +52,10 @@ class App extends Component {
               </React.Fragment>
             )} />
 
+            <Route exact path='/admin' component={AdminLandingPage} />
+
+            <Route exact path='/investor' component={InvestorLandingPage} />
+
             <Route exact path='/LogIn' component={Login} />
 
             <Route exact path='/investors/Faqs' component={Faqs} />

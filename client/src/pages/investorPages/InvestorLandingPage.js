@@ -2,7 +2,13 @@ import React, { Component } from 'react'
 import { Card, Button, CardTitle, CardText, Row, Col } from 'reactstrap'
 
 export class InvestorLandingPage extends Component {
+  state = {
+    id: this.props.match.params
+  }
+ 
+
   render () {
+    console.log(this.state.id)
     return (
       <div>
         <h1>Welcome Investor</h1>
@@ -11,7 +17,7 @@ export class InvestorLandingPage extends Component {
             <Card body>
               <CardTitle>Establish a company</CardTitle>
               <CardText>Start your investments</CardText>
-              <Button variant='primary'>fill form</Button>
+              <Button variant='primary' href='/investors/fillForm'>fill form</Button>
             </Card>
           </Col>
           <Col sm='6'>
@@ -27,7 +33,7 @@ export class InvestorLandingPage extends Component {
             <Card body>
               <CardTitle>My companies</CardTitle>
               <CardText>Keep track of your companies</CardText>
-              <Button variant='primary'>View list of companies - Adel</Button>
+              <Button variant='primary' href={`/investors/MyCompanies/${this.state.id}`} >View list of companies</Button>
             </Card>
           </Col>
           <Col sm='6'>
