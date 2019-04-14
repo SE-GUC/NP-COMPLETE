@@ -24,7 +24,7 @@ export class CompanyItem extends Component {
             (this.props.company.length !==0)?
             <button onClick= {e=> this.props.pay(e , this.props.root)} style={btnStyle}> PayFees </button>
             :
-          <h1></h1>
+          <h1> </h1>
           }
           
           </p>

@@ -7,31 +7,49 @@ import Axios from 'axios';
 class acceptOrReject extends Component {
 
   state = {
-    forms: [
-      {
-        id: 1,
-        title: 'balabizo1'
-      }
-    ]
+    loading: true,
+    forms: []
   }
-  accept = () =>{
+
+  componentDidMount() {
+    const { companyId } = this.props.match.params 
+    this._isMounted = true
+    this.setState({loading: true})
+    Axios
+    
+    .get(`api/companies/${companyId}`)
+    .then(res => this.setState({forms : 
+      (res.data.data.form.acceptedByReviewer !== -1)?
+      []
+      :
+    (res.data.data.form )
+    }))
+    .then(res => this.setState({loading: false}))
+    .then(res => console.log(this.state.forms ))
+    .catch(err => {console.log(err)})
+}
+
+
+  accept = (e , root) =>{
+    e.preventDefault()
     const { reviewerId , companyId } = this.props.match.params
     Axios
-    .put(`http://localhost:8000/api/reviewers/decideAnApplication/${reviewerId}/${companyId}`  , {decision: true})
+    .put(`/api/reviewers/decideAnApplication/${reviewerId}/${companyId}`  , {decision: true})
     .then(res => {
-      console.log(res.data.data)  
+      this.setState({ forms: [] })
     })
     .catch(err => {
       console.log(err)
     })
   }
-  reject = () =>{
+  reject = (e , root) =>{
+    e.preventDefault()
     const { reviewerId , companyId } = this.props.match.params
 
     Axios
-    .put(`http://localhost:8000/api/reviewers/decideAnApplication/${reviewerId}/${companyId}`  , {decision: false})
+    .put(`/api/reviewers/decideAnApplication/${reviewerId}/${companyId}`  , {decision: false})
     .then(res => {
-      console.log(res.data.data)
+       this.setState({ forms: [] })
     })
     .catch(err => {
       console.log(err)
@@ -42,10 +60,12 @@ class acceptOrReject extends Component {
     return (
       <div className="App">
       <Header/>
-      <Forms forms = {this.state.forms}
+      {this.state.loading? <h1>loading please be patient</h1>: 
+      <Forms forms = {[this.state.forms]}
          accept = {this.accept}
          reject = {this.reject}
-      />      
+         root = {this}
+      />      }     
       </div>
     );
   }

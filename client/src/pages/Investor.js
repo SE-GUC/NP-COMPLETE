@@ -14,16 +14,16 @@ export class Investor extends Component {
       }
       deleteMe =id =>{
             Axios
-            .delete(`http://localhost:8000/api/investors/${id}`)
+            .delete(`/api/investors/${id}`)
             .then(res =>{
-             this.setState({users:res.data.remainingInvestors})}) 
+             this.setState({users:res.data.remaining})}) 
             .catch(err => this.setState({error:true}))
       }
 
     componentDidMount() {
         this._isMounted = true
         Axios
-        .get('http://localhost:8000/api/investors')
+        .get('/api/investors')
         .then(res => this.setState({ users: res.data.data }))
         .catch(err => this.setState({ error: true }))
     }
