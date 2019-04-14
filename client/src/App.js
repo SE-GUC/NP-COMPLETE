@@ -119,7 +119,7 @@ class App extends Component {
 
             <Route exact path='/admins/registerInternal/' component={RegisterInternal} />
 
-            <Route exact path='/reviewForm' component={ReviewForm} />
+            <Route exact path='users/reviewForm' component={ReviewForm} />
 
           </div>
         </div>
