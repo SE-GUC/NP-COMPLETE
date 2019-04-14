@@ -390,18 +390,17 @@ exports.calculateFees = async (req, res) => {
     }
 
     const type = company.type
-    const CompanyType = companyType.findOne({ companyType: type })
+    const CompanyType = await companyType.findOne({ companyType: type })
     if (!CompanyType) {
       return res.status(400).json({
         status: 'Error',
         message: 'Company type cannot be found'
       })
     }
-    const fields = companyType.fields
+    const fields = CompanyType.fields
     const capitalIdx = fields.indexOf('capital')
     const capital = company.form.data[capitalIdx]
     const fees = await calculateFees(capital)
-    console.log(`fees: ${fees}`)
 
     const query = { '_id': companyId }
     const newData = { 'fees': fees }
