@@ -1,9 +1,12 @@
 import React from 'react'
 import { Jumbotron, Container } from 'reactstrap'
 import styled from 'styled-components'
+import JumboImage from '../../assets/Jumbo-Pic.jpg'
 
 const Styles = styled.div`
   .jumbo {
+    background: url(${JumboImage}) no-repeat fixed bottom;
+    background-size: cover;
     background-size: cover;
     color: #becbe0;
     height: 200px;

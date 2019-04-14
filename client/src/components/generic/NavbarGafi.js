@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react'
 import {
   Collapse,
   Navbar,
@@ -11,53 +11,53 @@ import {
   DropdownToggle,
   DropdownMenu,
   DropdownItem
-} from "reactstrap";
+} from 'reactstrap'
 
-import { Form, FormControl, Button } from "react-bootstrap";
+import { Form, FormControl, Button } from 'react-bootstrap'
 
 export default class NavbarGafi extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor (props) {
+    super(props)
 
-    this.toggle = this.toggle.bind(this);
+    this.toggle = this.toggle.bind(this)
     this.state = {
       isOpen: false
-    };
+    }
   }
-  toggle() {
+  toggle () {
     this.setState({
       isOpen: !this.state.isOpen
-    });
+    })
   }
-  render() {
+  render () {
     return (
       <div>
-        <Navbar color="light" light expand="md">
-          <NavbarBrand href="/">GAFI Web</NavbarBrand>
+        <Navbar color='light' light expand='md'>
+          <NavbarBrand href='/'>GAFI Web</NavbarBrand>
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
-            <Nav className="ml-auto" navbar>
+            <Nav className='ml-auto' navbar>
               <NavItem>
-                <NavLink href="/">Home</NavLink>
+                <NavLink href='/'>Home</NavLink>
               </NavItem>
               <NavItem>
-                <NavLink href="/About">About</NavLink>
+                <NavLink href='/About'>About</NavLink>
               </NavItem>
               <NavItem>
-                <NavLink href="/investors/Faqs">FAQ</NavLink>
+                <NavLink href='/investors/Faqs'>FAQ</NavLink>
               </NavItem>
               <NavItem>
-                <NavLink href="https://github.com/SE-GUC/NP-COMPLETE">
+                <NavLink href='https://github.com/SE-GUC/NP-COMPLETE'>
                   GitHub
                 </NavLink>
               </NavItem>
               <Form inline>
                 <FormControl
-                  type="text"
-                  placeholder="Search"
-                  className="mr-sm-2"
+                  type='text'
+                  placeholder='Search'
+                  className='mr-sm-2'
                 />
-                <Button variant="outline-primary">Search</Button>
+                <Button variant='outline-primary'>Search</Button>
               </Form>
               <UncontrolledDropdown nav inNavbar>
                 <DropdownToggle nav caret />
@@ -73,6 +73,6 @@ export default class NavbarGafi extends React.Component {
           </Collapse>
         </Navbar>
       </div>
-    );
+    )
   }
 }
