@@ -23,7 +23,11 @@ export class PublishCompany extends Component {
           const c = []
           var i
           for (i = 0; i < resultArr.length; i++) {
-            if (resultArr[i].form.acceptedByReviewer === 1 && resultArr[i].form.acceptedByLawyer === 1 && resultArr[i].accepted === true && resultArr[i].form.paid === true && resultArr[i].state !== 'Established') {
+            if (resultArr[i].form.acceptedByReviewer === 1 &&
+                resultArr[i].form.acceptedByLawyer === 1 &&
+                resultArr[i].form.paid === true && 
+                resultArr[i].accepted === true &&
+                resultArr[i].state !== 'Established') {
               c.push(resultArr[i])
             }
           }
@@ -77,6 +81,7 @@ axios
 .then(res=>alert(res.data.message))
 .catch(error=> alert(error))
 
+this.componentDidMount()
 }
 
 }
