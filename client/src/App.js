@@ -99,7 +99,7 @@ class App extends Component {
 
             {/* <Route exact path='/investors/payFees/:investorId/:companyId' component={payFees} /> */}
 
-            <Route exact path='/investors/MyCompanies/:id' component={AllMyCompanies} />
+            <Route exact path='/investors/MyCompanies' component={AllMyCompanies} />
 
             <Route exact path='/reviewers/showLastWorked/:companyId/:reviewerId' component={ReviewerShowLastWorked} />
 
