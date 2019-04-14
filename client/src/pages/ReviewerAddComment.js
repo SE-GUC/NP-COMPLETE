@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { Button, Form, Alert, Col } from 'react-bootstrap'
 import axios from 'axios'
-import './AddComment.css'
+import './ReviewerAddComment.css'
 
-class AddComment extends Component {
+class ReviewerAddComment extends Component {
   constructor (props) {
     super(props)
     this.state = {
@@ -39,7 +39,7 @@ class AddComment extends Component {
               <Form>
                 <Form.Row id='IDs'>
                   <Col>
-                    <Form.Control id='lawyerId' placeholder='Lawyer ID' onChange={(event) => { this.LID = event.target.value }} />
+                    <Form.Control id='reviewerId' placeholder='Reviewer ID' onChange={(event) => { this.RID = event.target.value }} />
                   </Col>
                   <Col>
                     <Form.Control id='companyId' placeholder='Company ID' onChange={(event) => { this.CID = event.target.value }} />
@@ -54,10 +54,10 @@ class AddComment extends Component {
 
               <Button id='submit' as='input' type='submit' value='Submit'
                 onClick={() => {
-                  const lawyerID = this.LID
+                  const reviewerID = this.RID
                   const companyID = this.CID
                   const comment = this.comm
-                  axios.put(`/api/lawyers/addComment/${lawyerID}/${companyID}`, { comment: comment })
+                  axios.put(`http://localhost:8000/api/reviewers/addComment/${reviewerID}/${companyID}`, { comment: comment })
                     .then(res => { this.setState({ response: res.data }) })
                     .catch(err => {
                       if (err.response && err.response.data) {
@@ -75,4 +75,4 @@ class AddComment extends Component {
   }
 }
 
-export default AddComment
+export default ReviewerAddComment
