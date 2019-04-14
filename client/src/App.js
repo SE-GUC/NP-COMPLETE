@@ -107,13 +107,12 @@ class App extends Component {
             <Route exact path='/lawyers/review/:lawyerId/:companyId' component={acceptOrRejectInvestorForm} />
 
             <Route exact path='/user/UpdateProfile' component={UpdateProfile} />
-            
+
             <Route exact path='/investors/fillForm' component={ChooseForm} />
 
             <Route exact path='/investors/editForm' component={UpdateForm} />
 
             <Route exact path='/admins/publishCompany/:id' component={publishCompany} />
-
 
           </div>
         </div>

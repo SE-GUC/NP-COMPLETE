@@ -80,8 +80,7 @@ axios
 .put(`http://localhost:8000/api/admins/publishCompany/${id}`)
 .then(res=>alert(res.data.message))
 .catch(error=> alert(error))
-
-this.componentDidMount()
+this.setState({companies: this.state.companies.filter(company => company._id !== id )})
 }
 
 }
