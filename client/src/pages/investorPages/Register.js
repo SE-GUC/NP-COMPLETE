@@ -7,10 +7,6 @@ import axios from 'axios'
 export class Register extends Component {
     
     state = {
-        fullName: undefined,
-        birthdate: undefined,
-        email: undefined,
-        password: undefined
     }
 
   render () {

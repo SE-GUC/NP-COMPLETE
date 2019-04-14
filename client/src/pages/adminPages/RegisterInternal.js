@@ -6,13 +6,6 @@ import axios from 'axios'
 
 export class RegisterInternal extends Component {
     state = {
-        fullName: undefined,
-        birthdate: undefined,
-        email: undefined,
-        password: undefined,
-        workingHours: undefined,
-        salary: undefined,
-        type: undefined
     }
 
   render() {
@@ -20,7 +13,7 @@ export class RegisterInternal extends Component {
       <Form>
         <RegisterField
           label='Type'
-          type='dropdown'
+          type='text'
           placeholder='Choose type'
           onChange={e => this.setState({type: e.target.value})}
            />  
