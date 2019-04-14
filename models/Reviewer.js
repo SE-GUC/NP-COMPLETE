@@ -24,8 +24,12 @@ const ReviewerSchema = new Schema({
   },
   salary: {
     type: Number
+  },
+  password: {
+    type: String,
+    required: true
   }
 
 })
 
-module.exports = mongoose.model('Reviewer', ReviewerSchema)
+module.exports = mongoose.model('Reviewer', ReviewerSchema, 'reviewer')

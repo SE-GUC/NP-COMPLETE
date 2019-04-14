@@ -24,7 +24,11 @@ const AdminSchema = new Schema({
   },
   salary: {
     type: Number
+  },
+  password: {
+    type: String,
+    required: true
   }
 })
 
-module.exports = mongoose.model('Admin', AdminSchema)
+module.exports = mongoose.model('Admin', AdminSchema, 'admin')

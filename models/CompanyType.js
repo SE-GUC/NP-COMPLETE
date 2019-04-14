@@ -5,7 +5,9 @@ const Schema = mongoose.Schema
 const companyTypeSchema = new Schema({
   companyType: {
     type: String,
-    required: true
+    unique: true,
+    required: true,
+    dropDups: true
   },
   fields: {
     type: [String],
@@ -24,4 +26,4 @@ const companyTypeSchema = new Schema({
     required: true
   }
 })
-module.exports = mongoose.model('companyType', companyTypeSchema)
+module.exports = mongoose.model('CompanyType', companyTypeSchema, 'companyType')
