@@ -34,6 +34,7 @@ import InvestorLogin from './pages/investorPages/InvestorLogin'
 import setAuthToken from './setAuthToken'
 import publishCompany from './pages/PublishCompany'
 import RegisterInternal from './pages/adminPages/RegisterInternal'
+import CalcFees from './pages/lawyerPages/CalcFees'
 
 if (localStorage.jwtToken) {
   setAuthToken(localStorage.jwtToken)
@@ -122,6 +123,7 @@ class App extends Component {
             <Route exact path='/admins/publishCompany/:id' component={publishCompany} />
 
             <Route exact path='/admins/registerInternal/' component={RegisterInternal} />
+            <Route exact path='/lawyers/CalcFees/:companyId' component={CalcFees} />
 
           </div>
         </div>
