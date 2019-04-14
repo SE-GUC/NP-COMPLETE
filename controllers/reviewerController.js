@@ -43,7 +43,7 @@ exports.viewDepartmentTask = async (req, res) => {
   const query = { 'department': 'Reviewer' }
   const tasks = await Task.find(query)
   // view the tasks of the given depratment
-  
+
   return res.json({
     status: 'Success',
     message: tasks.length ? 'Task Assigned' : 'No tasks available',
@@ -65,10 +65,15 @@ exports.reviewForms = async (req, res) => {
         message: 'No forms available to review'
       })
     }
-    return res.json({
+    var forms = []
+    for (var i = 0; i < companies.length; i++) {
+      forms.push(companies[i]) // extract form attribute only
+    }
+    res.json({
       status: 'Success',
-      data: companies
+      data: forms
     })
+    
   } catch (error) {
     return res.status(400).json({
       status: 'Error',
@@ -277,9 +282,9 @@ exports.showLastWorked = async (req, res) => {
 //     try {
 //       const reviewerEmail = req.body.email
 //       const password = req.body.password
-//       const query = {'email': reviewerEmail} 
+//       const query = {'email': reviewerEmail}
 //       const reviewer = await Reviewer.find(query)
-//       if (!reviewer) { 
+//       if (!reviewer) {
 //         return res.status(400).json({
 //           status: 'Error',
 //           message: 'Please enter a valid email'

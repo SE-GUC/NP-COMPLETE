@@ -1,25 +1,36 @@
 import React, { Component } from 'react'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
-import RegisterField from '../../components/form/RegisterField'
+import RegisterField from '../components/form/RegisterField'
 import axios from 'axios'
 
-export class Register extends Component {
-    
-    state = {
-        fullName: undefined,
-        birthdate: undefined,
-        email: undefined
-    }
+export class UpdateProfile extends Component {
 
-  render () {
+ 
+
+  state = {
+    id: undefined,
+    fullName: undefined,
+    birthdate: undefined,
+    email: undefined
+}
+
+  render() {
     return (
-      <Form>
+      <div>
+        <Form>
+        <RegisterField
+          label='Id'
+          type='id'
+          placeholder='userId'
+          // eslint-disable-next-line no-const-assign
+          onChange={e => this.setState({id: e.target.value})}
+           />
+
         <RegisterField
           label='Email address'
           type='email'
-          placeholder='Enter email'
-          mutedText={'We\'ll never share your email with anyone else'}
+          placeholder='update email'
           onChange={e => this.setState({email: e.target.value})}
            />
 
@@ -39,21 +50,25 @@ export class Register extends Component {
           placeholder='Enter birthdate'
           onChange={e => this.setState({birthdate: e.target.value})} />
 
-        <Button variant='primary' type='submit' onClick={e => this.clicked(e)}>
-          Submit
+        <Button variant='secondry' type='submit' onClick={e => this.clicked(e)}>
+           Update
         </Button>
-      </Form>
+        </Form>
+        
+      </div>
     )
   }
 
   clicked = e => {
     e.preventDefault()
     console.log(this.state)
+    const updatedData = {fullName:this.state.fullName,birthdate:this.state.birthdate,email:this.state.email}
     axios
-        .post(`/api/investors/`, this.state)
-        .then(res => alert(`You are now registered with id ${res.data.data._id}`))
+        .put(`http://localhost:8000/api/investors/${this.state.id}`, updatedData)
+        .then(res => alert(`Profile updated successfully`))
         .catch(error => alert(error.response.data.message))
     } 
+
 }
 
-export default Register
+export default UpdateProfile

@@ -22,7 +22,7 @@ export class CaseCard extends Component {
       // <div>
       <CardDeck>
         <Card>
-          <Button variant='primary' onClick={this.toggle} >{this.props.data.name}</Button>
+          <Button variant ='primary' onClick={this.toggle} >{this.props.data.name}</Button>
           <Collapse isOpen={this.state.collapse}>
             <Card.Body>
               <Card.Title><h4>Name : {this.props.data.name}</h4></Card.Title>

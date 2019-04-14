@@ -128,6 +128,15 @@ exports.viewForm = async (req, res) => {
         status: 'error',
         message: 'Form not found'
       })
+    } else {
+      var i
+      var x = []
+      for (i = 0; i < companies.length; i++) {
+        x += x.push(companies[i])
+      }
+      res.json({
+        data: x
+      })
     }
     return res.json({
       status: 'Success',
