@@ -31,6 +31,8 @@ import UpdateProfile from './pages/UpdateProfile'
 import UpdateForm from './pages/UpdateForm'
 import ChooseForm from './pages/investorPages/ChooseCompanyType'
 import publishCompany from './pages/PublishCompany'
+import RegisterInternal from './pages/adminPages/RegisterInternal'
+
 class App extends Component {
   render () {
     return (
@@ -113,6 +115,8 @@ class App extends Component {
             <Route exact path='/investors/editForm' component={UpdateForm} />
 
             <Route exact path='/admins/publishCompany/:id' component={publishCompany} />
+
+            <Route exact path='/admins/registerInternal/' component={RegisterInternal} />
 
           </div>
         </div>

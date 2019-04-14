@@ -4,18 +4,27 @@ import Button from 'react-bootstrap/Button'
 import RegisterField from '../../components/form/RegisterField'
 import axios from 'axios'
 
-export class Register extends Component {
-    
+export class RegisterInternal extends Component {
     state = {
         fullName: undefined,
         birthdate: undefined,
         email: undefined,
-        password: undefined
+        password: undefined,
+        workingHours: undefined,
+        salary: undefined,
+        type: undefined
     }
 
-  render () {
+  render() {
     return (
       <Form>
+        <RegisterField
+          label='Type'
+          type='dropdown'
+          placeholder='Choose type'
+          onChange={e => this.setState({type: e.target.value})}
+           />  
+
         <RegisterField
           label='Email address'
           type='email'
@@ -41,20 +50,41 @@ export class Register extends Component {
           placeholder='Enter birthdate'
           onChange={e => this.setState({birthdate: e.target.value})} />
 
+        <RegisterField
+          label='workingHours'
+          type='text'
+          placeholder='workingHours'
+          onChange={e => this.setState({workingHours: e.target.value})} />
+
+        <RegisterField
+          label='salary'
+          type='text'
+          placeholder='salary'
+          onChange={e => this.setState({salary: e.target.value})} />
+
         <Button variant='primary' type='submit' onClick={e => this.clicked(e)}>
           Submit
         </Button>
       </Form>
     )
   }
-
+  
   clicked = e => {
     e.preventDefault()
+    const type = this.state.type
+    var data = {startDate: new Date()}
+    Object.keys(this.state).forEach( key=>{
+            if(key!=='type'){
+                data[key]=this.state[key]
+            }
+        }
+    )
     axios
-        .post(`/api/investors/`, this.state)
-        .then(res => alert(`You are now registered with id ${res.data.data._id}`))
+        .post(`/api/${type}/register/`, data)
+        .then(res => alert(`You registered one ${type} with id ${res.data.data._id}`))
         .catch(error => alert(error.response.data.message))
     } 
+
 }
 
-export default Register
+export default RegisterInternal
