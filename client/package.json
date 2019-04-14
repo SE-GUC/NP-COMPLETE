@@ -19,8 +19,7 @@
     "uuid": "^3.3.2"
   },
   "devDependencies": {
-    "standard": "^12.0.1",
-    "babel-eslint": "^10.0.1"
+    "standard": "^12.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -39,8 +38,5 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ],
-  "standard": {
-    "parser": "babel-eslint"
-  }
+  ]
 }

@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
+  "engines": {
+    "node": "10.x"
+  },
   "dependencies": {
     "@types/jest": "^24.0.11",
     "axios": "^0.18.0",
@@ -27,7 +30,6 @@
     "uuid": "^3.3.2"
   },
   "devDependencies": {
-    "babel-preset-env": "^1.6.1",
     "jest": "^24.5.0",
     "nodemon": "^1.18.11",
     "standard": "^12.0.1",
@@ -40,11 +42,12 @@
     "uuid": "^3.3.2"
   },
   "scripts": {
+    "client-install": "npm install --prefix client",
     "start": "node server.js",
     "server": "nodemon server.js",
     "client": "npm start --prefix client",
     "dev": "concurrently \"npm run start\" \"npm run client\"",
-    "client-install": "npm install --prefix client",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client",
     "test": "jest --runInBand",
     "testWatch": "jest --runInBand --watchAll"
   },

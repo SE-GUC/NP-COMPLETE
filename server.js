@@ -1,6 +1,7 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const passport = require('passport')
+const path = require('path')
 
 // Require Router Handlers
 
@@ -38,6 +39,14 @@ app.use((req, res, next) => {
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, X-Auth-Token, Accept')
   next()
 })
+
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static('client/build'))
+
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
+  })
+}
 
 app.get('/', (req, res) => {
   res.send(`<h1>Welcome</h1>
@@ -101,5 +110,6 @@ app.use((_req, res) => res.status(404)
     msg: 'Error 404: We can not find what you are looking for'
   }))
 
-const port = process.env.PORT | 8000
+const port = process.env.NODE_ENV === 'production' ? process.env.PORT : 8000
+
 app.listen(port, () => { console.log(`Server is up and running on port ${port}`) })
