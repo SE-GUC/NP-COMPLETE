@@ -38,13 +38,13 @@ export default class NavbarGafi extends React.Component {
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
               <NavItem>
-                <NavLink href="/components/">Home</NavLink>
+                <NavLink href="/">Home</NavLink>
               </NavItem>
               <NavItem>
-                <NavLink href="/components/">About</NavLink>
+                <NavLink href="/About">About</NavLink>
               </NavItem>
               <NavItem>
-                <NavLink href="/components/">FAQ</NavLink>
+                <NavLink href="/investors/Faqs">FAQ</NavLink>
               </NavItem>
               <NavItem>
                 <NavLink href="https://github.com/SE-GUC/NP-COMPLETE">
@@ -57,7 +57,7 @@ export default class NavbarGafi extends React.Component {
                   placeholder="Search"
                   className="mr-sm-2"
                 />
-                <Button variant="outline-danger">Search</Button>
+                <Button variant="outline-primary">Search</Button>
               </Form>
               <UncontrolledDropdown nav inNavbar>
                 <DropdownToggle nav caret />

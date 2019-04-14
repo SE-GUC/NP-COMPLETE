@@ -8,7 +8,7 @@ class Faqs extends Component {
     return (
 
       <div className='App'>
-        <AppNavbar />
+
         <Faq />
       </div>
     )

@@ -33,19 +33,17 @@ import UpdateProfile from './pages/UpdateProfile'
 import UpdateForm from './pages/UpdateForm'
 import ChooseForm from './pages/investorPages/ChooseCompanyType'
 import publishCompany from './pages/PublishCompany'
+import { Container } from 'react-bootstrap'
+import NavBar from './components/generic/NavbarGafi'
 class App extends Component {
   render () {
     return (
+      <React.Fragment>
 
-      <Router>
-        <div className='App'>
-
-          <div className='Header'>
-            <Header />
-          </div>
-
-          <div className='Container'>
-
+        <Router>
+          <NavBar />
+          <Header />
+          <Container>
             <Route exact path='/' render={props => (
               <React.Fragment>
                 <h1> Welcome to Gafi Web</h1>
@@ -120,10 +118,10 @@ class App extends Component {
 
             <Route exact path='/admins/publishCompany/:id' component={publishCompany} />
 
-          </div>
-        </div>
+          </Container>
 
-      </Router>
+        </Router>
+      </React.Fragment>
     )
   }
 }
