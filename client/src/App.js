@@ -5,7 +5,6 @@ import Login from './pages/LoginPage'
 import Investor from './pages/Investor'
 import Reviewer from './pages/Reviewer'
 import React, { Component } from 'react'
-import AddComment from './pages/AddComment'
 import Faqs from './pages/investorPages/Faqs'
 import Header from './components/generic/Header'
 import Ejournals from './pages/CompaniesEjournals'
@@ -14,12 +13,17 @@ import acceptOrReject from './pages/acceptOrReject'
 import AdminViewCases from './pages/AdminViewCases'
 import LawyerViewCases from './pages/LawyerViewCases'
 import Register from './pages/investorPages/Register'
+import LawyerAddComment from './pages/LawyerAddComment'
 import ReviewerViewCases from './pages/ReviewerViewCases'
 import AdminsViewMyTasks from './pages/AdminsViewMyTasks'
 import LawyersViewMyTasks from './pages/LawyersViewMyTasks'
+import ReviewerAddComment from './pages/ReviewerAddComment'
+import AdminShowLastWorked from './pages/AdminShowLastWorked'
 import ViewForm from './pages/investorPages/ViewRejectedForms'
+import LawyerShowLastWorked from './pages/LawyerShowLastWorked'
 import ReviewersViewMyTasks from './pages/ReviewersViewMyTasks'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
+import ReviewerShowLastWorked from './pages/ReviewerShowLastWorked'
 import CancelApplication from './pages/investorPages/CancelApplication'
 import acceptOrRejectInvestorForm from './pages/acceptOrRejectInvestorForm'
 import AllMyCompanies from './pages/investorPages/AllMyCompanies'
@@ -28,6 +32,8 @@ import UpdateForm from './pages/UpdateForm'
 import ChooseForm from './pages/investorPages/ChooseCompanyType'
 import InvestorLogin from './pages/investorPages/InvestorLogin'
 import setAuthToken from './setAuthToken'
+import publishCompany from './pages/PublishCompany'
+import RegisterInternal from './pages/adminPages/RegisterInternal'
 
 if (localStorage.jwtToken) {
   setAuthToken(localStorage.jwtToken)
@@ -81,9 +87,11 @@ class App extends Component {
 
             <Route exact path='/lawyers/viewAllCases/:id' component={LawyerViewCases} />
 
-            <Route exact path='/investors/MyCompanies' component={AllMyCompanies} />
+            <Route exact path='/admins/showLastWorked/:companyId/:adminId' component={AdminShowLastWorked} />
 
             <Route exact path='/lawyers/viewMyTasks/:id' component={LawyersViewMyTasks} />
+
+            <Route exact path='/lawyers/showLastWorked/:companyId/:lawyerId' component={LawyerShowLastWorked} />
 
             <Route exact path='/reviewers/viewAllCases/:id' component={ReviewerViewCases} />
 
@@ -91,9 +99,15 @@ class App extends Component {
 
             {/* <Route exact path='/investors/payFees/:investorId/:companyId' component={payFees} /> */}
 
+            <Route exact path='/investors/MyCompanies/:id' component={AllMyCompanies} />
+
+            <Route exact path='/reviewers/showLastWorked/:companyId/:reviewerId' component={ReviewerShowLastWorked} />
+
+            <Route exact path='/lawyers/addComment/:lawyerId/:companyId' component={LawyerAddComment} />
+
             <Route exact path='/investors/cancelApplication/:investorId' component={CancelApplication} />
 
-            <Route exact path='/lawyers/addComment/:lawyerId/:companyId' component={AddComment} />
+            <Route exact path='/reviewers/addComment/:lawyerId/:companyId' component={ReviewerAddComment} />
 
             <Route exact path='/reviewers/acceptOrReject/:reviewerId/:companyId' component={acceptOrReject} />
 
@@ -105,9 +119,9 @@ class App extends Component {
 
             <Route exact path='/investors/editForm' component={UpdateForm} />
 
-            <Route exact path='/lawyers/fillForm' component={ChooseForm} />
+            <Route exact path='/admins/publishCompany/:id' component={publishCompany} />
 
-            <Route exact path='/lawyers/editForm' component={UpdateForm} />
+            <Route exact path='/admins/registerInternal/' component={RegisterInternal} />
 
           </div>
         </div>
