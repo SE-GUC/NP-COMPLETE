@@ -71,7 +71,7 @@ onClick = (e) =>
       // return <Redirect to='/admins/deleteAdmin' />
       // if(this.props.isLoggedIn){
 
-        return <Redirect to='/investors/MyCompanies' />
+        return <Redirect to='/investor' />
       // } else {
       //   alert('Log in failed')
       // }
