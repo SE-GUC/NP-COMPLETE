@@ -47,6 +47,7 @@ export class CancelApplication extends Component {
 
     if (this.state.loading === false && this.state.apps.length === 0) {
         return (
+          
           <h1> You don't have any unreviewed applications</h1>
         )
       }
@@ -67,7 +68,7 @@ export class CancelApplication extends Component {
       <div className='App'>
         <div>
           {this.state.loading ? <h1>Loading..</h1>
-            : <div> <Header2 /> 
+            : <div> <Header2 title='Cancel an Application' /> 
             <Apps forms={this.state.apps} cancel={this.cancel} /> </div>}
         </div>
       </div>
