@@ -73,8 +73,6 @@ class App extends Component {
 
             <Route exact path='/admins/deleteLawyer' component={Lawyer} />
 
-            <Route exact path='/admins/ViewCases' component={AdminViewCases} />
-
             <Route exact path='/investors/Register' component={Register} />
 
             <Route exact path='/investors/login' component={InvestorLogin} />
