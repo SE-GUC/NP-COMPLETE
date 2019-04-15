@@ -23,6 +23,8 @@ import ViewForm from './pages/investorPages/ViewRejectedForms'
 import LawyerShowLastWorked from './pages/LawyerShowLastWorked'
 import ReviewersViewMyTasks from './pages/ReviewersViewMyTasks'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
+import AdminLandingPage from './pages/adminPages/AdminLandingPage'
+import InvestorLandingPage from './pages/investorPages/InvestorLandingPage'
 import ReviewerShowLastWorked from './pages/ReviewerShowLastWorked'
 import CancelApplication from './pages/investorPages/CancelApplication'
 import acceptOrRejectInvestorForm from './pages/acceptOrRejectInvestorForm'
@@ -36,6 +38,8 @@ import publishCompany from './pages/PublishCompany'
 import RegisterInternal from './pages/adminPages/RegisterInternal'
 import CalcFees from './pages/lawyerPages/CalcFees'
 import ReviewForm from './pages/ReviewForm'
+import { Container } from 'react-bootstrap'
+import NavBar from './components/generic/NavbarGafi'
 
 if (localStorage.jwtToken) {
   setAuthToken(localStorage.jwtToken)
@@ -44,20 +48,22 @@ if (localStorage.jwtToken) {
 class App extends Component {
   render () {
     return (
-      <Router>
-        <div className='App'>
+      <React.Fragment>
 
-          <div className='Header'>
-            <Header />
-          </div>
-
-          <div className='Container'>
+        <Router>
+          <NavBar />
+          <Header />
+          <Container>
 
             <Route exact path='/' render={props => (
               <React.Fragment>
                 <h1> Welcome to Gafi Web</h1>
               </React.Fragment>
             )} />
+
+            <Route exact path='/admin' component={AdminLandingPage} />
+
+            <Route exact path='/investor' component={InvestorLandingPage} />
 
             <Route exact path='/LogIn' component={Login} />
 
@@ -66,8 +72,6 @@ class App extends Component {
             <Route exact path='/admins/deleteAdmin' component={Admin} />
 
             <Route exact path='/admins/deleteLawyer' component={Lawyer} />
-
-            <Route exact path='/admins/ViewCases' component={AdminViewCases} />
 
             <Route exact path='/investors/Register' component={Register} />
 
@@ -127,11 +131,9 @@ class App extends Component {
             <Route exact path='/lawyers/CalcFees/:companyId' component={CalcFees} />
 
             <Route exact path='users/reviewForm' component={ReviewForm} />
-
-          </div>
-        </div>
-
-      </Router>
+          </Container>
+        </Router>
+      </React.Fragment>
     )
   }
 }
