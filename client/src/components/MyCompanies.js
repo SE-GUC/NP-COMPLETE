@@ -18,11 +18,14 @@ export class MyCompanies extends Component {
       })
   }
   render () {
+    if (this.state.companies === []) {
+      return <h1> No Companies to display </h1>
+    }
     return (
 
       this.state.companies.map(company => {
         return <MyCompanyCard key={company._id} data={company} />
- })
+      })
     )
   }
 }

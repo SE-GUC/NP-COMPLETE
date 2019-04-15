@@ -42,7 +42,7 @@ exports.register = async (req, res, validator, Model) => {
   }
 }
 // login
-exports.login = async (req, res, Model) => {
+exports.login = async (req, res, Model, type) => {
   try {
     const data = req.body
     const isValidated = userValidator.loginValidation(data)
@@ -67,9 +67,12 @@ exports.login = async (req, res, Model) => {
         email: user.email
       }
       const token = jwt.sign(payload, tokenKey, { expiresIn: '1h' })
+      console.log('koko wawa')
       return res.json({
         status: 'Success',
-        token: `Bearer ${token}`
+        token: `Bearer ${token}`,
+        id: user._id,
+        type: type
       })
     } else {
       return res.status(400).json({

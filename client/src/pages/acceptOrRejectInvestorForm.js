@@ -17,7 +17,7 @@ class acceptOrRejectInvestorForm extends Component {
     this.setState({loading: true})
     Axios
     
-    .get(`http://localhost:8000/api/companies/${companyId}`)
+    .get(`/api/companies/${companyId}`)
     .then(res => this.setState({forms : 
       (res.data.data.form.acceptedByLawyer !== -1)?
       []
@@ -35,7 +35,7 @@ class acceptOrRejectInvestorForm extends Component {
     e.preventDefault()
     const { lawyerId , companyId } = this.props.match.params
     Axios
-    .put(`http://localhost:8000/api/lawyers/review/${lawyerId}/${companyId}`  , {acceptedByLawyer: 1 , comment: ' '})
+    .put(`/api/lawyers/review/${lawyerId}/${companyId}`  , {acceptedByLawyer: 1 , comment: ' '})
     .then(res => {
       this.setState({ forms: [] })
     })
@@ -48,7 +48,7 @@ class acceptOrRejectInvestorForm extends Component {
     const { lawyerId , companyId } = this.props.match.params
 
     Axios
-    .put(`http://localhost:8000/api/lawyers/review/${lawyerId}/${companyId}`  , {acceptedByLawyer: 0 , comment: ' '})
+    .put(`/api/lawyers/review/${lawyerId}/${companyId}`  , {acceptedByLawyer: 0 , comment: ' '})
     .then(res => {
       this.setState({ forms: [] })
     })

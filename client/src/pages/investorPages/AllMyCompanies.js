@@ -5,7 +5,8 @@ export class AllMyCompanies extends Component {
     return (
       <div>
         <div className='AllMyCompanies'>
-          <Mycompanies keys id={this.props.match.params.id} />
+          <Mycompanies keys id={localStorage.getItem('id')} />
+          {/* {this.props.match.params.id} */}
         </div>
       </div>
     )
