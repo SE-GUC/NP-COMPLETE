@@ -12,7 +12,8 @@ export class UpdateProfile extends Component {
     id: undefined,
     fullName: undefined,
     birthdate: undefined,
-    email: undefined
+    email: undefined,
+    password: undefined
 }
 
   render() {
@@ -36,8 +37,9 @@ export class UpdateProfile extends Component {
 
         <RegisterField
           label='Password'
-          type='password'
-          placeholder='Password' />
+          type='text'
+          placeholder='Password'
+          onChange={e => this.setState({password: e.target.value})} />
 
         <RegisterField
           label='fullName'
@@ -61,10 +63,18 @@ export class UpdateProfile extends Component {
 
   clicked = e => {
     e.preventDefault()
-    console.log(this.state)
-    const updatedData = {fullName:this.state.fullName,birthdate:this.state.birthdate,email:this.state.email}
-    axios
-        .put(`http://localhost:8000/api/investors/${this.state.id}`, updatedData)
+    const updatedData = {fullName:this.state.fullName,
+      birthdate:this.state.birthdate,
+      email:this.state.email,
+      password:this.state.password}
+      const temp = {}
+      Object.keys(updatedData).forEach(key=>{
+        if(this.state[key]!== undefined) {
+          temp[key]=updatedData[key]
+        }
+      })
+        axios
+        .put(`/api/investors/${this.state.id}`, temp)
         .then(res => alert(`Profile updated successfully`))
         .catch(error => alert(error.response.data.message))
     } 

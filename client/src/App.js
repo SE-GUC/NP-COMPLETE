@@ -32,9 +32,19 @@ import AllMyCompanies from './pages/investorPages/AllMyCompanies'
 import UpdateProfile from './pages/UpdateProfile'
 import UpdateForm from './pages/UpdateForm'
 import ChooseForm from './pages/investorPages/ChooseCompanyType'
+import InvestorLogin from './pages/investorPages/InvestorLogin'
+import setAuthToken from './setAuthToken'
 import publishCompany from './pages/PublishCompany'
+import RegisterInternal from './pages/adminPages/RegisterInternal'
+import CalcFees from './pages/lawyerPages/CalcFees'
+import ReviewForm from './pages/ReviewForm'
 import { Container } from 'react-bootstrap'
 import NavBar from './components/generic/NavbarGafi'
+
+if (localStorage.jwtToken) {
+  setAuthToken(localStorage.jwtToken)
+}
+
 class App extends Component {
   render () {
     return (
@@ -44,6 +54,7 @@ class App extends Component {
           <NavBar />
           <Header />
           <Container>
+
             <Route exact path='/' render={props => (
               <React.Fragment>
                 <h1> Welcome to Gafi Web</h1>
@@ -66,7 +77,7 @@ class App extends Component {
 
             <Route exact path='/investors/Register' component={Register} />
 
-            {/* <Route exact path='/investors/login' component={InvestorLogin} /> */}
+            <Route exact path='/investors/login' component={InvestorLogin} />
 
             <Route exact path='/companies/Ejournals' component={Ejournals} />
 
@@ -96,7 +107,7 @@ class App extends Component {
 
             {/* <Route exact path='/investors/payFees/:investorId/:companyId' component={payFees} /> */}
 
-            <Route exact path='/investors/MyCompanies/:id' component={AllMyCompanies} />
+            <Route exact path='/investors/MyCompanies' component={AllMyCompanies} />
 
             <Route exact path='/reviewers/showLastWorked/:companyId/:reviewerId' component={ReviewerShowLastWorked} />
 
@@ -118,8 +129,11 @@ class App extends Component {
 
             <Route exact path='/admins/publishCompany/:id' component={publishCompany} />
 
-          </Container>
+            <Route exact path='/admins/registerInternal/' component={RegisterInternal} />
+            <Route exact path='/lawyers/CalcFees/:companyId' component={CalcFees} />
 
+            <Route exact path='users/reviewForm' component={ReviewForm} />
+          </Container>
         </Router>
       </React.Fragment>
     )

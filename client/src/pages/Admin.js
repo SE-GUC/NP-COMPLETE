@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import Axios from 'axios'
 import DeleteAccounts from '../components/DeleteAccounts'
-import PropTypes from 'prop-types'
 
 export class Admin extends Component {
     _isMounted = false
@@ -39,10 +38,6 @@ export class Admin extends Component {
       </div>
     )
   }
-}
-
-Admin.propTypes = {
-users: PropTypes.array
 }
 
 export default Admin

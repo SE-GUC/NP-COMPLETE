@@ -57,10 +57,7 @@ class ReviewerAddComment extends Component {
                   const reviewerID = this.RID
                   const companyID = this.CID
                   const comment = this.comm
-                  console.log('rev'+ reviewerID)
-                  console.log('coco'+ companyID)
-                  console.log('com'+ comment)
-                  axios.put(`http://localhost:8000/api/reviewers/addComment/${reviewerID}/${companyID}`, { comment: comment })
+                  axios.put(`/api/reviewers/addComment/${reviewerID}/${companyID}`, { comment: comment })
                     .then(res => { this.setState({ response: res.data }) })
                     .catch(err => {
                       if (err.response && err.response.data) {

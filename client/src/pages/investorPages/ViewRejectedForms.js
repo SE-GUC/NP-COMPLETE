@@ -28,7 +28,6 @@ class ViewForm extends Component {
           var i
           for (i = 0; i < resultArr.length; i++) {
             formItems.push(
-              // resultArr[i].data
               {
                 fields: resultArr[i].fields,
                 descriptions: resultArr[i].descriptions,
