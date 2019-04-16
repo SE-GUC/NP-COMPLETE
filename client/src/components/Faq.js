@@ -5,7 +5,8 @@ class Faq extends Component {
   constructor (props) {
     super(props)
 
-    this.state = {
+    this.state =(localStorage.getItem('language') === 'English')? {
+      
       faqs: [{
         title: 'Who is me ?',
         body: 'Mohamed Yasser'
@@ -17,10 +18,19 @@ class Faq extends Component {
       {
         title: 'How old is me ?',
         body: '20 and turning 21 in 2 months .. Wohoo .. *Birthday celebrating emoji*'
+      }]
+    }:{
+      faqs: [{
+        title: 'من انا ؟',
+        body: 'محمد ياسر'
       },
       {
-        title: 'What the hell are these questions ?',
-        body: 'Dummy questions till we find some interesting FAQs *wink*'
+        title: 'كيف حالي ؟',
+        body: 'احسن منك'
+      },
+      {
+        title: 'كم عمري ؟',
+        body: 'عشرون  عاما'
       }]
     }
   }
