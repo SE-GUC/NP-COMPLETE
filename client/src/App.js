@@ -40,6 +40,8 @@ import CalcFees from './pages/lawyerPages/CalcFees'
 import ReviewForm from './pages/ReviewForm'
 import { Container } from 'react-bootstrap'
 import NavBar from './components/generic/NavbarGafi'
+import getFeedback from './pages/getFeedback'
+
 
 if (localStorage.jwtToken) {
   setAuthToken(localStorage.jwtToken)
@@ -128,9 +130,13 @@ class App extends Component {
             <Route exact path='/admins/publishCompany/:id' component={publishCompany} />
 
             <Route exact path='/admins/registerInternal/' component={RegisterInternal} />
+
             <Route exact path='/lawyers/CalcFees/:companyId' component={CalcFees} />
 
             <Route exact path='users/reviewForm' component={ReviewForm} />
+
+            <Route exact path='/admins/getFeedback' component={getFeedback} />
+
           </Container>
         </Router>
       </React.Fragment>
