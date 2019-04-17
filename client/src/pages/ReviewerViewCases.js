@@ -25,19 +25,33 @@ export class ReviewerViewCases extends Component {
     componentWillUnmount() {
         this._isMounted = false
       }
-  render() {
-    return this.state.error? <h1>process could not be completed</h1>:this.state.loading?
-    <div>
-    <Spinner animation="border" variant="primary" />
-    </div>
-    :
-    ( <div>
-      <Button variant='danger' onClick={()=>this.setState({cases:this.state.cases.sort((a,b) => (a.establishmentDate > b.establishmentDate) ? 1 : ((b.establishmentDate > a.establishmentDate) ? -1 : 0))})}>Sort by Establishment Date</Button>
-      <Button variant='danger' onClick={()=>this.setState({cases:this.state.cases.sort((a,b) => (a._id > b._id) ? 1 : ((b._id > a._id) ? -1 : 0))})}>Sort by ID</Button>
-        <MapCases cases = {this.state.cases}/>
-      </div>
-    )
-  }
+      render() {
+        if (localStorage.getItem('language') === 'English') {
+        return this.state.error? <h1>process could not be completed</h1>:this.state.loading?
+        <div>
+        <Spinner animation="border" variant="primary" />
+        </div>
+        :
+        ( <div>
+          <Button variant='danger' onClick={()=>this.setState({cases:this.state.cases.sort((a,b) => (a.establishmentDate > b.establishmentDate) ? 1 : ((b.establishmentDate > a.establishmentDate) ? -1 : 0))})}>Sort by Establishment Date</Button>
+          <Button variant='danger' onClick={()=>this.setState({cases:this.state.cases.sort((a,b) => (a._id > b._id) ? 1 : ((b._id > a._id) ? -1 : 0))})}>Sort by ID</Button>
+          <MapCases cases = {this.state.cases}/>
+          </div>
+        )
+      } else{
+        return this.state.error? <h1>process could not be completed</h1>:this.state.loading?
+        <div>
+        <Spinner animation="border" variant="primary" />
+        </div>
+        :
+        ( <div>
+          <Button variant='danger' onClick={()=>this.setState({cases:this.state.cases.sort((a,b) => (a.establishmentDate > b.establishmentDate) ? 1 : ((b.establishmentDate > a.establishmentDate) ? -1 : 0))})}>>رتب بتاريخ التاسيس</Button>
+          <Button variant='danger' onClick={()=>this.setState({cases:this.state.cases.sort((a,b) => (a._id > b._id) ? 1 : ((b._id > a._id) ? -1 : 0))})}>IDرتب بال</Button>
+          <MapCases cases = {this.state.cases}/>
+          </div>
+        )
+      }
+    }
 }
 
 ReviewerViewCases.propTypes = {
