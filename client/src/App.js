@@ -41,7 +41,7 @@ import ReviewForm from './pages/ReviewForm'
 import { Container } from 'react-bootstrap'
 import NavBar from './components/generic/NavbarGafi'
 import getFeedback from './pages/getFeedback'
-
+import giveFeedback from './pages/giveFeedback'
 
 if (localStorage.jwtToken) {
   setAuthToken(localStorage.jwtToken)
@@ -136,6 +136,9 @@ class App extends Component {
             <Route exact path='users/reviewForm' component={ReviewForm} />
 
             <Route exact path='/admins/getFeedback' component={getFeedback} />
+
+            <Route exact path='/investors/reviewOnlineService/:companyId/:investorId' component={giveFeedback} />
+
 
           </Container>
         </Router>
