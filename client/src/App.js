@@ -65,7 +65,7 @@ class App extends Component {
 
             <Route exact path='/investor' component={InvestorLandingPage} />
 
-            <Route exact path='/LogIn' component={Login} />
+            {/* <Route exact path='/LogIn' component={Login} /> */}
 
             <Route exact path='/investors/Faqs' component={Faqs} />
 
