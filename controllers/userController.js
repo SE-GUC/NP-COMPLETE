@@ -2,7 +2,30 @@
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const tokenKey = require('../config/keys').secretOrKey
+const emailUserName = require('../config/keys').user
+const emailPassword = require('../config/keys').pass
 const userValidator = require('../validations/userValidations')
+const nodemailer = require('nodemailer')
+const Admin = require('../models/Admin')
+const Lawyer = require('../models/Lawyer')
+const Reviewer = require('../models/Reviewer')
+const Investor = require('../models/Investor')
+
+exports.confirmation = async (req, res, Model) => {
+  try {
+    const data = jwt.verify(req.params.token, tokenKey)
+    await Model.findByIdAndUpdate(data.id, { confirmed: true }, { new: true })
+    return res.json({
+      status: 'Success',
+      message: 'your email is confirmed you can log in now '
+    })
+  } catch (error) {
+    res.status(400).json({
+      status: 'Error',
+      message: error.message
+    })
+  }
+}
 // register
 exports.register = async (req, res, validator, Model) => {
   try {
@@ -15,8 +38,11 @@ exports.register = async (req, res, validator, Model) => {
     }
     const email = req.body.email
     const password = req.body.password
-    const user = await Model.findOne({ email })
-    if (user) {
+    const adminUser = await Admin.findOne({ email })
+    const lawyerUser = await Lawyer.findOne({ email })
+    const reviewerUser = await Reviewer.findOne({ email })
+    const investorUser = await Investor.findOne({ email })
+    if (adminUser || lawyerUser || reviewerUser || investorUser) {
       return res.status(400).json({
         status: 'Error',
         message: 'Email already exists'
@@ -24,21 +50,44 @@ exports.register = async (req, res, validator, Model) => {
     }
     const salt = bcrypt.genSaltSync(10)
     const hashedPassword = bcrypt.hashSync(password, salt)
-    const newData = {}
-    Object.keys(data).forEach(key => {
-      if (data[key] !== password) {
-        newData[key] = data[key]
-      } else {
-        newData[key] = hashedPassword
+    const newData = { ...data,
+      password: hashedPassword
+    }
+    var model = ''
+    switch (Model.collection.name) {
+      case 'investor': model = 'investors'
+        break
+      case 'lawyer': model = 'lawyers'
+        break
+      case 'reviewer': model = 'reviewers'
+        break
+      case 'admin': model = 'admins'
+    }
+    const newUser = await Model.create(newData)
+    const emailToken = jwt.sign({ id: newUser['id'] }, tokenKey, { expiresIn: '1h' })
+    const url = `http://localhost:8000/api/${model}/confirmation/${emailToken}`
+    const transporter = nodemailer.createTransport({
+      service: 'Gmail',
+      auth: {
+        user: emailUserName,
+        pass: emailPassword
       }
     })
-    const newUser = await Model.create(newData)
+    transporter.sendMail({
+      to: data.email,
+      subject: 'Confirmation email from GAFI',
+      message: 'Confirm Email',
+      html: `Please click this email to confirm your email: <a href="${url}">${url}</a>`
+    })
     res.json({
       status: 'Success',
       msg: `User created successfully`,
       data: newUser })
   } catch (error) {
-    res.status(422).send({ error: 'Can not create user' })
+    return res.status(400).json({
+      status: 'Error',
+      message: error.message
+    })
   }
 }
 // login
@@ -59,6 +108,12 @@ exports.login = async (req, res, Model, type) => {
         message: 'You must sign up first'
       })
     }
+    if (!user.confirmed) {
+      return res.status(404).json({
+        status: 'Error',
+        message: 'You must confirm your mail first '
+      })
+    }
     const match = bcrypt.compareSync(password, user.password)
     if (match) {
       const payload = {
@@ -67,7 +122,6 @@ exports.login = async (req, res, Model, type) => {
         email: user.email
       }
       const token = jwt.sign(payload, tokenKey, { expiresIn: '1h' })
-      console.log('koko wawa')
       return res.json({
         status: 'Success',
         token: `Bearer ${token}`,

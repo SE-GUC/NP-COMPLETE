@@ -49,5 +49,6 @@ router.put('/reviewOnlineService/:companyId/:investorId', controller.reviewOnlin
 router.post('/register', controller.register)
 // login
 router.post('/login', controller.login)
-
+// confirm
+router.get('/confirmation/:token', controller.confirmation)
 module.exports = router

@@ -19,7 +19,10 @@ exports.register = async (req, res) => {
   await userController.register(req, res, validator, Model)
 }
 exports.login = async (req, res) => {
-  await userController.login(req, res, Model, 'Investor')
+  await userController.login(req, res, Model, 'Reviewer')
+}
+exports.confirmation = async (req, res) => {
+  await userController.confirmation(req, res, Model)
 }
 
 exports.create = async (req, res) => {
