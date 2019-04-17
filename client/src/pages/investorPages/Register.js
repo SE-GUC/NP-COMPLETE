@@ -44,8 +44,8 @@ export class Register extends Component {
   clicked = e => {
     e.preventDefault()
     axios
-        .post(`/api/investors/`, this.state)
-        .then(res => alert(`You are now registered with id ${res.data.data._id}`))
+        .post(`/api/investors/register`, this.state)
+        .then(res => alert('A confirmation email was sent to you, please check your mail'))
         .catch(error => alert(error.response.data.message))
     } 
 }

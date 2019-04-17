@@ -17,7 +17,7 @@ exports.confirmation = async (req, res, Model) => {
     await Model.findByIdAndUpdate(data.id, { confirmed: true }, { new: true })
     return res.json({
       status: 'Success',
-      message: 'your email is confirmed you can log in now '
+      message: 'your email is confirmed you can log in now ... '
     })
   } catch (error) {
     res.status(400).json({
@@ -65,7 +65,7 @@ exports.register = async (req, res, validator, Model) => {
     }
     const newUser = await Model.create(newData)
     const emailToken = jwt.sign({ id: newUser['id'] }, tokenKey, { expiresIn: '1h' })
-    const url = `http://localhost:8000/api/${model}/confirmation/${emailToken}`
+    const url = `http://localhost:3000/api/confirmation/${model}/${emailToken}`
     const transporter = nodemailer.createTransport({
       service: 'Gmail',
       auth: {
@@ -81,7 +81,7 @@ exports.register = async (req, res, validator, Model) => {
     })
     res.json({
       status: 'Success',
-      msg: `User created successfully`,
+      msg: `User created successfully, Please confirm your mail`,
       data: newUser })
   } catch (error) {
     return res.status(400).json({
