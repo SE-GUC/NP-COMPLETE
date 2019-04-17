@@ -27,6 +27,7 @@ export class ChooseCompanyType extends Component {
     if (this.state.showOptions) {
       return (
         <div className='App'>
+          <Button href='/investor'>Back</Button>
           <h1>Choose your company type</h1>
           <Button style={btnStyle} onClick={this.clickSSC}>SSC</Button>
           <Button style={btnStyle} onClick={this.clickSPC}>SPC</Button>
@@ -35,10 +36,22 @@ export class ChooseCompanyType extends Component {
       )
     }
     if (this.state.renderSPC) {
-      return <FillForm type={'SPC'} form={form.SPC} />
+      return (
+        <div>
+          <Button href='/investors/fillForm'>Back</Button>
+          <FillForm type={'SPC'} form={form.SPC} />
+        </div>
+
+      )
     }
     if (this.state.renderSSC) {
-      return <FillForm type={'SSC'} form={form.SSC} />
+      return (
+        <div>
+          <Button href='/investors/fillForm'>Back</Button>
+          <FillForm type={'SSC'} form={form.SSC} />
+        </div>
+
+      )
     }
   }
 }

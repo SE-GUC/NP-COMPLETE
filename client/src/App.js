@@ -38,7 +38,7 @@ import publishCompany from './pages/PublishCompany'
 import RegisterInternal from './pages/adminPages/RegisterInternal'
 import CalcFees from './pages/lawyerPages/CalcFees'
 import ReviewForm from './pages/ReviewForm'
-import { Container } from 'react-bootstrap'
+import { Container, Button } from 'react-bootstrap'
 import NavBar from './components/generic/NavbarGafi'
 
 if (localStorage.jwtToken) {
@@ -58,6 +58,10 @@ class App extends Component {
             <Route exact path='/' render={props => (
               <React.Fragment>
                 <h1> Welcome to Gafi Web</h1>
+                <Button href='/investors/login'>Click to Login</Button>
+                <Button href='/investors/Register'>Click to Register</Button>
+                <Button href='/investor'>Investor Page</Button>
+                <Button href='/admin'>Admin Page</Button>
               </React.Fragment>
             )} />
 
@@ -65,7 +69,7 @@ class App extends Component {
 
             <Route exact path='/investor' component={InvestorLandingPage} />
 
-            <Route exact path='/LogIn' component={Login} />
+            {/* <Route exact path='/LogIn' component={Login} /> */}
 
             <Route exact path='/investors/Faqs' component={Faqs} />
 

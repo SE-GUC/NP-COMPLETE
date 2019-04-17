@@ -3,7 +3,7 @@ import axios from 'axios'
 import setAuthToken from '../setAuthToken'
 
 export const login = (userData) => dispatch => {
-  console.log('koko wawa')
+  console.log('logging in')
   console.log(userData)
   axios.post('/api/investors/login', userData)
     .then(res => {
