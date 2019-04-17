@@ -3,8 +3,6 @@ const express = require('express')
 const router = express.Router()
 const controller = require('../../controllers/investorController')
 const passport = require('passport')
-// const stripe = require('stripe')('pk_test_gXEdE7jVq08xnKlW6KmsumaF00advWYnHN')
-// api for paying fees(investor user story)
 
 // Read all Investors (Default route)
 router.get('/', controller.default)
@@ -39,7 +37,7 @@ router.post('/fillForm/:id', controller.fillForm)
 // as an investor i should be able to pay the fees to establish my company
 // will be verified with stripe to add real fees in the front end
 router.put('/payFees/:id', controller.payFees)
-
+router.post('/fees', controller.fees)
 // As an investor I should be able to read a description of the form,
 // so that I can understand what to fill in each field
 router.get('/readDescription/:type', controller.readDescription)

@@ -13,7 +13,7 @@ export class AdminsViewMyTasks extends Component {
         }
       }
     componentDidMount() {
-        const {id} = this.props.match.params
+        const id = localStorage.getItem('id')
         this._isMounted = true
         Axios.get('/api/admins/workPage/'+ id)
         .then(res => this.setState({ tasks: res.data.data }))

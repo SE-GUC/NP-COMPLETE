@@ -18,7 +18,7 @@ class ViewForm extends Component {
   }
 
   componentDidMount () {
-    const { id } = this.props.match.params
+    const id = localStorage.getItem('id')
     Axios
       .get('/api/investors/viewRejected/' + id)
       .then(

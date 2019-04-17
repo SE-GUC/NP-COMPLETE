@@ -4,7 +4,7 @@ import Axios from 'axios';
 import ReviewSection from '../components/form/ReviewSection';
 const form = require('../components/form/DynamicForm.json')
 
-class UpdateForm extends Component {
+class ReviewForm extends Component {
   constructor (props) {
     super(props)
     this.state = {
@@ -95,4 +95,4 @@ class UpdateForm extends Component {
   }
 }
 
-export default UpdateForm
+export default ReviewForm

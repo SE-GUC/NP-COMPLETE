@@ -8,19 +8,17 @@ class acceptOrReject extends Component {
 
   state = {
     loading: true,
-    forms: []
+    forms: [],
+    companyId: "",
+    error:false,
+    idEntered:false
   }
 
   componentDidMount() {
-    const { companyId } = this.props.match.params 
-    this._isMounted = true
-    // console.log("form from axios starts")
-    this.setState({loading: true})
+    if (this.state.idEntered) {
+      this._isMounted = true
     Axios
-    
-    .get(`http://localhost:8000/api/companies/${companyId}`)
-    // .then(console.log("form from axios starts"))
-    // .then(res => this.setState({ forms: res.data.data }))
+    .get(`/api/companies/${this.state.companyId}`)
     .then(res => this.setState({forms : 
       (res.data.data.form.acceptedByReviewer !== -1)?
       []
@@ -29,21 +27,17 @@ class acceptOrReject extends Component {
     }))
     .then(res => this.setState({loading: false}))
     .then(res => console.log(this.state.forms ))
-
-    // .then(console.log("form from axios ends"))
     .catch(err => {
-      console.log(err)
-    })
-    // console.log("form from axios ends")
-    console.log(this.state)
+      this.setState({error:true})
+    })}
 }
 
 
   accept = (e , root) =>{
     e.preventDefault()
-    const { reviewerId , companyId } = this.props.match.params
+    const reviewerId= localStorage.getItem('id')
     Axios
-    .put(`http://localhost:8000/api/reviewers/decideAnApplication/${reviewerId}/${companyId}`  , {decision: true})
+    .put(`/api/reviewers/decideAnApplication/${reviewerId}/${this.state.companyId}`  , {decision: true})
     .then(res => {
       console.log(res.data.data)  
       this.setState({ forms: [] })
@@ -54,10 +48,10 @@ class acceptOrReject extends Component {
   }
   reject = (e , root) =>{
     e.preventDefault()
-    const { reviewerId , companyId } = this.props.match.params
+    const reviewerId= localStorage.getItem('id')
 
     Axios
-    .put(`http://localhost:8000/api/reviewers/decideAnApplication/${reviewerId}/${companyId}`  , {decision: false})
+    .put(`/api/reviewers/decideAnApplication/${reviewerId}/${this.state.companyId}`  , {decision: false})
     .then(res => {
       console.log(res.data.data)
       this.setState({ forms: [] })
@@ -71,7 +65,19 @@ class acceptOrReject extends Component {
     return (
       <div className="App">
       <Header/>
-      {this.state.loading? <h1>loading please be patient</h1>: 
+      {this.state.loading? <h1>loading please be patient</h1>:this.state.error?
+      <h1>Error has occured please try again</h1>
+      :
+      !this.state.idEntered? 
+      <div>
+        <label>Company ID</label>
+        <input
+          type="text"
+          value={this.state.companyId}
+          onChange={(e)=>this.setState({companyId:e.target.value})}
+        />
+      </div>
+      :
       <DecisionForms forms = {[this.state.forms]}
          accept = {this.accept}
          reject = {this.reject}

@@ -7,7 +7,7 @@ const userController = require('./userController')
 const CompanyType = require('../models/CompanyType')
 const companyValidator = require('../validations/companyValidations')
 const Company = require('../models/Company')
-
+const stripe = require('stripe')('sk_test_tfO3pqvovqu1TuJLd4GmDHZR008LjzsOmJ')  // ('pk_test_gXEdE7jVq08xnKlW6KmsumaF00advWYnHN')
 // const bcrypt = require('bcryptjs')
 // const jwt = require('jsonwebtoken')
 // const tokenKey = require('../config/keys').secretOrKey
@@ -341,6 +341,21 @@ exports.payFees = async (req, res) => {
     })
   }
 }
+exports.fees = async (req, res) => {
+  try {
+    const { token, amount } = req.body
+    const id = token.id
+    let data = await charge(id, amount)
+    console.log(data)
+    res.json({
+      state: 'success',
+      message: 'Charged successfully',
+      data: data
+    })
+  } catch (e) {
+    console.log(e)
+  }
+}
 
 exports.readDescription = async (req, res) => {
   const type = req.params.type
@@ -402,6 +417,14 @@ const isValidDate = stringDate => {
   return date && Object.prototype.toString.call(date) === '[object Date]' && !isNaN(date)
 }
 
+const charge = (token, amount) => {
+  return stripe.charges.create({
+    amount: amount * 100,
+    currency: 'USD',
+    source: token,
+    description: 'paying fees to establish a company'
+  })
+}
 // exports.login = async (req, res) => {
 //   try {
 //     const { email, password } = req.body
