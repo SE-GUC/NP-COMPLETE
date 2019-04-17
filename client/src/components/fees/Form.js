@@ -7,8 +7,9 @@ class Form extends React.Component {
     super(props)
     this.state = {
       name: '',
-      amount: '',
-      error: false
+      amount: `${this.props.fees}`,
+      error: false,
+      paid:false
     }
   }
   handleSubmit = async (e)=>{
@@ -18,14 +19,23 @@ class Form extends React.Component {
           const Amount=parseInt(this.state.amount)
           Axios
           .post('/api/investors/fees',{token:Token.token,amount:Amount})
-          .then(res=>console.log(res))
-          .catch(err=>alert(err))
+          .then(res=>{
+            console.log(res)
+            this.setState({paid:true})
+          })
+          .catch(err=>this.setState({error:true}))
       } catch(e) {
           throw e
       }
   }
   render () {
+
     return (
+      this.state.amount==='0'?
+      <h1>you currently have no fees to pay for this company</h1>
+     
+      :
+
       <main className='container'>
         <form
           className='form-group'
@@ -40,13 +50,14 @@ class Form extends React.Component {
 
           />
           <label>Amount</label>
-          <input
-            type='text'
-            className='input-group my-1'
-            value={this.state.amount}
-            onChange={e => this.setState({ amount: e.target.value })}
-
-          />
+          <fieldset disabled>
+            <div >
+              <div className='col-sm-10'>
+                <input type='text' id='disabledTextInput' class='form-control' placeholder={this.props.fees} />
+              </div>
+            </div>
+          </fieldset>
+        
           <label>Credit Card number-- EXP Date --CVC</label>
           <CardElement className='p-2 border border-dark' />
           <button className='btn btn-primary border border-dark shadow'>Charge it</button>
