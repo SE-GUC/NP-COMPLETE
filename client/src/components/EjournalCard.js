@@ -9,33 +9,32 @@ export class EjournalCard extends Component {
   }
   componentDidMount () {
     Object.keys(this.props.data).forEach(key => {
-      this.setState({[key]:this.props.data[key]})
+      this.setState({ [key]: this.props.data[key] })
     })
-      
   }
   render () {
     return (
-      
-        <CardDeck>
-          <Card>
-            <Card.Body>
-              <Card.Title>{this.state.name}</Card.Title>
-              {/* {
+
+      <CardDeck>
+        <Card>
+          <Card.Body>
+            <Card.Title>{this.state.name}</Card.Title>
+            {/* {
                 Object.keys(this.props.data).map(item =>
                   <Card.Text>
                     {this.props.data[item]}
                   </Card.Text>
                 )} */}
-                <Card.Text>
-                    {this.state.type}
-                </Card.Text>  
-                <Card.Text>
-                    {this.state.establishmentDate}
-                </Card.Text>
-            </Card.Body>
-          </Card>
-        </CardDeck>
-      
+            <Card.Text>
+              {this.state.type}
+            </Card.Text>
+            <Card.Text>
+              {this.state.establishmentDate}
+            </Card.Text>
+          </Card.Body>
+        </Card>
+      </CardDeck>
+
     )
   }
 }
