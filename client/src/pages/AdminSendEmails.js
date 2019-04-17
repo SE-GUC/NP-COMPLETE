@@ -10,7 +10,8 @@ export class AdminSendEmails extends React.Component {
     this.state = {
       name: '',
       email: '',
-      message: ''
+      message: '',
+      recipients:''
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSend = this.handleSend.bind(this)
@@ -19,16 +20,18 @@ export class AdminSendEmails extends React.Component {
 
   handleChange = (e) => {
       this.setState({[e.target.name] : e.target.value})
+      //this.setState({recipients: })
   }
 
    handleSend = (e) => {
       e.preventDefault()
-      const{name, email, message} = this.state
+      const{name, email, message, recipients} = this.state
       axios
       .post('/api/admins/sendAnnouncement',{
         name,
         email,
-        message
+        message,
+        recipients
       })
       .then(res => { alert(res.data.msg)})
       .catch(error => {console.log(error)})
@@ -42,6 +45,7 @@ export class AdminSendEmails extends React.Component {
           <Input
             type='text'
             name='name'
+            placeholder='Admin'
             onChange={this.handleChange} />
         </FormGroup>
 
@@ -50,6 +54,7 @@ export class AdminSendEmails extends React.Component {
           <Input
             type='email'
             name='email'
+            placeholder='gafiweb2019@gmail.com'
             onChange={this.handleChange} />
         </FormGroup>
 
@@ -60,7 +65,17 @@ export class AdminSendEmails extends React.Component {
             name='message'
             onChange={this.handleChange} />
         </FormGroup>
-
+    
+        <FormGroup>
+          <Label for="recipients">Send To:</Label>
+          <Input type="select" name="recipients" id="recipients"  value={this.state.recipients} 
+>
+            <option>Investors</option>
+            <option>Lawyers</option>
+            <option>Admins</option>
+            <option>Reviewers</option>
+          </Input>
+        </FormGroup>
         <Button>Send</Button>
       </Form>
     )

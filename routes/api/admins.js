@@ -46,7 +46,9 @@ router.get('/showLastWorked/:companyId/:adminId', controller.showLastWorked)
 router.get('/getFeedback/:id', controller.getFeedback)
 router.get('/showLastWorked/:companyId/:adminId', controller.showLastWorked)
 
+// send Announcements by email
 router.post('/sendAnnouncement', controller.sendAnnouncement)
+
 // register
 router.post('/register', controller.register)
 // login
