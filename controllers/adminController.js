@@ -8,6 +8,7 @@ const Task = require('../models/Task')
 const Lawyer = require('../models/Lawyer')
 const Company = require('../models/Company')
 const Reviewer = require('../models/Reviewer')
+const nodemailer = require('nodemailer')
 
 exports.default = async (req, res) => {
   await main.default(res, Model)
@@ -274,4 +275,82 @@ exports.showLastWorked = async (req, res) => {
       message: error.message
     })
   }
+}
+
+exports.sendAnnouncement = async (req, res) => {
+  // console.log(req.body)
+  const message = req.body.message
+  const output = `
+  <p> You received a new announcement </p>
+  <h3>Details</h3>
+  <ul>
+  <li> Email: ${req.body.email}</li>
+  </ul>
+  <h3> Message </h3>
+  <p> ${req.body.message}</p>
+  `
+  let transporter = nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 587,
+    secure: false, // true for 465, false for other ports
+    auth: {
+      user: 'gafiweb2019@gmail.com', 
+      pass: 'Gafi-Web2019' 
+    }
+  });
+
+  // send mail with defined transport object
+  let info = await transporter.sendMail({
+    from: '"Admin" <gafiweb2019@gmail.com>', // sender address
+    to: "moayman203@gmail.com, mohamedayman.shaker13@gmail.com", // list of receivers
+    subject: "Admin announcement", // Subject line
+    text: "Hello world?", // plain text body
+    html: output // html body
+  });
+
+  console.log("Message sent: %s", info.messageId);
+
+  // Preview only available when sending through an Ethereal account
+  console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+  res.json({msg: 'Your message has been sent'})
+ 
+}
+
+
+
+
+
+
+  const smtpTransport = nodemailer.createTransport(
+    'SMTP', {
+      host: '',
+      //  secureConnection: true,         // use SSL
+      port: 25
+    })
+
+  var maillist = [
+    'moayman203@gmail.com',
+    'mohamedayman.shaker13@gmail.com'
+  ]
+
+  maillist.forEach(function (to, i, array) {
+    var msg = {
+      from: 'gafiweb2019@gmail.com', // sender address
+      subject: 'Hello', // Subject line
+      text: message, // plaintext body
+      cc: '*******'
+      //  html: "<b>Hello world ✔</b>" // html body
+    }
+    msg.to = to
+
+    smtpTransport.sendMail(msg, function (err) {
+      if (err) {
+        console.log('Sending to ' + to + ' failed: ' + err)
+        return
+      } else {
+        console.log('Sent to ' + to)
+      }
+      if (i === maillist.length - 1) { msg.transport.close() }
+    })
+  })
 }

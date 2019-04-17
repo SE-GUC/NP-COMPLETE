@@ -1,5 +1,8 @@
 import React from 'react'
 import { Form, FormGroup, Input, Label, Button } from 'reactstrap'
+import axios from 'axios'
+
+
 
 export class AdminSendEmails extends React.Component {
   constructor (props) {
@@ -10,6 +13,7 @@ export class AdminSendEmails extends React.Component {
       message: ''
     }
     this.handleChange = this.handleChange.bind(this)
+    this.handleSend = this.handleSend.bind(this)
 
   }
 
@@ -17,9 +21,22 @@ export class AdminSendEmails extends React.Component {
       this.setState({[e.target.name] : e.target.value})
   }
 
+   handleSend = (e) => {
+      e.preventDefault()
+      const{name, email, message} = this.state
+      axios
+      .post('/api/admins/sendAnnouncement',{
+        name,
+        email,
+        message
+      })
+      .then(res => { alert(res.data.msg)})
+      .catch(error => {console.log(error)})
+      
+  }
   render () {
     return (
-      <Form style={{ width: '600px' }}>
+      <Form onSubmit = {this.handleSend} style={{ width: '600px' }}>
         <FormGroup >
           <Label for='name'>Name:</Label>
           <Input
