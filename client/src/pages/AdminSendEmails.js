@@ -47,7 +47,7 @@ export class AdminSendEmails extends React.Component {
           <Input
             type='text'
             name='name'
-            placeholder='Admin'
+            placeholder='Admin name (optional)'
             onChange={this.handleChange} />
         </FormGroup>
 
