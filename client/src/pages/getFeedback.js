@@ -33,9 +33,12 @@ class getFeedback extends Component {
 
   render() {
     return (
-      <div className="App">
+      <div>
       {this.state.loading? <h1>loading please be patient</h1>: 
-      <h1>{this.state.feedbacks}</h1>      
+     this.state.feedbacks.map((x) => (
+     <h1>{x}</h1>      
+     ))
+     
       }     
       </div>
     )
