@@ -7,31 +7,37 @@ import { Redirect } from 'react-router-dom'
 
 
 class LoginBox extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      email: '',
+      password: '', 
+      type: props.type,
+      from: this.props.from
+    }
+
+    // this.onChange = this.onChange.bind(this)
+    // this.onClick = this.onClick.bind(this)
+  }
   
-state = {
-  email: '',
-  password: '', 
-  route: false
-}
 
 onChange = (e) => {
  
   this.setState({[e.target.name]: e.target.value})
 }
 
-onClick = (e) =>
-{
-  this.props.printUser(this.state.email, this.state.password)
+onClick = (e) => {
   this.props.login(
     {
       "email": this.state.email,
       "password": this.state.password
-    }
+    }, 
+    this.state.type
   )
 }
 
   render () {
-    if(!this.state.route) {
+    if(!this.props.isLoggedIn) {
 
       return (
         <div className='inner-container'>
@@ -55,10 +61,7 @@ onClick = (e) =>
   
             <button type='button' 
               className='login-btn' 
-              onClick= { ()  => {
-                 this.onClick()
-                this.setState({route: true})
-                } }> 
+              onClick= { this.onClick()}> 
               Login 
             </button>
             
@@ -68,13 +71,8 @@ onClick = (e) =>
         </div>
       )
     } else {
-      // return <Redirect to='/admins/deleteAdmin' />
-      // if(this.props.isLoggedIn){
-
+     
         return <Redirect to='/investor' />
-      // } else {
-      //   alert('Log in failed')
-      // }
       
     }
   }
@@ -85,7 +83,6 @@ onClick = (e) =>
 
 LoginBox.propTypes = {
 	login: PropTypes.func.isRequired
-	// logout: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = state => ({

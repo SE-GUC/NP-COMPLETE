@@ -1,17 +1,22 @@
-import { LOGIN } from './actionTypes'
+import { LOGIN, LOGOUT } from './actionTypes'
 import axios from 'axios'
 import setAuthToken from '../setAuthToken'
 
-export const login = (userData) => dispatch => {
-  console.log('koko wawa')
-  console.log(userData)
-  axios.post('/api/investors/login', userData)
+export const login = (userData, type) => dispatch => {
+  var url = ''
+  switch (type) {
+    case 'Investor': url = '/api/investors/login'; break
+    case 'Admin': url = '/api/admins/login'; break
+    case 'Lawyer': url = '/api/lawyers/login'; break
+    case 'Reviewer': url = '/api/reviewers/login'; break
+    default: break
+  }
+  axios.post(url, userData)
     .then(res => {
       const { token, id, type } = res.data
       localStorage.setItem('jwtToken', token)
       localStorage.setItem('id', id)
       localStorage.setItem('type', type)
-      console.log(localStorage)
       setAuthToken(token)
       dispatch({
         type: LOGIN,
@@ -21,4 +26,8 @@ export const login = (userData) => dispatch => {
     .catch(err => {
       console.log(err)
     })
+}
+
+export const logout = () => dispatch => {
+  dispatch({ type: LOGOUT })
 }
