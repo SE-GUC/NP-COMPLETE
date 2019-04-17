@@ -40,6 +40,7 @@ import CalcFees from './pages/lawyerPages/CalcFees'
 import ReviewForm from './pages/ReviewForm'
 import { Container } from 'react-bootstrap'
 import NavBar from './components/generic/NavbarGafi'
+import AdminSendEmails from './pages/AdminSendEmails'
 
 if (localStorage.jwtToken) {
   setAuthToken(localStorage.jwtToken)
@@ -131,6 +132,9 @@ class App extends Component {
             <Route exact path='/lawyers/CalcFees/:companyId' component={CalcFees} />
 
             <Route exact path='users/reviewForm' component={ReviewForm} />
+
+            <Route exact path='/admins/sendEmail' component={AdminSendEmails} />
+            
           </Container>
         </Router>
       </React.Fragment>
