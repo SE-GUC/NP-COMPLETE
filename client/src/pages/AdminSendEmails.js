@@ -20,7 +20,7 @@ export class AdminSendEmails extends React.Component {
 
   handleChange = (e) => {
       this.setState({[e.target.name] : e.target.value})
-      //this.setState({recipients: })
+     
   }
 
    handleSend = (e) => {
@@ -34,7 +34,9 @@ export class AdminSendEmails extends React.Component {
         recipients
       })
       .then(res => { alert(res.data.msg)})
-      .catch(error => {console.log(error)})
+      .catch(error => {
+        alert(error)
+        console.log(error)})
       
   }
   render () {
@@ -68,11 +70,10 @@ export class AdminSendEmails extends React.Component {
     
         <FormGroup>
           <Label for="recipients">Send To:</Label>
-          <Input type="select" name="recipients" id="recipients"  value={this.state.recipients} 
+          <Input type="select" name="recipients" id="recipients"  value={this.state.recipients} onChange={this.handleChange} 
 >
             <option>Investors</option>
             <option>Lawyers</option>
-            <option>Admins</option>
             <option>Reviewers</option>
           </Input>
         </FormGroup>

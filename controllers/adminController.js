@@ -280,54 +280,58 @@ exports.showLastWorked = async (req, res) => {
 
 exports.sendAnnouncement = async (req, res) => {
   console.log(req.body)
-  const recipients = req.body.recipients
-  var mailingList = []
-  if (recipients === 'Investors') {
-    mailingList = await Investor.find()
-  } else if ((recipients === 'Lawyers')) {
-    mailingList = await Lawyer.find()
-  } else {
-    mailingList = await Reviewer.find()
-  }
-  let emails = ''
-  for (var i = 0; i < mailingList.length; i++) {
-    emails += mailingList[i].email + ', '
-  }
+  try {
+    const recipients = req.body.recipients
+    var mailingList = []
+    if (recipients === 'Investors') {
+      mailingList = await Investor.find()
+    } else if ((recipients === 'Lawyers')) {
+      mailingList = await Lawyer.find()
+    } else {
+      mailingList = await Reviewer.find()
+    }
+    let emails = ''
+    for (var i = 0; i < mailingList.length; i++) {
+      emails += mailingList[i].email + ', '
+    }
 
-  const output = `
+    const output = `
   <p> You received a new announcement </p>
   <h3>Details</h3>
   <ul>
+  <li> Name: ${req.body.name}</li>x
   <li> Email: ${req.body.email}</li>
   </ul>
   <h3> Message </h3>
   <p> ${req.body.message}</p>
   `
-  let transporter = nodemailer.createTransport({
-    host: 'smtp.gmail.com',
-    port: 587,
-    secure: false, // true for 465, false for other ports
-    auth: {
-      user: 'gafiweb2019@gmail.com',
-      pass: 'Gafi-Web2019'
-    },
-    tls: {
-      rejectUnauthorized: false
-    }
-  })
- 
-  // send mail with defined transport object
-  let info = await transporter.sendMail({
-    from: '"Admin" <gafiweb2019@gmail.com>', // sender address
-    to: emails, // list of receivers
-    subject: 'Admin announcement', // Subject line
-    text: 'Hello world?', // plain text body
-    html: output // html body
-  })
+    let transporter = nodemailer.createTransport({
+      host: 'smtp.gmail.com',
+      port: 587,
+      secure: false, // true for 465, false for other ports
+      auth: {
+        user: 'gafiweb2019@gmail.com',
+        pass: 'Gafi-Web2019'
+      },
+      tls: {
+        rejectUnauthorized: false
+      }
+    })
+    // send mail with defined transport object
+    let info = await transporter.sendMail({
+      from: '"Admin" <gafiweb2019@gmail.com>', // sender address
+      to: emails, // list of receivers
+      subject: 'Admin announcement', // Subject line
+      text: 'Hello world?', // plain text body
+      html: output // html body
+    })
 
-  console.log('Message sent: %s', info.messageId)
+    console.log('Message sent: %s', info.messageId)
 
-  // Preview only available when sending through an Ethereal account
-  console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info))
-  res.json({ msg: 'Your message has been sent' })
+    // Preview only available when sending through an Ethereal account
+    console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info))
+    res.json({ msg: 'Your message has been sent' })
+  } catch (error) {
+    console.log(error)
+  }
 }
