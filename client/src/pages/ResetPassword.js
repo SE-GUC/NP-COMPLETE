@@ -5,6 +5,10 @@ import Form from 'react-bootstrap/Form'
 import axios from 'axios'
 import { Redirect } from 'react-router-dom'
 export class ResetPassword extends Component {
+  state= {
+    firstPassword: undefined,
+    secondPassword: undefined
+  }
   render () {
     return (
       <Form>
@@ -17,8 +21,9 @@ export class ResetPassword extends Component {
         <RegisterField
           label='Re-type Password'
           type='password'
-          placeholder='Password'
-          onChange={e => this.setState({ secondPassword: e.target.value })} />
+          placeholder='Re-type Password'
+          onChange={e => this.setState({ secondPassword: e.target.value })}
+          mutedText ={this.checkMatching()}/>
         <Button variant='primary' type='submit' onClick={e => this.clicked(e)}>
       Save
         </Button>
@@ -30,10 +35,16 @@ export class ResetPassword extends Component {
     const { emailToken } = this.props.match.params
     e.preventDefault()
     axios
-        .post(`http://localhost:8000/api/${model}/resetPassword/${emailToken}`, this.state)
+        .post(`/api/${model}/resetPassword/${emailToken}`, this.state)
         .then(res => alert(res.data.message),<Redirect to='../../../investors/login' />)
         .catch(error => alert(error.response.data.message))
     } 
+    checkMatching = ()=>{
+      if(!this.state.secondPassword){
+        return ''
+      }
+      return  (this.state.firstPassword===this.state.secondPassword)? '' : `Passwords don't match`
+    }
 }
 
 export default ResetPassword

@@ -6,7 +6,7 @@ export class Confrimation extends Component {
     const { model } = this.props.match.params
     const { emailToken } = this.props.match.params
     axios
-      .get(`http://localhost:8000/api/${model}/confirmation/${emailToken}`)
+      .get(`/api/${model}/confirmation/${emailToken}`)
       .then(res => alert(res.data.message))
       .catch(error => alert(error.message))
     return <Redirect to='../../../investors/login' />
