@@ -51,4 +51,6 @@ router.post('/register', controller.register)
 router.post('/login', controller.login)
 // confirm
 router.get('/confirmation/:token', controller.confirmation)
+// forget password
+router.post('/resetPassword/:token', controller.resetPassword)
 module.exports = router

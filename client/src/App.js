@@ -41,7 +41,8 @@ import ReviewForm from './pages/ReviewForm'
 import { Container } from 'react-bootstrap'
 import NavBar from './components/generic/NavbarGafi'
 import confirmation from './pages/Confrimation'
-
+import ForgetPassword from './pages/ForgetPassword'
+import ResetPassword from './pages/ResetPassword'
 if (localStorage.jwtToken) {
   setAuthToken(localStorage.jwtToken)
 }
@@ -132,7 +133,10 @@ class App extends Component {
             <Route exact path='/lawyers/CalcFees/:companyId' component={CalcFees} />
 
             <Route exact path='users/reviewForm' component={ReviewForm} />
-            <Route exact path='/api/confirmation/:model/:emailToken' component={confirmation} />
+            <Route exact path='/confirmation/:model/:emailToken' component={confirmation} />
+            <Route exact path='/ForgetPassword' component={ForgetPassword} />
+            <Route exact path='/ResetPassword/:model/:emailToken' component={ResetPassword} />
+
           </Container>
         </Router>
       </React.Fragment>

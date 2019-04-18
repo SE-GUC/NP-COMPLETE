@@ -49,4 +49,7 @@ router.get('/showLastWorked/:companyId/:adminId', controller.showLastWorked)
 router.post('/register', controller.register)
 // login
 router.post('/login', controller.login)
+router.post('/resetPassword/:token', controller.resetPassword)
+router.get('/confirmation/:token', controller.confirmation)
+
 module.exports = router
