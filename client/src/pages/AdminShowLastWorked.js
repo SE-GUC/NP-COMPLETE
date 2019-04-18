@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Alert, Card } from 'react-bootstrap'
 import axios from 'axios'
+import ShowCompanies from '../components/fees/ShowCompanies'
 
 class AdminShowLastWorked extends Component {
   constructor (props) {
@@ -10,7 +11,9 @@ class AdminShowLastWorked extends Component {
       response: undefined,
       adminId: id,
       companyId: '',
-      idEntered: false
+      idEntered: false,
+      loading: true,
+      allForms: []
     }
   }
   componentDidMount () {
@@ -24,7 +27,14 @@ class AdminShowLastWorked extends Component {
             console.log(err)
           }
         })
+    } else {
+      axios
+      .get('api/companies/')
+      .then(res=>this.setState({allForms:res.data.data,loading:false}))
     }
+  }
+  chooseForm = (id,F) =>{ //dont remove the F
+    this.setState({companyId:id,idEntered:true})
   }
   render () {
     return (
@@ -46,15 +56,7 @@ class AdminShowLastWorked extends Component {
 
         <body> {
           !this.state.idEntered
-            ? <div>
-              <label>Company ID</label>
-              <input
-                type='text'
-                value={this.state.companyId}
-                onChange={(e) => { this.setState({ companyId: e.target.value }) }}
-              />
-              <button onClick={() => { this.setState({ idEntered: true }) }}>search</button>
-            </div>
+            ? <ShowCompanies Forms={this.state.allForms} chooseForm={this.chooseForm} />
             : this.state.response && this.state.response.data
               ? !this.state.response.data[0]
                 ? <Alert key='1' variant='warning'>

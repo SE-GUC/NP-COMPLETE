@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Form, Container, Button } from 'reactstrap'
 import Axios from 'axios';
 import ReviewSection from '../components/form/ReviewSection';
+import ShowCompanies from '../components/fees/ShowCompanies';
 const form = require('../components/form/DynamicForm.json')
 
 class ReviewForm extends Component {
@@ -61,6 +62,9 @@ class ReviewForm extends Component {
       this.setState({lawyer:true})
     }
   }
+  chooseForm = (id,F)=>{
+    this.setState({companyID:id,idEntered:true})
+  }
   render () {
     const renderSections = this.state.form.sections.map((section, i) => {
       return (
@@ -75,12 +79,7 @@ class ReviewForm extends Component {
     (     
         <div>
             <h1>Review Form</h1>
-            <input
-                type="text"
-                placeholder={"FormID"}
-                onChange={this.handleIDChange}
-            />
-            <Button variant="primary" onClick={()=>this.findForm()} >Select Form</Button>
+            <ShowCompanies Forms={this.state.allForms} chooseForm={this.chooseForm}/>
         </div>
     )
       :

@@ -10,7 +10,8 @@ export class ReviewerViewCases extends Component {
     constructor(props) {
         super(props)
         this.state={
-          cases:[]
+          cases:[],
+          loading: true
         }
       }
 
@@ -18,7 +19,7 @@ export class ReviewerViewCases extends Component {
         const id = localStorage.getItem('id')
         this._isMounted = true
         Axios.get('/api/reviewers/casesPage/'+ id)
-        .then(res => this.setState({ cases: res.data.data }))
+        .then(res => this.setState({ cases: res.data.data,loading:false }))
         .catch(err => this.setState({ error: true }))
     }
 

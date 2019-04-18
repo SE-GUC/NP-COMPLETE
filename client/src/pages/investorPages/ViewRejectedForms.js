@@ -51,8 +51,6 @@ class ViewForm extends Component {
       })
   }
   render () {
-    console.log(this.state)
-    console.log(this.props)
     if (this.state.loading) {
       return <h1> Loading </h1>
     }

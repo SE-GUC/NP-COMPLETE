@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Alert, Card } from 'react-bootstrap'
 import axios from 'axios'
+import ShowCompanies from '../components/fees/ShowCompanies';
 
 class ReviewerShowLastWorked extends Component {
   constructor (props) {
@@ -9,13 +10,15 @@ class ReviewerShowLastWorked extends Component {
       lawyerId: localStorage.getItem('id'),
       response: undefined,
       companyId: '',
-      idEntered: false
+      idEntered: false,
+      loading: true,
+      allForms: []
     }
   }
   componentDidMount () {
     if (this.state.idEntered) {
       axios.get(`/api/reviewers/showLastWorked/${this.state.companyId}/${this.state.lawyerId}`)
-        .then(res => { this.setState({ response: res.data }) })
+        .then(res => { this.setState({ response: res.data, loading: false }) })
         .catch(err => {
           if (err.response && err.response.data) {
             this.setState({ response: err.response.data })
@@ -24,9 +27,18 @@ class ReviewerShowLastWorked extends Component {
             this.setState({ idEntered: false })
           }
         })
+    }else {
+      axios
+      .get('/api/companies/')
+      .then(res=>{
+        return this.setState({ allForms: res.data.data, loading: false });
+      })
     }
-  }
 
+  }
+  chooseForm = (id, F)=>{
+    this.setState({companyId:id,idEntered:true})
+  }
   render () {
     return (
       <>
@@ -47,15 +59,7 @@ class ReviewerShowLastWorked extends Component {
 
         <body> {
           !this.state.idEntered
-            ? <div>
-              <label>Company ID</label>
-              <input
-                type='text'
-                value={this.state.companyId}
-                onChange={(e) => { this.setState({ companyId: e.target.value }) }}
-              />
-              <button onClick={() => { this.setState({ idEntered: true }) }}>search</button>
-            </div>
+            ? <ShowCompanies Forms={this.state.allForms} chooseForm={this.chooseForm}/>
             : this.state.response && this.state.response.data
               ? !this.state.response.data[0]
                 ? <Alert key='1' variant='warning'>

@@ -10,7 +10,7 @@ class Money extends React.Component {
     loading:true,
     allForms:[],
     fees:0,
-    myID:"5cb3963066141874ec9df12b" // localStorage.getItem('id')
+    myID: localStorage.getItem('id')
 
   }
 
@@ -21,8 +21,8 @@ class Money extends React.Component {
     const data=res.data.data
     const forms=[]
     for(var i=0;i<data.length;i++) {
-      if (data[i].form.acceptedByLawyer === 1 && data[i].form.acceptedByReviewer === 1)
-       {
+     if (data[i].form.acceptedByLawyer === 1 && data[i].form.acceptedByReviewer === 1)
+      {
         forms.push(data[i])
       }
     }

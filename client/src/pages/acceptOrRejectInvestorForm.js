@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Header from '../components/Header'
 import Forms from '../components/Forms'
 import Axios from 'axios';
+import ShowCompanies from '../components/fees/ShowCompanies';
 
 
 class acceptOrRejectInvestorForm extends Component {
@@ -10,7 +11,9 @@ class acceptOrRejectInvestorForm extends Component {
     loading: true,
     forms: [],
     idEntered:false,
-    companyId:""
+    companyId:"",
+    loading:true,
+    allForms:[]
   }
 
   componentDidMount() {
@@ -26,7 +29,7 @@ class acceptOrRejectInvestorForm extends Component {
       :
     (res.data.data.form )
     }))
-    .then(res => this.setState({loading: false}))
+    .then(this.setState({loading: false}))
     .catch(err => {
       console.log(err)
     })}
@@ -57,7 +60,9 @@ class acceptOrRejectInvestorForm extends Component {
       console.log(err)
     })
   }
-
+  chooseForm = (id,F)=>{
+    this.setState({companyId:id,idEntered:true,loading:false})
+  }
   render() {
     return (
       <div className="App">
@@ -66,15 +71,7 @@ class acceptOrRejectInvestorForm extends Component {
       this.state.error? <h1>Error please try again</h1>
       :
       !this.state.idEntered?
-      <div>
-        <label>companyID</label>
-        <input 
-          type="text"
-          value={this.state.companyId}
-          onChange={(e)=>this.setState({companyId:e.target.value})}
-        /> 
-        <button onClick={()=>{this.setState({idEntered:true})}}>search</button>
-      </div>
+      <ShowCompanies Forms={this.state.allForms} chooseForm={this.chooseForm}/>
       :
       <Forms forms = {[this.state.forms]}
          accept = {this.accept}

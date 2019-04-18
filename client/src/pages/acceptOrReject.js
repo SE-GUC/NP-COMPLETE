@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Header from '../components/Header'
 import DecisionForms from '../components/DecisionForms'
 import Axios from 'axios';
+import ShowCompanies from '../components/fees/ShowCompanies';
 
 
 class acceptOrReject extends Component {
@@ -11,7 +12,9 @@ class acceptOrReject extends Component {
     forms: [],
     companyId: "",
     error:false,
-    idEntered:false
+    idEntered:false,
+    allForms:[],
+    loading:true
   }
 
   componentDidMount() {
@@ -24,15 +27,20 @@ class acceptOrReject extends Component {
       []
       :
     (res.data.data.form )
-    }))
-    .then(res => this.setState({loading: false}))
-    .then(res => console.log(this.state.forms ))
+    ,loading:false}))
     .catch(err => {
       this.setState({error:true})
     })}
+    else{
+      Axios
+      .get('/api/companies/')
+      .then(res=>this.setState({allForms:res.data.data,loading:false}))
+    }
 }
 
-
+  chooseForm = (id, F)=>{
+    this.setState({companyId:id,idEntered:true,loading:false})
+  }
   accept = (e , root) =>{
     e.preventDefault()
     const reviewerId= localStorage.getItem('id')
@@ -69,14 +77,7 @@ class acceptOrReject extends Component {
       <h1>Error has occured please try again</h1>
       :
       !this.state.idEntered? 
-      <div>
-        <label>Company ID</label>
-        <input
-          type="text"
-          value={this.state.companyId}
-          onChange={(e)=>this.setState({companyId:e.target.value})}
-        />
-      </div>
+      <ShowCompanies Forms={this.state.allForms} chooseForm={this.chooseForm}/>
       :
       <DecisionForms forms = {[this.state.forms]}
          accept = {this.accept}
