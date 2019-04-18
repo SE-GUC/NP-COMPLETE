@@ -3,6 +3,8 @@ const Model = require('../models/Admin')
 const validator = require('../validations/adminValidations')
 const main = require('./main')
 const userController = require('./userController')
+const user = require('../config/keys_dev').user
+const pass = require('../config/keys_dev').pass
 // Additional models
 const Task = require('../models/Task')
 const Lawyer = require('../models/Lawyer')
@@ -279,39 +281,46 @@ exports.showLastWorked = async (req, res) => {
 }
 
 exports.sendAnnouncement = async (req, res) => {
-  console.log(req.body)
   try {
+    const data = req.body
+    const validate = validator.sendAnnouncement(data)
+    if (validate.error) {
+      return res.status(400).json({
+        status: 'Error',
+        message: validate.error.details[0].message })
+    }
     const recipients = req.body.recipients
     var mailingList = []
-    if (recipients === 'Investors') {
-      mailingList = await Investor.find()
-    } else if ((recipients === 'Lawyers')) {
-      mailingList = await Lawyer.find()
-    } else {
-      mailingList = await Reviewer.find()
+    switch (recipients) {
+      case 'Investors' :mailingList = await Investor.find()
+        break
+      case 'Lawyers': mailingList = await Lawyer.find()
+        break
+      case 'Reviewers': mailingList = await Reviewer.find()
+        break
+      default : mailingList = await allMails()
     }
+    console.log(mailingList)
     let emails = ''
     for (var i = 0; i < mailingList.length; i++) {
-      emails += mailingList[i].email + ', '
+      if (i !== (mailingList.length - 1)) {
+        emails += mailingList[i].email + ', '
+      } else {
+        emails += mailingList[i].email
+      }
     }
-
     const output = `
-  <p> You received a new announcement </p>
-  <h3>Details</h3>
-  <ul>
-  <li> Name: ${req.body.name}</li>x
-  <li> Email: ${req.body.email}</li>
-  </ul>
-  <h3> Message </h3>
-  <p> ${req.body.message}</p>
-  `
+    <p> You received a new announcement </p>
+    <h3> Message </h3>
+    <p> ${req.body.message}</p>
+    `
     let transporter = nodemailer.createTransport({
       host: 'smtp.gmail.com',
       port: 587,
       secure: false, // true for 465, false for other ports
       auth: {
-        user: 'gafiweb2019@gmail.com',
-        pass: 'Gafi-Web2019'
+        user: user,
+        pass: pass
       },
       tls: {
         rejectUnauthorized: false
@@ -319,19 +328,28 @@ exports.sendAnnouncement = async (req, res) => {
     })
     // send mail with defined transport object
     let info = await transporter.sendMail({
-      from: '"Admin" <gafiweb2019@gmail.com>', // sender address
+      from: '"GAFI Admin" <gafiweb2019@gmail.com>', // sender address
       to: emails, // list of receivers
       subject: 'Admin announcement', // Subject line
-      text: 'Hello world?', // plain text body
       html: output // html body
     })
 
     console.log('Message sent: %s', info.messageId)
-
-    // Preview only available when sending through an Ethereal account
-    console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info))
-    res.json({ msg: 'Your message has been sent' })
+    return res.json({
+      status: 'Success',
+      message: 'Your message has been sent' })
   } catch (error) {
-    console.log(error)
+    res.status(400).json({
+      status: 'Error',
+      message: error.message
+    })
   }
+}
+const allMails = async () => {
+  var mails = []
+  const investors = await Investor.find()
+  const lawyers = await Lawyer.find()
+  const reviewers = await Reviewer.find()
+  mails = mails.concat(investors, lawyers, reviewers)
+  return mails
 }

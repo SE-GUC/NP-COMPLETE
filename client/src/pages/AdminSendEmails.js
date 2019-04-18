@@ -8,8 +8,6 @@ export class AdminSendEmails extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      name: '',
-      email: '',
       message: '',
       recipients:''
     }
@@ -19,47 +17,26 @@ export class AdminSendEmails extends React.Component {
   }
 
   handleChange = (e) => {
-      this.setState({[e.target.name] : e.target.value})
-     
+      this.setState({[e.target.name] : e.target.value})  
   }
 
    handleSend = (e) => {
       e.preventDefault()
-      const{name, email, message, recipients} = this.state
+      const{ message, recipients} = this.state
+      if(!message){
+        {alert('Message should not be empty')}
+      }
+      else {
+        console.log(this.state.recipients)
       axios
-      .post('/api/admins/sendAnnouncement',{
-        name,
-        email,
-        message,
-        recipients
-      })
-      .then(res => { alert(res.data.msg)})
-      .catch(error => {
-        alert(error)
-        console.log(error)})
-      
+      .post('/api/admins/sendAnnouncement',{message,recipients})
+      .then(res => { alert(res.data.message)})
+      .catch(error => {alert(error.message)})
+      }
   }
   render () {
     return (
       <Form onSubmit = {this.handleSend} style={{ width: '600px' }}>
-        <FormGroup >
-          <Label for='name'>Name:</Label>
-          <Input
-            type='text'
-            name='name'
-            placeholder='Admin name (optional)'
-            onChange={this.handleChange} />
-        </FormGroup>
-
-        <FormGroup>
-          <Label for='email'>Email:</Label>
-          <Input
-            type='email'
-            name='email'
-            placeholder='gafiweb2019@gmail.com'
-            onChange={this.handleChange} />
-        </FormGroup>
-
         <FormGroup>
           <Label for='message'>Message:</Label>
           <Input
@@ -70,12 +47,15 @@ export class AdminSendEmails extends React.Component {
     
         <FormGroup>
           <Label for="recipients">Send To:</Label>
-          <Input type="select" name="recipients" id="recipients"  value={this.state.recipients} onChange={this.handleChange} 
->
+          <Input type="select" name="recipients" id="recipients"  mutedText ='asas' value={this.state.recipients} onChange={this.handleChange}>
+          <option> </option>
             <option>Investors</option>
             <option>Lawyers</option>
             <option>Reviewers</option>
           </Input>
+          <h>
+            If you don't specfiy , message will be send to all members on the system
+          </h>
         </FormGroup>
         <Button>Send</Button>
       </Form>
