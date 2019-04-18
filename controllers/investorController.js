@@ -401,21 +401,3 @@ const isValidDate = stringDate => {
   const date = new Date(stringDate)
   return date && Object.prototype.toString.call(date) === '[object Date]' && !isNaN(date)
 }
-
-// exports.login = async (req, res) => {
-//   try {
-//     const { email, password } = req.body
-//     const investor = await Investor.findOne({ email })
-//     if (!investor) return res.status(404).json({ email: 'Email does not exist' })
-//     const match = bcrypt.compareSync(password, investor.password)
-//     if (match) {
-//       const payload = {
-//         id: investor._id,
-//         name: investor.name,
-//         email: investor.email
-//       }
-//       const token = jwt.sign(payload, tokenKey, { expiresIn: '1h' })
-//       return res.json({ token: `Bearer ${token}` })
-//     } else return res.status(400).send({ password: 'Wrong password' })
-//   } catch (e) {}
-// }

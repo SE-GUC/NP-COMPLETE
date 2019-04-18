@@ -3,6 +3,8 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const tokenKey = require('../config/keys').secretOrKey
 const userValidator = require('../validations/userValidations')
+const passwordRegx = /(?=.*[!@#$%^&*_])(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/
+
 // register
 exports.register = async (req, res, validator, Model) => {
   try {
@@ -22,21 +24,33 @@ exports.register = async (req, res, validator, Model) => {
         message: 'Email already exists'
       })
     }
-    const salt = bcrypt.genSaltSync(10)
-    const hashedPassword = bcrypt.hashSync(password, salt)
-    const newData = {}
-    Object.keys(data).forEach(key => {
-      if (data[key] !== password) {
-        newData[key] = data[key]
-      } else {
-        newData[key] = hashedPassword
-      }
-    })
-    const newUser = await Model.create(newData)
-    res.json({
-      status: 'Success',
-      msg: `User created successfully`,
-      data: newUser })
+    if (passwordRegx.test(password)) {
+      const salt = bcrypt.genSaltSync(10)
+      const hashedPassword = bcrypt.hashSync(data.password, salt)
+      data.password = hashedPassword
+      const newUser = await Model.create(data)
+      res.json({
+        status: 'Success',
+        msg: `User created successfully`,
+        data: newUser })
+    } else {
+      const errors = vaildatePassword(password)
+      return res.status(400).json({
+        status: 'Error',
+        message: errors[0]
+      })
+    }
+    // const salt = bcrypt.genSaltSync(10)
+    // const hashedPassword = bcrypt.hashSync(password, salt)
+    
+    // Object.keys(data).forEach(key => {
+    //   if (data[key] !== password) {
+    //     newData[key] = data[key]
+    //   } else {
+    //     newData[key] = hashedPassword
+    //   }
+    // })
+    
   } catch (error) {
     res.status(422).send({ error: 'Can not create user' })
   }
@@ -86,4 +100,24 @@ exports.login = async (req, res, Model, type) => {
       message: error.message
     })
   }
+}
+// helper
+const vaildatePassword = password => {
+  var errors = []
+  if (password.length < 8) {
+    errors.push('Your password must be at least 8 characters')
+  }
+  if (password.search(/[a-z]/i) < 0) {
+    errors.push('Your password must contain at least one small letter')
+  }
+  if (password.search(/[A-Z]/) < 0) {
+    errors.push('Your password must contain at least one capital letter')
+  }
+  if (password.search(/[0-9]/) < 0) {
+    errors.push('Your password must contain at least one digit.')
+  }
+  if (password.search(/[!@#$%^&*_]/) < 0) {
+    errors.push('Your password must contain at least one special character like * ! ^ !')
+  }
+  return errors
 }
