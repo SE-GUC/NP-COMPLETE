@@ -41,6 +41,7 @@ import ReviewForm from './pages/ReviewForm'
 import { Container } from 'react-bootstrap'
 import NavBar from './components/generic/NavbarGafi'
 import InternalUserLogIn from './pages/loginPages/InternalUserLogIn'
+import InvestorPrivateRoute from './utilities/InvestorPrivateRoute'
 
 if (localStorage.jwtToken) {
   setAuthToken(localStorage.jwtToken)
@@ -106,6 +107,8 @@ class App extends Component {
 
             {/* <Route exact path='/investors/payFees/:investorId/:companyId' component={payFees} /> */}
 
+            {/* <InvestorPrivateRoute exact path='/investors/MyCompanies' component={AllMyCompanies} /> */}
+            
             <Route exact path='/investors/MyCompanies' component={AllMyCompanies} />
 
             <Route exact path='/reviewers/showLastWorked/:companyId/:reviewerId' component={ReviewerShowLastWorked} />

@@ -11,11 +11,11 @@ const InvestorPrivateRoute = ({ component: Component, ...rest }) => (
     // console.log(store.getState().auth.isLoggedIn)
     store.getState().auth.isLoggedIn === true
       ? (<Component {...props} />)
-      : props.history.pushState('/investors/login')
-      // <Redirect to={{
-      //   pathname: '/investors/login',
-      //   state: { from: props.location }
-      // }} />
+      // : props.history.pushState('/investors/login')
+      : <Redirect to={{
+        pathname: '/investors/login',
+        state: { from: props.location }
+      }} />
   )}
   />
 
