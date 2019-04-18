@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import Company from '../components/company/Company'
+import Spinner from 'react-bootstrap/Spinner'
 
 export class PublishCompany extends Component {
   constructor (props) {
@@ -14,6 +15,7 @@ export class PublishCompany extends Component {
   }
 
   componentDidMount () {
+    this.setState({loading: true})
     axios
       .get('/api/companies/')
       .then(
@@ -65,7 +67,7 @@ export class PublishCompany extends Component {
     return (
       <div className='App'>
         <div>
-          {this.state.loading ? <h1>Loading..</h1>
+          {this.state.loading ? <Spinner animation="border" variant= "primary" />
             : <Company forms={this.state.companies} publish = {this.publish} /> }
         </div>
       </div>

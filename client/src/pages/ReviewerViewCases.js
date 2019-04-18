@@ -10,6 +10,7 @@ export class ReviewerViewCases extends Component {
     constructor(props) {
         super(props)
         this.state={
+          loading: true ,
           cases:[]
         }
       }
@@ -17,9 +18,10 @@ export class ReviewerViewCases extends Component {
     componentDidMount() {
         const {id} = this.props.match.params
         this._isMounted = true
+        this.setState({loading: true})
         Axios.get('/api/reviewers/casesPage/'+ id)
-        .then(res => this.setState({ cases: res.data.data }))
-        .catch(err => this.setState({ error: true }))
+        .then(res => this.setState({ cases: res.data.data, loading: false }))
+        .catch(err => this.setState({ error: true, loading: false }))
     }
 
     componentWillUnmount() {
@@ -27,7 +29,7 @@ export class ReviewerViewCases extends Component {
       }
   render() {
     return this.state.error? <h1>process could not be completed</h1>:this.state.loading?
-    <div>
+    <div className='App'>
     <Spinner animation="border" variant="primary" />
     </div>
     :

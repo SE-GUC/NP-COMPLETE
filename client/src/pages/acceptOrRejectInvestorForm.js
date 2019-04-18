@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import Header from '../components/Header'
 import Forms from '../components/Forms'
 import Axios from 'axios';
+import Spinner from 'react-bootstrap/Spinner'
 
 
 class acceptOrRejectInvestorForm extends Component {
@@ -60,13 +60,16 @@ class acceptOrRejectInvestorForm extends Component {
   render() {
     return (
       <div className="App">
-      <Header/>
-      {this.state.loading? <h1>loading please be patient</h1>: 
-      <Forms forms = {[this.state.forms]}
-         accept = {this.accept}
-         reject = {this.reject}
-         root = {this}
-      />      }     
+      
+        {this.state.loading? <Spinner animation="border" variant= "primary" />: 
+        <div>   
+          <Forms forms = {[this.state.forms]}
+            accept = {this.accept}
+            reject = {this.reject}
+            root = {this}
+          />  
+        </div>    
+        }     
       </div>
     );
   }

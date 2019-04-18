@@ -5,6 +5,7 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import '../../App.css'
 import Axios from 'axios'
+import Spinner from 'react-bootstrap/Spinner'
 
 class ViewForm extends Component {
   constructor (props) {
@@ -19,6 +20,7 @@ class ViewForm extends Component {
 
   componentDidMount () {
     const { id } = this.props.match.params
+    this.setState({loading: true})
     Axios
       .get('/api/investors/viewRejected/' + id)
       .then(
@@ -54,11 +56,11 @@ class ViewForm extends Component {
     console.log(this.state)
     console.log(this.props)
     if (this.state.loading) {
-      return <h1> Loading </h1>
+      return <div className='App'><Spinner animation="border" variant= "primary" /></div>
     }
     if (this.state.loading === false && this.state.error) {
       return (
-        <div>
+        <div >
           <div>
             <h1>Error </h1>
           </div>

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Alert, Card } from 'react-bootstrap'
 import axios from 'axios'
+import Spinner from 'react-bootstrap/Spinner'
 
 class AdminShowLastWorked extends Component {
   constructor (props) {
@@ -8,13 +9,14 @@ class AdminShowLastWorked extends Component {
     const adminId = this.props.match.params.adminId
     const companyId = this.props.match.params.companyId
     this.state = {
+      loading: true,
       response: undefined
     }
     axios.get(`/api/admins/showLastWorked/${companyId}/${adminId}`)
-      .then(res => { this.setState({ response: res.data }) })
+      .then(res => { this.setState({ response: res.data, loading: false }) })
       .catch(err => {
         if (err.response && err.response.data) {
-          this.setState({ response: err.response.data })
+          this.setState({ response: err.response.data, loading: false })
         } else {
           console.log(err)
         }
@@ -40,27 +42,30 @@ class AdminShowLastWorked extends Component {
         </head>
 
         <body> {
-          this.state.response && this.state.response.data
-            ? !this.state.response.data[0]
-              ? <Alert key='1' variant='warning'>
+          this.state.loading ? <div className='App'><Spinner animation='border' variant='primary' /></div>
+            : (
+              this.state.response && this.state.response.data
+                ? !this.state.response.data[0]
+                  ? <Alert key='1' variant='warning'>
                 No one has worked on this form yet
-              </Alert>
+                  </Alert>
 
-              : <div> {
-                this.state.response.data.map(res =>
-                  <Card bg='dark' border='warning' text='white'>
-                    <Card.Text>{res}</Card.Text>
-                  </Card>
-                )
-              }
-              </div>
+                  : <div> {
+                    this.state.response.data.map(res =>
+                      <Card bg='dark' border='warning' text='white'>
+                        <Card.Text>{res}</Card.Text>
+                      </Card>
+                    )
+                  }
+                  </div>
 
-            : this.state.response && this.state.response.status === 'Error'
-              ? <Alert key='2' variant='danger'>
-                {this.state.response.message}
-              </Alert>
+                : this.state.response && this.state.response.status === 'Error'
+                  ? <Alert key='2' variant='danger'>
+                    {this.state.response.message}
+                  </Alert>
 
-              : <></>
+                  : <></>
+            )
         }
         </body>
       </>

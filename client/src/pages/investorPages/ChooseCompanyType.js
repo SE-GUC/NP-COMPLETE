@@ -7,7 +7,6 @@ export class ChooseCompanyType extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      loading: true,
       showOptions: true,
       renderSSC: false,
       renderSPC: false
