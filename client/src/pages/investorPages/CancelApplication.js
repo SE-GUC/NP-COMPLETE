@@ -42,9 +42,6 @@ export class CancelApplication extends Component {
   }
 
   render () {
-    console.log(this.state)
-    console.log(this.props)
-
     if (this.state.loading === false && this.state.apps.length === 0) {
         return (
           
