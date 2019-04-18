@@ -24,7 +24,7 @@ export class AdminSendEmails extends React.Component {
       e.preventDefault()
       const{ message, recipients} = this.state
       if(!message){
-        {alert('Message should not be empty')}
+        {alert('Message cannot be empty')}
       }
       else {
         console.log(this.state.recipients)
@@ -54,7 +54,7 @@ export class AdminSendEmails extends React.Component {
             <option>Reviewers</option>
           </Input>
           <h>
-            If you don't specfiy , message will be send to all members on the system
+            If you don't specfiy , message will be sent to all members on the system
           </h>
         </FormGroup>
         <Button>Send</Button>
