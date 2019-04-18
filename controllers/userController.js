@@ -40,17 +40,6 @@ exports.register = async (req, res, validator, Model) => {
         message: errors[0]
       })
     }
-    // const salt = bcrypt.genSaltSync(10)
-    // const hashedPassword = bcrypt.hashSync(password, salt)
-    
-    // Object.keys(data).forEach(key => {
-    //   if (data[key] !== password) {
-    //     newData[key] = data[key]
-    //   } else {
-    //     newData[key] = hashedPassword
-    //   }
-    // })
-    
   } catch (error) {
     res.status(422).send({ error: 'Can not create user' })
   }
