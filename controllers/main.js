@@ -22,7 +22,11 @@ exports.create = async (req, res, validator, Model) => {
     if (!validated) {
       return
     }
-
+    if (data.password) {
+      const salt = bcrypt.genSaltSync(10)
+      const hashedPassword = bcrypt.hashSync(data.password, salt)
+      data.password = hashedPassword
+    }
     const newEntity = await Model.create(data)
     return res.json({
       status: 'Success',
