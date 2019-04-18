@@ -45,7 +45,6 @@ class acceptOrReject extends Component {
     Axios
     .put(`http://localhost:8000/api/reviewers/decideAnApplication/${reviewerId}/${companyId}`  , {decision: true})
     .then(res => {
-      console.log(res.data.data)  
       this.setState({ forms: [] })
     })
     .catch(err => {
@@ -59,7 +58,6 @@ class acceptOrReject extends Component {
     Axios
     .put(`http://localhost:8000/api/reviewers/decideAnApplication/${reviewerId}/${companyId}`  , {decision: false})
     .then(res => {
-      console.log(res.data.data)
       this.setState({ forms: [] })
     })
     .catch(err => {

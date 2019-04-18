@@ -24,21 +24,40 @@ export class ChooseCompanyType extends Component {
   }
 
   render () {
-    if (this.state.showOptions) {
-      return (
-        <div className='App'>
-          <h1>Choose your company type</h1>
-          <Button style={btnStyle} onClick={this.clickSSC}>SSC</Button>
-          <Button style={btnStyle} onClick={this.clickSPC}>SPC</Button>
-        </div>
+    if (localStorage.getItem('language') === 'English') {
+      if (this.state.showOptions) {
+        return (
+          <div className='App'>
+            <h1>Choose your company type</h1>
+            <Button style={btnStyle} onClick={this.clickSSC}>SSC</Button>
+            <Button style={btnStyle} onClick={this.clickSPC}>SPC</Button>
+          </div>
 
-      )
-    }
-    if (this.state.renderSPC) {
-      return <FillForm type={'SPC'} form={form.SPC} />
-    }
-    if (this.state.renderSSC) {
-      return <FillForm type={'SSC'} form={form.SSC} />
+        )
+      }
+      if (this.state.renderSPC) {
+        return <FillForm type={'SPC'} form={form.SPC} />
+      }
+      if (this.state.renderSSC) {
+        return <FillForm type={'SSC'} form={form.SSC} />
+      }
+    } else {
+      if (this.state.showOptions) {
+        return (
+          <div className='App'>
+            <h1>اختار نوع شركتك</h1>
+            <Button style={btnStyle} onClick={this.clickSSC}>SSC</Button>
+            <Button style={btnStyle} onClick={this.clickSPC}>SPC</Button>
+          </div>
+
+        )
+      }
+      if (this.state.renderSPC) {
+        return <FillForm type={'SPC'} form={form.SPC} />
+      }
+      if (this.state.renderSSC) {
+        return <FillForm type={'SSC'} form={form.SSC} />
+      }
     }
   }
 }

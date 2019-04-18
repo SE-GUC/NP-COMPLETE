@@ -18,27 +18,51 @@ export class CaseCard extends Component {
   }
 
   render () {
-    return (
+    if (localStorage.getItem('language') === 'English') {
+      return (
       // <div>
-      <CardDeck>
-        <Card>
-          <Button variant ='primary' onClick={this.toggle} >{this.props.data.name}</Button>
-          <Collapse isOpen={this.state.collapse}>
-            <Card.Body>
-              <Card.Title><h4>Name : {this.props.data.name}</h4></Card.Title>
-              <Card.Text>
+        <CardDeck>
+          <Card>
+            <Button variant='primary' onClick={this.toggle} >{this.props.data.name}</Button>
+            <Collapse isOpen={this.state.collapse}>
+              <Card.Body>
+                <Card.Title><h4>Name : {this.props.data.name}</h4></Card.Title>
+                <Card.Text>
                 Type : {this.props.data.type}
-                {/* <p />
+                  {/* <p />
                 {this.props.data.form.data} */}
-                {/* <p />
+                  {/* <p />
                 {this.props.data.} */}
-              </Card.Text>
-            </Card.Body>
-          </Collapse>
-        </Card>
-      </CardDeck>
+                </Card.Text>
+              </Card.Body>
+            </Collapse>
+          </Card>
+        </CardDeck>
       // </div>
-    )
+      )
+    } else {
+      return (
+        // <div>
+        <CardDeck>
+          <Card>
+            <Button variant='primary' onClick={this.toggle} >{this.props.data.name}</Button>
+            <Collapse isOpen={this.state.collapse}>
+              <Card.Body>
+                <Card.Title><h4>الاسم : {this.props.data.name}</h4></Card.Title>
+                <Card.Text>
+                  النوع : {this.props.data.type}
+                  {/* <p />
+                  {this.props.data.form.data} */}
+                  {/* <p />
+                  {this.props.data.} */}
+                </Card.Text>
+              </Card.Body>
+            </Collapse>
+          </Card>
+        </CardDeck>
+        // </div>
+      )
+    }
   }
 }
 

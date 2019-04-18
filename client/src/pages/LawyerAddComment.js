@@ -12,7 +12,8 @@ class LawyerAddComment extends Component {
   }
 
   render () {
-    return (
+    if (localStorage.getItem('language') === 'English') {
+      return (
       <>
         <head>
           <script src='https://unpkg.com/react/umd/react.production.js' crossorigin />
@@ -71,7 +72,69 @@ class LawyerAddComment extends Component {
         }
         </body>
       </>
-    )
+      )
+    } else {
+      return (
+      <>
+        <head>
+          <script src='https://unpkg.com/react/umd/react.production.js' crossorigin />
+
+          <script src='https://unpkg.com/react-dom/umd/react-dom.production.js' crossorigin />
+
+          <script src='https://unpkg.com/react-bootstrap@next/dist/react-bootstrap.min.js' crossorigin />
+
+          <script>var Alert = ReactBootstrap.Alert;</script>
+
+          <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css'
+            integrity='sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T'
+            crossorigin='anonymous'
+          />
+        </head>
+
+        <body> {
+          this.state.response
+            ? <Alert key='1' id='panner' variant={this.state.response.status === 'Success' ? 'success' : 'danger'}>
+              {this.state.response.status}: {this.state.response.message}
+            </Alert>
+
+            : <div>
+              <Form>
+                <Form.Row id='IDs'>
+                  <Col>
+                    <Form.Control id='lawyerId' placeholder='Lawyer ID' onChange={(event) => { this.LID = event.target.value }} />
+                  </Col>
+                  <Col>
+                    <Form.Control id='companyId' placeholder='Company ID' onChange={(event) => { this.CID = event.target.value }} />
+                  </Col>
+                </Form.Row>
+              </Form>
+
+              <Form.Group id='comments' controlId='exampleForm.ControlTextarea1'>
+                <Form.Label id='commLable'>التعليق</Form.Label>
+                <Form.Control id='commArea' as='textarea' rows='5' onChange={(event) => { this.comm = event.target.value }} />
+              </Form.Group>
+
+              <Button id='submit' as='input' type='submit' value='ادخال'
+                onClick={() => {
+                  const lawyerID = this.LID
+                  const companyID = this.CID
+                  const comment = this.comm
+                  axios.put(`/api/lawyers/addComment/${lawyerID}/${companyID}`, { comment: comment })
+                    .then(res => { this.setState({ response: res.data }) })
+                    .catch(err => {
+                      if (err.response && err.response.data) {
+                        this.setState({ response: err.response.data })
+                      } else {
+                        console.log(err)
+                      }
+                    })
+                }} />
+            </div>
+        }
+        </body>
+      </>
+      )
+    }
   }
 }
 

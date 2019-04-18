@@ -22,7 +22,8 @@ class ReviewerShowLastWorked extends Component {
   }
 
   render () {
-    return (
+    if (localStorage.getItem('language') === 'English') {
+      return (
       <>
         <head>
           <script src='https://unpkg.com/react/umd/react.production.js' crossorigin />
@@ -64,7 +65,52 @@ class ReviewerShowLastWorked extends Component {
         }
         </body>
       </>
-    )
+      )
+    } else {
+      return (
+      <>
+        <head>
+          <script src='https://unpkg.com/react/umd/react.production.js' crossorigin />
+
+          <script src='https://unpkg.com/react-dom/umd/react-dom.production.js' crossorigin />
+
+          <script src='https://unpkg.com/react-bootstrap@next/dist/react-bootstrap.min.js' crossorigin />
+
+          <script>var Alert = ReactBootstrap.Alert;</script>
+
+          <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css'
+            integrity='sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T'
+            crossorigin='anonymous'
+          />
+        </head>
+
+        <body> {
+          this.state.response && this.state.response.data
+            ? !this.state.response.data[0]
+              ? <Alert key='1' variant='warning'>
+                لم يعمل احد علي هذه الاستماره الي الان
+              </Alert>
+
+              : <div> {
+                this.state.response.data.map(res =>
+                  <Card bg='dark' border='warning' text='white'>
+                    <Card.Text>{res}</Card.Text>
+                  </Card>
+                )
+              }
+              </div>
+
+            : this.state.response && this.state.response.status === 'Error'
+              ? <Alert key='2' variant='danger'>
+                {this.state.response.message}
+              </Alert>
+
+              : <></>
+        }
+        </body>
+      </>
+      )
+    }
   }
 }
 
