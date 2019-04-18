@@ -17,7 +17,7 @@ class Money extends React.Component {
   async componentDidMount (){
   if(!this.state.FormChosen)
   {
-    const res = await Axios.get(`/api/investors/getAllCompanies/${this.state.myID}`)
+    const res = await Axios.get(`/api/investors/getCompanies/${this.state.myID}`)
     const data=res.data.data
     const forms=[]
     for(var i=0;i<data.length;i++) {
