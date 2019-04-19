@@ -90,6 +90,13 @@ exports.login = async (req, res, Model, type) => {
     })
   }
 }
+exports.updatePassword = async (req, res, Model) => {
+    const { currentPassword }= req.body
+    const {firstPassword} = req.body
+    const {secondPassword} = req.body
+    const id = req.params.id
+    const user = 
+}
 // helper
 const vaildatePassword = password => {
   var errors = []

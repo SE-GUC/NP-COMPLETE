@@ -3,22 +3,30 @@ import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import RegisterField from '../components/form/RegisterField'
 import axios from 'axios'
-
+import { Collapse } from 'reactstrap'
 export class UpdateProfile extends Component {
-
- 
-
-  state = {
-    id: undefined,
-    fullName: undefined,
-    birthdate: undefined,
-    email: undefined,
-    password: undefined
-}
+  constructor (props) {
+    super(props)
+    this.toggle = this.toggle.bind(this)
+    this.state = {
+      id: undefined,
+      fullName: undefined,
+      birthdate: undefined,
+      email: undefined,
+      password: undefined,
+      collapse: false
+    }
+  }
+  toggle () {
+    this.setState(state => ({ collapse: !state.collapse }))
+  }
 
   render() {
     return (
       <div>
+        <Button color='outline-primary' onClick={this.toggle} style={{ marginBottom: '1rem' }}> Edit personal information </Button>
+        {console.log(this.state.collapse)}
+        <Collapse isOpen={this.state.collapse}>
         <Form>
         <RegisterField
           label='Id'
@@ -52,11 +60,11 @@ export class UpdateProfile extends Component {
           placeholder='Enter birthdate'
           onChange={e => this.setState({birthdate: e.target.value})} />
 
-        <Button variant='secondry' type='submit' onClick={e => this.clicked(e)}>
+        <Button variant='primary' type='submit' onClick={e => this.clicked(e)}>
            Update
         </Button>
         </Form>
-        
+        </Collapse>
       </div>
     )
   }
