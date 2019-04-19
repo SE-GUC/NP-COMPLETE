@@ -39,7 +39,6 @@ exports.DBRepop = async res => {
       message: 'The database has been cleared and repopulated'
     })
   } catch (error) {
-    console.log(error)
     return res.status(400).json({
       status: 'Error',
       message: error.message
@@ -339,10 +338,6 @@ exports.RepopCompanies = async res => {
   const investors = await Investor.find()
   const lawyers = await Lawyer.find()
   const reviewers = await Reviewer.find()
-
-  console.log(`Investors: ${investors} length: ${investors.length}`)
-  console.log(`Lawyers: ${lawyers} length: ${lawyers.length}`)
-  console.log(`Reviewers: ${reviewers} length: ${reviewers.length}`)
 
   const companies = [
     {
