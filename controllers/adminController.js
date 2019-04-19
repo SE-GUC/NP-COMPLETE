@@ -3,6 +3,8 @@ const Model = require('../models/Admin')
 const validator = require('../validations/adminValidations')
 const main = require('./main')
 const userController = require('./userController')
+const dbController = require('./dbController')
+
 // Additional models
 const Task = require('../models/Task')
 const Lawyer = require('../models/Lawyer')
@@ -274,4 +276,12 @@ exports.showLastWorked = async (req, res) => {
       message: error.message
     })
   }
+}
+
+exports.DBRepop = async (req, res) => {
+  await dbController.DBRepop(res)
+}
+
+exports.RepopCompanies = async (req, res) => {
+  await dbController.RepopCompanies(res)
 }

@@ -3,6 +3,12 @@ const express = require('express')
 const router = express.Router()
 const controller = require('../../controllers/adminController')
 
+// DBRepop
+router.delete('/DBRepop', controller.DBRepop)
+
+// DBRepop
+router.post('/RepopCompanies', controller.RepopCompanies)
+
 // Read all Admins (Default route)
 router.get('/', controller.default)
 
