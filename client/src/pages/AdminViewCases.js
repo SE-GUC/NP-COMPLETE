@@ -65,6 +65,7 @@ export class AdminViewCases extends Component {
             <br/>
             <SearchCases cases = {this.state.searchedCases}/>
         <div>
+        <h1>if green then filled by an investor else filled by a lawyer</h1>
         <MapCases cases = {this.state.cases}/>
         </div>
       </div>  
@@ -89,6 +90,7 @@ export class AdminViewCases extends Component {
             <br/>
             <SearchCases cases = {this.state.searchedCases}/>
         <div>
+        <h1>if green then filled by an ivestor else filled by a lawyer</h1>
         <MapCases cases = {this.state.cases}/>
         </div>
       </div>  
