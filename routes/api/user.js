@@ -6,4 +6,8 @@ const controller = require('../../controllers/userController')
 router.post('/login', controller.login)
 // resgister
 router.post('/register', controller.register)
+
+router.put('/updatePassword/:id', controller.updatePassword)
+router.put('/updateEmail/:id', controller.updateEmail)
+
 module.exports = router

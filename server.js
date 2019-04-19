@@ -13,6 +13,7 @@ const companies = require('./routes/api/companies')
 const tasks = require('./routes/api/tasks')
 const companyTypes = require('./routes/api/companyTypes')
 const users = require('./routes/api/users')
+const user = require('./routes/api/user')
 
 const app = express()
 
@@ -61,6 +62,7 @@ app.use('/api/companies', companies)
 app.use('/api/tasks', tasks)
 app.use('/api/companyTypes', companyTypes)
 app.use('/api/users', users)
+app.use('/api/user', user)
 
 // 500 internal server error handler
 app.use((err, _req, res, next) => {
