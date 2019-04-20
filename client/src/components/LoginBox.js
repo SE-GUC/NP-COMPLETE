@@ -61,7 +61,7 @@ onClick = (e) => {
   
             <button type='button' 
               className='login-btn' 
-              onClick= { this.onClick()}> 
+              onClick= {()=> this.onClick()}> 
               Login 
             </button>
             
