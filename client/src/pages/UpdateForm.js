@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import Section from '../components/form/Section'
 import { Form, Container, Button } from 'reactstrap'
-import Axios from 'axios';
+import Axios from 'axios'
+import ShowCompanies from '../components/fees/ShowCompanies'
 const form = require('../components/form/DynamicForm.json')
 
 class UpdateForm extends Component {
@@ -19,16 +20,9 @@ class UpdateForm extends Component {
       companyID:"",
       formType:"",
       idEntered:false,
-      lawyer:false
+      lawyer:false,
+      allForms:[]
     }
-  }
-  handleIDChange =(e)=>{
-    this.setState({companyID:e.target.value})
-    console.log(e.target.value)
-  }
-  handleLawyerIDChange =(e)=>{
-    this.setState({lawyerID:e.target.value})
-    console.log(e.target.value)
   }
   submitForm = (e)=>{
     e.preventDefault()
@@ -63,8 +57,8 @@ class UpdateForm extends Component {
      console.log(this.state.filledform)
      
   }
-  findForm = async ()=>{
-    const res= await Axios.get(`/api/companies/${this.state.companyID}`) 
+  chooseForm = async (id)=>{
+    const res= await Axios.get(`/api/companies/${id}`) 
     console.log(res.data.data)
     await this.setState({oldData:res.data.data.form.data,formType:res.data.data.type})
     console.log(this.state.oldData)
@@ -74,8 +68,21 @@ class UpdateForm extends Component {
   }
   componentDidMount(){
     if(window.location.pathname.includes('lawyers')){
-      this.setState({lawyer:true})
+      this.setState({lawyer:true,lawyerID:localStorage.getItem('id')})
+      Axios
+      .get(`/api/lawyers/casesPage/${localStorage.getItem('id')} `)
+      .then(res=>this.setState({allForms:res.data.data,loading:false}))
+      .catch(error=>this.setState({error:true}))
+    }else
+    {
+      this.setState({lawyer:false,investorID:localStorage.getItem('id')})
+      Axios
+      .get(`/api/investors/getCompanies/${localStorage.getItem('id')} `)
+      .then(res=>this.setState({allForms:res.data.data,loading:false}))
+      .catch(error=>this.setState({error:true}))
     }
+    
+
   }
   render () {
     const renderSections = this.state.form.sections.map((section, i) => {
@@ -87,26 +94,18 @@ class UpdateForm extends Component {
       )
     })
 
-    return this.state.error? <h1>and error has occured please try again!</h1>: (!this.state.idEntered?
-    (     
-        <div>
-          {
-            this.state.lawyer? 
-            <input
-            type="text"
-            placeholder={"LaywerID"}
-            onChange={this.handleLawyerIDChange}
-            />  
-        :
-            <h1>Update Form</h1>
-        }
-            <input
-                type="text"
-                placeholder={"FormID"}
-                onChange={this.handleIDChange}
-            />
-            <Button variant="primary" onClick={()=>this.findForm()} >Select Form</Button>
-        </div>
+    return this.state.error? <h1>an error has occured please try again!</h1>
+    :
+    this.state.loading?
+      <h1>Loading please be patient</h1>
+    : (!this.state.idEntered?
+    (   this.state.allForms.length===0?
+          <h1>you currently have no Forms to edit</h1>
+      :  
+          <div>
+            <h1>Choose form</h1>
+            <ShowCompanies Forms={this.state.allForms} chooseForm={this.chooseForm}/>
+          </div>
     )
       :
     (
