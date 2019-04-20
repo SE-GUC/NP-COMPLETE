@@ -12,7 +12,7 @@ class Tracker extends Component {
 }
   
  componentDidMount() {
-    const {id} = this.props.match.params
+    const id = localStorage.getItem('id')
     this._isMounted = true
     axios
     .get('/api/investors/getCompanies/' + id)

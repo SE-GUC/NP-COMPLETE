@@ -1,26 +1,41 @@
 import React, { Component } from 'react'
 import { Alert, Card } from 'react-bootstrap'
 import axios from 'axios'
+import ShowCompanies from '../components/fees/ShowCompanies'
 
 class AdminShowLastWorked extends Component {
   constructor (props) {
     super(props)
-    const adminId = this.props.match.params.adminId
-    const companyId = this.props.match.params.companyId
+    const id = localStorage.getItem('id')
     this.state = {
-      response: undefined
+      response: undefined,
+      adminId: id,
+      companyId: '',
+      idEntered: false,
+      loading: true,
+      allForms: []
     }
-    axios.get(`/api/admins/showLastWorked/${companyId}/${adminId}`)
-      .then(res => { this.setState({ response: res.data }) })
-      .catch(err => {
-        if (err.response && err.response.data) {
-          this.setState({ response: err.response.data })
-        } else {
-          console.log(err)
-        }
-      })
   }
-
+  componentDidMount () {
+    if (this.state.idEntered) {
+      axios.get(`/api/admins/showLastWorked/${this.state.companyId}/${this.state.adminId}`)
+        .then(res => { this.setState({ response: res.data }) })
+        .catch(err => {
+          if (err.response && err.response.data) {
+            this.setState({ response: err.response.data })
+          } else {
+            console.log(err)
+          }
+        })
+    } else {
+      axios
+      .get('api/companies/')
+      .then(res=>this.setState({allForms:res.data.data,loading:false}))
+    }
+  }
+  chooseForm = (id,F) =>{ //dont remove the F
+    this.setState({companyId:id,idEntered:true})
+  }
   render () {
     return (
       <>
@@ -40,27 +55,29 @@ class AdminShowLastWorked extends Component {
         </head>
 
         <body> {
-          this.state.response && this.state.response.data
-            ? !this.state.response.data[0]
-              ? <Alert key='1' variant='warning'>
+          !this.state.idEntered
+            ? <ShowCompanies Forms={this.state.allForms} chooseForm={this.chooseForm} />
+            : this.state.response && this.state.response.data
+              ? !this.state.response.data[0]
+                ? <Alert key='1' variant='warning'>
                 No one has worked on this form yet
-              </Alert>
+                </Alert>
 
-              : <div> {
-                this.state.response.data.map(res =>
-                  <Card bg='dark' border='warning' text='white'>
-                    <Card.Text>{res}</Card.Text>
-                  </Card>
-                )
-              }
-              </div>
+                : <div> {
+                  this.state.response.data.map(res =>
+                    <Card bg='dark' border='warning' text='white'>
+                      <Card.Text>{res}</Card.Text>
+                    </Card>
+                  )
+                }
+                </div>
 
-            : this.state.response && this.state.response.status === 'Error'
-              ? <Alert key='2' variant='danger'>
-                {this.state.response.message}
-              </Alert>
+              : this.state.response && this.state.response.status === 'Error'
+                ? <Alert key='2' variant='danger'>
+                  {this.state.response.message}
+                </Alert>
 
-              : <></>
+                : <></>
         }
         </body>
       </>

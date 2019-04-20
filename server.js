@@ -1,7 +1,9 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const passport = require('passport')
-
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config()
+}
 // Require Router Handlers
 
 const externalEntities = require('./routes/api/externalEntities')

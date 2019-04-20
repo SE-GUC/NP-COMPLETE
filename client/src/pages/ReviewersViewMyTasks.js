@@ -9,14 +9,15 @@ export class ReviewersViewMyTasks extends Component {
     constructor(props) {
         super(props)
         this.state={
-          tasks:[]
+          tasks:[],
+          loading:true
         }
       }
     componentDidMount() {
-        const {id} = this.props.match.params
+        const id = localStorage.getItem('id')
         this._isMounted = true
         Axios.get('/api/reviewers/workPage/'+ id)
-        .then(res => this.setState({ tasks: res.data.data }))
+        .then(res => this.setState({ tasks: res.data.data,loading:false }))
         .catch(err => this.setState({ error: true }))
     }
 

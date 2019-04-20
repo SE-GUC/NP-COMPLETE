@@ -33,8 +33,8 @@ export class AdminViewCases extends Component {
        }     
     }
     componentDidMount() {
-        const {id} = this.props.match.params
         this._isMounted = true
+        const id = localStorage.getItem('id')
         Axios.get('/api/admins/viewCases/'+ id)
         .then(res => this.setState({ cases: res.data.data,loading:false }))
         .catch(err => this.setState({ error: true }))

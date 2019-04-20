@@ -18,7 +18,7 @@ class ViewForm extends Component {
   }
 
   componentDidMount () {
-    const { id } = this.props.match.params
+    const id = localStorage.getItem('id')
     Axios
       .get('/api/investors/viewRejected/' + id)
       .then(
@@ -51,8 +51,6 @@ class ViewForm extends Component {
       })
   }
   render () {
-    console.log(this.state)
-    console.log(this.props)
     if (this.state.loading) {
       return <h1> Loading </h1>
     }
