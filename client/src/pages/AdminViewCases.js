@@ -72,9 +72,8 @@ export class AdminViewCases extends Component {
   }
   else{
     return this.state.error? <h1>process could not be completed</h1>:this.state.loading?
-    <div>
-      <h1>Page Loading Please Be Patient</ h1>
-    <Spinner animation="border" variant="primary" />
+    <div className='App'>
+      <Spinner animation="border" variant= "primary" />
     </div>
     :
     ( 
