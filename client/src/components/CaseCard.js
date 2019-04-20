@@ -19,49 +19,98 @@ export class CaseCard extends Component {
 
   render () {
     if (localStorage.getItem('language') === 'English') {
-      return (
-      // <div>
-        <CardDeck>
-          <Card>
-            <Button variant='primary' onClick={this.toggle} >{this.props.data.name}</Button>
-            <Collapse isOpen={this.state.collapse}>
-              <Card.Body>
-                <Card.Title><h4>Name : {this.props.data.name}</h4></Card.Title>
-                <Card.Text>
-                Type : {this.props.data.type}
-                  {/* <p />
-                {this.props.data.form.data} */}
-                  {/* <p />
-                {this.props.data.} */}
-                </Card.Text>
-              </Card.Body>
-            </Collapse>
-          </Card>
-        </CardDeck>
-      // </div>
-      )
-    } else {
-      return (
+      console.log(this.props.data.form.filledByLawyer)
+      if (this.props.data.form.filledByLawyer) {
+        return (
         // <div>
-        <CardDeck>
-          <Card>
-            <Button variant='primary' onClick={this.toggle} >{this.props.data.name}</Button>
-            <Collapse isOpen={this.state.collapse}>
-              <Card.Body>
-                <Card.Title><h4>الاسم : {this.props.data.name}</h4></Card.Title>
-                <Card.Text>
-                  النوع : {this.props.data.type}
-                  {/* <p />
-                  {this.props.data.form.data} */}
-                  {/* <p />
-                  {this.props.data.} */}
-                </Card.Text>
-              </Card.Body>
-            </Collapse>
-          </Card>
-        </CardDeck>
+          <CardDeck>
+            <Card >
+              <Button variant='primary' onClick={this.toggle} >{this.props.data.name}</Button>
+              <Collapse isOpen={this.state.collapse}>
+                <Card.Body>
+                  <Card.Title><h4>Name : {this.props.data.name}</h4></Card.Title>
+                  <Card.Text>
+                Type : {this.props.data.type}
+                    <p />
+                It was filled by a Lawyer
+                    {/* <p />
+                {this.props.data.} */}
+                  </Card.Text>
+                </Card.Body>
+              </Collapse>
+            </Card>
+          </CardDeck>
         // </div>
-      )
+        )
+      } else {
+        return (
+          // <div>
+          <CardDeck>
+            <Card>
+              <Button variant='success' onClick={this.toggle} >{this.props.data.name}</Button>
+              <Collapse isOpen={this.state.collapse}>
+                <Card.Body>
+                  <Card.Title><h4>Name : {this.props.data.name}</h4></Card.Title>
+                  <Card.Text>
+                  Type : {this.props.data.type}
+                    <p />
+                  It was filled by an Investor
+                    {/* <p />
+                  {this.props.data.} */}
+                  </Card.Text>
+                </Card.Body>
+              </Collapse>
+            </Card>
+          </CardDeck>
+          // </div>
+        )
+      }
+    } else {
+      if (this.props.data.form.filledByLawyer) {
+        return (
+        // <div>
+          <CardDeck>
+            <Card >
+              <Button variant='primary' onClick={this.toggle} >{this.props.data.name}</Button>
+              <Collapse isOpen={this.state.collapse}>
+                <Card.Body>
+                  <Card.Title><h4>الاسم : {this.props.data.name}</h4></Card.Title>
+                  <Card.Text>
+                  النوع : {this.props.data.type}
+                    <p />
+                    تم كتابتها عن طريق محامي
+                    {/* <p />
+                {this.props.data.} */}
+                  </Card.Text>
+                </Card.Body>
+              </Collapse>
+            </Card>
+          </CardDeck>
+        // </div>
+        )
+      } else {
+        return (
+          // <div>
+          <CardDeck>
+            <Card>
+              <Button variant='success' onClick={this.toggle} >{this.props.data.name}</Button>
+              <Collapse isOpen={this.state.collapse}>
+                <Card.Body>
+                  <Card.Title><h4>الاسم : {this.props.data.name}</h4></Card.Title>
+                  <Card.Text>
+                  النوع : {this.props.data.type}
+                    <p />
+                    تم كتابتها عن طريق مستثمر
+                    {/* <p />
+                  {this.props.data.} */}
+                  </Card.Text>
+                </Card.Body>
+              </Collapse>
+            </Card>
+          </CardDeck>
+          // </div>
+        )
+      }
     }
   }
 }
