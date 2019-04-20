@@ -29,5 +29,8 @@ export const login = (userData, type) => dispatch => {
 }
 
 export const logout = () => dispatch => {
+  localStorage.removeItem('jwtToken')
+  localStorage.removeItem('id')
+  localStorage.removeItem('type')
   dispatch({ type: LOGOUT })
 }

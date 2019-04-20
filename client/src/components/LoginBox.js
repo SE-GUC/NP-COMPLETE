@@ -15,14 +15,10 @@ class LoginBox extends React.Component {
       type: props.type,
       from: this.props.from
     }
-
-    // this.onChange = this.onChange.bind(this)
-    // this.onClick = this.onClick.bind(this)
   }
   
 
 onChange = (e) => {
- 
   this.setState({[e.target.name]: e.target.value})
 }
 
@@ -61,7 +57,7 @@ onClick = (e) => {
   
             <button type='button' 
               className='login-btn' 
-              onClick= { this.onClick()}> 
+              onClick= { this.onClick}> 
               Login 
             </button>
             
