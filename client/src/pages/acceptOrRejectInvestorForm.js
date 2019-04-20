@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
-import Header from '../components/Header'
 import Forms from '../components/Forms'
 import Axios from 'axios';
-
+import Alert from 'react-bootstrap/Alert'
 
 class acceptOrRejectInvestorForm extends Component {
 
   state = {
     loading: true,
+    error: false,
+    msg:'',
     forms: []
   }
 
@@ -26,8 +27,8 @@ class acceptOrRejectInvestorForm extends Component {
     }))
     .then(res => this.setState({loading: false}))
     .catch(err => {
-      console.log(err)
-    })
+      this.setState({error: true , loading: false})   
+     })
 }
 
 
@@ -40,7 +41,7 @@ class acceptOrRejectInvestorForm extends Component {
       this.setState({ forms: [] })
     })
     .catch(err => {
-      console.log(err)
+      this.setState({error: true , loading: false})    
     })
   }
   reject = (e , root) =>{
@@ -53,20 +54,22 @@ class acceptOrRejectInvestorForm extends Component {
       this.setState({ forms: [] })
     })
     .catch(err => {
-      console.log(err)
+      this.setState({error: true , loading: false})    
     })
   }
 
   render() {
     return (
       <div className="App">
-      <Header/>
       {this.state.loading? <h1>loading please be patient</h1>: 
+      (this.state.error?<Alert variant="danger">
+        Appears like something has gone wrong please try again
+      </Alert>:
       <Forms forms = {[this.state.forms]}
          accept = {this.accept}
          reject = {this.reject}
          root = {this}
-      />      }     
+      />   )   }     
       </div>
     );
   }
