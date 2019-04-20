@@ -55,7 +55,7 @@ export class AdminSendEmails extends React.Component {
             <option>Everyone</option>
           </Input>
           <h>
-            If you don't specfiy , message will be sent to all members of the system
+            If you don't specfiy , the message will be sent to all members of the system.
           </h>
         </FormGroup>
         <Button>Send</Button>
