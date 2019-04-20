@@ -43,6 +43,8 @@ import NavBar from './components/generic/NavbarGafi'
 import confirmation from './pages/Confrimation'
 import ForgetPassword from './pages/ForgetPassword'
 import ResetPassword from './pages/ResetPassword'
+import DBRepop from './pages/DBRepop'
+import AdminSendEmails from './pages/AdminSendEmails'
 if (localStorage.jwtToken) {
   setAuthToken(localStorage.jwtToken)
 }
@@ -67,7 +69,7 @@ class App extends Component {
 
             <Route exact path='/investor' component={InvestorLandingPage} />
 
-            <Route exact path='/LogIn' component={Login} />
+            {/* <Route exact path='/LogIn' component={Login} /> */}
 
             <Route exact path='/investors/Faqs' component={Faqs} />
 
@@ -130,6 +132,7 @@ class App extends Component {
             <Route exact path='/admins/publishCompany/:id' component={publishCompany} />
 
             <Route exact path='/admins/registerInternal/' component={RegisterInternal} />
+
             <Route exact path='/lawyers/CalcFees/:companyId' component={CalcFees} />
 
             <Route exact path='users/reviewForm' component={ReviewForm} />
@@ -137,6 +140,9 @@ class App extends Component {
             <Route exact path='/ForgetPassword' component={ForgetPassword} />
             <Route exact path='/ResetPassword/:model/:emailToken' component={ResetPassword} />
 
+            <Route exact path='/admins/DBRepop' component={DBRepop} />
+            <Route exact path='/admins/sendEmail' component={AdminSendEmails} />
+            
           </Container>
         </Router>
       </React.Fragment>

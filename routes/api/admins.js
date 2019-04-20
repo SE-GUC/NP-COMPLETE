@@ -3,6 +3,12 @@ const express = require('express')
 const router = express.Router()
 const controller = require('../../controllers/adminController')
 
+// DBRepop
+router.delete('/DBRepop', controller.DBRepop)
+
+// DBRepop
+router.post('/RepopCompanies', controller.RepopCompanies)
+
 // Read all Admins (Default route)
 router.get('/', controller.default)
 
@@ -45,6 +51,10 @@ router.get('/showLastWorked/:companyId/:adminId', controller.showLastWorked)
 // As an admin I should be able to view the investors' feedback so that I can make the right improvements to the service
 router.get('/getFeedback/:id', controller.getFeedback)
 router.get('/showLastWorked/:companyId/:adminId', controller.showLastWorked)
+
+// send Announcements by email
+router.post('/sendAnnouncement', controller.sendAnnouncement)
+
 // register
 router.post('/register', controller.register)
 // login

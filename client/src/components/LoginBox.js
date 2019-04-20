@@ -32,7 +32,7 @@ onClick = (e) =>
 
   render () {
     if(!this.state.route) {
-
+      if(localStorage.getItem('language') === 'English'){
       return (
         <div className='inner-container'>
   
@@ -67,6 +67,43 @@ onClick = (e) =>
   
         </div>
       )
+    }
+    else{
+      return (
+        <div className='inner-container'>
+  
+          <div className='header'>تسجيل الدخول
+          </div>
+  
+          <div className='box'>
+  
+            <div className='input-group'>
+              <label htmlFor='email'>البريد الالكتروني</label>
+              <input type='text' name='email' className='login-input' placeholder='Email'
+              value={this.state.email} onChange={this.onChange}/>
+            </div>
+  
+            <div className='input-group'>
+              <label htmlFor='password'>كلمة السر</label>
+              <input type='password' name='password' className='login-input' placeholder='Password' 
+              value={this.state.password} onChange={this.onChange}/>
+            </div>
+  
+            <button type='button' 
+              className='login-btn' 
+              onClick= { ()  => {
+                 this.onClick()
+                this.setState({route: true})
+                } }> 
+              تسجيل الدخول 
+            </button>
+            
+  
+          </div>
+  
+        </div>
+      )
+    }
     } else {
       // return <Redirect to='/admins/deleteAdmin' />
       // if(this.props.isLoggedIn){

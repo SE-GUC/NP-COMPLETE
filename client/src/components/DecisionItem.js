@@ -10,6 +10,7 @@ export class DecisionItem extends Component {
     }
 
     render () {
+      if (localStorage.getItem('language') === 'English') {
       return (
         <div style={this.getStyle()}>
           <p>
@@ -35,7 +36,34 @@ export class DecisionItem extends Component {
           </p>
         </div>
       )
+    } else{
+      return (
+        <div style={this.getStyle()}>
+          <p>
+          {
+            (this.props.form.length !==0)?
+            <h1> {this.props.form.data}</h1>
+          :
+          <h1>لقد قمت بمراجعة هذه الاستماره</h1>
+          }
+            {
+            (this.props.form.length !==0)?
+            <button onClick= {e=> this.props.accept(e , this.props.root)} style={btnStyle}> قبول </button>
+            :
+          <h1></h1>
+          }
+          {
+            (this.props.form.length !==0)?
+            <button onClick= {e=> this.props.reject(e , this.props.root)} style={btnStyle}> رفض </button>
+            :
+          <h1> </h1>
+          }
+
+          </p>
+        </div>
+      )
     }
+  }
 }
     const btnStyle = {
         background: '#00a0ff',

@@ -7,6 +7,7 @@ import axios from 'axios'
 export class Register extends Component {
     
   render () {
+    if (localStorage.getItem('language') === 'English') {
     return (
       <Form>
         <RegisterField
@@ -39,7 +40,41 @@ export class Register extends Component {
         </Button>
       </Form>
     )
+  }else{
+    return (
+      <Form>
+        <RegisterField
+          label='البريد الالكتروني'
+          type='email'
+          placeholder='ادخل البريد الالكتروني'
+          mutedText={'لن نقوم ايدا بمشاركته مع اي احد اخر'}
+          onChange={e => this.setState({email: e.target.value})}
+           />
+
+        <RegisterField
+          label='كلمة السر'
+          type='password'
+          placeholder='كلمة السر'
+          onChange={e => this.setState({password: e.target.value})} />
+
+        <RegisterField
+          label='الاسم كامل'
+          placeholder='ادخل الاسم كاملا'
+          onChange={e => this.setState({fullName: e.target.value})} />
+
+        <RegisterField
+          label='تاريخ الميلاد'
+          type='date'
+          placeholder='ادخل تاريخ الميلاد'
+          onChange={e => this.setState({birthdate: e.target.value})} />
+
+        <Button variant='primary' type='submit' onClick={e => this.clicked(e)}>
+          سجل
+        </Button>
+      </Form>
+    )
   }
+}
 
   clicked = e => {
     e.preventDefault()
