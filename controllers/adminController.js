@@ -5,7 +5,7 @@ const main = require('./main')
 const userController = require('./userController')
 const dbController = require('./dbController')
 
-const keysD = require('../config/keys_dev')
+const keysD = require('../config/keys')
 
 const user = keysD.user
 const pass = keysD.pass
