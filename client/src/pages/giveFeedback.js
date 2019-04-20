@@ -16,7 +16,7 @@ class giveFeedback extends Component {
         this.setState({ feedback: this.submit })
         const { companyId , investorId } = this.props.match.params
         Axios
-        .put(`http://localhost:8000/api/investors/reviewOnlineService/${companyId}/${investorId}` , {feedback: this.submit})
+        .put(`/api/investors/reviewOnlineService/${companyId}/${investorId}` , {feedback: this.submit})
         .then(res => this.setState({loading: false , done: true}))
         .catch(err => {
             console.log(err)

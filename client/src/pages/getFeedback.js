@@ -15,7 +15,7 @@ class getFeedback extends Component {
     this.setState({loading: true})
     Axios
     
-    .get(`http://localhost:8000/api/admins/getFeedback/1`)
+    .get(`/api/admins/getFeedback/:id`)
     .then(res => this.setState({feedbacks : 
       (res.data.data.length === 0)?
       []

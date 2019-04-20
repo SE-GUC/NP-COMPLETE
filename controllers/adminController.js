@@ -168,7 +168,7 @@ exports.workPage = async (req, res) => {
   try {
     const adminId = req.params.id
     const admin = await main.findById(res, Model, adminId)
-    if (!admin) { // Restrict access to reviewers only.
+    if (!admin) { // Restrict access to admins only.
       return
     }
 
@@ -206,34 +206,38 @@ exports.workPage = async (req, res) => {
 
 exports.getFeedback = async (req, res) => {
   try {
+    const adminId = req.params.id
+    const admin = await main.findById(res, Model, adminId)
+    if (!admin) { // Restrict access to admins only.
+      return
+    }
     const companies = await Company.find()
     if (!companies.length) {
       return res.status(400).json({
         status: 'Error',
         message: 'No companies found'
       })
-    } else {
-      var i
-      var x = []
-      for (i = 0; i < companies.length; i++) {
-        if (companies[i].feedback) {
-          x.push(companies[i].feedback)
-        }
-      }
-      if (!x[0]) {
-        return res.status(400).json({
-          status: 'Error',
-          message: 'No feedbacks found'
-        })
-      } else {
-        return res.json({
-          status: 'Success',
-          message: `Here are the feedbacks`,
-          data: x
-        })
+    }
+    var i
+    var x = []
+    for (i = 0; i < companies.length; i++) {
+      if (companies[i].feedback) {
+        x.push(companies[i].feedback)
       }
     }
+    if (!x.length) {
+      return res.status(400).json({
+        status: 'Error',
+        message: 'No feedbacks found'
+      })
+    }
+    return res.json({
+      status: 'Success',
+      message: `Here are the feedbacks`,
+      data: x
+    })
   } catch (error) {
+    console.log(235)
     return res.status(400).json({
       status: 'Error',
       message: error.message
