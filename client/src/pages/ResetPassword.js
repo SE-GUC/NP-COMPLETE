@@ -41,7 +41,7 @@ export class ResetPassword extends Component {
     if (this.state.firstPassword.length < 8) {
       errors.push('Your password must be at least 8 characters')
     }
-    if (this.state.firstPassword.search(/[a-z]/i) < 0) {
+    if (this.state.firstPassword.search(/[a-z]/) < 0) {
       errors.push('Your password must contain at least one small letter')
     }
     if (this.state.firstPassword.search(/[A-Z]/) < 0) {
