@@ -1,8 +1,10 @@
 // const express = require('express')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
-const tokenKey = require('../config/keys').secretOrKey
+const keyReq = require('../config/keys')
 const userValidator = require('../validations/userValidations')
+const tokenKey = keyReq.secretOrKey
+
 // register
 exports.register = async (req, res, validator, Model) => {
   try {
