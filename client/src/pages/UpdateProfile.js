@@ -51,7 +51,7 @@ export class UpdateProfile extends Component {
           placeholder='Enter birthdate'
           onChange={e => this.setState({birthdate: e.target.value})} />
 
-        <Button variant='secondry' type='submit' onClick={e => this.clicked(e)}>
+        <Button variant='primary' type='submit' onClick={e => this.clicked(e)}>
            Update
         </Button>
         </Form>

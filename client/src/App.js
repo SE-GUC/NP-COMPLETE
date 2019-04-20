@@ -129,6 +129,7 @@ class App extends Component {
             <Route exact path='/admins/publishCompany/:id' component={publishCompany} />
 
             <Route exact path='/admins/registerInternal/' component={RegisterInternal} />
+
             <Route exact path='/lawyers/CalcFees/:companyId' component={CalcFees} />
 
             <Route exact path='users/reviewForm' component={ReviewForm} />

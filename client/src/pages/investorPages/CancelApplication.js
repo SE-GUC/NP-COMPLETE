@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import Apps from '../../components/company/Apps'
 import Header2 from '../../components/Header2'
+import Spinner from 'react-bootstrap/Spinner'
 
 export class CancelApplication extends Component {
   constructor (props) {
@@ -16,6 +17,7 @@ export class CancelApplication extends Component {
 
   componentDidMount () {
     const { investorId } = this.props.match.params
+    this.setState({loading: true})
      axios
       .get('/api/companies/')
       .then(
@@ -64,7 +66,7 @@ export class CancelApplication extends Component {
     return (
       <div className='App'>
         <div>
-          {this.state.loading ? <h1>Loading..</h1>
+          {this.state.loading ? <div className='App'><Spinner animation="border" variant= "primary" /></div>
             : <div> <Header2 title='Cancel an Application' /> 
             <Apps forms={this.state.apps} cancel={this.cancel} /> </div>}
         </div>
