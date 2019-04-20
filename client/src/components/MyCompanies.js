@@ -11,7 +11,7 @@ export class MyCompanies extends Component {
   componentDidMount () {
     const { id } = this.props
     axios
-      .get(`http://localhost:8000/api/investors/getCompanies/${id}`)
+      .get(`http://localhost:8000/api/investors/getCompanies/5cba2b7864df6c23283bea53`)
       .then(res => this.setState({ companies: res.data.data }))
       .catch(err => {
         return this.setState({ error: err })

@@ -1,6 +1,20 @@
 import React, { Component } from 'react'
 import Card from 'react-bootstrap/Card'
 import CardDeck from 'react-bootstrap/CardDeck'
+import {
+  Collapse,
+  Navbar,
+  NavbarToggler,
+  NavbarBrand,
+  Nav,
+  NavItem,
+  NavLink,
+  UncontrolledDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem
+} from 'reactstrap'
+import { Button } from 'react-bootstrap'
 export class MyCompaniesCard extends Component {
   constructor (props) {
     super(props)
@@ -27,6 +41,11 @@ export class MyCompaniesCard extends Component {
             <Card.Text>
               {this.state.feedback}
             </Card.Text>
+            <Nav className='ml-auto' navbar>
+              <NavItem>
+                <NavLink href = {`http://localhost:3000/investors/reviewOnlineService/` + this.state._id + `/:investorId`}>Give</NavLink>
+              </NavItem>
+            </Nav>
           </Card.Body>
         </Card>
       </CardDeck>
