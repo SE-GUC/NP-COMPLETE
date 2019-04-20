@@ -9,6 +9,7 @@ const keysD = require('../config/keys_dev')
 
 const user = keysD.user
 const pass = keysD.pass
+
 // Additional models
 const Task = require('../models/Task')
 const Lawyer = require('../models/Lawyer')
