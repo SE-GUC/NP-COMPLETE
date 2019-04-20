@@ -35,7 +35,7 @@ exports.forgetPassword = async (req, res) => {
     const reviewerUser = await Reviewer.findOne({ email })
     const investorUser = await Investor.findOne({ email })
     if (!((adminUser) || (lawyerUser) || (reviewerUser) || (investorUser))) {
-      return res.status(400).json({
+      return res.json({
         status: 'Error',
         message: 'You did not register on GAFI-WEB'
       })
