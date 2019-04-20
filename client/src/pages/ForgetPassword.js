@@ -25,7 +25,7 @@ export class ForgetPassword extends Component {
   clicked = e => {
     e.preventDefault()
     axios
-        .post(`http://localhost:8000/api/user/forgetPassword/`, this.state)
+        .post(`/api/user/forgetPassword/`, this.state)
         .then(res => alert(res.data.message))
         .catch(error => alert(error.message))
     }
