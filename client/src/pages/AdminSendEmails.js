@@ -24,7 +24,7 @@ export class AdminSendEmails extends React.Component {
       e.preventDefault()
       const{ message, recipients} = this.state
       if(!message){
-        {alert('Message cannot be empty')}
+        {alert('Message cannot be empty') }
       }
       else {
         console.log(this.state.recipients)
@@ -38,7 +38,7 @@ export class AdminSendEmails extends React.Component {
     return (
       <Form onSubmit = {this.handleSend} style={{ width: '600px' }}>
         <FormGroup>
-          <Label for='message'>Message:</Label>
+          <Label for='message'>Announcement Message:</Label>
           <Input
             type='textarea'
             name='message'
@@ -47,14 +47,15 @@ export class AdminSendEmails extends React.Component {
     
         <FormGroup>
           <Label for="recipients">Send To:</Label>
-          <Input type="select" name="recipients" id="recipients"  mutedText ='asas' value={this.state.recipients} onChange={this.handleChange}>
+          <Input type="select" name="recipients" id="recipients"  mutedText ='test' value={this.state.recipients} onChange={this.handleChange}>
           <option> </option>
             <option>Investors</option>
             <option>Lawyers</option>
             <option>Reviewers</option>
+            <option>Everyone</option>
           </Input>
           <h>
-            If you don't specfiy , message will be sent to all members on the system
+            If you don't specfiy , the message will be sent to all members of the system.
           </h>
         </FormGroup>
         <Button>Send</Button>

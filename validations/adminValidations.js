@@ -29,7 +29,7 @@ module.exports = {
   sendAnnouncement: req => {
     const sendAnnouncementSchema = {
       message: Joi.string().min(2).required(),
-      recipients: Joi.string().valid(['Investors', 'Lawyers', 'Reviewers', '']).required()
+      recipients: Joi.string().valid(['Investors', 'Lawyers', 'Reviewers', 'Everyone', '']).required()
     }
     return Joi.validate(req, sendAnnouncementSchema)
   }
