@@ -13,9 +13,10 @@ class getFeedback extends Component {
     const { companyId } = this.props.match.params 
     this._isMounted = true
     this.setState({loading: true})
+    const adminId = localStorage.getItem('id')
     Axios
     
-    .get(`/api/admins/getFeedback/:id`)
+    .get(`/api/admins/getFeedback/${adminId}`)
     .then(res => this.setState({feedbacks : 
       (res.data.data.length === 0)?
       []
