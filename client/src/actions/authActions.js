@@ -3,15 +3,8 @@ import axios from 'axios'
 import setAuthToken from '../setAuthToken'
 
 export const login = (userData, type) => dispatch => {
-  var url = ''
-  switch (type) {
-    case 'Investor': url = '/api/investors/login'; break
-    case 'Admin': url = '/api/admins/login'; break
-    case 'Lawyer': url = '/api/lawyers/login'; break
-    case 'Reviewer': url = '/api/reviewers/login'; break
-    default: break
-  }
-  axios.post(url, userData)
+  console.log(`/api/${type}/login`)
+  axios.post(`/api/${type}/login`, userData)
     .then(res => {
       const { token, id, type } = res.data
       localStorage.setItem('jwtToken', token)
@@ -20,11 +13,16 @@ export const login = (userData, type) => dispatch => {
       setAuthToken(token)
       dispatch({
         type: LOGIN,
+        error: false,
         payload: res.data
       })
     })
     .catch(err => {
-      console.log(err)
+      dispatch({
+        type: LOGIN,
+        error: true,
+        payload: err
+      })
     })
 }
 

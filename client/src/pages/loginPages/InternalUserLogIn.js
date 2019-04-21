@@ -15,7 +15,7 @@ class InternalUserLogIn extends Component {
 
   pickType (e) {
     const type = e.target.id
-    this.setState({ type: { type } })
+    this.setState({ type: type })
   }
 
   render () {
@@ -28,7 +28,7 @@ class InternalUserLogIn extends Component {
             <Col sm='6'>
               <Card body>
                 <CardTitle>Admin</CardTitle>
-                <Button id='Admin' variant='primary' onClick={e => this.pickType(e)}>I am an Admin</Button>
+                <Button id='admins' variant='primary' onClick={e => this.pickType(e)}>I am an Admin</Button>
               </Card>
             </Col>
           </Row>
@@ -36,13 +36,13 @@ class InternalUserLogIn extends Component {
             <Col sm='6'>
               <Card body>
                 <CardTitle>Lawyer</CardTitle>
-                <Button id='Lawyer' variant='primary' onClick={e => this.pickType(e)} >I am a Lawyer</Button>
+                <Button id='lawyers' variant='primary' onClick={e => this.pickType(e)} >I am a Lawyer</Button>
               </Card>
             </Col>
             <Col sm='6'>
               <Card body>
                 <CardTitle>Reviewer</CardTitle>
-                <Button id='Reviewer' variant='primary' onClick={e => this.pickType(e)}>I am a Reviewer</Button>
+                <Button id='reviewers' variant='primary' onClick={e => this.pickType(e)}>I am a Reviewer</Button>
               </Card>
             </Col>
           </Row>

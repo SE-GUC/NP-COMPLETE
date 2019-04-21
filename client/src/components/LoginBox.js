@@ -33,6 +33,7 @@ onClick = (e) => {
 }
 
   render () {
+    console.log(this.state.type)
     if(!this.props.isLoggedIn) {
 
       return (

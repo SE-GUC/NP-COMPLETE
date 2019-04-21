@@ -16,7 +16,7 @@ class InvestorLogin extends Component {
       <div className='App-header'>
         <div className='box-controller'>
           <div className='box-container'>
-            <LoginBox loginInvestor={this.loginInvestor} type='Investor' from={from} />
+            <LoginBox loginInvestor={this.loginInvestor} type='investors' from={from} />
           </div>
         </div>
       </div>
