@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { login } from '../actions/authActions'
 import PropTypes from 'prop-types'
 import { Redirect } from 'react-router-dom'
-
+import store from '../store'
 
 class LoginBox extends React.Component {
   constructor(props) {
@@ -68,9 +68,11 @@ onClick = (e) => {
         </div>
       )
     } else {
-     
-        return <Redirect to='/investor' />
-      
+      if(store.getState().auth.type==='Investor'){
+        return <Redirect to='/investor' />}
+      else{
+        return <Redirect to='/internalportal/workpage' />
+      }
     }
   }
 
