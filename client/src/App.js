@@ -52,8 +52,8 @@ class App extends Component {
       <React.Fragment>
 
         <Router>
-          <NavBar />
-          <Header />
+          {/* <NavBar />
+          <Header /> */}
           <Container>
 
             <Route exact path='/' render={props => (
@@ -127,6 +127,8 @@ class App extends Component {
             <Route exact path='/user/UpdateProfile' component={UpdateProfile} />
 
             <Route exact path='/investors/fillForm' component={ChooseForm} />
+
+            <Route exact path='/lawyers/fillForm' component={ChooseForm} lawyer />
 
             <Route exact path='/investors/editForm' component={UpdateForm} />
 

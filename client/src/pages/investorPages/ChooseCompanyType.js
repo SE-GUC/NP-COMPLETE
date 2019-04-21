@@ -10,7 +10,8 @@ export class ChooseCompanyType extends Component {
       loading: true,
       showOptions: true,
       renderSSC: false,
-      renderSPC: false
+      renderSPC: false,
+      lawyer: this.props.lawyer
     }
     this.clickSPC = this.clickSPC.bind(this)
     this.clickSSC = this.clickSSC.bind(this)
@@ -39,7 +40,7 @@ export class ChooseCompanyType extends Component {
       return (
         <div>
           <Button href='/investors/fillForm'>Back</Button>
-          <FillForm type={'SPC'} form={form.SPC} />
+          <FillForm type={'SPC'} form={form.SPC} lawyer={this.state.lawyer} />
         </div>
 
       )

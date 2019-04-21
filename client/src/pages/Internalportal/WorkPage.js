@@ -4,9 +4,9 @@ import PortalLayout from './PortalLayout'
 class WorkPage extends Component {
   render () {
     const workList = [
-      { text: 'Walk in applications', link: '/investor' },
-      { text: 'Portal Applications', link: '/investors/fillForm' },
-      { text: 'fillForm', link: '/investors/fillForm' }
+      { text: 'Walk in applications', link: '/admins/viewAllCases' },
+      { text: 'Portal Applications', link: '/admins/viewAllCases' },
+      { text: 'Start Walk in App', link: '/lawyers/fillForm' }
     ]
     return (
       <PortalLayout workList={workList}>
