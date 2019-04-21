@@ -46,17 +46,17 @@ export class ChooseCompanyType extends Component {
         return (
           <div className='App'>
             <h1>اختار نوع شركتك</h1>
-            <Button style={btnStyle} onClick={this.clickSSC}>SSC</Button>
-            <Button style={btnStyle} onClick={this.clickSPC}>SPC</Button>
+            <Button style={btnStyle} onClick={this.clickSSC} lawyer={this.state.lawyer}>SSC</Button>
+            <Button style={btnStyle} onClick={this.clickSPC} lawyer={this.state.lawyer}>SPC</Button>
           </div>
 
         )
       }
       if (this.state.renderSPC) {
-        return <FillForm type={'SPC'} form={form.SPC} />
+        return <FillForm type={'SPC'} form={form.SPC} lawyer={this.state.lawyer} />
       }
       if (this.state.renderSSC) {
-        return <FillForm type={'SSC'} form={form.SSC} />
+        return <FillForm type={'SSC'} form={form.SSC} lawyer={this.state.lawyer} />
       }
     }
   }
