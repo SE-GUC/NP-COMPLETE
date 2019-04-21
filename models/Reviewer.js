@@ -28,6 +28,10 @@ const ReviewerSchema = new Schema({
   password: {
     type: String,
     required: true
+  },
+  confirmed: {
+    type: Boolean,
+    default: false
   }
 
 })

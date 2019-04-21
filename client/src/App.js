@@ -40,6 +40,11 @@ import CalcFees from './pages/lawyerPages/CalcFees'
 import ReviewForm from './pages/ReviewForm'
 import { Container, Button } from 'react-bootstrap'
 import NavBar from './components/generic/NavbarGafi'
+import confirmation from './pages/Confrimation'
+import ForgetPassword from './pages/ForgetPassword'
+import ResetPassword from './pages/ResetPassword'
+import DBRepop from './pages/DBRepop'
+import AdminSendEmails from './pages/AdminSendEmails'
 import WorkPage from './pages/Internalportal/WorkPage'
 
 if (localStorage.jwtToken) {
@@ -139,6 +144,16 @@ class App extends Component {
             <Route exact path='/lawyers/CalcFees/:companyId' component={CalcFees} />
 
             <Route exact path='users/reviewForm' component={ReviewForm} />
+
+            <Route exact path='/confirmation/:model/:emailToken' component={confirmation} />
+
+            <Route exact path='/ForgetPassword' component={ForgetPassword} />
+
+            <Route exact path='/ResetPassword/:model/:emailToken' component={ResetPassword} />
+
+            <Route exact path='/admins/DBRepop' component={DBRepop} />
+
+            <Route exact path='/admins/sendEmail' component={AdminSendEmails} />
 
             <Route exact path='/internalportal/workpage' component={WorkPage} />
 

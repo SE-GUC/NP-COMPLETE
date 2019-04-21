@@ -2,42 +2,64 @@ import React, { Component } from 'react'
 import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
 import CardDeck from 'react-bootstrap/CardDeck'
-import { Collapse} from 'reactstrap'
+import { Collapse } from 'reactstrap'
 
 export class TaskCard extends Component {
-    constructor (props) {
-        super(props)
-        this.toggle = this.toggle.bind(this)
-    
-        this.state = {
-          collapse: false
-        }
-      }
-    
-      toggle () {
-        this.setState(state => ({ collapse: !state.collapse }))
-      }
+  constructor (props) {
+    super(props)
+    this.toggle = this.toggle.bind(this)
 
-  render() {
-    return (
-        <CardDeck> 
+    this.state = {
+      collapse: false
+    }
+  }
+
+  toggle () {
+    this.setState(state => ({ collapse: !state.collapse }))
+  }
+
+  render () {
+    if (localStorage.getItem('language') === 'English') {
+      return (
+        <CardDeck>
           <Card>
-          <Button variant = 'primary' onClick={this.toggle} >{this.props.data.deadline}</Button>
-          <Collapse isOpen={this.state.collapse}>
-            <Card.Body>
-              <Card.Title><h4>Description : {this.props.data.description}</h4></Card.Title>
-              <Card.Text>
+            <Button variant='primary' onClick={this.toggle} >{this.props.data.deadline}</Button>
+            <Collapse isOpen={this.state.collapse}>
+              <Card.Body>
+                <Card.Title><h4>Description : {this.props.data.description}</h4></Card.Title>
+                <Card.Text>
                 Creation Date : {this.props.data.creationDate}
-                <p />
+                  <p />
                 Department : {this.props.data.department}
-                 <p />
-                {/* {this.props.data.} */}
-              </Card.Text>
-            </Card.Body>
-           </Collapse> 
+                  <p />
+                  {/* {this.props.data.} */}
+                </Card.Text>
+              </Card.Body>
+            </Collapse>
           </Card>
         </CardDeck>
-    )
+      )
+    } else {
+      return (
+        <CardDeck>
+          <Card>
+            <Button variant='primary' onClick={this.toggle} >{this.props.data.deadline}</Button>
+            <Collapse isOpen={this.state.collapse}>
+              <Card.Body>
+                <Card.Title><h4>وصف الشركة : {this.props.data.description}</h4></Card.Title>
+                <Card.Text>
+                تاريخ التاسيس : {this.props.data.creationDate}
+                  <p />
+                قسم : {this.props.data.department}
+                  <p />
+                  {/* {this.props.data.} */}
+                </Card.Text>
+              </Card.Body>
+            </Collapse>
+          </Card>
+        </CardDeck>
+      )
+    }
   }
 }
 // Todo task description badl task name

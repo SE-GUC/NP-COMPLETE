@@ -25,5 +25,13 @@ module.exports = {
       password: Joi.string().min(8)
     }
     return Joi.validate(req, updateSchema)
+  },
+  sendAnnouncement: req => {
+    const sendAnnouncementSchema = {
+      message: Joi.string().min(2).required(),
+      recipients: Joi.string().valid(['Investors', 'Lawyers', 'Reviewers', 'Everyone', '']).required()
+    }
+    return Joi.validate(req, sendAnnouncementSchema)
   }
+
 }
