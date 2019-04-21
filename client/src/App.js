@@ -130,6 +130,10 @@ class App extends Component {
 
             <Route exact path='/investors/editForm' component={UpdateForm} />
 
+            <Route exact path='/lawyers/fillForm' component={ChooseForm} />
+
+            <Route exact path='/lawyers/editForm' component={UpdateForm} />
+
             <Route exact path='/admins/publishCompany' component={publishCompany} />
 
             <Route exact path='/admins/registerInternal/' component={RegisterInternal} />
