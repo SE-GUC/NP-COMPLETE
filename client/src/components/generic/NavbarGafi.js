@@ -71,6 +71,11 @@ class NavbarGafi extends React.Component {
                 <NavLink href='/admins/ContactUs'>Contact Us</NavLink>
               </NavItem>
               <NavItem>
+                <NavLink href='https://web.facebook.com/GAFI-WEB-171892003742314/?modal=admin_todo_tour'>
+                  Facebook
+                </NavLink>
+              </NavItem>
+              <NavItem>
                 <Button onClick={()=>this.onClick()}>العربية</Button>
               </NavItem>
               <Form inline>
