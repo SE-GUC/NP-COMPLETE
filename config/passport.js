@@ -6,11 +6,11 @@ const Lawyer = mongoose.model('Lawyer')
 const Reviewer = mongoose.model('Reviewer')
 const Investor = mongoose.model('Investor')
 
-const tokenKey = require('./keys').secretOrKey
+const tokenKey = require('./keys')
 
 let opts = {}
 opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken()
-opts.secretOrKey = tokenKey
+opts.secretOrKey = tokenKey.secretOrKey
 
 module.exports = passport => {
   passport.use(new JwtStrategy(opts, async (jwtPayload, done) => {

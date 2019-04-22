@@ -10,6 +10,7 @@ export class CItem extends Component {
   };
 
   render() {
+    if (localStorage.getItem('language') === 'English') {
     return (
       <div style={this.getStyle()}>
         <p>
@@ -23,7 +24,21 @@ export class CItem extends Component {
         </p>
       </div>
     );
+  } else {
+    return (
+      <div style={this.getStyle()}>
+        <p>
+          {this.props.form.name}
+          <button
+            onClick={this.props.publish.bind(this, this.props.form._id)}
+            style={btnStyle}>
+            اطلاق
+          </button>
+        </p>
+      </div>
+    );
   }
+}
 }
 const btnStyle = {
   background: "#ff0000",

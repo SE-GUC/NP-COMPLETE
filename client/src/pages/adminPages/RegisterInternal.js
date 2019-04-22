@@ -9,6 +9,7 @@ export class RegisterInternal extends Component {
     }
 
   render() {
+    if (localStorage.getItem('language') === 'English') {
     return (
       <Form>
         <RegisterField
@@ -60,6 +61,59 @@ export class RegisterInternal extends Component {
         </Button>
       </Form>
     )
+  } else {
+    return (
+      <Form>
+        <RegisterField
+          label='النوع'
+          type='text'
+          placeholder='اختر النوع'
+          onChange={e => this.setState({type: e.target.value})}
+           />  
+
+        <RegisterField
+          label='البريد الالكتروني'
+          type='email'
+          placeholder='ادخل البريد الالكتروني'
+          mutedText={'لن نقوم ابدا بمشاركته مع اي احد'}
+          onChange={e => this.setState({email: e.target.value})}
+           />
+
+        <RegisterField
+          label='كلمة السر'
+          type='password'
+          placeholder='كلمة السر'
+          onChange={e => this.setState({password: e.target.value})} />
+
+        <RegisterField
+          label='الاسم الكامل'
+          placeholder='الاسم الكامل'
+          onChange={e => this.setState({fullName: e.target.value})} />
+
+        <RegisterField
+          label='تاريخ الميلاد'
+          type='date'
+          placeholder='تاريخ الميلاد'
+          onChange={e => this.setState({birthdate: e.target.value})} />
+
+        <RegisterField
+          label='عدد ساعات العمل'
+          type='text'
+          placeholder='عدد ساعات العمل'
+          onChange={e => this.setState({workingHours: e.target.value})} />
+
+        <RegisterField
+          label='المرتب'
+          type='text'
+          placeholder='المرتب'
+          onChange={e => this.setState({salary: e.target.value})} />
+
+        <Button variant='primary' type='submit' onClick={e => this.clicked(e)}>
+          ادخال
+        </Button>
+      </Form>
+    )
+  }
   }
   
   clicked = e => {
