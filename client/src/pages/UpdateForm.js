@@ -85,6 +85,7 @@ class UpdateForm extends Component {
 
   }
   render () {
+    if (localStorage.getItem('language') === 'English') {
     const renderSections = this.state.form.sections.map((section, i) => {
       return (
         <Container>
@@ -117,7 +118,49 @@ class UpdateForm extends Component {
         </div>
     )
   )    
+  } else {
+    const renderSections = this.state.form.sections.map((section, i) => {
+      return (
+        <Container>
+          <h1> {section.sectionName} </h1>
+          <Section form={this.state.form} number={i} section={section} edit={true} oldData={this.state.oldData} change={this.handleChange} />
+        </Container>
+      )
+    })
+
+    return this.state.error? <h1>and error has occured please try again!</h1>: (!this.state.idEntered?
+    (     
+        <div>
+          {
+            this.state.lawyer? 
+            <input
+            type="text"
+            placeholder={"LaywerID"}
+            onChange={this.handleLawyerIDChange}
+            />  
+        :
+            <h1>تحديث الاستمارة</h1>
+        }
+            <input
+                type="text"
+                placeholder={"FormID"}
+                onChange={this.handleIDChange}
+            />
+            <Button variant="primary" onClick={()=>this.findForm()} >اختر الاستمارة</Button>
+        </div>
+    )
+      :
+    (
+        <div>
+            <Form onSubmit={(e) => this.submitForm(e)}>
+            {renderSections}
+            <Button >ادخال</Button>
+            </Form>
+        </div>
+    )
+  )
   }
+}
 }
 
 export default UpdateForm

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import Header from '../components/Header'
 import DecisionForms from '../components/DecisionForms'
 import Axios from 'axios';
 import ShowCompanies from '../components/fees/ShowCompanies';
+import Spinner from 'react-bootstrap/Spinner'
 
 
 class acceptOrReject extends Component {
@@ -26,8 +26,7 @@ class acceptOrReject extends Component {
       (res.data.data.form.acceptedByReviewer !== -1)?
       []
       :
-    (res.data.data.form )
-    ,loading:false}))
+    (res.data.data.form ), loading:false}))
     .catch(err => {
       this.setState({error:true})
     })}
@@ -47,7 +46,6 @@ class acceptOrReject extends Component {
     Axios
     .put(`/api/reviewers/decideAnApplication/${reviewerId}/${this.state.companyId}`  , {decision: true})
     .then(res => {
-      console.log(res.data.data)  
       this.setState({ forms: [] })
     })
     .catch(err => {
@@ -61,7 +59,6 @@ class acceptOrReject extends Component {
     Axios
     .put(`/api/reviewers/decideAnApplication/${reviewerId}/${this.state.companyId}`  , {decision: false})
     .then(res => {
-      console.log(res.data.data)
       this.setState({ forms: [] })
     })
     .catch(err => {
@@ -73,7 +70,8 @@ class acceptOrReject extends Component {
     return (
       <div className="App">
       <Header/>
-      {this.state.loading? <h1>loading please be patient</h1>:this.state.error?
+      {this.state.loading? <Spinner animation="border" variant= "primary" />:
+      this.state.error?
       <h1>Error has occured please try again</h1>
       :
       !this.state.idEntered? 
@@ -85,8 +83,8 @@ class acceptOrReject extends Component {
          root = {this}
       />      }     
       </div>
-    );
+    )
   }
 }
 
-export default acceptOrReject;
+export default acceptOrReject

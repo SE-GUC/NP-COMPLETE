@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import Header from '../components/Header'
 import Forms from '../components/Forms'
 import Axios from 'axios';
 import ShowCompanies from '../components/fees/ShowCompanies';
+import Spinner from 'react-bootstrap/Spinner'
 
 
 class acceptOrRejectInvestorForm extends Component {
@@ -66,8 +66,7 @@ class acceptOrRejectInvestorForm extends Component {
   render() {
     return (
       <div className="App">
-      <Header/>
-      {this.state.loading? <h1>loading please be patient</h1>: 
+      {this.state.loading? <Spinner animation="border" variant= "primary" />: 
       this.state.error? <h1>Error please try again</h1>
       :
       !this.state.idEntered?

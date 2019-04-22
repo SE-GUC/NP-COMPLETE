@@ -43,7 +43,11 @@ import NavBar from './components/generic/NavbarGafi'
 import InternalUserLogIn from './pages/loginPages/InternalUserLogIn'
 import InvestorPrivateRoute from './utilities/InvestorPrivateRoute'
 import Money from './pages/investorPages/Money'
-
+import confirmation from './pages/Confrimation'
+import ForgetPassword from './pages/ForgetPassword'
+import ResetPassword from './pages/ResetPassword'
+import DBRepop from './pages/DBRepop'
+import AdminSendEmails from './pages/AdminSendEmails'
 if (localStorage.jwtToken) {
   setAuthToken(localStorage.jwtToken)
 }
@@ -68,7 +72,7 @@ class App extends Component {
 
             <Route exact path='/investor' component={InvestorLandingPage} />
 
-            <Route exact path='/LogIn' component={Login} />
+            {/* <Route exact path='/LogIn' component={Login} /> */}
 
             <Route exact path='/investors/Faqs' component={Faqs} />
 
@@ -144,6 +148,14 @@ class App extends Component {
 
             <Route exact path='/internalportal/login' component={InternalUserLogIn} />
 
+            <Route exact path='users/reviewForm' component={ReviewForm} />
+            <Route exact path='/confirmation/:model/:emailToken' component={confirmation} />
+            <Route exact path='/ForgetPassword' component={ForgetPassword} />
+            <Route exact path='/ResetPassword/:model/:emailToken' component={ResetPassword} />
+
+            <Route exact path='/admins/DBRepop' component={DBRepop} />
+            <Route exact path='/admins/sendEmail' component={AdminSendEmails} />
+            
           </Container>
         </Router>
       </React.Fragment>

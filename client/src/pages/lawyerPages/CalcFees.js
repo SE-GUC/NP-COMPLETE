@@ -9,6 +9,7 @@ export class CalcFees extends Component {
     }
 
     render () {
+      if (localStorage.getItem('language') === 'English') {
         return (
           <Form>
             <Button variant='primary' type='submit' onClick={e => this.clicked(e)}>
@@ -17,7 +18,16 @@ export class CalcFees extends Component {
           </Form>
         )
       }
-    
+      else{
+        return (
+          <Form>
+            <Button variant='primary' type='submit' onClick={e => this.clicked(e)}>
+              احسب التكاليف
+            </Button>
+          </Form>
+        )
+      }
+    }
       clicked = e => {
         e.preventDefault()
         const {companyId} = this.props.match.params
