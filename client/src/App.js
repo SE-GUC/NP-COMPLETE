@@ -45,6 +45,7 @@ import ForgetPassword from './pages/ForgetPassword'
 import ResetPassword from './pages/ResetPassword'
 import DBRepop from './pages/DBRepop'
 import AdminSendEmails from './pages/AdminSendEmails'
+import ContactUs from './components/ContactUs'
 if (localStorage.jwtToken) {
   setAuthToken(localStorage.jwtToken)
 }
@@ -142,7 +143,7 @@ class App extends Component {
 
             <Route exact path='/admins/DBRepop' component={DBRepop} />
             <Route exact path='/admins/sendEmail' component={AdminSendEmails} />
-            
+            <Route exact path='/admins/ContactUs' component={ContactUs} />
           </Container>
         </Router>
       </React.Fragment>
