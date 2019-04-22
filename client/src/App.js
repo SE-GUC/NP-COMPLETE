@@ -45,9 +45,10 @@ import ForgetPassword from './pages/ForgetPassword'
 import ResetPassword from './pages/ResetPassword'
 import DBRepop from './pages/DBRepop'
 import AdminSendEmails from './pages/AdminSendEmails'
+import { withStyles } from '@material-ui/core/styles'
+import Button from '@material-ui/core/Button'
 import FlashMessagesList from './components/generic/FlashMessagesList'
 import GuardRoute from './utilities/GuardRoute'
-
 if (localStorage.jwtToken) {
   setAuthToken(localStorage.jwtToken)
 }
