@@ -44,7 +44,7 @@ import ForgetPassword from './pages/ForgetPassword'
 import ResetPassword from './pages/ResetPassword'
 import DBRepop from './pages/DBRepop'
 import AdminSendEmails from './pages/AdminSendEmails'
-import HomepageLayout from './pages/HomepageLayout'
+import HomepageLayout from './pages/HomePageLayout'
 import WorkPage from './pages/Internalportal/WorkPage'
 
 if (localStorage.jwtToken) {
