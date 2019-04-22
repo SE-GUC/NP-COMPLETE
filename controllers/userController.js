@@ -214,7 +214,7 @@ exports.login = async (req, res, Model, type) => {
     } else {
       return res.status(400).json({
         status: 'Error',
-        message: 'Worng password'
+        message: 'Wrong password'
       })
     }
   } catch (error) {
