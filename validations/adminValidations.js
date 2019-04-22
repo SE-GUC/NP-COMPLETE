@@ -22,7 +22,8 @@ module.exports = {
       startDate: Joi.date().iso().max(Date.now()),
       workingHours: Joi.number().min(5),
       salary: Joi.number(),
-      password: Joi.string().min(8)
+      password: Joi.string().min(8),
+      acceptedByAdmin: Joi.boolean()
     }
     return Joi.validate(req, updateSchema)
   },
