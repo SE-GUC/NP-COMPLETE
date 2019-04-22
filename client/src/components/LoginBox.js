@@ -4,35 +4,36 @@ import { connect } from 'react-redux'
 import { login } from '../actions/authActions'
 import PropTypes from 'prop-types'
 import { Redirect } from 'react-router-dom'
-
+import store from '../store'
 
 class LoginBox extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      email: '',
+      password: '', 
+      type: props.type
+    }
+  }
   
-state = {
-  email: '',
-  password: '', 
-  route: false
-}
 
 onChange = (e) => {
- 
   this.setState({[e.target.name]: e.target.value})
 }
 
-onClick = (e) =>
-{
-  this.props.printUser(this.state.email, this.state.password)
+onClick = (e) => {
   this.props.login(
     {
       "email": this.state.email,
       "password": this.state.password
-    }
+    }, 
+    this.state.type
   )
 }
 
   render () {
+    console.log(this.state.type)
     if(!this.props.isLoggedIn) {
-
       if(localStorage.getItem('language') === 'English'){
       return (
         <div className='inner-container'>
@@ -56,10 +57,7 @@ onClick = (e) =>
   
             <button type='button' 
               className='login-btn' 
-              onClick= { ()  => {
-                 this.onClick()
-                this.setState({route: true})
-                } }> 
+              onClick= { this.onClick}> 
               Login 
             </button>
             
@@ -106,14 +104,11 @@ onClick = (e) =>
       )
     }
     } else {
-      // return <Redirect to='/admins/deleteAdmin' />
-      // if(this.props.isLoggedIn){
-        return <Redirect to='/investor' />
-        
-      // } else {
-      //   alert('Log in failed')
-      // }
-      
+      if(store.getState().auth.loggedUser.type === 'Investor'){
+        return <Redirect to='/investor' />}
+      else{
+        return <Redirect to='/internalportal/workpage' />
+      }
     }
   }
 
@@ -121,7 +116,6 @@ onClick = (e) =>
 
 LoginBox.propTypes = {
 	login: PropTypes.func.isRequired
-	// logout: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = state => ({
