@@ -17,20 +17,22 @@ const InternalPortalBar = (props) => (
           <Image size='mini' src={logo} style={{ marginRight: '1.5em' }} />
           Internal Portal
         </Menu.Item>
-        <Menu.Item as='a'>Home</Menu.Item>
+
+        <Link to='/'>
+          <Menu.Item as='a'>Home</Menu.Item>
+        </Link>
 
         <Dropdown item simple text='My Work'>
           <Dropdown.Menu >
             {
               props.workList.map(({ text, link }, index) => (
-                // <Link to={link}>
-                <Dropdown.Item >
+                
+                <Dropdown.Item as={Link} to={link}>
                   {text}
                 </Dropdown.Item>
-                // </Link>
               ))
             }
-            <Dropdown.Divider />
+            {/* <Dropdown.Divider />
             <Dropdown.Header>Header Item</Dropdown.Header>
             <Dropdown.Item>
               <i className='dropdown icon' />
@@ -40,7 +42,7 @@ const InternalPortalBar = (props) => (
                 <Dropdown.Item>List Item</Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown.Item>
-            <Dropdown.Item>List Item</Dropdown.Item>
+            <Dropdown.Item>List Item</Dropdown.Item> */}
           </Dropdown.Menu>
         </Dropdown>
       </Container>

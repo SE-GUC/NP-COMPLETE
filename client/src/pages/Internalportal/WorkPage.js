@@ -11,7 +11,9 @@ class WorkPage extends Component {
     ]
     const adminWorkList = [
       { text: 'View All Cases', link: '/admins/viewAllCases' },
-      { text: 'Delete User', link: '/admins/deleteAdmin' }
+      { text: 'Delete User', link: '/admins/deleteAdmin' },
+      { text: 'Register Employees', link: '/admins/reg' },
+      { text: 'Publish Companies', link: '/admins/publishCompany' }
     ]
 
     const reviewerWorkList = [

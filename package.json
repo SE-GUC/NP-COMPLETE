@@ -15,6 +15,7 @@
     "bootstrap": "^4.3.1",
     "concurrently": "^4.1.0",
     "create-react-app": "^2.1.8",
+    "dotenv": "^7.0.0",
     "express": "^4.16.4",
     "jest": "^24.5.0",
     "jest-cli": "^24.5.0",
