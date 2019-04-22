@@ -92,7 +92,7 @@ class NavbarGafi extends React.Component {
                   <DropdownItem>Your profile</DropdownItem>
                   <DropdownItem divider />
                   <DropdownItem>Help</DropdownItem>
-                  <DropdownItem>Settings</DropdownItem>
+                  <DropdownItem href='/user/settings'>Settings</DropdownItem>
                   <DropdownItem>Sign out</DropdownItem>
                 </DropdownMenu>
               </UncontrolledDropdown>
