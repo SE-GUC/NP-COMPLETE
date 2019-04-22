@@ -46,10 +46,12 @@ import ResetPassword from './pages/ResetPassword'
 import DBRepop from './pages/DBRepop'
 import AdminSendEmails from './pages/AdminSendEmails'
 import ContactUs from './components/ContactUs'
-import { withStyles } from '@material-ui/core/styles'
-import Button from '@material-ui/core/Button'
+// import { withStyles } from '@material-ui/core/styles'
+// import Button from '@material-ui/core/Button'
 import FlashMessagesList from './components/generic/FlashMessagesList'
 import GuardRoute from './utilities/GuardRoute'
+import SettingsPage from './pages/SettingsPage';
+
 if (localStorage.jwtToken) {
   setAuthToken(localStorage.jwtToken)
 }
@@ -157,6 +159,9 @@ class App extends Component {
 
             <Route exact path='/admins/sendEmail' component={AdminSendEmails} />
             <Route exact path='/admins/ContactUs' component={ContactUs} />
+
+            <Route exact path='users/settings' component={SettingsPage} />
+
           </Container>
         </Router>
       </React.Fragment>
