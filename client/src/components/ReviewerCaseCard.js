@@ -45,7 +45,6 @@ export class ReviewerCaseCard extends Component {
     .catch(err => {
       console.log(err)
     }).catch(this.setState({ loading: false}))
-    this.toggle()
     this.toggle1()
 }
 addcomment = async (e , root) =>{
@@ -62,6 +61,7 @@ addcomment = async (e , root) =>{
     console.log(err)
   })
   .catch(this.setState({ loading: false}))
+  this.toggle()
   this.toggle1()
 }
 }
