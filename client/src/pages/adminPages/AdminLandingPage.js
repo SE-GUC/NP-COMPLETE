@@ -18,7 +18,7 @@ class AdminLandingPage extends Component {
   render () {
     return (
       <div>
-      
+          <Header2 title='Welcome Admin' />
         <Row>
           <Col sm='6'>
             <Card body>
