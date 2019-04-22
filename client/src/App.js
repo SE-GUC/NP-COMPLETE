@@ -32,7 +32,6 @@ import AllMyCompanies from './pages/investorPages/AllMyCompanies'
 import UpdateProfile from './pages/UpdateProfile'
 import UpdateForm from './pages/UpdateForm'
 import ChooseForm from './pages/investorPages/ChooseCompanyType'
-import InvestorLogin from './pages/investorPages/InvestorLogin'
 import setAuthToken from './setAuthToken'
 import publishCompany from './pages/PublishCompany'
 import RegisterInternal from './pages/adminPages/RegisterInternal'
@@ -46,6 +45,7 @@ import ResetPassword from './pages/ResetPassword'
 import DBRepop from './pages/DBRepop'
 import AdminSendEmails from './pages/AdminSendEmails'
 import HomepageLayout from './pages/HomepageLayout'
+import LoginForm from './pages/LoginForm'
 
 if (localStorage.jwtToken) {
   setAuthToken(localStorage.jwtToken)

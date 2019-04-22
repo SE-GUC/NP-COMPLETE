@@ -41,6 +41,7 @@ const HomepageHeading = ({ mobile }) => (
         fontWeight: 'normal',
         marginBottom: 0,
         marginTop: mobile ? '1.5em' : '3em',
+        
       }}
     />
     <Header
@@ -88,7 +89,7 @@ class DesktopContainer extends Component {
           <Segment
             inverted
             textAlign='center'
-            style={{ minHeight: 700, padding: '1em 0em' }}
+            style={{ minHeight: 700, padding: '1em 0em' ,top:'0', bottom:'0', left:'0', right:'0', position: 'absolute'}}
             vertical
           >
             <Menu
