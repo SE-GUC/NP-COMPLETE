@@ -9,7 +9,8 @@ export class Confrimation extends Component {
       .get(`/api/${model}/confirmation/${emailToken}`)
       .then(res => alert(res.data.message))
       .catch(error => alert(error.response.data.message))
-    return <Redirect to='/login' />
+    // return <Redirect to='/login' />
+    return <div>res.data.message</div>
   }
 }
 
