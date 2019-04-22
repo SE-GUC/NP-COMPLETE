@@ -62,4 +62,8 @@ router.post('/login', controller.login)
 router.post('/resetPassword/:token', controller.resetPassword)
 router.get('/confirmation/:token', controller.confirmation)
 
+router.get('/showUnapproved/:id', controller.showUnapproved)
+
+router.put('/registerUsers/:adminId/:userId', controller.registerUsers)
+
 module.exports = router

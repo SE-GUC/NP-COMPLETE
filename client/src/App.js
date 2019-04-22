@@ -154,7 +154,7 @@ class App extends Component {
             <Route exact path='/admins/DBRepop' component={DBRepop} />
 
             <Route exact path='/admins/sendEmail' component={AdminSendEmails} />
-            
+
           </Container>
         </Router>
       </React.Fragment>
