@@ -14,7 +14,7 @@ class FillForm extends Component {
       error:false,
       investorID:"",
       companyName:"",
-      lawyer:false
+      lawyer: this.props.lawyer
     }
   }
   handleIDChange = (e)=> {
@@ -70,6 +70,7 @@ class FillForm extends Component {
     }
   }
   render () {
+    console.log(this.state.lawyer)
     const renderSections = this.state.form.sections.map((section, i) => {
       return (
         <Container className="Section">

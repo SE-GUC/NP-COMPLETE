@@ -3,14 +3,26 @@ const Model = require('../models/Admin')
 const validator = require('../validations/adminValidations')
 const main = require('./main')
 const userController = require('./userController')
+const dbController = require('./dbController')
+
+const user = require('../config/keys_dev').user
+const pass = require('../config/keys_dev').pass
 // Additional models
 const Task = require('../models/Task')
 const Lawyer = require('../models/Lawyer')
 const Company = require('../models/Company')
 const Reviewer = require('../models/Reviewer')
+const Investor = require('../models/Investor')
+const nodemailer = require('nodemailer')
 
 exports.default = async (req, res) => {
   await main.default(res, Model)
+}
+exports.resetPassword = async (req, res) => {
+  await userController.resetPassword(req, res, Model)
+}
+exports.confirmation = async (req, res) => {
+  await userController.confirmation(req, res, Model)
 }
 exports.register = async (req, res) => {
   await userController.register(req, res, validator, Model)
@@ -274,4 +286,85 @@ exports.showLastWorked = async (req, res) => {
       message: error.message
     })
   }
+}
+
+exports.DBRepop = async (req, res) => {
+  await dbController.DBRepop(res)
+}
+
+exports.RepopCompanies = async (req, res) => {
+  await dbController.RepopCompanies(res)
+}
+exports.sendAnnouncement = async (req, res) => {
+  try {
+    const data = req.body
+    const validate = validator.sendAnnouncement(data)
+    if (validate.error) {
+      return res.status(400).json({
+        status: 'Error',
+        message: validate.error.details[0].message })
+    }
+    const recipients = req.body.recipients
+    var mailingList = []
+    switch (recipients) {
+      case 'Investors' :mailingList = await Investor.find()
+        break
+      case 'Lawyers': mailingList = await Lawyer.find()
+        break
+      case 'Reviewers': mailingList = await Reviewer.find()
+        break
+      default : mailingList = await allMails()
+    }
+    console.log(mailingList)
+    let emails = ''
+    for (var i = 0; i < mailingList.length; i++) {
+      if (i !== (mailingList.length - 1)) {
+        emails += mailingList[i].email + ', '
+      } else {
+        emails += mailingList[i].email
+      }
+    }
+    const output = `
+    <p> You received a new announcement </p>
+    <h3> Message </h3>
+    <p> ${req.body.message}</p>
+    `
+    let transporter = nodemailer.createTransport({
+      host: 'smtp.gmail.com',
+      port: 587,
+      secure: false, // true for 465, false for other ports
+      auth: {
+        user: user,
+        pass: pass
+      },
+      tls: {
+        rejectUnauthorized: false
+      }
+    })
+    // send mail with defined transport object
+    let info = await transporter.sendMail({
+      from: '"GAFI Admin" <gafiweb2019@gmail.com>', // sender address
+      to: emails, // list of receivers
+      subject: 'Admin announcement', // Subject line
+      html: output // html body
+    })
+
+    console.log('Message sent: %s', info.messageId)
+    return res.json({
+      status: 'Success',
+      message: 'Your message has been sent' })
+  } catch (error) {
+    res.status(400).json({
+      status: 'Error',
+      message: error.message
+    })
+  }
+}
+const allMails = async () => {
+  var mails = []
+  const investors = await Investor.find()
+  const lawyers = await Lawyer.find()
+  const reviewers = await Reviewer.find()
+  mails = mails.concat(investors, lawyers, reviewers)
+  return mails
 }

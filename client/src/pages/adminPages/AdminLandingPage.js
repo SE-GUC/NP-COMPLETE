@@ -5,7 +5,7 @@ import Header2 from '../../components/Header2'
 
 class AdminLandingPage extends Component {
 
-  clicked=()=>{
+  clicked = ()=>{
     if(!localStorage.getItem('id')){
       window.location.href='/LogIn'
     }

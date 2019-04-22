@@ -7,7 +7,7 @@ const DisplayCard = (props) => {
       <Card body>
         <CardTitle>{props.title}</CardTitle>
         <CardText>{props.text}</CardText>
-        <Button id={props.id} class='acceptBtn' onClick={e => props.click(e)}>{props.buttonText}</Button>
+        <Button id={props.id} className='acceptBtn' onClick={e => props.click(e)}>{props.buttonText}</Button>
       </Card>
     )
   }

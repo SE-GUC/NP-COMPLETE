@@ -6,8 +6,6 @@ import axios from 'axios'
 
 export class UpdateProfile extends Component {
 
- 
-
   state = {
     id: undefined,
     fullName: undefined,
@@ -17,6 +15,7 @@ export class UpdateProfile extends Component {
 }
 
   render() {
+    if (localStorage.getItem('language') === 'English') {
     return (
       <div>
         <Form>
@@ -52,15 +51,58 @@ export class UpdateProfile extends Component {
           placeholder='Enter birthdate'
           onChange={e => this.setState({birthdate: e.target.value})} />
 
-        <Button variant='secondry' type='submit' onClick={e => this.clicked(e)}>
+        <Button variant='primary' type='submit' onClick={e => this.clicked(e)}>
            Update
         </Button>
         </Form>
         
       </div>
     )
-  }
+  }else{
+    return (
+      <div>
+        <Form>
+        <RegisterField
+          label='Id'
+          type='id'
+          placeholder='userId'
+          // eslint-disable-next-line no-const-assign
+          onChange={e => this.setState({id: e.target.value})}
+           />
 
+        <RegisterField
+          label='البريد الالكتروني'
+          type='email'
+          placeholder='تحديث البريد الالكتروني'
+          onChange={e => this.setState({email: e.target.value})}
+           />
+
+        <RegisterField
+          label='كلمة السر'
+          type='text'
+          placeholder='كلمة السر'
+          onChange={e => this.setState({password: e.target.value})} />
+
+        <RegisterField
+          label='الاسم الكامل'
+          placeholder='الاسم الكامل'
+          onChange={e => this.setState({fullName: e.target.value})} />
+
+        <RegisterField
+          label='تاريخ الميلاد'
+          type='date'
+          placeholder='تاريخ الميلاد'
+          onChange={e => this.setState({birthdate: e.target.value})} />
+
+        <Button variant='secondry' type='submit' onClick={e => this.clicked(e)}>
+           تحديث
+        </Button>
+        </Form>
+        
+      </div>
+    )
+  }
+  }
   clicked = e => {
     e.preventDefault()
     const updatedData = {fullName:this.state.fullName,

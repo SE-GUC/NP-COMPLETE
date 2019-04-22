@@ -6,7 +6,8 @@ module.exports = {
       fullName: Joi.string().min(3).max(90).required(),
       birthdate: Joi.date().iso().max(Date.now()).required(),
       email: Joi.string().email().required(),
-      password: Joi.string().min(8).required()
+      password: Joi.string().min(8).required(),
+      confirmed: Joi.boolean()
     }
 
     return Joi.validate(request, createSchema)
@@ -17,7 +18,8 @@ module.exports = {
       fullName: Joi.string().min(3).max(90),
       birthdate: Joi.date().iso().max(Date.now()),
       email: Joi.string().email(),
-      password: Joi.string().min(8)
+      password: Joi.string().min(8),
+      confirmed: Joi.boolean()
     }
 
     return Joi.validate(request, updateSchema)

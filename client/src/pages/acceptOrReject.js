@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import Header from '../components/Header'
 import DecisionForms from '../components/DecisionForms'
 import Axios from 'axios';
+import Spinner from 'react-bootstrap/Spinner'
 
 
 class acceptOrReject extends Component {
@@ -14,13 +14,10 @@ class acceptOrReject extends Component {
   componentDidMount() {
     const { companyId } = this.props.match.params 
     this._isMounted = true
-    // console.log("form from axios starts")
     this.setState({loading: true})
     Axios
     
     .get(`http://localhost:8000/api/companies/${companyId}`)
-    // .then(console.log("form from axios starts"))
-    // .then(res => this.setState({ forms: res.data.data }))
     .then(res => this.setState({forms : 
       (res.data.data.form.acceptedByReviewer !== -1)?
       []
@@ -28,14 +25,9 @@ class acceptOrReject extends Component {
     (res.data.data.form )
     }))
     .then(res => this.setState({loading: false}))
-    .then(res => console.log(this.state.forms ))
-
-    // .then(console.log("form from axios ends"))
     .catch(err => {
       console.log(err)
     })
-    // console.log("form from axios ends")
-    console.log(this.state)
 }
 
 
@@ -45,7 +37,6 @@ class acceptOrReject extends Component {
     Axios
     .put(`http://localhost:8000/api/reviewers/decideAnApplication/${reviewerId}/${companyId}`  , {decision: true})
     .then(res => {
-      console.log(res.data.data)  
       this.setState({ forms: [] })
     })
     .catch(err => {
@@ -59,7 +50,6 @@ class acceptOrReject extends Component {
     Axios
     .put(`http://localhost:8000/api/reviewers/decideAnApplication/${reviewerId}/${companyId}`  , {decision: false})
     .then(res => {
-      console.log(res.data.data)
       this.setState({ forms: [] })
     })
     .catch(err => {
@@ -69,16 +59,18 @@ class acceptOrReject extends Component {
 
   render() {
     return (
-      <div className="App">
-      <Header/>
-      {this.state.loading? <h1>loading please be patient</h1>: 
-      <DecisionForms forms = {[this.state.forms]}
-         accept = {this.accept}
-         reject = {this.reject}
-         root = {this}
-      />      }     
+      <div className="App">  
+      {this.state.loading? <Spinner animation="border" variant= "primary" />: 
+         <div>     
+            <DecisionForms forms = {[this.state.forms]}
+              accept = {this.accept}
+              reject = {this.reject}
+              root = {this}
+            />  
+        </div>
+      }     
       </div>
-    );
+    )
   }
 }
 
