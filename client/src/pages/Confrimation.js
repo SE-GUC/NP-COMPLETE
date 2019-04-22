@@ -9,7 +9,7 @@ export class Confrimation extends Component {
     var returned
     console.log('model'+model)
     axios
-      .get(`/api/${model}/confirmation/${emailToken}`)
+      .get(`localhost:8000/api/${model}/confirmation/${emailToken}`)
       .then(res => {
         console.log('res')
         console.log(res)
