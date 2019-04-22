@@ -5,8 +5,8 @@ const main = require('./main')
 const userController = require('./userController')
 const dbController = require('./dbController')
 
-const user = require('../config/keys_dev').user
-const pass = require('../config/keys_dev').pass
+const user = require('../config/keys').user
+const pass = require('../config/keys').pass
 // Additional models
 const Task = require('../models/Task')
 const Lawyer = require('../models/Lawyer')
