@@ -16,7 +16,7 @@ export class LawyerViewCases extends Component {
       }
 
     componentDidMount() {
-        const {id} = this.props.match.params
+        const id = localStorage.getItem('id')
         this._isMounted = true
         this.setState({loading: true})
         Axios.get('/api/lawyers/casesPage/'+ id)

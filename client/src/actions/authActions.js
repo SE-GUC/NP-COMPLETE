@@ -1,24 +1,34 @@
-import { LOGIN } from './actionTypes'
+import { LOGIN, LOGOUT } from './actionTypes'
 import axios from 'axios'
 import setAuthToken from '../setAuthToken'
 
-export const login = (userData) => dispatch => {
-  console.log('koko wawa')
-  console.log(userData)
-  axios.post('/api/investors/login', userData)
+export const login = (userData, type) => dispatch => {
+  console.log(`/api/${type}/login`)
+  axios.post(`/api/${type}/login`, userData)
     .then(res => {
       const { token, id, type } = res.data
       localStorage.setItem('jwtToken', token)
       localStorage.setItem('id', id)
       localStorage.setItem('type', type)
-      console.log(localStorage)
       setAuthToken(token)
       dispatch({
         type: LOGIN,
+        error: false,
         payload: res.data
       })
     })
     .catch(err => {
-      console.log(err)
+      dispatch({
+        type: LOGIN,
+        error: true,
+        payload: err
+      })
     })
+}
+
+export const logout = () => dispatch => {
+  localStorage.removeItem('jwtToken')
+  localStorage.removeItem('id')
+  localStorage.removeItem('type')
+  dispatch({ type: LOGOUT })
 }

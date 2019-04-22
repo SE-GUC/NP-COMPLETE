@@ -4,7 +4,7 @@ import Header2 from '../../components/Header2'
 
 class InvestorLandingPage extends Component {
   state = {
-    id: this.props.match.params
+    id: localStorage.getItem('id')
   }
  
 
@@ -35,7 +35,7 @@ class InvestorLandingPage extends Component {
             <Card body>
               <CardTitle>My companies</CardTitle>
               <CardText>Keep track of your companies</CardText>
-              <Button variant='primary' href={`/investors/MyCompanies/${this.state.id}`} >View list of companies</Button>
+              <Button variant='primary' href={`/investors/MyCompanies/`} >View list of companies</Button>
             </Card>
           </Col>
           <Col sm='6'>
@@ -46,7 +46,6 @@ class InvestorLandingPage extends Component {
             </Card>
           </Col>
         </Row>
-
       </div>
 
     )

@@ -16,7 +16,7 @@ export class CancelApplication extends Component {
   }
 
   componentDidMount () {
-    const { investorId } = this.props.match.params
+    const  investorId  = localStorage.getItem('id')
     this.setState({loading: true})
      axios
       .get('/api/companies/')

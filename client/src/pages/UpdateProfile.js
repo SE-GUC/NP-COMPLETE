@@ -7,7 +7,7 @@ import axios from 'axios'
 export class UpdateProfile extends Component {
 
   state = {
-    id: undefined,
+    id: localStorage.getItem('id'),
     fullName: undefined,
     birthdate: undefined,
     email: undefined,
@@ -19,13 +19,6 @@ export class UpdateProfile extends Component {
     return (
       <div>
         <Form>
-        <RegisterField
-          label='Id'
-          type='id'
-          placeholder='userId'
-          // eslint-disable-next-line no-const-assign
-          onChange={e => this.setState({id: e.target.value})}
-           />
 
         <RegisterField
           label='Email address'
