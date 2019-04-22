@@ -8,7 +8,7 @@ export class Confrimation extends Component {
     axios
       .get(`/api/${model}/confirmation/${emailToken}`)
       .then(res => alert(res.data.message))
-      .catch(error => alert(error.message))
+      .catch(error => alert(error.response.data.message))
     return <Redirect to='../../../investors/login' />
   }
 }
