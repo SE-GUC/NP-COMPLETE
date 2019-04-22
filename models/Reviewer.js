@@ -32,8 +32,11 @@ const ReviewerSchema = new Schema({
   confirmed: {
     type: Boolean,
     default: false
+  },
+  acceptedByAdmin: {
+    type: Boolean,
+    default: false
   }
-
 })
 
 module.exports = mongoose.model('Reviewer', ReviewerSchema, 'reviewer')
