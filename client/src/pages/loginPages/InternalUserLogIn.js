@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import '../../App.css'
-import LoginBox from '../../components/LoginBox'
+import LoginForm from '../../pages/LoginForm'
 import { Button, Card, CardTitle, Col, Row } from 'reactstrap'
 import Header2 from '../../components/Header2'
 
@@ -54,7 +54,7 @@ class InternalUserLogIn extends Component {
       <div className='App-header'>
         <div className='box-controller'>
           <div className='box-container'>
-            <LoginBox loginInvestor={this.loginInvestor} type={this.state.type} />
+            <LoginForm type={this.state.type} />
           </div>
         </div>
       </div>

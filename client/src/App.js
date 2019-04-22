@@ -69,7 +69,7 @@ class App extends Component {
 
           <Route exact path='/login' component={LogIn} />
 
-          <Route exact path='/LoginForm' component={LoginForm} />
+          {/* <Route exact path='/LoginForm' component={LoginForm} /> */}
 
           <Route exact path='/admin' component={AdminLandingPage} />
 
