@@ -14,8 +14,8 @@ import {
   DropdownMenu,
   DropdownItem
 } from 'reactstrap'
-
 import { Form, FormControl, Button } from 'react-bootstrap'
+import Logout from './Logout'
 import { func } from 'prop-types'
 
 class NavbarGafi extends React.Component {
@@ -90,6 +90,7 @@ class NavbarGafi extends React.Component {
               </UncontrolledDropdown>
             </Nav>
           </Collapse>
+          <Logout />
         </Navbar>
       </div>
     )

@@ -19,8 +19,8 @@ class ViewForm extends Component {
   }
 
   componentDidMount () {
-    const { id } = this.props.match.params
-    this.setState({loading: true})
+    const id = localStorage.getItem('id')
+    this.setState({ loading: true })
     Axios
       .get('/api/investors/viewRejected/' + id)
       .then(
@@ -55,7 +55,7 @@ class ViewForm extends Component {
   render () {
     if (localStorage.getItem('language') === 'English') {
       if (this.state.loading) {
-        return <div className='App'><Spinner animation="border" variant= "primary" /></div>
+        return <div className='App'><Spinner animation='border' variant='primary' /></div>
       }
       if (this.state.loading === false && this.state.error) {
         return (
@@ -90,7 +90,7 @@ class ViewForm extends Component {
       )
     } else {
       if (this.state.loading) {
-        return <div className='App'><Spinner animation="border" variant= "primary" /></div>
+        return <div className='App'><Spinner animation='border' variant='primary' /></div>
       }
       if (this.state.loading === false && this.state.error) {
         return (
