@@ -1,10 +1,18 @@
 import React from 'react'
 import { Button } from 'react-bootstrap'
 import axios from 'axios'
-import {ListGroup} from 'reactstrap'
+import {ListGroup,Collapse, CardBody, Card} from 'reactstrap'
 
 export default class SettingsPage extends React.Component {
-  
+
+    constructor(props) {
+        super(props);
+        this.toggle = this.toggle.bind(this);
+        this.state = { collapse: false };
+      }
+      toggle() {
+        this.setState(state => ({ collapse: !state.collapse }));
+      }
     onClick = (e) => {
     const id = localStorage.getItem('id')
     const type = localStorage.getItem('type')
@@ -32,10 +40,21 @@ export default class SettingsPage extends React.Component {
         <h3>Settings </h3>
         <ListGroup >
           <Button href='/user/UpdateProfile'> Update Profile </Button>
-          <br></br>
+          <br />
           <Button href='/ForgetPassword'> Reset Password</Button>
-          <br></br>
-          <Button href='/login' href = '/login/' onClick= {this.onClick}> Delete Account</Button>
+          <br />
+          <Button color="primary" onClick={this.toggle} style={{ marginBottom: '1rem' }}>Delete Account</Button>
+        <Collapse isOpen={this.state.collapse}>
+          <Card>
+            <CardBody>
+            Are you sure you want to delete this account? This cannot be undone.
+            </CardBody>
+            <Button variant="danger" href='/login' onClick= {this.onClick}>Yes</Button>
+            <br />
+            <Button variant="success" onClick= {this.toggle}>No</Button>
+            <br />
+          </Card>
+        </Collapse>
         </ListGroup>
       </div>
     )
