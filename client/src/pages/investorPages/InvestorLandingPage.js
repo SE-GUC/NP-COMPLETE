@@ -15,7 +15,7 @@ class InvestorLandingPage extends Component {
       id: localStorage.getItem('id')
     }
   }
-}
+
 
   click = (e) => {
     const type = e.target.id
@@ -69,5 +69,6 @@ class InvestorLandingPage extends Component {
       return <Redirect to='/investors/fillForm' />
     }
   }
+}
 
 export default InvestorLandingPage
