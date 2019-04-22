@@ -66,8 +66,10 @@ class App extends Component {
               <h1> Welcome to Gafi Web</h1>
             </React.Fragment>
           )} />
-          
+
           <Route exact path='/login' component={LogIn} />
+
+          <Route exact path='/LoginForm' component={LoginForm} />
 
           <Route exact path='/admin' component={AdminLandingPage} />
 
