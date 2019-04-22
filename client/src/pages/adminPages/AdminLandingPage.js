@@ -3,6 +3,7 @@ import { Card, Button, CardTitle, CardText, Row, Col } from 'reactstrap'
 import {Redirect} from 'react-router-dom'
 import Header2 from '../../components/Header2'
 
+
 class AdminLandingPage extends Component {
 
   clicked = ()=>{
@@ -17,7 +18,6 @@ class AdminLandingPage extends Component {
   render () {
     return (
       <div>
-        <Header2 title='Welcome Admin' />
       
         <Row>
           <Col sm='6'>
