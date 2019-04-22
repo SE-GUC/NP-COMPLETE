@@ -1,7 +1,12 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const passport = require('passport')
+
 const path = require('path')
+
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config()
+}
 
 // Require Router Handlers
 
@@ -112,8 +117,7 @@ app.use((_req, res) => res.status(404)
     msg: 'Error 404: We can not find what you are looking for'
   }))
 
-
-//const port = process.env.PORT | 8000
+// const port = process.env.PORT | 8000
 const port = process.env.NODE_ENV === 'production' ? process.env.PORT : 8000
 
 app.listen(port, () => { console.log(`Server is up and running on port ${port}`) })
