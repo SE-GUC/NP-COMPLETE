@@ -105,7 +105,7 @@ onClick = (e) => {
       )
     }
     } else {
-      if(store.getState().auth.type==='Investor'){
+      if(store.getState().auth.loggedUser.type === 'Investor'){
         return <Redirect to='/investor' />}
       else{
         return <Redirect to='/internalportal/workpage' />
