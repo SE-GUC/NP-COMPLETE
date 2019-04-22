@@ -15,7 +15,6 @@ class getFeedback extends Component {
     this.setState({loading: true})
     const adminId = localStorage.getItem('id')
     Axios
-    
     .get(`/api/admins/getFeedback/${adminId}`)
     .then(res => this.setState({feedbacks : 
       (res.data.data.length === 0)?
@@ -24,8 +23,6 @@ class getFeedback extends Component {
     (res.data.data)
     }))
     .then(res => this.setState({loading: false}))
-    // .then(res => console.log(this.state.feedbacks ))
-
     .catch(err => {
       console.log(err)
     })
@@ -39,7 +36,6 @@ class getFeedback extends Component {
      this.state.feedbacks.map((x) => (
      <h1>{x}</h1>      
      ))
-     
       }     
       </div>
     )

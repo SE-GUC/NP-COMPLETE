@@ -174,7 +174,7 @@ exports.addComment = async (req, res) => {
 
   try {
     const query = { '_id': companyID, 'form.acceptedByReviewer': 0, 'form.reviewerID': reviewerID }
-    const newData = { 'form': { 'comment': req.body.comment } }
+    const newData = { 'form.comment': req.body.comment }
     const companyEdited = await Company.findOneAndUpdate(query, newData, { new: true })
     if (!companyEdited) {
       return res.status(400).json({

@@ -27,6 +27,7 @@
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
     "sass": "^1.17.4",
+    "semantic-ui-react": "^0.86.0",
     "stripe": "^6.28.0",
     "uuid": "^3.3.2"
   },

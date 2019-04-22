@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Axios from 'axios'
 import PropTypes from 'prop-types'
-import MapCases from '../components/MapCases'
+import LawyerMapCases from '../components/LawyerMapCases'
 import Spinner from 'react-bootstrap/Spinner'
 import Button from 'react-bootstrap/Button'
 
@@ -10,7 +10,8 @@ export class LawyerViewCases extends Component {
     constructor(props) {
         super(props)
         this.state={
-          cases:[]
+          cases:[],
+          model: 'lawyer'
         }
       }
 
@@ -34,7 +35,7 @@ export class LawyerViewCases extends Component {
     ( <div>
       <Button variant='danger' onClick={()=>this.setState({cases:this.state.cases.sort((a,b) => (a.establishmentDate > b.establishmentDate) ? 1 : ((b.establishmentDate > a.establishmentDate) ? -1 : 0))})}>Sort by Establishment Date</Button>
       <Button variant='danger' onClick={()=>this.setState({cases:this.state.cases.sort((a,b) => (a._id > b._id) ? 1 : ((b._id > a._id) ? -1 : 0))})}>Sort by ID</Button>
-      <MapCases cases = {this.state.cases}/>
+      <LawyerMapCases cases = {this.state.cases}/>
       </div>
     )
   }

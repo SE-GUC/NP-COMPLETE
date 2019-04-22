@@ -9,7 +9,6 @@ import Faqs from './pages/investorPages/Faqs'
 import Header from './components/generic/Header'
 import Ejournals from './pages/CompaniesEjournals'
 import Tracker from './pages/investorPages/Tracker'
-import acceptOrReject from './pages/acceptOrReject'
 import AdminViewCases from './pages/AdminViewCases'
 import LawyerViewCases from './pages/LawyerViewCases'
 import Register from './pages/investorPages/Register'
@@ -27,7 +26,6 @@ import AdminLandingPage from './pages/adminPages/AdminLandingPage'
 import InvestorLandingPage from './pages/investorPages/InvestorLandingPage'
 import ReviewerShowLastWorked from './pages/ReviewerShowLastWorked'
 import CancelApplication from './pages/investorPages/CancelApplication'
-import acceptOrRejectInvestorForm from './pages/acceptOrRejectInvestorForm'
 import AllMyCompanies from './pages/investorPages/AllMyCompanies'
 import UpdateProfile from './pages/UpdateProfile'
 import UpdateForm from './pages/UpdateForm'
@@ -115,10 +113,6 @@ class App extends Component {
             <Route exact path='/investors/cancelApplication/:investorId' component={CancelApplication} />
 
             <Route exact path='/reviewers/addComment/:lawyerId/:companyId' component={ReviewerAddComment} />
-
-            <Route exact path='/reviewers/acceptOrReject/:reviewerId/:companyId' component={acceptOrReject} />
-
-            <Route exact path='/lawyers/review/:lawyerId/:companyId' component={acceptOrRejectInvestorForm} />
 
             <Route exact path='/user/UpdateProfile' component={UpdateProfile} />
 
