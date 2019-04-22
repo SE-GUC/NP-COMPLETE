@@ -13,12 +13,11 @@ export class UpdateProfile extends Component {
     this.toggleEmail = this.toggleEmail.bind(this)
 
     this.state = {
-      id: undefined,
       fullName: undefined,
       birthdate: undefined,
       email: undefined,
       oldPassword : undefined,
-      firstPssword: undefined,
+      firstPassword: undefined,
       secondPassword: undefined,
       collapsePersonal: false,
       collapseSecured: false,
@@ -27,7 +26,6 @@ export class UpdateProfile extends Component {
     }
   }
   togglePersonal () {
-    console.log(this.state.collapseEmail)
     this.setState(state => ({ collapsePersonal: !state.collapsePersonal }))
   }
   toggleSecured () {
@@ -37,7 +35,6 @@ export class UpdateProfile extends Component {
     this.setState(state => ({ collapsePassword: !state.collapsePassword }))
   }
   toggleEmail () {
-    console.log(this)
     this.setState(state => ({ collapseEmail: !state.collapseEmail }))
   }
   render() {
@@ -75,17 +72,19 @@ export class UpdateProfile extends Component {
         placeholder='Old Password'
         onChange={e => this.setState({oldPassword: e.target.value})}
          />
-{/* koko wawa edit target e value placeholfers kolo */}
       <RegisterField
         label='New Password'
         type='password'
         placeholder='Password'
-        onChange={e => this.setState({firstPssword: e.target.value})} />
+        mutedText={this.validatePassword()? '': this.errors()[0]} 
+        />
+        
       
       <RegisterField
         label='Confirm New Password'
         type='password'
         placeholder='Re-type Password'
+        mutedText ={this.checkMatching()}
         onChange={e => this.setState({secondPassword: e.target.value})} />
 
       <Button variant='primary'  onClick={e => this.updatePassword(e)}>
@@ -98,19 +97,19 @@ export class UpdateProfile extends Component {
       <Collapse isOpen={this.state.collapseEmail}>
       <Form>
        <RegisterField
-        label='Current Email address'
-        type='email'
-        placeholder='current email'
-        onChange={e => this.setState({email: e.target.value})}
+        label='Current Password address'
+        type='password'
+        placeholder='current password'
+        onChange={e => this.setState({oldPassword: e.target.value})}
          />
 
       <RegisterField
         label='New Email address'
         type='email'
         placeholder='new email'
-        onChange={e => this.setState({password: e.target.value})} />
-      <Button variant='primary' onClick={this.toggleEmail}>
-         Update
+        onChange={e => this.setState({email: e.target.value})} />
+      <Button variant='primary' onClick={e => this.updateEmail(e)}>
+         Update Email
       </Button>
       </Form>
       </Collapse>
@@ -168,17 +167,18 @@ export class UpdateProfile extends Component {
   clicked = e => {
     e.preventDefault()
     const updatedData = {fullName:this.state.fullName,
-      birthdate:this.state.birthdate,
-      email:this.state.email,
-      password:this.state.password}
+      birthdate:this.state.birthdate}
+      console.log(updatedData)
+      const id = localStorage.getItem('id') 
       const temp = {}
       Object.keys(updatedData).forEach(key=>{
-        if(this.state[key]!== undefined) {
+        if(this.state[key]!== undefined && this.state[key]!=="" ) {
           temp[key]=updatedData[key]
         }
       })
+      console.log(temp)
         axios
-        .put(`/api/investors/${this.state.id}`, temp)
+        .put(`/api/investors/${id}`, temp)
         .then(res => alert(`Profile updated successfully`))
         .catch(error => alert(error.response.data.message))
     }
@@ -186,16 +186,60 @@ export class UpdateProfile extends Component {
       e.preventDefault()
       const data = {
         currentPassword:this.state.oldPassword,
-        firstPssword:this.state.firstPssword,
+        firstPassword:this.state.firstPassword,
         secondPassword:this.state.secondPassword
       }
       const id = localStorage.getItem('id') 
       axios
-      .put(`api/user/5cbba53e39f80847203d1b7c`,data)
-      .then(res => alert(`Profile password successfully`))
-      .catch(error => alert(error.response.data.message))
+      .put(`/api/user/updatePassword/${id}}`,data)
+      .then(res => alert(res.data.message))
+      .catch(error => alert(error.message))
+      this.setState({collapsePassword:false})
     }
-
+    updateEmail = e =>{
+      e.preventDefault()
+      const data = {
+        currentPassword:this.state.oldPassword,
+        email:this.state.email
+      }
+      const id = localStorage.getItem('id') 
+      axios
+      .put(`/api/user/updateEmail/${id}}`,data)
+      .then(res => alert(res.data.message))
+      .catch(error => alert(error.message))
+      this.setState({collapseEmail:false})
+    }
+    errors = () => {
+      var errors = []
+      if(this.state.firstPassword){
+      if (this.state.firstPassword.length < 8) {
+        errors.push('Your password must be at least 8 characters')
+      }
+      if (this.state.firstPassword.search(/[a-z]/i) < 0) {
+        errors.push('Your password must contain at least one small letter')
+      }
+      if (this.state.firstPassword.search(/[A-Z]/) < 0) {
+        errors.push('Your password must contain at least one capital letter')
+      }
+      if (this.state.firstPassword.search(/[0-9]/) < 0) {
+        errors.push('Your password must contain at least one digit.')
+      }
+      if (this.state.firstPassword.search(/[!@#$%^&*_]/) < 0) {
+        errors.push('Your password must contain at least one special character like * ! ^ !')
+      }
+    }
+      return errors
+    }
+    checkMatching = ()=>{
+      if(!this.state.secondPassword){
+        return ''
+      }
+      return  (this.state.firstPassword===this.state.secondPassword)? '' : `Passwords don't match`
+    }
+    validatePassword = () =>{
+      const passwordRegx = /(?=.*[!@#$%^&*_])(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/
+      return passwordRegx.test(this.state.firstPassword)? true : false 
+    }
 }
 
 export default UpdateProfile
