@@ -45,7 +45,7 @@ import ResetPassword from './pages/ResetPassword'
 import DBRepop from './pages/DBRepop'
 import AdminSendEmails from './pages/AdminSendEmails'
 import HomepageLayout from './pages/HomepageLayout'
-import LoginForm from './pages/LoginForm'
+import WorkPage from './pages/Internalportal/WorkPage'
 
 if (localStorage.jwtToken) {
   setAuthToken(localStorage.jwtToken)
@@ -69,7 +69,7 @@ class App extends Component {
 
           <Route exact path='/login' component={LogIn} />
 
-          {/* <Route exact path='/LoginForm' component={LoginForm} /> */}
+          <Route exact path='/internalportal/workpage' component={WorkPage} />
 
           <Route exact path='/admin' component={AdminLandingPage} />
 
