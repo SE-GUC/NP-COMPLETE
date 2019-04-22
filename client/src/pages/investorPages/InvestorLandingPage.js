@@ -11,9 +11,11 @@ class InvestorLandingPage extends Component {
   constructor(props) {
   super(props)
     this.state = {
-      type: ''
+      type: '',
+      id: localStorage.getItem('id')
     }
   }
+
 
   click = (e) => {
     const type = e.target.id

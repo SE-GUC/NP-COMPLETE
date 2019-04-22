@@ -14,9 +14,8 @@ export class LawyersViewMyTasks extends Component {
         }
       }
     componentDidMount() {
-        const {id} = this.props.match.params
         this._isMounted = true
-        this.setState({loading: true})
+        const id = localStorage.getItem('id')
         Axios.get('/api/lawyers/workPage/'+ id)
         .then(res => this.setState({ tasks: res.data.data , loading: false }))
         .catch(err => this.setState({ error: true, loading: false }))

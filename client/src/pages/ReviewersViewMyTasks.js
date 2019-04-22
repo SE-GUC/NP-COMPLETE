@@ -14,7 +14,7 @@ export class ReviewersViewMyTasks extends Component {
         }
       }
     componentDidMount() {
-        const {id} = this.props.match.params
+        const id = localStorage.getItem('id')
         this._isMounted = true
         this.setState({loading: true})
         Axios.get('/api/reviewers/workPage/'+ id)
