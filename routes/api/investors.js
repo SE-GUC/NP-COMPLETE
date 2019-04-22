@@ -31,7 +31,7 @@ router.get('/viewRejected/:id', controller.viewRejectedForm)
 router.put('/editForm/:id', controller.editForms)
 
 // As an investor I should be able to view a list of my current or pending companies, so that I can access their details.
-router.get('/getCompanies/:id', controller.getCompanies)
+router.get('/getCompanies/:id', passport.authenticate('jwt', { session: false }), controller.getCompanies)
 
 // As an investor I should be able to fill an application form, so that I can establish a company.
 router.post('/fillForm/:id', controller.fillForm)
