@@ -46,6 +46,7 @@ import ResetPassword from './pages/ResetPassword'
 import DBRepop from './pages/DBRepop'
 import AdminSendEmails from './pages/AdminSendEmails'
 import HomepageLayout from './pages/HomepageLayout'
+import LoginForm from './pages/LoginForm'
 if (localStorage.jwtToken) {
   setAuthToken(localStorage.jwtToken)
 }
@@ -58,94 +59,95 @@ class App extends Component {
         <Router>
           {/* <NavBar />
           <Header /> */}
-          <Container>
 
-            <Route exact path='/' render={props => (
-              <React.Fragment>
-                <h1> Welcome to Gafi Web</h1>
-              </React.Fragment>
-            )} />
 
-            <Route exact path='/admin' component={AdminLandingPage} />
+          <Route exact path='/' render={props => (
+            <React.Fragment>
+              <h1> Welcome to Gafi Web</h1>
+            </React.Fragment>
+          )} />
 
-            <Route exact path='/investor' component={InvestorLandingPage} />
+          <Route exact path='/admin' component={AdminLandingPage} />
+          <Route exact path='/LoginForm' component={LoginForm} />
 
-            {/* <Route exact path='/LogIn' component={Login} /> */}
+          <Route exact path='/investor' component={InvestorLandingPage} />
 
-            <Route exact path='/investors/Faqs' component={Faqs} />
+          {/* <Route exact path='/LogIn' component={Login} /> */}
 
-            <Route exact path='/admins/deleteAdmin' component={Admin} />
+          <Route exact path='/investors/Faqs' component={Faqs} />
 
-            <Route exact path='/admins/deleteLawyer' component={Lawyer} />
+          <Route exact path='/admins/deleteAdmin' component={Admin} />
 
-            <Route exact path='/investors/Register' component={Register} />
+          <Route exact path='/admins/deleteLawyer' component={Lawyer} />
 
-            <Route exact path='/investors/login' component={InvestorLogin} />
+          <Route exact path='/investors/Register' component={Register} />
 
-            <Route exact path='/companies/Ejournals' component={Ejournals} />
+          <Route exact path='/investors/login' component={InvestorLogin} />
 
-            <Route exact path='/investors/tracker/:id' component={Tracker} />
+          <Route exact path='/companies/Ejournals' component={Ejournals} />
 
-            <Route exact path='/admins/deleteInvestor' component={Investor} />
+          <Route exact path='/investors/tracker/:id' component={Tracker} />
 
-            <Route exact path='/admins/deleteReviewer' component={Reviewer} />
+          <Route exact path='/admins/deleteInvestor' component={Investor} />
 
-            <Route exact path='/investors/viewRejected/:id' component={ViewForm} />
+          <Route exact path='/admins/deleteReviewer' component={Reviewer} />
 
-            <Route exact path='/admins/viewAllCases/:id' component={AdminViewCases} />
+          <Route exact path='/investors/viewRejected/:id' component={ViewForm} />
 
-            <Route exact path='/admins/viewMyTasks/:id' component={AdminsViewMyTasks} />
+          <Route exact path='/admins/viewAllCases/:id' component={AdminViewCases} />
 
-            <Route exact path='/lawyers/viewAllCases/:id' component={LawyerViewCases} />
+          <Route exact path='/admins/viewMyTasks/:id' component={AdminsViewMyTasks} />
 
-            <Route exact path='/admins/showLastWorked/:companyId/:adminId' component={AdminShowLastWorked} />
+          <Route exact path='/lawyers/viewAllCases/:id' component={LawyerViewCases} />
 
-            <Route exact path='/lawyers/viewMyTasks/:id' component={LawyersViewMyTasks} />
+          <Route exact path='/admins/showLastWorked/:companyId/:adminId' component={AdminShowLastWorked} />
 
-            <Route exact path='/lawyers/showLastWorked/:companyId/:lawyerId' component={LawyerShowLastWorked} />
+          <Route exact path='/lawyers/viewMyTasks/:id' component={LawyersViewMyTasks} />
 
-            <Route exact path='/reviewers/viewAllCases/:id' component={ReviewerViewCases} />
+          <Route exact path='/lawyers/showLastWorked/:companyId/:lawyerId' component={LawyerShowLastWorked} />
 
-            <Route exact path='/reviewers/viewMyTasks/:id' component={ReviewersViewMyTasks} />
+          <Route exact path='/reviewers/viewAllCases/:id' component={ReviewerViewCases} />
 
-            {/* <Route exact path='/investors/payFees/:investorId/:companyId' component={payFees} /> */}
+          <Route exact path='/reviewers/viewMyTasks/:id' component={ReviewersViewMyTasks} />
 
-            <Route exact path='/investors/MyCompanies' component={AllMyCompanies} />
+          {/* <Route exact path='/investors/payFees/:investorId/:companyId' component={payFees} /> */}
 
-            <Route exact path='/reviewers/showLastWorked/:companyId/:reviewerId' component={ReviewerShowLastWorked} />
+          <Route exact path='/investors/MyCompanies' component={AllMyCompanies} />
 
-            <Route exact path='/lawyers/addComment/:lawyerId/:companyId' component={LawyerAddComment} />
+          <Route exact path='/reviewers/showLastWorked/:companyId/:reviewerId' component={ReviewerShowLastWorked} />
 
-            <Route exact path='/investors/cancelApplication/:investorId' component={CancelApplication} />
+          <Route exact path='/lawyers/addComment/:lawyerId/:companyId' component={LawyerAddComment} />
 
-            <Route exact path='/reviewers/addComment/:lawyerId/:companyId' component={ReviewerAddComment} />
+          <Route exact path='/investors/cancelApplication/:investorId' component={CancelApplication} />
 
-            <Route exact path='/reviewers/acceptOrReject/:reviewerId/:companyId' component={acceptOrReject} />
+          <Route exact path='/reviewers/addComment/:lawyerId/:companyId' component={ReviewerAddComment} />
 
-            <Route exact path='/lawyers/review/:lawyerId/:companyId' component={acceptOrRejectInvestorForm} />
+          <Route exact path='/reviewers/acceptOrReject/:reviewerId/:companyId' component={acceptOrReject} />
 
-            <Route exact path='/user/UpdateProfile' component={UpdateProfile} />
+          <Route exact path='/lawyers/review/:lawyerId/:companyId' component={acceptOrRejectInvestorForm} />
 
-            <Route exact path='/investors/fillForm' component={ChooseForm} />
+          <Route exact path='/user/UpdateProfile' component={UpdateProfile} />
 
-            <Route exact path='/investors/editForm' component={UpdateForm} />
+          <Route exact path='/investors/fillForm' component={ChooseForm} />
 
-            <Route exact path='/admins/publishCompany/:id' component={publishCompany} />
+          <Route exact path='/investors/editForm' component={UpdateForm} />
 
-            <Route exact path='/admins/registerInternal/' component={RegisterInternal} />
+          <Route exact path='/admins/publishCompany/:id' component={publishCompany} />
 
-            <Route exact path='/lawyers/CalcFees/:companyId' component={CalcFees} />
+          <Route exact path='/admins/registerInternal/' component={RegisterInternal} />
 
-            <Route exact path='users/reviewForm' component={ReviewForm} />
-            <Route exact path='/confirmation/:model/:emailToken' component={confirmation} />
-            <Route exact path='/ForgetPassword' component={ForgetPassword} />
-            <Route exact path='/ResetPassword/:model/:emailToken' component={ResetPassword} />
+          <Route exact path='/lawyers/CalcFees/:companyId' component={CalcFees} />
 
-            <Route exact path='/admins/DBRepop' component={DBRepop} />
-            <Route exact path='/admins/sendEmail' component={AdminSendEmails} />
-            <Route exact path='/HomepageLayout' component={HomepageLayout} />
-            
-          </Container>
+          <Route exact path='users/reviewForm' component={ReviewForm} />
+          <Route exact path='/confirmation/:model/:emailToken' component={confirmation} />
+          <Route exact path='/ForgetPassword' component={ForgetPassword} />
+          <Route exact path='/ResetPassword/:model/:emailToken' component={ResetPassword} />
+
+          <Route exact path='/admins/DBRepop' component={DBRepop} />
+          <Route exact path='/admins/sendEmail' component={AdminSendEmails} />
+          <Route exact path='/HomepageLayout' component={HomepageLayout} />
+
+
         </Router>
       </React.Fragment>
     )
