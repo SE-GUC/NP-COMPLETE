@@ -69,7 +69,6 @@ class acceptOrReject extends Component {
   render() {
     return (
       <div className="App">
-      <Header/>
       {this.state.loading? <Spinner animation="border" variant= "primary" />:
       this.state.error?
       <h1>Error has occured please try again</h1>
