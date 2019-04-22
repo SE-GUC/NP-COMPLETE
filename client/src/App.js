@@ -144,7 +144,7 @@ class App extends Component {
 
           <Route exact path='/admins/DBRepop' component={DBRepop} />
           <Route exact path='/admins/sendEmail' component={AdminSendEmails} />
-          <Route exact path='/HomepageLayout' component={HomepageLayout} />
+          <Route exact path='/homepagelayout' component={HomepageLayout} />
 
           {/* </Container> */}
         </Router>
