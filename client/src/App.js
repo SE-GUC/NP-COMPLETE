@@ -1,7 +1,7 @@
 import './App.css'
 import Admin from './pages/Admin'
 import Lawyer from './pages/Lawyer'
-import Login from './pages/LoginPage'
+import LogIn from './pages/loginPages/LogIn'
 import Investor from './pages/Investor'
 import Reviewer from './pages/Reviewer'
 import React, { Component } from 'react'
@@ -32,7 +32,6 @@ import AllMyCompanies from './pages/investorPages/AllMyCompanies'
 import UpdateProfile from './pages/UpdateProfile'
 import UpdateForm from './pages/UpdateForm'
 import ChooseForm from './pages/investorPages/ChooseCompanyType'
-import InvestorLogin from './pages/investorPages/InvestorLogin'
 import setAuthToken from './setAuthToken'
 import publishCompany from './pages/PublishCompany'
 import RegisterInternal from './pages/adminPages/RegisterInternal'
@@ -40,14 +39,15 @@ import CalcFees from './pages/lawyerPages/CalcFees'
 import ReviewForm from './pages/ReviewForm'
 import { Container } from 'react-bootstrap'
 import NavBar from './components/generic/NavbarGafi'
-import InternalUserLogIn from './pages/loginPages/InternalUserLogIn'
-import InvestorPrivateRoute from './utilities/InvestorPrivateRoute'
 import Money from './pages/investorPages/Money'
 import confirmation from './pages/Confrimation'
 import ForgetPassword from './pages/ForgetPassword'
 import ResetPassword from './pages/ResetPassword'
 import DBRepop from './pages/DBRepop'
 import AdminSendEmails from './pages/AdminSendEmails'
+import FlashMessagesList from './components/generic/FlashMessagesList'
+import GuardRoute from './utilities/GuardRoute'
+
 if (localStorage.jwtToken) {
   setAuthToken(localStorage.jwtToken)
 }
@@ -60,6 +60,7 @@ class App extends Component {
         <Router>
           <NavBar />
           <Header />
+          <FlashMessagesList />
           <Container>
 
             <Route exact path='/' render={props => (
@@ -68,11 +69,11 @@ class App extends Component {
               </React.Fragment>
             )} />
 
+            <Route exact path='/login' component={LogIn} />
+
             <Route exact path='/admin' component={AdminLandingPage} />
 
-            <Route exact path='/investor' component={InvestorLandingPage} />
-
-            {/* <Route exact path='/LogIn' component={Login} /> */}
+            <Route exact path='/investor' component={GuardRoute(InvestorLandingPage)} />
 
             <Route exact path='/investors/Faqs' component={Faqs} />
 
@@ -81,8 +82,6 @@ class App extends Component {
             <Route exact path='/admins/deleteLawyer' component={Lawyer} />
 
             <Route exact path='/investors/Register' component={Register} />
-
-            <Route exact path='/investors/login' component={InvestorLogin} />
 
             <Route exact path='/companies/Ejournals' component={Ejournals} />
 
@@ -111,9 +110,7 @@ class App extends Component {
             <Route exact path='/reviewers/viewMyTasks' component={ReviewersViewMyTasks} />
 
             <Route exact path='/investors/payFees' component={Money} />
-
-            {/* <InvestorPrivateRoute exact path='/investors/MyCompanies' component={AllMyCompanies} /> */}
-            
+         
             <Route exact path='/investors/MyCompanies' component={AllMyCompanies} />
 
             <Route exact path='/reviewers/showLastWorked' component={ReviewerShowLastWorked} />
@@ -146,14 +143,16 @@ class App extends Component {
 
             <Route exact path='/users/reviewForm' component={ReviewForm} />
 
-            <Route exact path='/internalportal/login' component={InternalUserLogIn} />
-
             <Route exact path='users/reviewForm' component={ReviewForm} />
+
             <Route exact path='/confirmation/:model/:emailToken' component={confirmation} />
+
             <Route exact path='/ForgetPassword' component={ForgetPassword} />
+
             <Route exact path='/ResetPassword/:model/:emailToken' component={ResetPassword} />
 
             <Route exact path='/admins/DBRepop' component={DBRepop} />
+
             <Route exact path='/admins/sendEmail' component={AdminSendEmails} />
             
           </Container>

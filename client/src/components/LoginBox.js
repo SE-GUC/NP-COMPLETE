@@ -12,8 +12,7 @@ class LoginBox extends React.Component {
     this.state = {
       email: '',
       password: '', 
-      type: props.type,
-      from: this.props.from
+      type: props.type
     }
   }
   
