@@ -57,7 +57,7 @@ class UpdateForm extends Component {
      console.log(this.state.filledform)
      
   }
-  chooseForm = async (id)=>{
+  chooseForm = async (id, F)=>{
     const res= await Axios.get(`/api/companies/${id}`) 
     console.log(res.data.data)
     await this.setState({oldData:res.data.data.form.data,formType:res.data.data.type})

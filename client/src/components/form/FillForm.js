@@ -12,14 +12,10 @@ class FillForm extends Component {
       type: props.type,
       filledform: [],
       error:false,
-      investorID:"",
+      investorID:localStorage.getItem('id'),
       companyName:"",
       lawyer:false
     }
-  }
-  handleIDChange = (e)=> {
-    this.setState({investorID:e.target.value})
-    console.log(e.target.value)
   }
   submitForm = (e)=>{
     e.preventDefault()
@@ -29,7 +25,7 @@ class FillForm extends Component {
     if(!this.state.lawyer) {
         Axios
         .post(`/api/investors/fillForm/${this.state.investorID}`, sentData)
-        .then(res=>alert(`company created with name ${res.data.data.name}`))
+        .then(res=>console.log(`company created with name ${res.data.data.name}`))
         .then(alert('form submitted!!'))
         .catch(error=>console.log(error))
     } else {
@@ -45,7 +41,7 @@ class FillForm extends Component {
           }
         Axios
         .post(`/api/lawyers/newForm`, sentData)
-        .then(res=>alert(`company created with name ${res.data.data.name}`))
+        .then(res=>console.log(`company created with name ${res.data.data.name}`))
         .then(alert('form submitted!!'))
         .catch(error=>console.log(error))
     }
@@ -81,14 +77,7 @@ class FillForm extends Component {
 
     return this.state.error? <h1>and error has occured please try again!</h1>:(
       <div>
-       
-       {this.state.lawyer? 
        <h1>Fill Form</h1>
-       :
-       <input
-          type="text"
-          onChange={this.handleIDChange}
-          />}
         <Container className="FormContainer">
           <h1> {this.state.type} </h1>
           <Form className="form" onSubmit={(e) => this.submitForm(e)}>
