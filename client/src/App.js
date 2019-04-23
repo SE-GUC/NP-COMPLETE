@@ -65,6 +65,7 @@ class App extends Component {
           {/* <NavBar />
           <Header /> */}
           {/* <Container> */}
+          <FlashMessagesList />
 
           <Route exact path='/' component={HomepageLayout} />
 
