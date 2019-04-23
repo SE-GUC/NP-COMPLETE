@@ -76,8 +76,13 @@ exports.registerUsers = async (req, res) => {
   const lawyers = await Lawyer.findById(userId)
   const reviewers = await Reviewer.findById(userId)
   const query = { '_id': userId }
+  const data = req.body
+  const updatedData = {
+    ...data,
+    startDate: Date.now()
+  }
   if (admins) {
-    const registeredUser = await Admin.findOneAndUpdate(query, req.body, { new: true })
+    const registeredUser = await Admin.findOneAndUpdate(query, updatedData, { new: true })
     res.json({
       status: 'Success',
       message: 'Approved the user',
@@ -85,7 +90,7 @@ exports.registerUsers = async (req, res) => {
     })
   }
   if (lawyers) {
-    const registeredUser = await Lawyer.findOneAndUpdate(query, req.body, { new: true })
+    const registeredUser = await Lawyer.findOneAndUpdate(query, updatedData, { new: true })
     res.json({
       status: 'Success',
       message: 'Approved the user',
@@ -93,7 +98,7 @@ exports.registerUsers = async (req, res) => {
     })
   }
   if (reviewers) {
-    const registeredUser = await Reviewer.findOneAndUpdate(query, req.body, { new: true })
+    const registeredUser = await Reviewer.findOneAndUpdate(query, updatedData, { new: true })
     res.json({
       status: 'Success',
       message: 'Approved the user',

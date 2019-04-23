@@ -55,6 +55,16 @@ exports.viewDepartmentTask = async (req, res) => {
     data: tasks
   })
 }
+exports.allowedCompanies = async (req, res) => {
+  const query1 = { 'form.acceptedByLawyer': 1, 'form.acceptedByReviewer': -1 }
+  const newCompanies = await Company.find(query1)
+  return res.json({
+    status: 'Success',
+    message: newCompanies.length ? 'Your companies that needs reviewing' : 'No companies need your review',
+    data: newCompanies
+  })
+}
+
 exports.reviewForms = async (req, res) => {
   try {
     const reviewerId = req.params.id

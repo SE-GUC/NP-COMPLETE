@@ -4,6 +4,8 @@ import PropTypes from 'prop-types'
 import MapTasks from '../components/MapTasks'
 import Spinner from 'react-bootstrap/Spinner'
 
+import { MapCases } from '../components/MapCases';
+
 export class ReviewersViewMyTasks extends Component {
     _isMounted = false
     constructor(props) {
@@ -14,10 +16,10 @@ export class ReviewersViewMyTasks extends Component {
         }
       }
     componentDidMount() {
-        const id = localStorage.getItem('id')
+        // const id = localStorage.getItem('id')
         this._isMounted = true
         this.setState({loading: true})
-        Axios.get('/api/reviewers/workPage/'+ id)
+        Axios.get('/api/reviewers/allowedCompanies')
         .then(res => this.setState({ tasks: res.data.data, loading: false }))
         .catch(err => this.setState({ error: true , loading: false}))
     }
@@ -32,7 +34,7 @@ export class ReviewersViewMyTasks extends Component {
         </div>
         :
         ( <div>
-            <MapTasks tasks = {this.state.tasks}/>
+            <MapCases cases = {this.state.tasks}/>
           </div>
         )
   }

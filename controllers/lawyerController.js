@@ -278,6 +278,20 @@ exports.editForm = async (req, res) => {
   }
 }
 
+exports.allowedCompanies = async (req, res) => {
+  const query1 = { 'form.acceptedByLawyer': -1, 'form.acceptedByReviewer': -1 }
+  const query2 = { 'form.acceptedByLawyer': 1, 'form.acceptedByReviewer': 0 }
+  const newCompanies = await Company.find(query1)
+  const returnedCompanies = await Company.find(query2)
+  const companies = []
+  const data = companies.concat(newCompanies, returnedCompanies)
+  return res.json({
+    status: 'Success',
+    message: data.length ? 'Your companies that needs reviewing' : 'No companies need your review',
+    data: data
+  })
+}
+
 exports.casesPage = async (req, res) => {
   try {
     const lawyerId = req.params.id

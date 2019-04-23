@@ -3,6 +3,7 @@ import Axios from 'axios'
 import PropTypes from 'prop-types'
 import MapTasks from '../components/MapTasks'
 import Spinner from 'react-bootstrap/Spinner'
+import { MapCases } from '../components/MapCases';
 
 export class LawyersViewMyTasks extends Component {
     _isMounted = false
@@ -15,12 +16,11 @@ export class LawyersViewMyTasks extends Component {
       }
     componentDidMount() {
         this._isMounted = true
-        const id = localStorage.getItem('id')
-        Axios.get('/api/lawyers/workPage/'+ id)
+        // const id = localStorage.getItem('id')
+        Axios.get('/api/lawyers/allowedCompanies')
         .then(res => this.setState({ tasks: res.data.data , loading: false }))
         .catch(err => this.setState({ error: true, loading: false }))
     }
-
     componentWillUnmount() {
         this._isMounted = false
     }  
@@ -31,7 +31,7 @@ export class LawyersViewMyTasks extends Component {
         </div>
         :
         ( <div>
-            <MapTasks tasks = {this.state.tasks}/>
+            <MapCases cases = {this.state.tasks}/>
           </div>
         )
   }

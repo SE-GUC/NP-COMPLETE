@@ -196,6 +196,13 @@ exports.login = async (req, res, Model, type) => {
         message: 'You must confirm your mail first '
       })
     }
+    const acceptedByAdmin = user.acceptedByAdmin
+    if (acceptedByAdmin !== undefined && acceptedByAdmin === false) {
+      return res.status(404).json({
+        status: 'Error',
+        message: 'The admin did not approve your registeration'
+      })
+    }
     const match = bcrypt.compareSync(password, user.password)
     if (match) {
       const payload = {

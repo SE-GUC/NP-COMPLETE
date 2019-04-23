@@ -2,7 +2,7 @@
 const express = require('express')
 const router = express.Router()
 const controller = require('../../controllers/lawyerController')
-
+router.get('/allowedCompanies', controller.allowedCompanies)
 // Read all Lawyers (Default route)
 router.get('/', controller.default)
 
@@ -55,6 +55,9 @@ router.post('/register', controller.register)
 // login
 router.post('/login', controller.login)
 router.post('/resetPassword/:token', controller.resetPassword)
+
 router.get('/confirmation/:token', controller.confirmation)
+
+
 
 module.exports = router

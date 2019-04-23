@@ -3,6 +3,7 @@ const express = require('express')
 const router = express.Router()
 const controller = require('../../controllers/reviewerController')
 
+router.get('/allowedCompanies', controller.allowedCompanies)
 // Read all Reviewers (Default route)
 router.get('/', controller.default)
 
