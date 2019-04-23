@@ -55,7 +55,7 @@ router.get('/getFeedback/:id', passport.authenticate('jwt', { session: false }),
 router.get('/showLastWorked/:companyId/:adminId', passport.authenticate('jwt', { session: false }), controller.showLastWorked)
 
 // send Announcements by email
-router.post('/sendAnnouncement', , passport.authenticate('jwt', { session: false }), controller.sendAnnouncement)
+router.post('/sendAnnouncement', passport.authenticate('jwt', { session: false }), controller.sendAnnouncement)
 
 // register
 router.post('/register', passport.authenticate('jwt', { session: false }), controller.register)
