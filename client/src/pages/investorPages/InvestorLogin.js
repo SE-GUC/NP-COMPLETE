@@ -3,7 +3,6 @@ import '../../App.css'
 import LoginBox from '../../components/LoginBox'
 import { Link } from 'react-router-dom'
 
-
 class InvestorLogin extends Component {
   constructor (props) {
     super(props)
