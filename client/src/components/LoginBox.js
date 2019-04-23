@@ -112,8 +112,6 @@ onClick = (e) => {
     }
   }
 
- 
-
 }
 
 LoginBox.propTypes = {

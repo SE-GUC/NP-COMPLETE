@@ -6,7 +6,7 @@ import Investor from './pages/Investor'
 import Reviewer from './pages/Reviewer'
 import React, { Component } from 'react'
 import Faqs from './pages/investorPages/Faqs'
-import Header from './components/generic/Header'
+// import Header from './components/generic/Header'
 import Ejournals from './pages/CompaniesEjournals'
 import Tracker from './pages/investorPages/Tracker'
 import acceptOrReject from './pages/acceptOrReject'
@@ -37,18 +37,24 @@ import publishCompany from './pages/PublishCompany'
 import RegisterInternal from './pages/adminPages/RegisterInternal'
 import CalcFees from './pages/lawyerPages/CalcFees'
 import ReviewForm from './pages/ReviewForm'
-import { Container } from 'react-bootstrap'
-import NavBar from './components/generic/NavbarGafi'
-import Money from './pages/investorPages/Money'
+// import { Container } from 'react-bootstrap'
+// import NavBar from './components/generic/NavbarGafi'
 import confirmation from './pages/Confrimation'
 import ForgetPassword from './pages/ForgetPassword'
 import ResetPassword from './pages/ResetPassword'
 import DBRepop from './pages/DBRepop'
 import AdminSendEmails from './pages/AdminSendEmails'
+import HomePageLayout from './pages/HomePageLayout'
+import LoginForm from './pages/LoginForm'
+import NewRegister from './pages/Register'
+import { Segment } from 'semantic-ui-react'
+import WorkPage from './pages/Internalportal/WorkPage'
+import { truncate } from 'fs'
 import ContactUs from './components/ContactUs'
 import FlashMessagesList from './components/generic/FlashMessagesList'
 import GuardRoute from './utilities/GuardRoute'
 import SettingsPage from './pages/SettingsPage'
+import Money from './pages/investorPages/Money'
 
 if (localStorage.jwtToken) {
   setAuthToken(localStorage.jwtToken)
@@ -58,111 +64,120 @@ class App extends Component {
   render () {
     return (
       <React.Fragment>
+        <Segment
+          inverted
+          textAlign='center'
+          style={{ minHeight: 700, padding: '1em 0em', top: '0', bottom: '0', left: '0', right: '0', position: 'absolute' }}
+          vertical
+        >
 
-        <Router>
-          <NavBar />
-          <Header />
-          <FlashMessagesList />
-          <Container>
+          <Router>
 
-            <Route exact path='/' render={props => (
-              <React.Fragment>
-                <h1> Welcome to Gafi Web</h1>
-              </React.Fragment>
-            )} />
+            <FlashMessagesList />
+
+            <Route exact path='/' component={HomePageLayout} />
+
+            <Route exact path='/newRegister' component={NewRegister} />
 
             <Route exact path='/login' component={LogIn} />
 
-            <Route exact path='/admin' component={AdminLandingPage} />
+            <Route exact path='/internalportal/workpage' component={GuardRoute(WorkPage)} />
+
+            <Route exact path='/admin' component={GuardRoute(AdminLandingPage)} />
 
             <Route exact path='/investor' component={GuardRoute(InvestorLandingPage)} />
 
             <Route exact path='/investors/Faqs' component={Faqs} />
 
-            <Route exact path='/admins/deleteAdmin' component={Admin} />
+            <Route exact path='/admins/deleteAdmin' component={GuardRoute(Admin)} />
 
-            <Route exact path='/admins/deleteLawyer' component={Lawyer} />
+            <Route exact path='/admins/deleteLawyer' component={GuardRoute(Lawyer)} />
 
             <Route exact path='/investors/Register' component={Register} />
 
             <Route exact path='/companies/Ejournals' component={Ejournals} />
 
-            <Route exact path='/investors/tracker' component={Tracker} />
+            <Route exact path='/investors/tracker' component={GuardRoute(Tracker)} />
 
-            <Route exact path='/admins/deleteInvestor' component={Investor} />
+            <Route exact path='/admins/deleteInvestor' component={GuardRoute(Investor)} />
 
-            <Route exact path='/admins/deleteReviewer' component={Reviewer} />
+            <Route exact path='/admins/deleteReviewer' component={GuardRoute(Reviewer)} />
 
-            <Route exact path='/investors/viewRejected' component={ViewForm} />
+            <Route exact path='/investors/viewRejected' component={GuardRoute(ViewForm)} />
 
-            <Route exact path='/admins/viewAllCases' component={AdminViewCases} />
+            <Route exact path='/admins/viewAllWalkInCases' component={() => <AdminViewCases walkIn />} />
 
-            <Route exact path='/admins/viewMyTasks' component={AdminsViewMyTasks} />
+            <Route exact path='/admins/viewAllPortalCases' component={() => <AdminViewCases walkIn={false} />} />
 
-            <Route exact path='/lawyers/viewAllCases' component={LawyerViewCases} />
+            <Route exact path='/admins/viewMyTasks' component={GuardRoute(AdminsViewMyTasks)} />
 
-            <Route exact path='/admins/showLastWorked' component={AdminShowLastWorked} />
+            <Route exact path='/lawyers/viewAllWalkInCases' component={() => <LawyerViewCases walkIn />} />
 
-            <Route exact path='/lawyers/viewMyTasks' component={LawyersViewMyTasks} />
+            <Route exact path='/lawyers/viewAllPortalCases' component={() => <LawyerViewCases walkIn={false} />} />
 
-            <Route exact path='/lawyers/showLastWorked' component={LawyerShowLastWorked} />
+            <Route exact path='/admins/showLastWorked' component={GuardRoute(AdminShowLastWorked)} />
 
-            <Route exact path='/reviewers/viewAllCases' component={ReviewerViewCases} />
+            <Route exact path='/lawyers/viewMyTasks' component={GuardRoute(LawyersViewMyTasks)} />
 
-            <Route exact path='/reviewers/viewMyTasks' component={ReviewersViewMyTasks} />
+            <Route exact path='/lawyers/showLastWorked' component={GuardRoute(LawyerShowLastWorked)} />
 
-            <Route exact path='/investors/payFees' component={Money} />
+            <Route exact path='/investors/payFees' component={GuardRoute(Money)} />
 
-            <Route exact path='/investors/MyCompanies' component={AllMyCompanies} />
+            <Route exact path='/investors/MyCompanies' component={GuardRoute(AllMyCompanies)} />
 
-            <Route exact path='/reviewers/showLastWorked' component={ReviewerShowLastWorked} />
+            <Route exact path='/reviewers/viewAllWalkInCases' component={() => <ReviewerViewCases walkIn />} />
 
-            <Route exact path='/lawyers/addComment' component={LawyerAddComment} />
+            <Route exact path='/reviewers/viewAllPortalCases' component={() => <ReviewerViewCases walkIn={false} />} />
 
-            <Route exact path='/investors/cancelApplication' component={CancelApplication} />
+            <Route exact path='/reviewers/viewMyTasks' component={GuardRoute(ReviewersViewMyTasks)} />
 
-            <Route exact path='/reviewers/addComment' component={ReviewerAddComment} />
+            {/* <Route exact path='/investors/payFees/:investorId/:companyId' component={payFees} /> */}
 
-            <Route exact path='/reviewers/acceptOrReject' component={acceptOrReject} />
+            <Route exact path='/investors/MyCompanies' component={GuardRoute(AllMyCompanies)} />
 
-            <Route exact path='/lawyers/review' component={acceptOrRejectInvestorForm} />
+            <Route exact path='/reviewers/showLastWorked' component={GuardRoute(ReviewerShowLastWorked)} />
 
-            <Route exact path='/user/UpdateProfile' component={UpdateProfile} />
+            <Route exact path='/lawyers/addComment' component={GuardRoute(LawyerAddComment)} />
 
-            <Route exact path='/investors/fillForm' component={ChooseForm} />
+            <Route exact path='/investors/cancelApplication' component={GuardRoute(CancelApplication)} />
+
+            <Route exact path='/reviewers/addComment' component={GuardRoute(ReviewerAddComment)} />
+
+            <Route exact path='/reviewers/acceptOrReject' component={GuardRoute(acceptOrReject)} />
+
+            <Route exact path='/lawyers/review' component={GuardRoute(acceptOrRejectInvestorForm)} />
+
+            <Route exact path='/user/UpdateProfile' component={GuardRoute(UpdateProfile)} />
+
+            <Route exact path='/investors/fillForm' component={(ChooseForm)} />
 
             <Route exact path='/investors/editForm' component={UpdateForm} />
 
-            <Route exact path='/lawyers/fillForm' component={ChooseForm} />
+            <Route exact path='/admins/publishCompany' component={GuardRoute(publishCompany)} />
 
-            <Route exact path='/lawyers/editForm' component={UpdateForm} />
+            <Route exact path='/admins/registerInternal/' component={GuardRoute(RegisterInternal)} />
 
-            <Route exact path='/admins/publishCompany' component={publishCompany} />
+            <Route exact path='/lawyers/CalcFees' component={GuardRoute(CalcFees)} />
 
-            <Route exact path='/admins/registerInternal/' component={RegisterInternal} />
-
-            <Route exact path='/lawyers/CalcFees/' component={CalcFees} />
-
-            <Route exact path='/users/reviewForm' component={ReviewForm} />
-
-            <Route exact path='users/reviewForm' component={ReviewForm} />
+            <Route exact path='users/reviewForm' component={GuardRoute(ReviewForm)} />
 
             <Route exact path='/confirmation/:model/:emailToken' component={confirmation} />
 
             <Route exact path='/ForgetPassword' component={ForgetPassword} />
-
+           
             <Route exact path='/ResetPassword/:model/:emailToken' component={ResetPassword} />
 
             <Route exact path='/admins/DBRepop' component={DBRepop} />
 
-            <Route exact path='/admins/sendEmail' component={AdminSendEmails} />
+            <Route exact path='/admins/sendEmail' component={GuardRoute(AdminSendEmails)} />
 
             <Route exact path='/admins/ContactUs' component={ContactUs} />
 
-            <Route exact path='/user/settings' component={SettingsPage} />
+            <Route exact path='/user/settings' component={GuardRoute(SettingsPage)} />
 
-          </Container>
-        </Router>
+            {/* </Container> */}
+          </Router>
+        </Segment>
       </React.Fragment>
     )
   }
