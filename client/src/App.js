@@ -44,7 +44,7 @@ import ForgetPassword from './pages/ForgetPassword'
 import ResetPassword from './pages/ResetPassword'
 import DBRepop from './pages/DBRepop'
 import AdminSendEmails from './pages/AdminSendEmails'
-import HomepageLayout from './pages/HomepageLayout'
+import HomePageLayout from './pages/HomePageLayout'
 import LoginForm from './pages/LoginForm'
 import NewRegister from './pages/Register'
 import { Segment } from 'semantic-ui-react'
@@ -70,7 +70,7 @@ class App extends Component {
           <Header /> */}
             {/* <Container> */}
 
-            <Route exact path='/' component={HomepageLayout} />
+            <Route exact path='/' component={HomePageLayout} />
 
             <Route exact path='/login' component={LogIn} />
 

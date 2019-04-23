@@ -41,11 +41,12 @@ class InvestorLandingPage extends Component {
           </Row>
           <Row>
             <Col sm='6'>
-              <Card body>
+            <DisplayCard title="My Companies" text="Keep track of your companies" buttonText="show companies" id="company" click={this.click} />
+              {/* <Card body>
                 <CardTitle>My companies</CardTitle>
                 <CardText>Keep track of your companies</CardText>
                 <Button variant='primary' href= '/investors/MyCompanies' onClick={this.myCompanies} >View list of companies</Button>
-              </Card>
+              </Card> */}
             </Col>
             <Col sm='6'>
               <Card body>
