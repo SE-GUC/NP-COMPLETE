@@ -40,6 +40,7 @@ import CalcFees from './pages/lawyerPages/CalcFees'
 import ReviewForm from './pages/ReviewForm'
 import { Container } from 'react-bootstrap'
 import NavBar from './components/generic/NavbarGafi'
+import DisplayDocument from './pages/DisplayDocument'
 
 if (localStorage.jwtToken) {
   setAuthToken(localStorage.jwtToken)
@@ -131,6 +132,8 @@ class App extends Component {
             <Route exact path='/lawyers/CalcFees/:companyId' component={CalcFees} />
 
             <Route exact path='users/reviewForm' component={ReviewForm} />
+
+            <Route exact path='/lawyers/generateDocs/:lawyerId/:companyId' component={DisplayDocument} />
           </Container>
         </Router>
       </React.Fragment>

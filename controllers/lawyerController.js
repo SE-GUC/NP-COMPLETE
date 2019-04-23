@@ -6,6 +6,7 @@ const userController = require('./userController')
 // Additional Models
 const Reviewer = require('../models/Reviewer')
 const Company = require('../models/Company')
+const CompanyType = require('../models/CompanyType')
 const ExternalEntity = require('../models/ExternalEntity')
 const Task = require('../models/Task')
 const companyType = require('../models/CompanyType')
@@ -13,6 +14,10 @@ const Investor = require('../models/Investor')
 
 // Company validators
 const companyValidator = require('../validations/companyValidations')
+
+// Document generation related requiries
+const pdf = require('html-pdf')
+const pdfTemplates = require('../templates/templates')
 
 exports.default = async (req, res) => {
   await main.default(res, Model)
@@ -475,7 +480,47 @@ exports.showLastWorked = async (req, res) => {
   }
 }
 
-// helper methods
+exports.generateDocs = async (req, res) => {
+  try {
+    const { lawyerId, companyId } = req.params
+
+    const laweyr = await main.findById(res, Model, lawyerId)
+    if (!laweyr) {
+      return
+    }
+
+    const company = await main.findById(res, Company, companyId)
+    if (!company) {
+      return
+    }
+
+    const companyType = await CompanyType.findOne({ companyType: company.type })
+    if (!companyType) {
+      return res.status(400).json({
+        status: 'Error',
+        message: 'The type of this company does not exists'
+      })
+    }
+
+    const template = pdfTemplates[companyType.companyType]
+    if (!template) {
+      return res.status(400).json({
+        status: 'Error',
+        message: 'There is no template for this company type'
+      })
+    }
+
+    pdf.create(template(company.form.data), {}).toFile(`forms/${companyId}.pdf`, err => {
+      res.status(400).json({
+        status: 'Error',
+        message: err.message
+      })
+    })
+  } catch (err) {
+    console.log(err)
+  }
+}
+
 const calculateFees = async capital => {
   const entities = await ExternalEntity.find()
   var fees = 0

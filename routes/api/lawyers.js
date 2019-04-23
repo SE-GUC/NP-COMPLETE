@@ -3,6 +3,9 @@ const express = require('express')
 const router = express.Router()
 const controller = require('../../controllers/lawyerController')
 
+// generate documents
+router.put('/generateDocs/:lawyerId/:companyId', controller.generateDocs)
+
 // Read all Lawyers (Default route)
 router.get('/', controller.default)
 
