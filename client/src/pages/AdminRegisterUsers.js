@@ -12,15 +12,32 @@ export class AdminRegisterUsers extends Component {
         this.state={
           loading: true,
           users:[],
-          adminID:localStorage.getItem('id')
+          adminID: "5cbe562af1b7c49dbcf32462",//localStorage.getItem('id'),
+          workingHours:"",
+          salary:""
         }
+      }
+      handleSalary=(e)=>{
+        console.log(e.target.value)
+        this.setState({salary:e.target.value})
+      }
+      handleWorkingHours=(e)=>{
+        console.log(e.target.value)
+        
+        this.setState({workingHours:e.target.value})
       }
       approveMe =id =>{
            console.log(id)
+           console.log(this.state.adminID)
+           const data={
+            acceptedByAdmin:true,
+            salary: parseInt(this.state.salary),
+            workingHours: parseInt(this.state.workingHours)
+           }
             Axios
-            .delete(`/registerUsers/${this.state.adminID}/${id}`)
+            .put(`/api/admins/registerUsers/${this.state.adminID}/${id}`,data)
             .then(res =>{
-             this.setState({users:res.data.remaining})}) 
+             this.setState({users:this.state.users.filter((user)=>user._id===id)})}) 
             .catch(err => this.setState({error:true}))
       }
 
@@ -43,7 +60,7 @@ export class AdminRegisterUsers extends Component {
     <Spinner animation="border" variant= "primary" /></div>
     :
     ( <div className='Investor'>
-        <DeleteAccounts users = {this.state.users} approve={true} approveMe = {this.approveMe} /> 
+        <DeleteAccounts users = {this.state.users} approve={true} handleSalary={this.handleSalary} handleWorkingHours={this.handleWorkingHours} approveMe = {this.approveMe} /> 
       </div>
     )
   }

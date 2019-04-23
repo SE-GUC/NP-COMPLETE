@@ -7,7 +7,7 @@ export class DeleteAccounts extends react.Component {
       return <UserCard data={user} ondelete={this.props.deleteMe} />
     })
       : this.props.users.map(user => {
-        return <UserCard data={user} approve onApprove={this.props.approveMe} />
+        return <UserCard data={user} handleSalary={this.props.handleSalary} handleWorkingHours={this.props.handleWorkingHours} approve onApprove={this.props.approveMe} />
       })
     return Card
   }
