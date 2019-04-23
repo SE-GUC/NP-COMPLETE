@@ -41,7 +41,7 @@ router.post('/fillForm/:id', passport.authenticate('jwt', { session: false }), c
 // will be verified with stripe to add real fees in the front end
 router.put('/payFees/:id', passport.authenticate('jwt', { session: false }), controller.payFees)
 
-router.post('/fees', controller.fees)
+router.post('/fees', passport.authenticate('jwt', { session: false }), controller.fees)
 // As an investor I should be able to read a description of the form,
 // so that I can understand what to fill in each field
 router.get('/readDescription/:type', passport.authenticate('jwt', { session: false }), controller.readDescription)
