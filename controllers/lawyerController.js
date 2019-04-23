@@ -239,6 +239,7 @@ exports.review = async (req, res) => {
         to: investorrEmail,
         subject: 'Form rejection by lawyer',
         message: `Your form has been rejected by the lawyer ${lawyer.fullName}`,
+        html: `Your form has been rejected by the lawyer ${lawyer.fullName}`
       })
     }
     if(review === 1){
@@ -246,6 +247,7 @@ exports.review = async (req, res) => {
         to: investorrEmail,
         subject: 'Form acceptance by lawyer',
         message: `Your form has been accepted by the lawyer ${lawyer.fullName}`,
+        html: `Your form has been accepted by the lawyer ${lawyer.fullName}`
       })
     }
     return res.json({
