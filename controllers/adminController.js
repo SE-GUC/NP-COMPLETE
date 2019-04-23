@@ -16,16 +16,15 @@ const Reviewer = require('../models/Reviewer')
 const Investor = require('../models/Investor')
 const nodemailer = require('nodemailer')
 const emailUserName = require('../config/keys').user
-	const emailPassword = require('../config/keys').pass
-	const nodemailer = require('nodemailer')
-	const transporter = nodemailer.createTransport({
+const emailPassword = require('../config/keys').pass
+const transporter = nodemailer.createTransport({
 	  service: 'Gmail',
 	  auth: {
 	    user: emailUserName,
 	    pass: emailPassword
 	  }
-  })
-  
+})
+
 exports.default = async (req, res) => {
   await main.default(res, Model)
 }
@@ -198,12 +197,12 @@ exports.publishCompany = async (req, res) => {
       date.setMinutes(0)
       const data = { 'state': 'Established', 'establishmentDate': date }
       const updatedCompany = await Company.findByIdAndUpdate(query, data, { new: true })
-      const Investorr = await Investor.findById(company.investorId)
+      const Investorr = await Investor.findById(currentCompany.investorId)
 	    const investorrEmail = Investorr.email
       transporter.sendMail({
         to: investorrEmail,
         subject: 'Publlished company',
-        message: `Your form has been accepted by the reviewer ${reviewer.fullName}`,
+        message: `Your form has been accepted by a reviewer`,
         html: `Your company ${currentCompany.name} has been published`
       })
       return res.json({
