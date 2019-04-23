@@ -90,13 +90,15 @@ class App extends Component {
 
           <Route exact path='/investors/viewRejected' component={ViewForm} />
 
-          <Route exact path='/admins/viewAllWalkInCases' component={() => <AdminViewCases walkIn={true} />} />
+          <Route exact path='/admins/viewAllWalkInCases' component={() => <AdminViewCases walkIn />} />
 
-          <Route exact path='/admins/viewAllPortalCases' component={AdminViewCases} walkIn={false} />
+          <Route exact path='/admins/viewAllPortalCases' component={() => <AdminViewCases walkIn={false} />} />
 
           <Route exact path='/admins/viewMyTasks' component={AdminsViewMyTasks} />
 
-          <Route exact path='/lawyers/viewAllCases' component={LawyerViewCases} />
+          <Route exact path='/lawyers/viewAllWalkInCases' component={() => <LawyerViewCases walkIn />} />
+
+          <Route exact path='/lawyers/viewAllPortalCases' component={() => <LawyerViewCases walkIn={false} />} />
 
           <Route exact path='/admins/showLastWorked' component={AdminShowLastWorked} />
 
@@ -104,9 +106,9 @@ class App extends Component {
 
           <Route exact path='/lawyers/showLastWorked' component={LawyerShowLastWorked} />
 
-          <Route exact path='/reviewers/viewAllWalkInCases' component={ReviewerViewCases} walkIn />
+          <Route exact path='/reviewers/viewAllWalkInCases' component={() => <ReviewerViewCases walkIn />} />
 
-          <Route exact path='/reviewers/viewAllPortalCases' component={ReviewerViewCases} walkIn={false} />
+          <Route exact path='/reviewers/viewAllPortalCases' component={() => <ReviewerViewCases walkIn={false} />} />
 
           <Route exact path='/reviewers/viewMyTasks' component={ReviewersViewMyTasks} />
 

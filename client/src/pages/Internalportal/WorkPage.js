@@ -5,8 +5,8 @@ import InternalPortalBar from '../../components/layout/InternalPortalBar'
 class WorkPage extends Component {
   render () {
     const lawyerWorkList = [
-      { text: 'Walk in applications', link: '/lawyers/viewAllCases' },
-      { text: 'Portal Applications', link: '/lawyers/viewAllCases' },
+      { text: 'Walk in applications', link: '/lawyers/viewAllWalkInCases' },
+      { text: 'Portal Applications', link: '/lawyers/viewAllPortalCases' },
       { text: 'Start Walk in App', link: '/lawyers/fillForm' }
     ]
     const adminWorkList = [
