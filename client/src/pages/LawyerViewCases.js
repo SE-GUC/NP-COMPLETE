@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import Axios from 'axios'
 import PropTypes from 'prop-types'
 import MapCases from '../components/MapCases'
-import Spinner from 'react-bootstrap/Spinner'
+import {Spinner , Alert} from 'react-bootstrap'
 import Button from 'react-bootstrap/Button'
 
 export class LawyerViewCases extends Component {
@@ -11,6 +11,7 @@ export class LawyerViewCases extends Component {
         super(props)
         this.state={
           loading: true,
+          error: false,
           cases:[]
         }
       }
@@ -18,7 +19,7 @@ export class LawyerViewCases extends Component {
     componentDidMount() {
         const id = localStorage.getItem('id')
         this._isMounted = true
-        this.setState({loading: true})
+        this.setState({loading: true , error: false})
         Axios.get('/api/lawyers/casesPage/'+ id)
         .then(res => this.setState({ cases: res.data.data , loading: false}))
         .catch(err => this.setState({ error: true, loading: false }))
@@ -29,7 +30,7 @@ export class LawyerViewCases extends Component {
       }
   render() {
     if (localStorage.getItem('language') === 'English') {
-    return this.state.error? <h1>process could not be completed</h1>:this.state.loading?
+    return this.state.error? <Alert className='App' variant='danger'>Looks like something has gone wrong</Alert>:this.state.loading?
     <div className='App'>
     <Spinner animation="border" variant="primary" />
     </div>
@@ -42,10 +43,9 @@ export class LawyerViewCases extends Component {
       </div>
     )
   } else{
-    return this.state.error? <h1>process could not be completed</h1>:this.state.loading?
-    <div className='App'>
-    <Spinner animation="border" variant="primary" />
-    </div>
+    return this.state.error? <Alert className='App' variant='danger'>يبدو ان ثمة مشكلة الرجاء حاول مجددا</Alert>:
+    (this.state.loading?
+    <div className='App'><Spinner animation="border" variant="primary" /></div>
     :
     ( <div>
       <Button variant='danger' onClick={()=>this.setState({cases:this.state.cases.sort((a,b) => (a.establishmentDate > b.establishmentDate) ? 1 : ((b.establishmentDate > a.establishmentDate) ? -1 : 0))})}>>رتب بتاريخ التاسيس</Button>
@@ -53,6 +53,7 @@ export class LawyerViewCases extends Component {
       <h1>if green then filled by an ivestor else filled by a lawyer</h1>
       <MapCases cases = {this.state.cases}/>
       </div>
+    )
     )
   }
 }

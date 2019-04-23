@@ -145,8 +145,6 @@ class App extends Component {
 
             <Route exact path='/users/reviewForm' component={ReviewForm} />
 
-            <Route exact path='users/reviewForm' component={ReviewForm} />
-
             <Route exact path='/confirmation/:model/:emailToken' component={confirmation} />
 
             <Route exact path='/ForgetPassword' component={ForgetPassword} />
