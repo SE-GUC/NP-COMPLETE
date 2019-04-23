@@ -49,9 +49,9 @@ export default class SettingsPage extends React.Component {
             <CardBody>
             Are you sure you want to delete this account? This cannot be undone.
             </CardBody>
-            <Button variant="danger" href='/login' onClick= {this.onClick}>Yes</Button>
+            <Button variant="primary" href='/login' onClick= {this.onClick}>Yes</Button>
             <br />
-            <Button variant="success" onClick= {this.toggle}>No</Button>
+            <Button variant="primary" onClick= {this.toggle}>No</Button>
             <br />
           </Card>
         </Collapse>
