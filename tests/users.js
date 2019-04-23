@@ -1,7 +1,7 @@
 const axios = require('axios')
 const users = {
   showEstablishedCompanies: async () => {
-    return axios.get(`http://localhost:8000/api/users/showEstanlishedCompanies`)
+    return axios.get(`/api/users/showEstanlishedCompanies`)
   }
 }
 module.exports = users

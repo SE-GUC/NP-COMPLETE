@@ -2,7 +2,10 @@
 const express = require('express')
 const router = express.Router()
 const controller = require('../../controllers/lawyerController')
+const passport = require('passport')
+
 router.get('/allowedCompanies', controller.allowedCompanies)
+
 // Read all Lawyers (Default route)
 router.get('/', controller.default)
 
@@ -51,13 +54,12 @@ router.put('/updateMyProfile/:id', controller.updateMyProfile)
 // As an Internal User I can see who last worked on a case so that we can all be updated of each other's work
 router.get('/showLastWorked/:companyId/:lawyerId', controller.showLastWorked)
 // register
-router.post('/register', controller.register)
+router.post('/register', passport.authenticate('jwt', { session: false }), controller.register)
 // login
-router.post('/login', controller.login)
+router.post('/login', passport.authenticate('jwt', { session: false }), controller.login)
+
 router.post('/resetPassword/:token', controller.resetPassword)
 
 router.get('/confirmation/:token', controller.confirmation)
-
-
 
 module.exports = router
