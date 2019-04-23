@@ -46,7 +46,8 @@ import DBRepop from './pages/DBRepop'
 import AdminSendEmails from './pages/AdminSendEmails'
 import HomepageLayout from './pages/HomepageLayout'
 import LoginForm from './pages/LoginForm'
-
+import NewRegister from './pages/Register'
+import { Segment } from 'semantic-ui-react'
 if (localStorage.jwtToken) {
   setAuthToken(localStorage.jwtToken)
 }
@@ -55,7 +56,12 @@ class App extends Component {
   render () {
     return (
       <React.Fragment>
-
+          <Segment
+            inverted
+            textAlign='center'
+            style={{ minHeight: 700, padding: '1em 0em' ,top:'0', bottom:'0', left:'0', right:'0', position: 'absolute'}}
+            vertical
+          >
         <Router>
           {/* <NavBar />
           <Header /> */}
@@ -70,6 +76,8 @@ class App extends Component {
           <Route exact path='/login' component={LogIn} />
 
           <Route exact path='/LoginForm' component={LoginForm} />
+
+          <Route exact path='/newRegister' component={NewRegister} />
 
           <Route exact path='/admin' component={AdminLandingPage} />
 
@@ -148,6 +156,7 @@ class App extends Component {
 
           {/* </Container> */}
         </Router>
+        </Segment>
       </React.Fragment>
     )
   }
