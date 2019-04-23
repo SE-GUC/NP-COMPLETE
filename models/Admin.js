@@ -16,8 +16,7 @@ const AdminSchema = new Schema({
     required: true
   },
   startDate: {
-    type: Date,
-    required: true
+    type: Date
   },
   workingHours: {
     type: Number

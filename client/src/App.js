@@ -46,8 +46,6 @@ import ResetPassword from './pages/ResetPassword'
 import DBRepop from './pages/DBRepop'
 import AdminSendEmails from './pages/AdminSendEmails'
 import ContactUs from './components/ContactUs'
-import { withStyles } from '@material-ui/core/styles'
-import Button from '@material-ui/core/Button'
 import FlashMessagesList from './components/generic/FlashMessagesList'
 import GuardRoute from './utilities/GuardRoute'
 if (localStorage.jwtToken) {
@@ -112,7 +110,7 @@ class App extends Component {
             <Route exact path='/reviewers/viewMyTasks' component={ReviewersViewMyTasks} />
 
             <Route exact path='/investors/payFees' component={Money} />
-         
+
             <Route exact path='/investors/MyCompanies' component={AllMyCompanies} />
 
             <Route exact path='/reviewers/showLastWorked' component={ReviewerShowLastWorked} />
@@ -156,7 +154,7 @@ class App extends Component {
             <Route exact path='/admins/DBRepop' component={DBRepop} />
 
             <Route exact path='/admins/sendEmail' component={AdminSendEmails} />
-              
+
             <Route exact path='/admins/ContactUs' component={ContactUs} />
 
           </Container>

@@ -21,7 +21,7 @@ module.exports = {
       birthdate: Joi.date().iso().max(Date.now()),
       email: Joi.string().email(),
       startDate: Joi.date().iso().max(Date.now()),
-      workingHours: Joi.number().min(5),
+      workingHours: Joi.number().min(5).integer(),
       salary: Joi.number(),
       password: Joi.string().min(8),
       acceptedByAdmin: Joi.boolean()
