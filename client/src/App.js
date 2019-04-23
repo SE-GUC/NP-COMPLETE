@@ -46,6 +46,7 @@ import DBRepop from './pages/DBRepop'
 import AdminSendEmails from './pages/AdminSendEmails'
 import HomepageLayout from './pages/HomePageLayout'
 import WorkPage from './pages/Internalportal/WorkPage'
+import { truncate } from 'fs'
 
 if (localStorage.jwtToken) {
   setAuthToken(localStorage.jwtToken)
@@ -61,11 +62,7 @@ class App extends Component {
           <Header /> */}
           {/* <Container> */}
 
-          <Route exact path='/' render={props => (
-            <React.Fragment>
-              <h1> Welcome to Gafi Web</h1>
-            </React.Fragment>
-          )} />
+          <Route exact path='/' component={HomepageLayout} />
 
           <Route exact path='/login' component={LogIn} />
 
@@ -93,7 +90,9 @@ class App extends Component {
 
           <Route exact path='/investors/viewRejected' component={ViewForm} />
 
-          <Route exact path='/admins/viewAllCases' component={AdminViewCases} />
+          <Route exact path='/admins/viewAllWalkInCases' component={() => <AdminViewCases walkIn={true} />} />
+
+          <Route exact path='/admins/viewAllPortalCases' component={AdminViewCases} walkIn={false} />
 
           <Route exact path='/admins/viewMyTasks' component={AdminsViewMyTasks} />
 
@@ -105,7 +104,9 @@ class App extends Component {
 
           <Route exact path='/lawyers/showLastWorked' component={LawyerShowLastWorked} />
 
-          <Route exact path='/reviewers/viewAllCases' component={ReviewerViewCases} />
+          <Route exact path='/reviewers/viewAllWalkInCases' component={ReviewerViewCases} walkIn />
+
+          <Route exact path='/reviewers/viewAllPortalCases' component={ReviewerViewCases} walkIn={false} />
 
           <Route exact path='/reviewers/viewMyTasks' component={ReviewersViewMyTasks} />
 
@@ -144,7 +145,7 @@ class App extends Component {
 
           <Route exact path='/admins/DBRepop' component={DBRepop} />
           <Route exact path='/admins/sendEmail' component={AdminSendEmails} />
-          <Route exact path='/homepagelayout' component={HomepageLayout} />
+
 
           {/* </Container> */}
         </Router>

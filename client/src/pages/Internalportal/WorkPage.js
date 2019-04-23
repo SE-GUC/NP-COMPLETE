@@ -10,15 +10,16 @@ class WorkPage extends Component {
       { text: 'Start Walk in App', link: '/lawyers/fillForm' }
     ]
     const adminWorkList = [
-      { text: 'View All Cases', link: '/admins/viewAllCases' },
+      { text: 'View All Portal Applications', link: '/admins/viewAllPortalCases' },
+      { text: 'View All Walk in Applications', link: '/admins/viewAllWalkInCases' },
       { text: 'Delete User', link: '/admins/deleteAdmin' },
       { text: 'Register Employees', link: '/admins/reg' },
       { text: 'Publish Companies', link: '/admins/publishCompany' }
     ]
 
     const reviewerWorkList = [
-      { text: 'Walk in applications', link: '/reviewers/viewAllCases' },
-      { text: 'Portal Applications', link: '/reviewers/viewAllCases' }
+      { text: 'Walk in applications', link: '/reviewers/viewAllWalkInCases' },
+      { text: 'Portal Applications', link: '/reviewers/viewAllPortalCases' }
     ]
 
     if (localStorage.getItem('type') === 'Lawyer') {

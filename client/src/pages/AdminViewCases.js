@@ -14,7 +14,8 @@ export class AdminViewCases extends Component {
           cases:[],
           searchedCases:[],
           ID:[],
-          loading:true
+          loading:true,
+          walkIn: props.walkIn
         }
       }
       handleInputChange = evt => {
@@ -65,7 +66,7 @@ export class AdminViewCases extends Component {
             <SearchCases cases = {this.state.searchedCases}/>
         <div>
         <h1>if green then filled by an investor else filled by a lawyer</h1>
-        <MapCases cases = {this.state.cases}/>
+        <MapCases cases = {this.state.cases} walkIn={this.state.walkIn}/>
         </div>
       </div>  
     )
@@ -89,7 +90,7 @@ export class AdminViewCases extends Component {
             <SearchCases cases = {this.state.searchedCases}/>
         <div>
         <h1>if green then filled by an ivestor else filled by a lawyer</h1>
-        <MapCases cases = {this.state.cases}/>
+        <MapCases cases = {this.state.cases} walkIn={this.state.walkIn}/>
         </div>
       </div>  
     )
