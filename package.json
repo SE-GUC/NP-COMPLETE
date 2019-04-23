@@ -39,6 +39,7 @@
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
     "sass": "^1.17.4",
+    "semantic-ui-css": "^2.4.1",
     "stripe": "^6.28.0",
     "token": "^0.1.0",
     "semantic-ui-react": "^0.86.0",

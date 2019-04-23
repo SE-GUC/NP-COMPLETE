@@ -44,7 +44,10 @@ import ForgetPassword from './pages/ForgetPassword'
 import ResetPassword from './pages/ResetPassword'
 import DBRepop from './pages/DBRepop'
 import AdminSendEmails from './pages/AdminSendEmails'
-import HomepageLayout from './pages/HomePageLayout'
+import HomePageLayout from './pages/HomePageLayout'
+import LoginForm from './pages/LoginForm'
+import NewRegister from './pages/Register'
+import { Segment } from 'semantic-ui-react'
 import WorkPage from './pages/Internalportal/WorkPage'
 import { truncate } from 'fs'
 import ContactUs from './components/ContactUs'
@@ -61,7 +64,6 @@ class App extends Component {
   render () {
     return (
       <React.Fragment>
-
         <Segment
           inverted
           textAlign='center'
@@ -73,7 +75,9 @@ class App extends Component {
 
             <FlashMessagesList />
 
-            <Route exact path='/' component={HomepageLayout} />
+            <Route exact path='/' component={HomePageLayout} />
+
+            <Route exact path='/newRegister' component={NewRegister} />
 
             <Route exact path='/login' component={LogIn} />
 
@@ -160,7 +164,7 @@ class App extends Component {
             <Route exact path='/confirmation/:model/:emailToken' component={confirmation} />
 
             <Route exact path='/ForgetPassword' component={ForgetPassword} />
-            
+           
             <Route exact path='/ResetPassword/:model/:emailToken' component={ResetPassword} />
 
             <Route exact path='/admins/DBRepop' component={DBRepop} />
