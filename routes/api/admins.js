@@ -55,7 +55,7 @@ router.get('/getFeedback/:id', passport.authenticate('jwt', { session: false }),
 router.get('/showLastWorked/:companyId/:adminId', passport.authenticate('jwt', { session: false }), controller.showLastWorked)
 
 // send Announcements by email
-router.post('/sendAnnouncement', controller.sendAnnouncement)
+router.post('/sendAnnouncement', , passport.authenticate('jwt', { session: false }), controller.sendAnnouncement)
 
 // register
 router.post('/register', passport.authenticate('jwt', { session: false }), controller.register)
@@ -64,7 +64,7 @@ router.post('/login', controller.login)
 router.post('/resetPassword/:token', controller.resetPassword)
 router.get('/confirmation/:token', controller.confirmation)
 
-router.get('/showUnapproved/:id', controller.showUnapproved)
+router.get('/showUnapproved/:id', passport.authenticate('jwt', { session: false }), controller.showUnapproved)
 
 router.put('/registerUsers/:adminId/:userId', controller.registerUsers)
 
