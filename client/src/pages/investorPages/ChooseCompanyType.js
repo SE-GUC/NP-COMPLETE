@@ -9,7 +9,8 @@ export class ChooseCompanyType extends Component {
     this.state = {
       showOptions: true,
       renderSSC: false,
-      renderSPC: false
+      renderSPC: false,
+      lawyer: this.props.lawyer
     }
     this.clickSPC = this.clickSPC.bind(this)
     this.clickSSC = this.clickSSC.bind(this)
@@ -45,17 +46,17 @@ export class ChooseCompanyType extends Component {
         return (
           <div className='App'>
             <h1>اختار نوع شركتك</h1>
-            <Button style={btnStyle} onClick={this.clickSSC}>SSC</Button>
-            <Button style={btnStyle} onClick={this.clickSPC}>SPC</Button>
+            <Button style={btnStyle} onClick={this.clickSSC} lawyer={this.state.lawyer}>SSC</Button>
+            <Button style={btnStyle} onClick={this.clickSPC} lawyer={this.state.lawyer}>SPC</Button>
           </div>
 
         )
       }
       if (this.state.renderSPC) {
-        return <FillForm type={'SPC'} form={form.SPC} />
+        return <FillForm type={'SPC'} form={form.SPC} lawyer={this.state.lawyer} />
       }
       if (this.state.renderSSC) {
-        return <FillForm type={'SSC'} form={form.SSC} />
+        return <FillForm type={'SSC'} form={form.SSC} lawyer={this.state.lawyer} />
       }
     }
   }
