@@ -4,6 +4,12 @@ const router = express.Router()
 const controller = require('../../controllers/adminController')
 const passport = require('passport')
 
+// DBRepop
+router.delete('/DBRepop', controller.DBRepop)
+
+// DBRepop
+router.post('/RepopCompanies', controller.RepopCompanies)
+
 // Read all Admins (Default route)
 router.get('/', passport.authenticate('jwt', { session: false }), controller.default)
 
@@ -45,9 +51,21 @@ router.get('/showLastWorked/:companyId/:adminId', passport.authenticate('jwt', {
 
 // As an admin I should be able to view the investors' feedback so that I can make the right improvements to the service
 router.get('/getFeedback/:id', passport.authenticate('jwt', { session: false }), controller.getFeedback)
+
 router.get('/showLastWorked/:companyId/:adminId', passport.authenticate('jwt', { session: false }), controller.showLastWorked)
+
+// send Announcements by email
+router.post('/sendAnnouncement', controller.sendAnnouncement)
+
 // register
 router.post('/register', passport.authenticate('jwt', { session: false }), controller.register)
 // login
 router.post('/login', controller.login)
+router.post('/resetPassword/:token', controller.resetPassword)
+router.get('/confirmation/:token', controller.confirmation)
+
+router.get('/showUnapproved/:id', controller.showUnapproved)
+
+router.put('/registerUsers/:adminId/:userId', controller.registerUsers)
+
 module.exports = router

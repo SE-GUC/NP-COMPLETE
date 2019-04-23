@@ -10,19 +10,33 @@ const ExternalEntity = require('../models/ExternalEntity')
 const Task = require('../models/Task')
 const companyType = require('../models/CompanyType')
 const Investor = require('../models/Investor')
-
+const emailUserName = require('../config/keys').user
+const emailPassword = require('../config/keys').pass
+const nodemailer = require('nodemailer')
+const transporter = nodemailer.createTransport({
+  service: 'Gmail',
+  auth: {
+    user: emailUserName,
+    pass: emailPassword
+  }
+})
 // Company validators
 const companyValidator = require('../validations/companyValidations')
 
 exports.default = async (req, res) => {
   await main.default(res, Model)
 }
-
+exports.resetPassword = async (req, res) => {
+  await userController.resetPassword(req, res, Model)
+}
+exports.confirmation = async (req, res) => {
+  await userController.confirmation(req, res, Model)
+}
 exports.register = async (req, res) => {
   await userController.register(req, res, validator, Model)
 }
 exports.login = async (req, res) => {
-  await userController.login(req, res, Model)
+  await userController.login(req, res, Model, 'Lawyer')
 }
 exports.create = async (req, res) => {
   await main.create(req, res, validator, Model)
@@ -217,10 +231,28 @@ exports.review = async (req, res) => {
 
     // Changing value to the new value
     const updatedCompany = await Company.findByIdAndUpdate(req.params.companyID, newData, { new: true })
-
+    const Investorr = await Investor.findById(company.investorId)
+    console.log(Investorr)
+    const investorrEmail = Investorr.email
+    if(review === 0){
+      transporter.sendMail({
+        to: investorrEmail,
+        subject: 'Form rejection by lawyer',
+        message: `Your form has been rejected by the lawyer ${lawyer.fullName}`,
+        html: `Your form has been rejected by the lawyer ${lawyer.fullName}`
+      })
+    }
+    if(review === 1){
+      transporter.sendMail({
+        to: investorrEmail,
+        subject: 'Form acceptance by lawyer',
+        message: `Your form has been accepted by the lawyer ${lawyer.fullName}`,
+        html: `Your form has been accepted by the lawyer ${lawyer.fullName}`
+      })
+    }
     return res.json({
       status: 'Success',
-      message: `Reviewed Form of Company with id ${req.params.id}`,
+      message: `Reviewed Form of Company with id ${req.params.companyID}`,
       data: updatedCompany.form
     })
   } catch (error) {
@@ -271,6 +303,20 @@ exports.editForm = async (req, res) => {
       message: error.message
     })
   }
+}
+
+exports.allowedCompanies = async (req, res) => {
+  const query1 = { 'form.acceptedByLawyer': -1, 'form.acceptedByReviewer': -1 }
+  const query2 = { 'form.acceptedByLawyer': 1, 'form.acceptedByReviewer': 0 }
+  const newCompanies = await Company.find(query1)
+  const returnedCompanies = await Company.find(query2)
+  const companies = []
+  const data = companies.concat(newCompanies, returnedCompanies)
+  return res.json({
+    status: 'Success',
+    message: data.length ? 'Your companies that needs reviewing' : 'No companies need your review',
+    data: data
+  })
 }
 
 exports.casesPage = async (req, res) => {
@@ -390,18 +436,17 @@ exports.calculateFees = async (req, res) => {
     }
 
     const type = company.type
-    const CompanyType = companyType.findOne({ companyType: type })
+    const CompanyType = await companyType.findOne({ companyType: type })
     if (!CompanyType) {
       return res.status(400).json({
         status: 'Error',
         message: 'Company type cannot be found'
       })
     }
-    const fields = companyType.fields
+    const fields = CompanyType.fields
     const capitalIdx = fields.indexOf('capital')
     const capital = company.form.data[capitalIdx]
     const fees = await calculateFees(capital)
-    console.log(`fees: ${fees}`)
 
     const query = { '_id': companyId }
     const newData = { 'fees': fees }

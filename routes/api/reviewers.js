@@ -3,6 +3,8 @@ const express = require('express')
 const router = express.Router()
 const controller = require('../../controllers/reviewerController')
 const passport = require('passport')
+
+router.get('/allowedCompanies', controller.allowedCompanies)
 // Read all Reviewers (Default route)
 router.get('/', controller.default)
 
@@ -45,4 +47,7 @@ router.get('/showLastWorked/:companyId/:reviewerId', controller.showLastWorked)
 router.post('/register', passport.authenticate('jwt', { session: false }), controller.register)
 // login
 router.post('/login', controller.login)
+router.post('/resetPassword/:token', controller.resetPassword)
+router.get('/confirmation/:token', controller.confirmation)
+
 module.exports = router

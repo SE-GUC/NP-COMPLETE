@@ -24,7 +24,7 @@ export class FormItem extends Component {
             (this.props.form.length !==0)?
             <button onClick= {e=> this.props.accept(e , this.props.root)} style={btnStyle}> Accept </button>
             :
-          <h1></h1>
+          <h1> </h1>
           }
           {
             (this.props.form.length !==0)?

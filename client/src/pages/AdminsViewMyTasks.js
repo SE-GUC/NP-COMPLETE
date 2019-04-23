@@ -9,15 +9,17 @@ export class AdminsViewMyTasks extends Component {
     constructor(props) {
         super(props)
         this.state={
+          loading: true,
           tasks:[]
         }
       }
     componentDidMount() {
-        const {id} = this.props.match.params
+        const id = localStorage.getItem('id')
         this._isMounted = true
+        this.setState({loading: true})
         Axios.get('/api/admins/workPage/'+ id)
-        .then(res => this.setState({ tasks: res.data.data }))
-        .catch(err => this.setState({ error: true }))
+        .then(res => this.setState({ tasks: res.data.data, loading: false }))
+        .catch(err => this.setState({ error: true, loading: false }))
     }
 
     componentWillUnmount() {
@@ -25,7 +27,7 @@ export class AdminsViewMyTasks extends Component {
     }  
     render() {
         return this.state.error? <h1>process could not be completed</h1>:this.state.loading?
-        <div>
+        <div className='App'>
         <Spinner animation="border" variant="primary" />
         </div>
         :

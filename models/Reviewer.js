@@ -28,8 +28,15 @@ const ReviewerSchema = new Schema({
   password: {
     type: String,
     required: true
+  },
+  confirmed: {
+    type: Boolean,
+    default: false
+  },
+  acceptedByAdmin: {
+    type: Boolean,
+    default: false
   }
-
 })
 
 module.exports = mongoose.model('Reviewer', ReviewerSchema, 'reviewer')

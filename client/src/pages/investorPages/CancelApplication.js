@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import Apps from '../../components/company/Apps'
 import Header2 from '../../components/Header2'
+import Spinner from 'react-bootstrap/Spinner'
 
 export class CancelApplication extends Component {
   constructor (props) {
@@ -15,9 +16,10 @@ export class CancelApplication extends Component {
   }
 
   componentDidMount () {
-    const { investorId } = this.props.match.params
+    const  investorId  = localStorage.getItem('id')
+    this.setState({loading: true})
      axios
-      .get('http://localhost:8000/api/companies/')
+      .get('/api/companies/')
       .then(
         res => {
           const resultArr = res.data.data
@@ -42,11 +44,9 @@ export class CancelApplication extends Component {
   }
 
   render () {
-    console.log(this.state)
-    console.log(this.props)
-
     if (this.state.loading === false && this.state.apps.length === 0) {
         return (
+          
           <h1> You don't have any unreviewed applications</h1>
         )
       }
@@ -66,8 +66,8 @@ export class CancelApplication extends Component {
     return (
       <div className='App'>
         <div>
-          {this.state.loading ? <h1>Loading..</h1>
-            : <div> <Header2 /> 
+          {this.state.loading ? <div className='App'><Spinner animation="border" variant= "primary" /></div>
+            : <div> <Header2 title='Cancel an Application' /> 
             <Apps forms={this.state.apps} cancel={this.cancel} /> </div>}
         </div>
       </div>
@@ -80,9 +80,8 @@ export class CancelApplication extends Component {
     const investorId = this.props.match.params
     console.log(investorId)
     axios
-      .delete('http://localhost:8000/api/companies/'+ id)
+      .delete('/api/companies/'+ id)
       .then( res => {
-        //console.log(res.data.deletedCompany)
           this.setState({apps: [...this.state.apps.filter(app => app._id !== id )]})
       })
           

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import Company from '../components/company/Company'
+import Spinner from 'react-bootstrap/Spinner'
 
 export class PublishCompany extends Component {
   constructor (props) {
@@ -14,9 +15,9 @@ export class PublishCompany extends Component {
   }
 
   componentDidMount () {
-    // const { adminId } = this.props.match.params
+    this.setState({loading: true})
     axios
-      .get('http://localhost:8000/api/companies/')
+      .get('/api/companies/')
       .then(
         res => {
           const resultArr = res.data.data
@@ -66,7 +67,7 @@ export class PublishCompany extends Component {
     return (
       <div className='App'>
         <div>
-          {this.state.loading ? <h1>Loading..</h1>
+          {this.state.loading ? <Spinner animation="border" variant= "primary" />
             : <Company forms={this.state.companies} publish = {this.publish} /> }
         </div>
       </div>
@@ -77,7 +78,7 @@ export class PublishCompany extends Component {
 publish = (id) => {
 console.log(id)
 axios
-.put(`http://localhost:8000/api/admins/publishCompany/${id}`)
+.put(`/api/admins/publishCompany/${id}`)
 .then(res=>alert(res.data.message))
 .catch(error=> alert(error))
 this.setState({companies: this.state.companies.filter(company => company._id !== id )})

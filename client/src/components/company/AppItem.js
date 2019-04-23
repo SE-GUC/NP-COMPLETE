@@ -13,6 +13,7 @@ getStyle = () =>{
 }
 
   render() {
+    if (localStorage.getItem('language') === 'English') {
     return (
       <div style ={this.getStyle()}>
       <p>
@@ -22,6 +23,17 @@ getStyle = () =>{
     </div>
       
     )
+  }else{
+    return (
+      <div style ={this.getStyle()}>
+      <p>
+      {this.props.form.name}
+      <button onClick= {this.props.cancel.bind(this,this.props.form._id)} style= {btnStyle} >الغاء </button>
+    </p>
+    </div>
+      
+    )
+  }
   }
 }
 const btnStyle = {
