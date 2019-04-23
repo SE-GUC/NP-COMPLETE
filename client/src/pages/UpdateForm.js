@@ -60,8 +60,9 @@ class UpdateForm extends Component {
   chooseForm = async (id, F)=>{
     const res= await Axios.get(`/api/companies/${id}`) 
     console.log(res.data.data)
-    await this.setState({oldData:res.data.data.form.data,formType:res.data.data.type})
+    await this.setState({oldData:res.data.data.form.data,formType:res.data.data.type,companyID:res.data.data._id})
     console.log(this.state.oldData)
+    console.log(this.state.companyID)
     await this.state.formType==="SSC"?(this.setState({form:form.SSC})):(this.setState({form:form.SPC}))
     this.setState({filledform:this.state.oldData})
     await this.setState({idEntered:true})

@@ -16,7 +16,7 @@ export class CalcFees extends Component {
     }
     componentDidMount()
     {
-      Axios.get(`/api/casesPage/${this.state.lawyerID}`)
+      Axios.get(`/api/lawyers/casesPage/${this.state.lawyerID}`)
       .then(res=>{this.setState({loading:true,allForms:res.data.data})})
       .catch(error=>this.setState({error:true}))
     }
