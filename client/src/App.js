@@ -50,6 +50,7 @@ import { withStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
 import FlashMessagesList from './components/generic/FlashMessagesList'
 import GuardRoute from './utilities/GuardRoute'
+import NotFound from './components/NotFound'
 if (localStorage.jwtToken) {
   setAuthToken(localStorage.jwtToken)
 }
@@ -158,6 +159,8 @@ class App extends Component {
             <Route exact path='/admins/sendEmail' component={AdminSendEmails} />
               
             <Route exact path='/admins/ContactUs' component={ContactUs} />
+
+            <Route path="/NotFound" component={NotFound} />
 
           </Container>
         </Router>
