@@ -55,6 +55,7 @@ import FlashMessagesList from './components/generic/FlashMessagesList'
 import GuardRoute from './utilities/GuardRoute'
 import SettingsPage from './pages/SettingsPage'
 import Money from './pages/investorPages/Money'
+import Navbar from './components/generic/NavbarGafi'
 
 if (localStorage.jwtToken) {
   setAuthToken(localStorage.jwtToken)
@@ -62,8 +63,9 @@ if (localStorage.jwtToken) {
 
 class App extends Component {
   render () {
-    return (
-      <React.Fragment>
+    return ( 
+      <React.Fragment >
+        
         <Segment
           inverted
           textAlign='center'
@@ -71,8 +73,8 @@ class App extends Component {
           vertical
         >
 
-          <Router>
-
+          <Router >
+             <Navbar />
             <FlashMessagesList />
 
             <Route exact path='/' component={HomePageLayout} />

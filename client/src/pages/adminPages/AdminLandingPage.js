@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Card, Button, CardTitle, CardText, Row, Col } from 'reactstrap'
 import Header2 from '../../components/Header2'
-
+import Navbar from '../../components/generic/NavbarGafi'
 
 class AdminLandingPage extends Component {
 
@@ -17,6 +17,7 @@ class AdminLandingPage extends Component {
   render () {
     return (
       <div>
+        <Navbar/>
           <Header2 title='Welcome Admin' />
         <Row>
           <Col sm='6'>
