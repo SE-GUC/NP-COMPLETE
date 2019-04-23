@@ -48,6 +48,8 @@ import AdminSendEmails from './pages/AdminSendEmails'
 import ContactUs from './components/ContactUs'
 import FlashMessagesList from './components/generic/FlashMessagesList'
 import GuardRoute from './utilities/GuardRoute'
+import SettingsPage from './pages/SettingsPage'
+
 if (localStorage.jwtToken) {
   setAuthToken(localStorage.jwtToken)
 }
@@ -156,6 +158,8 @@ class App extends Component {
             <Route exact path='/admins/sendEmail' component={AdminSendEmails} />
 
             <Route exact path='/admins/ContactUs' component={ContactUs} />
+
+            <Route exact path='/user/settings' component={SettingsPage} />
 
           </Container>
         </Router>
