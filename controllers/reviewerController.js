@@ -7,7 +7,16 @@ const userController = require('./userController')
 const Lawyer = require('../models/Lawyer')
 const Company = require('../models/Company')
 const Task = require('../models/Task')
-
+const emailUserName = require('../config/keys').user
+	const emailPassword = require('../config/keys').pass
+	const nodemailer = require('nodemailer')
+	const transporter = nodemailer.createTransport({
+	  service: 'Gmail',
+	  auth: {
+	    user: emailUserName,
+	    pass: emailPassword
+	  }
+	})
 exports.default = async (req, res) => {
   await main.default(res, Model)
 }
@@ -162,7 +171,26 @@ exports.decideApplication = async (req, res) => {
 
     const newData = { 'form.acceptedByReviewer': acceptedbyReviewer, 'form.reviewerID': reviewerId }
     const updatedCompany = await Company.findByIdAndUpdate(companyId, newData, { new: true })
-
+    
+    const Investorr = await Investor.findById(company.investorId)
+	    const investorrEmail = Investorr.email
+	    if(decision === 0){
+	      transporter.sendMail({
+	        to: investorrEmail,
+	        subject: 'Form rejection by reviewer',
+          message: `Your form has been rejected by the reviewer ${reviewer.fullName}`,
+          html: `Your form has been rejected by the reviewer ${reviewer.fullName}`
+	      })
+	    }
+	    if(decision === 1){
+	      transporter.sendMail({
+	        to: investorrEmail,
+	        subject: 'Form acceptance by reviewer',
+          message: `Your form has been accepted by the reviewer ${reviewer.fullName}`,
+          html: `Your form has been accepted by the reviewer ${reviewer.fullName}`
+	      })
+      }
+      
     res.json({
       status: 'Success',
       message: `Form acceptance by reviewer status is: ${decision}`,
