@@ -7,7 +7,16 @@ const userController = require('./userController')
 const Lawyer = require('../models/Lawyer')
 const Company = require('../models/Company')
 const Task = require('../models/Task')
-
+const emailUserName = require('../config/keys').user
+	const emailPassword = require('../config/keys').pass
+	const nodemailer = require('nodemailer')
+	const transporter = nodemailer.createTransport({
+	  service: 'Gmail',
+	  auth: {
+	    user: emailUserName,
+	    pass: emailPassword
+	  }
+	})
 exports.default = async (req, res) => {
   await main.default(res, Model)
 }
@@ -16,12 +25,17 @@ exports.register = async (req, res) => {
   await userController.register(req, res, validator, Model)
 }
 exports.login = async (req, res) => {
-  await userController.login(req, res, Model)
+  await userController.login(req, res, Model, 'Reviewer')
+}
+exports.confirmation = async (req, res) => {
+  await userController.confirmation(req, res, Model)
 }
 exports.create = async (req, res) => {
   await main.create(req, res, validator, Model)
 }
-
+exports.resetPassword = async (req, res) => {
+  await userController.resetPassword(req, res, Model)
+}
 exports.read = async (req, res) => {
   await main.read(req, res, Model)
 }
@@ -50,6 +64,16 @@ exports.viewDepartmentTask = async (req, res) => {
     data: tasks
   })
 }
+exports.allowedCompanies = async (req, res) => {
+  const query1 = { 'form.acceptedByLawyer': 1, 'form.acceptedByReviewer': -1 }
+  const newCompanies = await Company.find(query1)
+  return res.json({
+    status: 'Success',
+    message: newCompanies.length ? 'Your companies that needs reviewing' : 'No companies need your review',
+    data: newCompanies
+  })
+}
+
 exports.reviewForms = async (req, res) => {
   try {
     const reviewerId = req.params.id
@@ -73,7 +97,6 @@ exports.reviewForms = async (req, res) => {
       status: 'Success',
       data: forms
     })
-    
   } catch (error) {
     return res.status(400).json({
       status: 'Error',
@@ -148,7 +171,26 @@ exports.decideApplication = async (req, res) => {
 
     const newData = { 'form.acceptedByReviewer': acceptedbyReviewer, 'form.reviewerID': reviewerId }
     const updatedCompany = await Company.findByIdAndUpdate(companyId, newData, { new: true })
-
+    
+    const Investorr = await Investor.findById(company.investorId)
+	    const investorrEmail = Investorr.email
+	    if(decision === 0){
+	      transporter.sendMail({
+	        to: investorrEmail,
+	        subject: 'Form rejection by reviewer',
+          message: `Your form has been rejected by the reviewer ${reviewer.fullName}`,
+          html: `Your form has been rejected by the reviewer ${reviewer.fullName}`
+	      })
+	    }
+	    if(decision === 1){
+	      transporter.sendMail({
+	        to: investorrEmail,
+	        subject: 'Form acceptance by reviewer',
+          message: `Your form has been accepted by the reviewer ${reviewer.fullName}`,
+          html: `Your form has been accepted by the reviewer ${reviewer.fullName}`
+	      })
+      }
+      
     res.json({
       status: 'Success',
       message: `Form acceptance by reviewer status is: ${decision}`,
@@ -277,31 +319,3 @@ exports.showLastWorked = async (req, res) => {
     console.log(error)
   }
 }
-
-//   exports.login = async (req, res) => {
-//     try {
-//       const reviewerEmail = req.body.email
-//       const password = req.body.password
-//       const query = {'email': reviewerEmail}
-//       const reviewer = await Reviewer.find(query)
-//       if (!reviewer) {
-//         return res.status(400).json({
-//           status: 'Error',
-//           message: 'Please enter a valid email'
-//         })
-//       }
-//       else if(password !== reviewer.password)
-//       {
-//         return res.status(400).json({
-//             status: 'Error',
-//             message: 'Wrong password'
-//           })
-//       }
-//       else{
-//         res.redirect(307, '/api/reviewers/reviewer._id')
-//       }
-
-//     } catch (error) {
-//       console.log(error)
-//     }
-// }

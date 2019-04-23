@@ -37,9 +37,11 @@ router.get('/getCompanies/:id', passport.authenticate('jwt', { session: false })
 router.post('/fillForm/:id', passport.authenticate('jwt', { session: false }), controller.fillForm)
 
 // as an investor i should be able to pay the fees to establish my company
+
 // will be verified with stripe to add real fees in the front end
 router.put('/payFees/:id', passport.authenticate('jwt', { session: false }), controller.payFees)
 
+router.post('/fees', controller.fees)
 // As an investor I should be able to read a description of the form,
 // so that I can understand what to fill in each field
 router.get('/readDescription/:type', passport.authenticate('jwt', { session: false }), controller.readDescription)
@@ -49,5 +51,8 @@ router.put('/reviewOnlineService/:companyId/:investorId', passport.authenticate(
 router.post('/register', controller.register)
 // login
 router.post('/login', controller.login)
-
+// confirm
+router.get('/confirmation/:token', controller.confirmation)
+// forget password
+router.post('/resetPassword/:token', controller.resetPassword)
 module.exports = router

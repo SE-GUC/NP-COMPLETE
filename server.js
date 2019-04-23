@@ -2,6 +2,12 @@ const express = require('express')
 const mongoose = require('mongoose')
 const passport = require('passport')
 
+const path = require('path')
+
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config()
+}
+
 // Require Router Handlers
 
 const externalEntities = require('./routes/api/externalEntities')
@@ -13,7 +19,7 @@ const companies = require('./routes/api/companies')
 const tasks = require('./routes/api/tasks')
 const companyTypes = require('./routes/api/companyTypes')
 const users = require('./routes/api/users')
-
+const user = require('./routes/api/user')
 const app = express()
 
 // Init middleware
@@ -34,10 +40,19 @@ mongoose
 // added cors access
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*')
+  res.header('Access-Control-Allow-Credentials', 'true')
   res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE')
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, X-Auth-Token, Accept')
+  res.header('Access-Control-Allow-Headers', '*')
   next()
 })
+
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static('client/build'))
+
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
+  })
+}
 
 app.get('/', (req, res) => {
   res.send(`<h1>Welcome</h1>
@@ -60,6 +75,7 @@ app.use('/api/companies', companies)
 app.use('/api/tasks', tasks)
 app.use('/api/companyTypes', companyTypes)
 app.use('/api/users', users)
+app.use('/api/user', user)
 
 // 500 internal server error handler
 app.use((err, _req, res, next) => {
@@ -101,5 +117,9 @@ app.use((_req, res) => res.status(404)
     msg: 'Error 404: We can not find what you are looking for'
   }))
 
-const port = process.env.PORT | 8000
+// const port = process.env.PORT | 8000
+const port = process.env.NODE_ENV === 'production' ? process.env.PORT : 8000
+
 app.listen(port, () => { console.log(`Server is up and running on port ${port}`) })
+
+// to force heroku to deploy since there is no changes
