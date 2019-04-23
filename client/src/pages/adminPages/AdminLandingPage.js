@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import { Card, Button, CardTitle, CardText, Row, Col } from 'reactstrap'
-import {Redirect} from 'react-router-dom'
 import Header2 from '../../components/Header2'
+
 
 class AdminLandingPage extends Component {
 
-  clicked=()=>{
+  clicked = () => {
     if(!localStorage.getItem('id')){
       window.location.href='/LogIn'
     }
@@ -17,8 +17,7 @@ class AdminLandingPage extends Component {
   render () {
     return (
       <div>
-        <Header2 title='Welcome Admin' />
-      
+          <Header2 title='Welcome Admin' />
         <Row>
           <Col sm='6'>
             <Card body>

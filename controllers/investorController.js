@@ -7,7 +7,8 @@ const userController = require('./userController')
 const CompanyType = require('../models/CompanyType')
 const companyValidator = require('../validations/companyValidations')
 const Company = require('../models/Company')
-
+const stripeKey = process.env.stripe_Secret_Key
+const stripe = require('stripe')(stripeKey)
 // const bcrypt = require('bcryptjs')
 // const jwt = require('jsonwebtoken')
 // const tokenKey = require('../config/keys').secretOrKey
@@ -21,7 +22,12 @@ exports.register = async (req, res) => {
 exports.login = async (req, res) => {
   await userController.login(req, res, Model, 'Investor')
 }
-
+exports.confirmation = async (req, res) => {
+  await userController.confirmation(req, res, Model)
+}
+exports.resetPassword = async (req, res) => {
+  await userController.resetPassword(req, res, Model)
+}
 exports.create = async (req, res) => {
   await main.create(req, res, validator, Model)
 }
@@ -295,7 +301,7 @@ exports.fillForm = async (req, res) => {
   }
 }
 
-exports.payFees = async (req, res) => {
+exports.payFees = async (req, res) => { // fawry
   try {
     const investorId = req.params.id
     const investor = await main.findById(res, Model, investorId)
@@ -339,6 +345,53 @@ exports.payFees = async (req, res) => {
       status: 'Error',
       message: error.message
     })
+  }
+}
+exports.fees = async (req, res) => { // stripe
+  try {
+    const { token, amount } = req.body
+    const id = token.id
+    let data = await charge(id, amount)
+    const investorId = req.params.id
+    const investor = await main.findById(res, Model, investorId)
+    if (!investor) {
+      return
+    }
+
+    const companyId = req.body.id
+    const company = await Company.findById(companyId)
+    if (!company) {
+      return res.status(404).json({
+        status: 'Error',
+        message: 'no company matches this ID'
+      })
+    }
+    if (company.investorId !== investorId) {
+      return res.status(400).json({
+        status: 'Error',
+        message: 'you cant pay fees for a company that doesnt belong to you'
+      })
+    }
+    if (company.accepted === false) {
+      return res.status(400).json({
+        status: 'Error',
+        message: 'can not pay fees when form is not yet accepted'
+      })
+    }
+    const query2 = { '_id': companyId }
+    const data2 = { 'state': 'Established',
+      'establishmentDate': Date.now(),
+      'form.paid': true,
+      'fees': 0
+    }
+    const updateCompany = await Company.findByIdAndUpdate(query2, data2, { new: true })
+    return res.json({
+      status: 'Your copmany is now established',
+      data: updateCompany,
+      charge: data
+    })
+  } catch (e) {
+    console.log(e)
   }
 }
 
@@ -402,20 +455,11 @@ const isValidDate = stringDate => {
   return date && Object.prototype.toString.call(date) === '[object Date]' && !isNaN(date)
 }
 
-// exports.login = async (req, res) => {
-//   try {
-//     const { email, password } = req.body
-//     const investor = await Investor.findOne({ email })
-//     if (!investor) return res.status(404).json({ email: 'Email does not exist' })
-//     const match = bcrypt.compareSync(password, investor.password)
-//     if (match) {
-//       const payload = {
-//         id: investor._id,
-//         name: investor.name,
-//         email: investor.email
-//       }
-//       const token = jwt.sign(payload, tokenKey, { expiresIn: '1h' })
-//       return res.json({ token: `Bearer ${token}` })
-//     } else return res.status(400).send({ password: 'Wrong password' })
-//   } catch (e) {}
-// }
+const charge = (token, amount) => {
+  return stripe.charges.create({
+    amount: amount * 100,
+    currency: 'USD',
+    source: token,
+    description: 'paying fees to establish a company'
+  })
+}

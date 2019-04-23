@@ -5,6 +5,7 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import '../../App.css'
 import Axios from 'axios'
+import Spinner from 'react-bootstrap/Spinner'
 
 class ViewForm extends Component {
   constructor (props) {
@@ -18,7 +19,8 @@ class ViewForm extends Component {
   }
 
   componentDidMount () {
-    const { id } = this.props.match.params
+    const id = localStorage.getItem('id')
+    this.setState({ loading: true })
     Axios
       .get('/api/investors/viewRejected/' + id)
       .then(
@@ -51,42 +53,77 @@ class ViewForm extends Component {
       })
   }
   render () {
-    console.log(this.state)
-    console.log(this.props)
-    if (this.state.loading) {
-      return <h1> Loading </h1>
-    }
-    if (this.state.loading === false && this.state.error) {
-      return (
-        <div>
+    if (localStorage.getItem('language') === 'English') {
+      if (this.state.loading) {
+        return <div className='App'><Spinner animation='border' variant='primary' /></div>
+      }
+      if (this.state.loading === false && this.state.error) {
+        return (
           <div>
-            <h1>Error </h1>
+            <div>
+              <h1>Error </h1>
+            </div>
+            <div>
+              <h1> {this.state.errorMessage} </h1>
+            </div>
           </div>
-          <div>
-            <h1> {this.state.errorMessage} </h1>
-          </div>
-        </div>
-      )
-    }
+        )
+      }
 
-    if (this.state.loading === false && this.state.formItems.length === 0) {
+      if (this.state.loading === false && this.state.formItems.length === 0) {
+        return (
+          <h1> No companies to display</h1>
+        )
+      }
       return (
-        <h1> No companies to display</h1>
+        this.state.formItems.map((x, i) => (
+          <Container>
+            <h1> {x.companyNames} </h1>
+            <FormDisplay form={x.data} fields={x.fields} key={i} />
+            <Row>
+              <Col> Comment: </Col>
+              <Col> {x.comment} </Col>
+            </Row>
+            <hr />
+          </Container>
+        ))
+      )
+    } else {
+      if (this.state.loading) {
+        return <div className='App'><Spinner animation='border' variant='primary' /></div>
+      }
+      if (this.state.loading === false && this.state.error) {
+        return (
+          <div>
+            <div>
+              <h1>Error </h1>
+            </div>
+            <div>
+              <h1> {this.state.errorMessage} </h1>
+            </div>
+          </div>
+        )
+      }
+
+      if (this.state.loading === false && this.state.formItems.length === 0) {
+        return (
+          <h1>لا يوجد شركات لعرضها</h1>
+        )
+      }
+      return (
+        this.state.formItems.map((x, i) => (
+          <Container>
+            <h1> {x.companyNames} </h1>
+            <FormDisplay form={x.data} fields={x.fields} key={i} />
+            <Row>
+              <Col>: تعليق</Col>
+              <Col> {x.comment} </Col>
+            </Row>
+            <hr />
+          </Container>
+        ))
       )
     }
-    return (
-      this.state.formItems.map((x, i) => (
-        <Container>
-          <h1> {x.companyNames} </h1>
-          <FormDisplay form={x.data} fields={x.fields} key={i} />
-          <Row>
-            <Col> Comment: </Col>
-            <Col> {x.comment} </Col>
-          </Row>
-          <hr />
-        </Container>
-      ))
-    )
   }
 }
 
