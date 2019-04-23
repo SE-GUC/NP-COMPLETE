@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import '../../App.css'
-import LoginBox from '../../components/LoginBox'
+import LoginForm from '../../pages/LoginForm'
 import InternalUserLogIn from './InternalUserLogIn'
 import { Button, Card, CardTitle, Col, Row } from 'reactstrap'
 import Header2 from '../../components/Header2'
@@ -47,7 +47,7 @@ class LogIn extends Component {
         <div className='App-header'>
           <div className='box-controller'>
             <div className='box-container'>
-              <LoginBox type='investors' />
+              <LoginForm type='investors' />
             </div>
           </div>
         </div>
