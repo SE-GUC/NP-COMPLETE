@@ -17,7 +17,6 @@ const Investor = require('../models/Investor')
 const nodemailer = require('nodemailer')
 const emailUserName = require('../config/keys').user
 	const emailPassword = require('../config/keys').pass
-	const nodemailer = require('nodemailer')
 	const transporter = nodemailer.createTransport({
 	  service: 'Gmail',
 	  auth: {
