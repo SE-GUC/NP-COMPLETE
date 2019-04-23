@@ -37,7 +37,7 @@ export class MyCompaniesCard extends Component {
   submit = () => {
     if(this.submit.length !== 0){
     this.setState({ feedback: this.submit })
-    const investorId = "5cba2b7864df6c23283bea53"  //need to change this to redux
+    const investorId = localStorage.getItem('id')
     const companyId = this.props.data._id
     Axios
     .put(`/api/investors/reviewOnlineService/${companyId}/${investorId}` , {feedback: this.submit})

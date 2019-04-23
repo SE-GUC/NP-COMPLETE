@@ -21,7 +21,7 @@ export class ReviewerCaseCard extends Component {
   }
   accept = (e , root) =>{
     e.preventDefault()
-    const reviewerId = '5cba2b7864df6c23283bea4d'  //change to redux
+    const reviewerId = localStorage.getItem('id')
     const companyId = this.props.data._id
     Axios
     .put(`/api/reviewers/decideAnApplication/${reviewerId}/${companyId}`  , {decision: true})
@@ -37,7 +37,7 @@ export class ReviewerCaseCard extends Component {
     
     this.setState({rejected: true})
     e.preventDefault()
-    const reviewerId = '5cba2b7864df6c23283bea4d'  //change to redux
+    const reviewerId = localStorage.getItem('id')
     const companyId = this.props.data._id
     Axios
     .put(`/api/reviewers/decideAnApplication/${reviewerId}/${companyId}`  , {decision: false })
@@ -52,7 +52,7 @@ addcomment = async (e , root) =>{
     await this.setState({ comment: this.reject })
   this.setState({rejected: true})
   e.preventDefault()
-  const reviewerId = '5cba2b7864df6c23283bea4d'  //change to redux
+  const reviewerId = localStorage.getItem('id')
   const companyId = this.props.data._id
   Axios
   .put(`/api/reviewers/addComment/${reviewerId}/${companyId}`  , {comment : this.state.comment })

@@ -12,7 +12,6 @@ export class LawyerCaseCard extends Component {
     this.toggle1 = this.toggle1.bind(this)
 
     this.state = {
-      // rejected: false,
       done: false,
       collapse: false,
       collapse1: false,
@@ -22,7 +21,7 @@ export class LawyerCaseCard extends Component {
   }
   accept = (e , root) =>{
     e.preventDefault()
-    const lawyerId = '5cba2b7864df6c23283bea52'  //change to redux
+    const lawyerId = localStorage.getItem('id')
     const companyId = this.props.data._id
     Axios
     .put(`/api/lawyers/review/${lawyerId}/${companyId}`  , {acceptedByLawyer: 1 })
@@ -41,7 +40,7 @@ export class LawyerCaseCard extends Component {
         .length)
     this.setState({ nocomment: false })
     e.preventDefault()
-    const lawyerId = '5cba2b7864df6c23283bea52'  //change to redux
+    const lawyerId = localStorage.getItem('id')
     const companyId = this.props.data._id
     Axios
     .put(`/api/lawyers/review/${lawyerId}/${companyId}`  , {acceptedByLawyer: 0 , comment: this.state.comment })
@@ -58,24 +57,6 @@ export class LawyerCaseCard extends Component {
 
 }
 }
-// addcomment = (e , root) =>{
-//   if(this.reject.length !== 0){
-//     this.setState({ comment: this.reject })
-//   this.setState({rejected: true})
-//   e.preventDefault()
-//   const reviewerId = '5cba2b7864df6c23283bea4d'  //change to redux
-//   const companyId = this.props.data._id
-//   Axios
-//   .put(`/api/reviewers/addComment/${reviewerId}/${companyId}`  , {comment : this.state.comment })
-//   .then(res => {this.setState({ done: true })})
-//   .catch(err => {
-//     console.log(err)
-//   })
-//   .catch(this.setState({done: true , loading: false}))
-//   this.toggle1()
-// }
-// }
-
   toggle1 () {
     this.setState(state => ({ collapse1: !state.collapse1 }))
   }
