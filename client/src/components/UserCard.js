@@ -4,6 +4,9 @@ import Button from 'react-bootstrap/Button'
 import CardDeck from 'react-bootstrap/CardDeck'
 export class UserCard extends Component {
   render () {
+    const func = !this.props.approve ? 'Delete' : 'Approve'
+    const funcAr = !this.props.approve ? 'امسح' : 'وافق'
+
     if (localStorage.getItem('language') === 'English') {
       return (
         <div>
@@ -18,7 +21,7 @@ export class UserCard extends Component {
                   <p />
                   {this.props.data.startDate}
                 </Card.Text>
-                <Button variant='danger' onClick={this.props.ondelete.bind(this, this.props.data._id)}>Delete</Button>
+                <Button variant='danger' onClick={this.props.ondelete.bind(this, this.props.data._id)}>{func}</Button>
               </Card.Body>
             </Card>
           </CardDeck>
@@ -38,7 +41,7 @@ export class UserCard extends Component {
                   <p />
                   {this.props.data.startDate}
                 </Card.Text>
-                <Button variant='danger' onClick={this.props.ondelete.bind(this, this.props.data._id)}>امسح</Button>
+                <Button variant='danger' onClick={this.props.ondelete.bind(this, this.props.data._id)}>{funcAr}</Button>
               </Card.Body>
             </Card>
           </CardDeck>
