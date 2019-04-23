@@ -4,7 +4,7 @@ import LoginBox from '../../components/LoginBox'
 import InternalUserLogIn from './InternalUserLogIn'
 import { Button, Card, CardTitle, Col, Row } from 'reactstrap'
 import Header2 from '../../components/Header2'
-
+import { Link } from 'react-router-dom'
 class LogIn extends Component {
   constructor (props) {
     super(props)
@@ -49,6 +49,9 @@ class LogIn extends Component {
             <div className='box-container'>
               <LoginBox type='investors' />
             </div>
+            <ul>
+            <li><Link to="../forgetPassword">Forget your password?</Link></li>
+          </ul>
           </div>
         </div>
       )
