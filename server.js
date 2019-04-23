@@ -75,7 +75,7 @@ app.use('/api/companies', companies)
 app.use('/api/tasks', tasks)
 app.use('/api/companyTypes', companyTypes)
 app.use('/api/users', users)
-app.use('/api/user',user)
+app.use('/api/user', user)
 
 // 500 internal server error handler
 app.use((err, _req, res, next) => {

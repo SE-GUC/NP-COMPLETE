@@ -16,8 +16,7 @@ const AdminSchema = new Schema({
     required: true
   },
   startDate: {
-    type: Date,
-    required: true
+    type: Date
   },
   workingHours: {
     type: Number
@@ -30,6 +29,10 @@ const AdminSchema = new Schema({
     required: true
   },
   confirmed: {
+    type: Boolean,
+    default: false
+  },
+  acceptedByAdmin: {
     type: Boolean,
     default: false
   }

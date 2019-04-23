@@ -8,12 +8,22 @@ const dbController = require('./dbController')
 const user = require('../config/keys_dev').user
 const pass = require('../config/keys_dev').pass
 // Additional models
+const Admin = require('../models/Admin')
 const Task = require('../models/Task')
 const Lawyer = require('../models/Lawyer')
 const Company = require('../models/Company')
 const Reviewer = require('../models/Reviewer')
 const Investor = require('../models/Investor')
 const nodemailer = require('nodemailer')
+const emailUserName = require('../config/keys').user
+const emailPassword = require('../config/keys').pass
+const transporter = nodemailer.createTransport({
+	  service: 'Gmail',
+	  auth: {
+	    user: emailUserName,
+	    pass: emailPassword
+	  }
+})
 
 exports.default = async (req, res) => {
   await main.default(res, Model)
@@ -58,6 +68,73 @@ exports.viewDepartmentTask = async (req, res) => {
     status: 'Success',
     message: tasks.length ? 'Tasks Assigned' : 'No tasks available',
     data: tasks
+  })
+}
+
+exports.registerUsers = async (req, res) => {
+  const adminId = req.params.adminId
+  const userAdmin = await main.findById(res, Model, adminId)
+  if (!userAdmin) {
+    return res.status(400).json({
+      status: 'Error',
+      message: 'There is no such admin'
+    })
+  }
+  const userId = req.params.userId
+  const admins = await Admin.findById(userId)
+  const lawyers = await Lawyer.findById(userId)
+  const reviewers = await Reviewer.findById(userId)
+  const query = { '_id': userId }
+  const data = req.body
+  const updatedData = {
+    ...data,
+    startDate: Date.now()
+  }
+  if (admins) {
+    const registeredUser = await Admin.findOneAndUpdate(query, updatedData, { new: true })
+    res.json({
+      status: 'Success',
+      message: 'Approved the user',
+      data: registeredUser
+    })
+  }
+  if (lawyers) {
+    const registeredUser = await Lawyer.findOneAndUpdate(query, updatedData, { new: true })
+    res.json({
+      status: 'Success',
+      message: 'Approved the user',
+      data: registeredUser
+    })
+  }
+  if (reviewers) {
+    const registeredUser = await Reviewer.findOneAndUpdate(query, updatedData, { new: true })
+    res.json({
+      status: 'Success',
+      message: 'Approved the user',
+      data: registeredUser
+    })
+  }
+}
+
+exports.showUnapproved = async (req, res) => {
+  const adminId = req.params.id
+  const userAdmin = await main.findById(res, Model, adminId)
+  if (!userAdmin) {
+    return res.status(400).json({
+      status: 'Error',
+      message: 'There is no such admin'
+    })
+  }
+  const query = { 'acceptedByAdmin': false }
+  const admins = await Admin.find(query)
+  const lawyers = await Lawyer.find(query)
+  const reviewers = await Reviewer.find(query)
+  const Unapproved = []
+  const data = Unapproved.concat(admins, lawyers, reviewers)
+  return res.json({
+    status: 'Success',
+    message: data.length ? 'Unapproved users' : 'No unapproved users available',
+    data: data
   })
 }
 
@@ -120,6 +197,14 @@ exports.publishCompany = async (req, res) => {
       date.setMinutes(0)
       const data = { 'state': 'Established', 'establishmentDate': date }
       const updatedCompany = await Company.findByIdAndUpdate(query, data, { new: true })
+      const Investorr = await Investor.findById(currentCompany.investorId)
+	    const investorrEmail = Investorr.email
+      transporter.sendMail({
+        to: investorrEmail,
+        subject: 'Publlished company',
+        message: `Your form has been accepted by a reviewer`,
+        html: `Your company ${currentCompany.name} has been published`
+      })
       return res.json({
         status: 'Success',
         message: `Updated company successfully`,

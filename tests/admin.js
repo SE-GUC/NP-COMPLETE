@@ -2,40 +2,40 @@ const axios = require('axios')
 const admin = {
 
   default: async () => {
-    return axios.get('http://localhost:8000/api/admins/')
+    return axios.get('/api/admins/')
   },
   createAdmin: async (data) => {
-    return axios.post(`http://localhost:8000/api/admins/`, data)
+    return axios.post(`/api/admins/`, data)
   },
   updateAdmin: async (id, data) => {
-    return axios.put(`http://localhost:8000/api/admins/${id}`, data)
+    return axios.put(`/api/admins/${id}`, data)
   },
   readAdmin: async (id) => {
-    return axios.get(`http://localhost:8000/api/admins/${id}`)
+    return axios.get(`/api/admins/${id}`)
   },
   deleteAdmin: async (id) => {
-    return axios.delete(`http://localhost:8000/api/admins/${id}`)
+    return axios.delete(`/api/admins/${id}`)
   },
   viewCases: async (id) => {
-    return axios.get(`http://localhost:8000/api/admins/viewCases/${id}`)
+    return axios.get(`/api/admins/viewCases/${id}`)
   },
   viewDepartmentTasks: async (id) => {
-    return axios.get(`http://localhost:8000/api/admins/viewDepartmentTask/${id}`)
+    return axios.get(`/api/admins/viewDepartmentTask/${id}`)
   },
   publishCompany: async (id) => {
-    return axios.put(`http://localhost:8000/api/admins/publishCompany/${id}`)
+    return axios.put(`/api/admins/publishCompany/${id}`)
   },
   updateMyProfile: async (id) => {
-    return axios.get(`http://localhost:8000/api/admins/updateMyProfile/${id}`)
+    return axios.get(`/api/admins/updateMyProfile/${id}`)
   },
   assignDeadline: async (id, data) => {
-    return axios.put(`http://localhost:8000/api/admins/updateDeadline/${id}`, data)
+    return axios.put(`/api/admins/updateDeadline/${id}`, data)
   },
   getFeedback: async (id) => {
-    return axios.get(`http://localhost:8000/api/admins/getFeedback/${id}`)
+    return axios.get(`/api/admins/getFeedback/${id}`)
   },
   workPage: async (id) => {
-    return axios.get(`http://localhost:8000/api/admins/workPage/${id}`)
+    return axios.get(`/api/admins/workPage/${id}`)
   }
 }
 module.exports = admin

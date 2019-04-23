@@ -47,6 +47,10 @@ import AdminSendEmails from './pages/AdminSendEmails'
 import HomepageLayout from './pages/HomePageLayout'
 import WorkPage from './pages/Internalportal/WorkPage'
 import { truncate } from 'fs'
+import ContactUs from './components/ContactUs'
+import FlashMessagesList from './components/generic/FlashMessagesList'
+import GuardRoute from './utilities/GuardRoute'
+import SettingsPage from './pages/SettingsPage'
 
 if (localStorage.jwtToken) {
   setAuthToken(localStorage.jwtToken)
@@ -105,6 +109,9 @@ class App extends Component {
           <Route exact path='/lawyers/viewMyTasks' component={LawyersViewMyTasks} />
 
           <Route exact path='/lawyers/showLastWorked' component={LawyerShowLastWorked} />
+            <Route exact path='/investors/payFees' component={Money} />
+
+            <Route exact path='/investors/MyCompanies' component={AllMyCompanies} />
 
           <Route exact path='/reviewers/viewAllWalkInCases' component={() => <ReviewerViewCases walkIn />} />
 
@@ -146,8 +153,14 @@ class App extends Component {
           <Route exact path='/ResetPassword/:model/:emailToken' component={ResetPassword} />
 
           <Route exact path='/admins/DBRepop' component={DBRepop} />
+          
           <Route exact path='/admins/sendEmail' component={AdminSendEmails} />
 
+          <Route exact path='/admins/sendEmail' component={AdminSendEmails} />
+
+          <Route exact path='/admins/ContactUs' component={ContactUs} />
+
+          <Route exact path='/user/settings' component={SettingsPage} />
 
           {/* </Container> */}
         </Router>

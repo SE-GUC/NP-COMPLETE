@@ -32,6 +32,10 @@ const LawyerSchema = new Schema({
   confirmed: {
     type: Boolean,
     default: false
+  },
+  acceptedByAdmin: {
+    type: Boolean,
+    default: false
   }
 })
 

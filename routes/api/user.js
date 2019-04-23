@@ -6,6 +6,10 @@ const controller = require('../../controllers/userController')
 router.post('/login', controller.login)
 // resgister
 router.post('/register', controller.register)
+
+router.put('/updatePassword/:id', controller.updatePassword)
+router.put('/updateEmail/:id', controller.updateEmail)
+
 // confirmation email
 router.get('/confirmation/:token', controller.confirmation)
 // sending a confiramtion mail

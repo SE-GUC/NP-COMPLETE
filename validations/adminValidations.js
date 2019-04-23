@@ -6,8 +6,8 @@ module.exports = {
       fullName: Joi.string().min(3).max(80).required(),
       birthdate: Joi.date().iso().max(Date.now()).required(),
       email: Joi.string().email().required(),
-      startDate: Joi.date().iso().max(Date.now()).required(),
-      workingHours: Joi.number().min(5),
+      startDate: Joi.date().iso().max(Date.now()),
+      workingHours: Joi.number().min(5).integer(),
       salary: Joi.number(),
       password: Joi.string().min(8).required()
     }
@@ -22,7 +22,9 @@ module.exports = {
       startDate: Joi.date().iso().max(Date.now()),
       workingHours: Joi.number().min(5),
       salary: Joi.number(),
-      password: Joi.string().min(8)
+      password: Joi.string().min(8),
+      acceptedByAdmin: Joi.boolean(),
+      confirmed: Joi.boolean()
     }
     return Joi.validate(req, updateSchema)
   },
@@ -32,6 +34,13 @@ module.exports = {
       recipients: Joi.string().valid(['Investors', 'Lawyers', 'Reviewers', 'Everyone', '']).required()
     }
     return Joi.validate(req, sendAnnouncementSchema)
+  },
+  registerUsersValidations: req => {
+    const registerUsersValidations = {
+      acceptedByAdmin: Joi.boolean().required(),
+      salary: Joi.required(),
+      workingHours: Joi.required()
+    }
+    return Joi.validate(req, registerUsersValidations)
   }
-
 }

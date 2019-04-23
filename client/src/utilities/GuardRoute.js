@@ -9,10 +9,10 @@ export default function (ComposedComponent) {
     componentWillMount () {
       console.log(this.props)
       if (!this.props.isLoggedIn) {
-        // this.props.addFlashMessage({
-        //   type: 'error',
-        //   text: 'You need to login to access this page'
-        // })
+        this.props.addFlashMessage({
+          type: 'error',
+          text: 'You need to login to access this page'
+        })
         this.props.history.push('/login')
       }
     }
