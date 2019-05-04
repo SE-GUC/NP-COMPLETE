@@ -8,12 +8,12 @@ export default function (ComposedComponent, type) {
 
   class GuardRoute extends React.Component {
     componentWillMount () {
-      var matches = false
+      var matches = true
       if (type !== undefined && type !== null && this.props.loggedUser !== undefined) {
-        if (type === this.props.loggedUser.type) {
-          matches = true
-        } else if (type === 'InternalPortal' && (this.props.loggedUser.type === 'Lawyer' || this.props.loggedUser.type === 'Reviewer' || this.props.loggedUser.type === 'Admin')) {
-          matches = true
+        if (type === 'InternalPortal' && (this.props.loggedUser.type !== 'Lawyer' && this.props.loggedUser.type !== 'Reviewer' && this.props.loggedUser.type !== 'Admin')) {
+          matches = false
+        } else if (type !== this.props.loggedUser.type) {
+          matches = false
         }
       }
 

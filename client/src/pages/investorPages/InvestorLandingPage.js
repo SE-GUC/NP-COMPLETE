@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Card, Button, CardTitle, CardText, Row, Col } from 'reactstrap'
 import Header2 from '../../components/Header2'
+import { Container, Header } from 'semantic-ui-react'
 import '../../layout/styles.css'
 import DisplayCard from '../../components/generic/DisplayCard'
 import Faqs from './Faqs'
@@ -28,9 +29,8 @@ class InvestorLandingPage extends Component {
     if(this.state.type === ''){
 
       return (
-        <div>
-          <Header2 title='Welcome Investor' />
-          {/* <button type="button" class="acceptBtn">Accept</button> */}
+        <Container>
+          <Header>Welcome Investor </ Header>
           <Row>
             <Col sm='6'>
               <DisplayCard title="Establish a company" text="Start your investments" buttonText="fill form" id="fillForm" click={this.click} />
@@ -42,21 +42,13 @@ class InvestorLandingPage extends Component {
           <Row>
             <Col sm='6'>
             <DisplayCard title="My Companies" text="Keep track of your companies" buttonText="show companies" id="company" click={this.click} />
-              {/* <Card body>
-                <CardTitle>My companies</CardTitle>
-                <CardText>Keep track of your companies</CardText>
-                <Button variant='primary' href= '/investors/MyCompanies' onClick={this.myCompanies} >View list of companies</Button>
-              </Card> */}
             </Col>
             <Col sm='6'>
-              <Card body>
-                <CardTitle>Additional functionality</CardTitle>
-                <CardText>Coming soon...</CardText>
-              </Card>
+            <DisplayCard title="Additional functionality" text="Coming soon..." buttonText="show companies" id="company" click={this.click} />
             </Col>
           </Row>
   
-        </div>
+        </Container>
   
       )
     } 
