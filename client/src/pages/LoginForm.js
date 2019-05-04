@@ -5,7 +5,7 @@ import { login } from '../actions/authActions'
 import PropTypes from 'prop-types'
 import { Redirect } from 'react-router-dom'
 import store from '../store'
-import {Alert , Spinner} from 'react-bootstrap'
+import {Alert} from 'react-bootstrap'
 
 import { Button, Form, Grid, Header, Icon, Message, Segment } from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css'
@@ -17,8 +17,7 @@ class LoginForm extends React.Component {
       email: '',
       password: '', 
       type: props.type,
-      error: false,
-      loading: true
+      error: false
     }
   }
 
@@ -42,10 +41,7 @@ class LoginForm extends React.Component {
       return (<Alert className='App' variant='danger'>Looks like something has gone wrong</Alert> )
     }
     else{
-      if(this.state.loading){
-       return ( <div className='App'><Spinner animation='border' variant='primary' /></div>)
-      }
-      else{
+      
     if(!this.props.isLoggedIn) {
     return(
 
@@ -108,7 +104,6 @@ class LoginForm extends React.Component {
       }
     }
 
-  }
   }
   }
 }
