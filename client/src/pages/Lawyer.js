@@ -32,7 +32,7 @@ export class Lawyer extends Component {
         this._isMounted = true;
         console.log('before get')
         await this.setState({loading: true , error: false})
-        const res = await Axios.get('localhost:3000/api/lawyers')
+        const res = await Axios.get('/api/lawyers')
         await this.setState({ users: res.data.data , loading: false})
         console.log('after get ' + this.state.users)
         await this.setState({ready:true})
