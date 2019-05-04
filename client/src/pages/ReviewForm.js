@@ -11,6 +11,7 @@ class ReviewForm extends Component {
     this.state = {
       form: {sections:[]},
       filledform: [],
+      allForms:[],
       oldData:[],
       error:false,
       investorID:"",
@@ -20,7 +21,8 @@ class ReviewForm extends Component {
       companyID:"",
       formType:"",
       idEntered:false,
-      lawyer:false
+      lawyer:false,
+      ready:false
     }
   }
   handleIDChange =(e)=>{
@@ -48,19 +50,17 @@ class ReviewForm extends Component {
      console.log(this.state.filledform)
      
   }
-  findForm = async ()=>{
-    const res= await Axios.get(`/api/companies/${this.state.companyID}`) 
-    console.log(res.data.data)
-    await this.setState({oldData:res.data.data.form.data,formType:res.data.data.type})
-    console.log(this.state.oldData)
-    await this.state.formType==="SSC"?(this.setState({form:form.SSC})):(this.setState({form:form.SPC}))
-    this.setState({filledform:this.state.oldData})
-    await this.setState({idEntered:true})
-  }
-  componentDidMount(){
+ 
+ async componentDidMount(){
     if(window.location.pathname.includes('lawyers')){
       this.setState({lawyer:true})
     }
+    const res= await Axios.get(`/api/companies/`) 
+    console.log(res.data.data)
+    await this.setState({allForms:res.data.data,formType:res.data.data.type,idEntered:false})
+    console.log(this.state.allForms)
+    await this.state.formType==="SSC"?(this.setState({form:form.SSC})):(this.setState({form:form.SPC}))
+    await this.setState({filledform:this.state.oldData,ready:true})
   }
   chooseForm = (id,F)=>{
     this.setState({companyID:id,idEntered:true})
@@ -75,7 +75,12 @@ class ReviewForm extends Component {
       )
     })
 
-    return this.state.error? <h1>and error has occured please try again!</h1>: (!this.state.idEntered?
+    return this.state.error? <h1>and error has occured please try again!</h1>: !this.state.ready?
+    <div>
+      <h1>loading please wait</h1>
+    </div>
+    :
+     (!this.state.idEntered?
     (     
         <div>
             <h1>Review Form</h1>

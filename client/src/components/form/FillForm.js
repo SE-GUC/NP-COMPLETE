@@ -67,7 +67,6 @@ class FillForm extends Component {
     }
   }
   render () {
-    console.log(this.state.lawyer)
     const renderSections = this.state.form.sections.map((section, i) => {
       return (
         <Container className="Section">
