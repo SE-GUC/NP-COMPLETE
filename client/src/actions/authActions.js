@@ -1,4 +1,4 @@
-import { LOGIN, LOGOUT } from './actionTypes'
+import { LOGIN, LOGOUT, DELETE_FLASH_MESSAGE } from './actionTypes'
 import axios from 'axios'
 import setAuthToken from '../setAuthToken'
 
@@ -16,12 +16,18 @@ export const login = (userData, type) => dispatch => {
         error: false,
         payload: res.data
       })
+      dispatch({
+        type: DELETE_FLASH_MESSAGE
+      })
     })
     .catch(err => {
       dispatch({
         type: LOGIN,
         error: true,
         payload: err
+      })
+      dispatch({
+        type: DELETE_FLASH_MESSAGE
       })
     })
 }
