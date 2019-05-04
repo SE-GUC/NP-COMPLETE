@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import Axios from 'axios'
 import PropTypes from 'prop-types'
 import MapCases from '../components/MapCases'
-import Spinner from 'react-bootstrap/Spinner'
+import {Spinner , Alert} from 'react-bootstrap'
 import Button from 'react-bootstrap/Button'
 import SearchCases from '../components/SearchCases';
 
@@ -15,7 +15,8 @@ export class AdminViewCases extends Component {
           searchedCases:[],
           ID:[],
           loading:true,
-          walkIn: props.walkIn
+          walkIn: props.walkIn,
+          error: false
         }
       }
       handleInputChange = evt => {
@@ -36,9 +37,10 @@ export class AdminViewCases extends Component {
     componentDidMount() {
         this._isMounted = true
         const id = localStorage.getItem('id')
+        this.setState({loading: true , error: false})
         Axios.get('/api/admins/viewCases/'+ id)
         .then(res => this.setState({ cases: res.data.data,loading:false }))
-        .catch(err => this.setState({ error: true }))
+        .catch(err => this.setState({ error: true , loading: false}))
     }
 
     componentWillUnmount() {
@@ -47,7 +49,7 @@ export class AdminViewCases extends Component {
     
   render() {
     if (localStorage.getItem('language') === 'English') {
-    return this.state.error? <h1>process could not be completed</h1>:this.state.loading?
+    return this.state.error? <Alert className='App' variant='danger'>Looks like something has gone wrong</Alert>:this.state.loading?
     <div className='App'>
       <Spinner animation="border" variant= "primary" />
     </div>
@@ -72,7 +74,7 @@ export class AdminViewCases extends Component {
     )
   }
   else{
-    return this.state.error? <h1>process could not be completed</h1>:this.state.loading?
+    return this.state.error? <Alert className='App' variant='danger'>يبدو ان ثمة مشكلة الرجاء حاول مجددا</Alert>:this.state.loading?
     <div className='App'>
       <Spinner animation="border" variant= "primary" />
     </div>

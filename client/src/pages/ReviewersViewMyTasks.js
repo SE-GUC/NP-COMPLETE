@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import Axios from 'axios'
 import PropTypes from 'prop-types'
 import MapTasks from '../components/MapTasks'
-import Spinner from 'react-bootstrap/Spinner'
+import {Spinner , Alert} from 'react-bootstrap'
 
 import { MapCases } from '../components/MapCases';
 
@@ -12,23 +12,26 @@ export class ReviewersViewMyTasks extends Component {
         super(props)
         this.state={
           loading: true ,
+          error: false,
           tasks:[]
         }
       }
     componentDidMount() {
         // const id = localStorage.getItem('id')
         this._isMounted = true
-        this.setState({loading: true})
+        this.setState({loading: true , error: false})
         Axios.get('/api/reviewers/allowedCompanies')
         .then(res => this.setState({ tasks: res.data.data, loading: false }))
         .catch(err => this.setState({ error: true , loading: false}))
+        // Axios.get('/api/reviewers/workPage/'+ id)
+        // old url from buffer branch
     }
 
     componentWillUnmount() {
         this._isMounted = false
     }  
     render() {
-        return this.state.error? <h1>process could not be completed</h1>:this.state.loading?
+        return this.state.error? <Alert className='App' variant='danger'>Looks like something has gone wrong</Alert>:this.state.loading?
         <div className='App'>
         <Spinner animation="border" variant="primary" />
         </div>

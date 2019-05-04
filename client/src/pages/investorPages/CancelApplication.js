@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import Apps from '../../components/company/Apps'
 import Header2 from '../../components/Header2'
-import Spinner from 'react-bootstrap/Spinner'
+import {Spinner , Alert} from 'react-bootstrap'
 
 export class CancelApplication extends Component {
   constructor (props) {
@@ -11,13 +11,14 @@ export class CancelApplication extends Component {
       loading: true,
       error: false,
       errorMessage: null,
-      apps: []
+      apps: [],
+      error: false
     }
   }
 
   componentDidMount () {
     const  investorId  = localStorage.getItem('id')
-    this.setState({loading: true})
+    this.setState({loading: true , error: false})
      axios
       .get('/api/companies/')
       .then(
@@ -39,6 +40,7 @@ export class CancelApplication extends Component {
           this.setState({ error: true, loading: false, errorMessage: error['response'].data.message })
         } else {
           console.log(error)
+          this.setState({error: true , loading: false})
         }
       })
   }
@@ -47,19 +49,12 @@ export class CancelApplication extends Component {
     if (this.state.loading === false && this.state.apps.length === 0) {
         return (
           
-          <h1> You don't have any unreviewed applications</h1>
+         <Alert className='App' variant='danger'>You don't have any unreviewed applications</Alert>
         )
       }
       if (this.state.loading === false && this.state.error) {
         return (
-          <div>
-            <div>
-              <h1>Error </h1>
-            </div>
-            <div>
-              <h1> {this.state.errorMessage} </h1>
-            </div>
-          </div>
+          <Alert className='App' variant='danger'>Looks like something has gone wrong</Alert>
         )
       }
 
