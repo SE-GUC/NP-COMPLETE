@@ -32,6 +32,10 @@ export class Admin extends Component {
         .catch(err => this.setState({ error: true , loading: false}))
     }
 
+    componentWillUnmount() {
+      this._isMounted = false
+    }
+
   render() {
     return this.state.error? <Alert className='App' variant='danger'>Looks like something has gone wrong</Alert>:this.state.loading?
     <div className='App'><Spinner animation="border" variant= "primary" /></div>
