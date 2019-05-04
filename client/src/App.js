@@ -93,7 +93,7 @@ class App extends Component {
 
               <Route exact path='/admins/deleteAdmin' component={GuardRoute(Admin, 'Admin')} />
 
-              <Route exact path='/admins/deleteLawyer' component={GuardRoute(Lawyer, 'Lawyer')} />
+              <Route exact path='/admins/deleteLawyer' component={GuardRoute(Lawyer, 'Admin')} />
 
               <Route exact path='/investors/Register' component={Register} />
 
@@ -103,7 +103,7 @@ class App extends Component {
 
               <Route exact path='/admins/deleteInvestor' component={GuardRoute(Investor, 'Admin')} />
 
-              <Route exact path='/admins/deleteReviewer' component={GuardRoute(Reviewer, 'Reviewer')} />
+              <Route exact path='/admins/deleteReviewer' component={GuardRoute(Reviewer, 'Admin')} />
 
               <Route exact path='/investors/viewRejected' component={GuardRoute(ViewForm, 'Investor')} />
 
