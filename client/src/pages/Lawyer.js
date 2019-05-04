@@ -1,8 +1,10 @@
+/* eslint-disable no-unused-expressions */
 import React, { Component } from 'react'
 import Axios from 'axios'
 import DeleteAccounts from '../components/DeleteAccounts'
 import PropTypes from 'prop-types'
 import {Spinner , Alert} from 'react-bootstrap'
+import { resolve } from 'dns';
 
 export class Lawyer extends Component {
     _isMounted = false
@@ -27,13 +29,15 @@ export class Lawyer extends Component {
 
    async componentDidMount() {
       try{
+        this._isMounted = true;
         console.log('before get')
-        this._isMounted = true
         await this.setState({loading: true , error: false})
-        const res = await Axios.get('/api/lawyers')
+        const res = await Axios.get('./api/lawyers')
         await this.setState({ users: res.data.data , loading: false})
         console.log('after get ' + this.state.users)
         await this.setState({ready:true})
+        
+        //() => new Promise(resolve => setTimeout(resolve,10000))
       }
         catch(err){
          this.setState({ error: true , loading: false })
@@ -52,7 +56,7 @@ export class Lawyer extends Component {
     
     <div className='App'><Spinner animation="border" variant= "primary" /></div>
     :
-    
+
     ( <div className='Lawyer'>
           {console.log("data:" + this.state.users)}
         <DeleteAccounts users = {this.state.users} deleteMe = {this.deleteMe} />
