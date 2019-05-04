@@ -22,7 +22,7 @@ import AdminShowLastWorked from './pages/AdminShowLastWorked'
 import ViewForm from './pages/investorPages/ViewRejectedForms'
 import LawyerShowLastWorked from './pages/LawyerShowLastWorked'
 import ReviewersViewMyTasks from './pages/ReviewersViewMyTasks'
-import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import AdminLandingPage from './pages/adminPages/AdminLandingPage'
 import InvestorLandingPage from './pages/investorPages/InvestorLandingPage'
 import ReviewerShowLastWorked from './pages/ReviewerShowLastWorked'
@@ -76,115 +76,116 @@ class App extends Component {
           <Router >
             <Navbar />
             <FlashMessagesList />
+            <Switch>
+              <Route exact path='/' component={HomePageLayout} />
 
-            <Route exact path='/' component={HomePageLayout} />
+              <Route exact path='/newRegister' component={NewRegister} />
 
-            <Route exact path='/newRegister' component={NewRegister} />
+              <Route exact path='/login' component={LogIn} />
 
-            <Route exact path='/login' component={LogIn} />
+              <Route exact path='/internalportal/workpage' component={GuardRoute(WorkPage, 'InternalPortal')} />
 
-            <Route exact path='/internalportal/workpage' component={GuardRoute(WorkPage, 'InternalPortal')} />
+              <Route exact path='/admin' component={GuardRoute(AdminLandingPage, 'Admin')} />
 
-            <Route exact path='/admin' component={GuardRoute(AdminLandingPage, 'Admin')} />
+              <Route exact path='/investor' component={GuardRoute(InvestorLandingPage, 'Investor')} />
 
-            <Route exact path='/investor' component={GuardRoute(InvestorLandingPage, 'Investor')} />
+              <Route exact path='/investors/Faqs' component={Faqs} />
 
-            <Route exact path='/investors/Faqs' component={Faqs} />
+              <Route exact path='/admins/deleteAdmin' component={GuardRoute(Admin, 'Admin')} />
 
-            <Route exact path='/admins/deleteAdmin' component={GuardRoute(Admin, 'Admin')} />
+              <Route exact path='/admins/deleteLawyer' component={GuardRoute(Lawyer, 'Lawyer')} />
 
-            <Route exact path='/admins/deleteLawyer' component={GuardRoute(Lawyer, 'Lawyer')} />
+              <Route exact path='/investors/Register' component={Register} />
 
-            <Route exact path='/investors/Register' component={Register} />
+              <Route exact path='/companies/Ejournals' component={Ejournals} />
 
-            <Route exact path='/companies/Ejournals' component={Ejournals} />
+              <Route exact path='/investors/tracker' component={GuardRoute(Tracker, 'Investor')} />
 
-            <Route exact path='/investors/tracker' component={GuardRoute(Tracker, 'Investor')} />
+              <Route exact path='/admins/deleteInvestor' component={GuardRoute(Investor, 'Admin')} />
 
-            <Route exact path='/admins/deleteInvestor' component={GuardRoute(Investor, 'Admin')} />
+              <Route exact path='/admins/deleteReviewer' component={GuardRoute(Reviewer, 'Reviewer')} />
 
-            <Route exact path='/admins/deleteReviewer' component={GuardRoute(Reviewer, 'Reviewer')} />
+              <Route exact path='/investors/viewRejected' component={GuardRoute(ViewForm, 'Investor')} />
 
-            <Route exact path='/investors/viewRejected' component={GuardRoute(ViewForm, 'Investor')} />
+              <Route exact path='/admins/viewAllWalkInCases' component={() => <AdminViewCases walkIn />} />
 
-            <Route exact path='/admins/viewAllWalkInCases' component={() => <AdminViewCases walkIn />} />
+              <Route exact path='/admins/viewAllPortalCases' component={() => <AdminViewCases walkIn={false} />} />
 
-            <Route exact path='/admins/viewAllPortalCases' component={() => <AdminViewCases walkIn={false} />} />
+              <Route exact path='/admins/viewMyTasks' component={GuardRoute(AdminsViewMyTasks, 'Admin')} />
 
-            <Route exact path='/admins/viewMyTasks' component={GuardRoute(AdminsViewMyTasks, 'Admin')} />
+              <Route exact path='/lawyers/viewAllWalkInCases' component={() => <LawyerViewCases walkIn />} />
 
-            <Route exact path='/lawyers/viewAllWalkInCases' component={() => <LawyerViewCases walkIn />} />
+              <Route exact path='/lawyers/viewAllPortalCases' component={() => <LawyerViewCases walkIn={false} />} />
 
-            <Route exact path='/lawyers/viewAllPortalCases' component={() => <LawyerViewCases walkIn={false} />} />
+              <Route exact path='/admins/showLastWorked' component={GuardRoute(AdminShowLastWorked, 'Admin')} />
 
-            <Route exact path='/admins/showLastWorked' component={GuardRoute(AdminShowLastWorked, 'Admin')} />
+              <Route exact path='/lawyers/viewMyTasks' component={GuardRoute(LawyersViewMyTasks, 'Lawyer')} />
 
-            <Route exact path='/lawyers/viewMyTasks' component={GuardRoute(LawyersViewMyTasks, 'Lawyer')} />
+              <Route exact path='/lawyers/showLastWorked' component={GuardRoute(LawyerShowLastWorked, 'Lawyer')} />
 
-            <Route exact path='/lawyers/showLastWorked' component={GuardRoute(LawyerShowLastWorked, 'Lawyer')} />
+              <Route exact path='/investors/payFees' component={GuardRoute(Money, 'Investor')} />
 
-            <Route exact path='/investors/payFees' component={GuardRoute(Money, 'Investor')} />
+              <Route exact path='/investors/MyCompanies' component={GuardRoute(AllMyCompanies, 'Investor')} />
 
-            <Route exact path='/investors/MyCompanies' component={GuardRoute(AllMyCompanies, 'Investor')} />
+              <Route exact path='/reviewers/viewAllWalkInCases' component={() => <ReviewerViewCases walkIn />} />
 
-            <Route exact path='/reviewers/viewAllWalkInCases' component={() => <ReviewerViewCases walkIn />} />
+              <Route exact path='/reviewers/viewAllPortalCases' component={() => <ReviewerViewCases walkIn={false} />} />
 
-            <Route exact path='/reviewers/viewAllPortalCases' component={() => <ReviewerViewCases walkIn={false} />} />
+              <Route exact path='/reviewers/viewMyTasks' component={GuardRoute(ReviewersViewMyTasks, 'Reviewer')} />
 
-            <Route exact path='/reviewers/viewMyTasks' component={GuardRoute(ReviewersViewMyTasks, 'Reviewer')} />
+              {/* <Route exact path='/investors/payFees/:investorId/:companyId' component={payFees} /> */}
 
-            {/* <Route exact path='/investors/payFees/:investorId/:companyId' component={payFees} /> */}
+              <Route exact path='/investors/MyCompanies' component={GuardRoute(AllMyCompanies, 'Investor')} />
 
-            <Route exact path='/investors/MyCompanies' component={GuardRoute(AllMyCompanies, 'Investor')} />
+              <Route exact path='/reviewers/showLastWorked' component={GuardRoute(ReviewerShowLastWorked, 'Reviewer')} />
 
-            <Route exact path='/reviewers/showLastWorked' component={GuardRoute(ReviewerShowLastWorked, 'Reviewer')} />
+              <Route exact path='/lawyers/addComment' component={GuardRoute(LawyerAddComment, 'Lawyer')} />
 
-            <Route exact path='/lawyers/addComment' component={GuardRoute(LawyerAddComment, 'Lawyer')} />
+              <Route exact path='/investors/cancelApplication' component={GuardRoute(CancelApplication, 'Investor')} />
 
-            <Route exact path='/investors/cancelApplication' component={GuardRoute(CancelApplication, 'Investor')} />
+              <Route exact path='/reviewers/addComment' component={GuardRoute(ReviewerAddComment, 'Reviewer')} />
 
-            <Route exact path='/reviewers/addComment' component={GuardRoute(ReviewerAddComment, 'Reviewer')} />
+              <Route exact path='/reviewers/acceptOrReject' component={GuardRoute(acceptOrReject)} />
 
-            <Route exact path='/reviewers/acceptOrReject' component={GuardRoute(acceptOrReject)} />
+              <Route exact path='/lawyers/review' component={GuardRoute(acceptOrRejectInvestorForm, 'Lawyer')} />
 
-            <Route exact path='/lawyers/review' component={GuardRoute(acceptOrRejectInvestorForm, 'Lawyer')} />
+              <Route exact path='/user/UpdateProfile' component={GuardRoute(UpdateProfile)} />
 
-            <Route exact path='/user/UpdateProfile' component={GuardRoute(UpdateProfile)} />
+              <Route exact path='/investors/fillForm' component={GuardRoute(ChooseForm)} />
 
-            <Route exact path='/investors/fillForm' component={GuardRoute(ChooseForm)} />
+              <Route exact path='/lawyers/fillForm' component={() => <ChooseForm lawyer />} />
 
-            <Route exact path='/lawyers/fillForm' component={() => <ChooseForm lawyer />} />
+              <Route exact path='/investors/editForm' component={UpdateForm} />
 
-            <Route exact path='/investors/editForm' component={UpdateForm} />
+              <Route exact path='/lawyers/editForm' component={() => <UpdateForm lawyer />} />
 
-            <Route exact path='/lawyers/editForm' component={() => <UpdateForm lawyer />} />
+              <Route exact path='/admins/publishCompany' component={GuardRoute(publishCompany)} />
 
-            <Route exact path='/admins/publishCompany' component={GuardRoute(publishCompany)} />
+              <Route exact path='/admins/registerInternal/' component={GuardRoute(RegisterInternal)} />
 
-            <Route exact path='/admins/registerInternal/' component={GuardRoute(RegisterInternal)} />
+              <Route exact path='/lawyers/CalcFees' component={GuardRoute(CalcFees, 'Lawyer')} />
 
-            <Route exact path='/lawyers/CalcFees' component={GuardRoute(CalcFees, 'Lawyer')} />
+              <Route exact path='users/reviewForm' component={GuardRoute(ReviewForm)} />
+              {/* users? */}
 
-            <Route exact path='users/reviewForm' component={GuardRoute(ReviewForm)} />
-            {/* users? */}
+              <Route exact path='/confirmation/:model/:emailToken' component={confirmation} />
 
-            <Route exact path='/confirmation/:model/:emailToken' component={confirmation} />
+              <Route exact path='/ForgetPassword' component={ForgetPassword} />
 
-            <Route exact path='/ForgetPassword' component={ForgetPassword} />
+              <Route exact path='/ResetPassword/:model/:emailToken' component={ResetPassword} />
 
-            <Route exact path='/ResetPassword/:model/:emailToken' component={ResetPassword} />
+              <Route exact path='/admins/DBRepop' component={DBRepop} />
 
-            <Route exact path='/admins/DBRepop' component={DBRepop} />
+              <Route exact path='/admins/sendEmail' component={GuardRoute(AdminSendEmails, 'Admin')} />
 
-            <Route exact path='/admins/sendEmail' component={GuardRoute(AdminSendEmails, 'Admin')} />
+              <Route exact path='/admins/ContactUs' component={ContactUs} />
 
-            <Route exact path='/admins/ContactUs' component={ContactUs} />
+              <Route exact path='/user/settings' component={GuardRoute(SettingsPage)} />
 
-            <Route exact path='/user/settings' component={GuardRoute(SettingsPage)} />
+              <Route exact path='/unauth' component={UnAuth} />
 
-            <Route exact path='/unauth' component={UnAuth} />
-
-            <Route component={NoMatch} />
+              <Route component={NoMatch} />
+            </Switch>
             {/* users? */}
 
             {/* </Container> */}
