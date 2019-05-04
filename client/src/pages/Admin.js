@@ -15,6 +15,7 @@ export class Admin extends Component {
       deleteMe =id =>{
             Axios
             .delete(`/api/admins/${id}`)
+            .then(alert('You deleted the user with id : ' + id))
             .then(res =>{
              this.setState({users:res.data.remaining})}) 
             .catch(err => this.setState({error:true}))

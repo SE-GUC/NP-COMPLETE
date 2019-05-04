@@ -17,6 +17,7 @@ export class Investor extends Component {
       deleteMe =id =>{
             Axios
             .delete(`/api/investors/${id}`)
+            .then(alert('You deleted the user with id : ' + id))
             .then(res =>{
              this.setState({users:res.data.remaining})}) 
             .catch(err => this.setState({error:true}))
