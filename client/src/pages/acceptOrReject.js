@@ -4,7 +4,6 @@ import Axios from 'axios';
 import ShowCompanies from '../components/fees/ShowCompanies';
 import {Spinner , Alert} from 'react-bootstrap/Spinner'
 
-
 class acceptOrReject extends Component {
 
   state = {
@@ -14,32 +13,44 @@ class acceptOrReject extends Component {
     error:false,
     idEntered:false,
     allForms:[],
-    loading: true
+    loading: true,
+    ready:false
   }
 
   componentDidMount() {
-    this.setState({error: false , loading: true})
+    console.log("mostafa")
     if (this.state.idEntered) {
-      this._isMounted = true
-    Axios
-    .get(`/api/companies/${this.state.companyId}`)
-    .then(res => this.setState({forms : 
-      (res.data.data.form.acceptedByReviewer !== -1)?
-      []
-      :
-    (res.data.data.form ), loading:false}))
-    .catch(err => {
-      this.setState({error:true , loading: false})
-    })}
+      alert("be555")
+      Axios
+      .get(`/api/companies/${this.state.companyId}`)
+      .then(res => {
+        alert(res.data.data.name)
+        this.setState({forms : res.data.data.form , loading:false})
+      })
+        .catch(err => {
+          this.setState({error:true , loading: false})
+        })
+        this._isMounted = true
+      }
     else{
       Axios
       .get('/api/companies/')
-      .then(res=>this.setState({allForms:res.data.data,loading:false}))
+      .then(res=>{
+        const data=res.data.data
+        const forms = data.filter((form)=>{
+          return (form.form.acceptedByReviewer!==1)
+        })
+        if(forms.length===0)
+            alert('no forms to review')
+        this.setState({allForms:forms,loading:false})
+      })
+      .catch(err=>this.setState({error:true}))
     }
 }
 
-  chooseForm = (id, F)=>{
-    this.setState({companyId:id,idEntered:true,loading:false})
+  chooseForm = async (id, F)=>{
+    await this.setState({companyId:id,idEntered:true,loading:false})
+    await this.setState({ready:true})
   }
   accept = (e , root) =>{
     e.preventDefault()
@@ -66,20 +77,24 @@ class acceptOrReject extends Component {
 
   render() {
     return (
-      <div className="App">
-      {this.state.loading? <Spinner animation="border" variant= "primary" />:
-      this.state.error?
-      <Alert className='App' variant='danger'>Looks like something has gone wrong</Alert>
+     
+      this.state.loading ?
+        <div>
+          <h1>Loading please wait</h1>
+          {/* <Spinner animation="border" variant= "primary" /> */}
+        </div>
+        :
+      this.state.error ?
+          <Alert className='App' variant='danger'>Looks like something has gone wrong</Alert>
+        :
+      !this.state.idEntered ? 
+          <ShowCompanies Forms={this.state.allForms} chooseForm={this.chooseForm}/>
+        :
+      !this.state.ready?
+      <h1>just a moment please</h1>
       :
-      !this.state.idEntered? 
-      <ShowCompanies Forms={this.state.allForms} chooseForm={this.chooseForm}/>
-      :
-      <DecisionForms forms = {[this.state.forms]}
-         accept = {this.accept}
-         reject = {this.reject}
-         root = {this}
-      />      }     
-      </div>
+          <DecisionForms forms = {[this.state.forms]} accept = {this.accept} reject = {this.reject} root = {this}/>
+           
     )
   }
 }

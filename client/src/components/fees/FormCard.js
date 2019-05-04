@@ -21,11 +21,11 @@ export class FormCard extends Component {
     return (
       // <div>
       <CardDeck>
-        <Card>
+        <Card bg='dark' text='white' style={{ width: '18rem' }}>
           <Button variant ='primary' onClick={this.toggle}>{this.props.data.name}</Button>
           <Collapse isOpen={this.state.collapse}>
             <Card.Body>
-              <Card.Title><h4>Name : {this.props.data.name}</h4></Card.Title>
+              <Card.Title><h4 >Name : {this.props.data.name}</h4></Card.Title>
               <Card.Text>
                 Type : {this.props.data.type}
               </Card.Text>
