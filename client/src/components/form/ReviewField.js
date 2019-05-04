@@ -15,10 +15,18 @@ class ReviewField extends Component {
       errorMessage: '',
       value: '',
       oldData: props.oldData,
-      index: props.index
+      index: props.index,
+      number: props.number,
+      relative: 0
     }
   }
-
+  async componentDidMount () {
+    var relativeindex = await this.state.index
+    for (var i = 0; i < this.state.number; i++) {
+      relativeindex += this.state.form.sections[i].numberOfFields
+    }
+    await this.setState({ relative: relativeindex })
+  }
   render () {
     return (
       <FormGroup row>
@@ -27,7 +35,7 @@ class ReviewField extends Component {
           <fieldset disabled>
             <div >
               <div class='col-sm-10'>
-                <input type='text' id='disabledTextInput' class='form-control' placeholder={this.state.oldData[this.state.index]} />
+                <input type='text' id='disabledTextInput' class='form-control' placeholder={this.state.oldData[this.state.relative]} />
               </div>
             </div>
           </fieldset>

@@ -91,7 +91,7 @@ class NavbarGafi extends React.Component {
               <UncontrolledDropdown nav inNavbar>
                 <DropdownToggle nav caret />
                 <DropdownMenu right>
-                  <DropdownItem>Your profile</DropdownItem>
+                  <DropdownItem>My profile</DropdownItem>
                   <DropdownItem divider />
                   <DropdownItem>Help</DropdownItem>
                   <Link to='/user/settings'><DropdownItem>Settings</DropdownItem></Link>
