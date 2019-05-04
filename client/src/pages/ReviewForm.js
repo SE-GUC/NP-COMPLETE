@@ -22,33 +22,17 @@ class ReviewForm extends Component {
       formType:"",
       idEntered:false,
       lawyer:false,
-      ready:false
+      ready:false,
+      formReady:false
     }
   }
   handleIDChange =(e)=>{
-    this.setState({companyID:e.target.value})
-    console.log(e.target.value)
   }
   handleLawyerIDChange =(e)=>{
-    this.setState({lawyerID:e.target.value})
-    console.log(e.target.value)
   }
 
   handleChange = (e, index,section)=>
   {
-     if(e.target.name==="Company Name"){
-       this.setState({companyName:e.target.value})
-     }
-     var relativeindex = index
-     for(var i =0; i<section; i++){
-      relativeindex += this.state.form.sections[i].numberOfFields
-     }
-     console.log(relativeindex)
-     const formData=this.state.filledform
-     formData[relativeindex]=e.target.value
-     this.setState({filledform:formData})
-     console.log(this.state.filledform)
-     
   }
  
  async componentDidMount(){
@@ -57,13 +41,21 @@ class ReviewForm extends Component {
     }
     const res= await Axios.get(`/api/companies/`) 
     console.log(res.data.data)
-    await this.setState({allForms:res.data.data,formType:res.data.data.type,idEntered:false})
+    await this.setState({allForms:res.data.data,idEntered:false})
     console.log(this.state.allForms)
-    await this.state.formType==="SSC"?(this.setState({form:form.SSC})):(this.setState({form:form.SPC}))
     await this.setState({filledform:this.state.oldData,ready:true})
   }
-  chooseForm = (id,F)=>{
-    this.setState({companyID:id,idEntered:true})
+  chooseForm = async (id,F)=>{
+    await this.setState({companyID:id,idEntered:true})
+    const resp= await Axios.get(`/api/companies/${id}`) 
+    console.log(resp.data.data)
+    console.log(resp.data.data.type)
+    await this.setState({oldData:resp.data.data.form,formType:resp.data.data.type,idEntered:true})
+    console.log(this.state.oldData)
+    console.log(this.state.type)
+    await this.state.formType==="SSC"?(this.setState({form:form.SSC})):(this.setState({form:form.SPC}))
+    await this.setState({filledform:this.state.oldData,ready:true})
+    await this.setState({formReady:true})
   }
   render () {
     const renderSections = this.state.form.sections.map((section, i) => {
@@ -88,6 +80,11 @@ class ReviewForm extends Component {
         </div>
     )
       :
+      !this.state.formReady?
+      <div>
+        <h1>loading form data please wait</h1>
+      </div>
+    :
     (
         <div>
             <Form >
