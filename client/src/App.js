@@ -153,11 +153,11 @@ class App extends Component {
 
             <Route exact path='/investors/fillForm' component={GuardRoute(ChooseForm)} />
 
-            <Route exact path='/lawyers/fillForm' component={() => <ChooseForm lawyer />} />
+            <Route exact path='/lawyers/fillForm' component={GuardRoute(ChooseForm)} />
 
-            <Route exact path='/investors/editForm' component={UpdateForm} />
+            <Route exact path='/investors/editForm' component={GuardRoute(UpdateForm)} />
 
-            <Route exact path='/lawyers/editForm' component={() => <UpdateForm lawyer />} />
+            <Route exact path='/lawyers/editForm' component={GuardRoute(UpdateForm)} />
 
             <Route exact path='/admins/publishCompany' component={GuardRoute(publishCompany)} />
 
