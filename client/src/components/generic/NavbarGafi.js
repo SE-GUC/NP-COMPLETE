@@ -36,7 +36,8 @@ class NavbarGafi extends React.Component {
   this.props.changeLanguage(
     {
       language : localStorage.getItem('language')
-    }
+    },
+    window.location.reload()
   )
 }
   toggle () {
