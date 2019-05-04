@@ -35,7 +35,7 @@ const LawyerSchema = new Schema({
   },
   acceptedByAdmin: {
     type: Boolean,
-    default: true
+    default: false
   }
 })
 
