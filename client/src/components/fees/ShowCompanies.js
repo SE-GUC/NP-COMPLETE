@@ -14,6 +14,7 @@ export class ShowCompanies extends Component {
       })
   }
   render() {
+    console.log(this.props.Forms)
     const formsToView=this.state.filtered.length>0?
     <ShowForms cases = {this.state.filtered} chooseForm={this.props.chooseForm}/>
     :

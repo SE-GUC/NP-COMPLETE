@@ -131,7 +131,6 @@ export class Register extends Component {
            .catch(error => alert(error.response.data.message)); 
            break ;
         case 'Investor':
-        console.log('a7a')
         axios
            .post(`/api/investors/register`, data)
            .then(res => alert('A confirmation email was sent to you, please check your mail'))

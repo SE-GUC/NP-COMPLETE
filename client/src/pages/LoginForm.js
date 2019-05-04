@@ -5,6 +5,7 @@ import { login } from '../actions/authActions'
 import PropTypes from 'prop-types'
 import { Redirect } from 'react-router-dom'
 import store from '../store'
+import {Alert} from 'react-bootstrap'
 
 import { Button, Form, Grid, Header, Icon, Message, Segment } from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css'
@@ -15,7 +16,8 @@ class LoginForm extends React.Component {
     this.state = {
       email: '',
       password: '', 
-      type: props.type
+      type: props.type,
+      error: false
     }
   }
 
@@ -31,9 +33,15 @@ class LoginForm extends React.Component {
       }, 
       this.state.type
     )
+    this.setState({ loading : false})
   }
 
   render(){
+    if(this.state.error){
+      return (<Alert className='App' variant='danger'>Looks like something has gone wrong</Alert> )
+    }
+    else{
+      
     if(!this.props.isLoggedIn) {
     return(
 
@@ -97,7 +105,7 @@ class LoginForm extends React.Component {
     }
 
   }
-
+  }
 }
 
 LoginForm.propTypes = {
@@ -106,7 +114,8 @@ LoginForm.propTypes = {
 
 const mapStateToProps = state => ({
 	isLoggedIn: state.auth.isLoggedIn,
-	loggedUser: state.auth.loggedUser,
+  loggedUser: state.auth.loggedUser,
+  error: state.auth.error
 })
 
 export default connect(mapStateToProps,{ login })(LoginForm);
