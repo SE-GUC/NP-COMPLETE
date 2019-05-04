@@ -51,18 +51,7 @@ class InternalUserLogIn extends Component {
       )
     }
 
-    return (
-      <div className='App-header'>
-        <div className='box-controller'>
-          <div className='box-container'>
-            <LoginForm type={this.state.type} />
-          </div>
-          <ul>
-            <li><Link to="../forgetPassword">Forget your password?</Link></li>
-          </ul>
-        </div>
-      </div>
-    )
+    return <LoginForm type={this.state.type} />
   }
 }
 
