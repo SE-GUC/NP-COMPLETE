@@ -16,6 +16,7 @@ export class Lawyer extends Component {
       deleteMe =id =>{
             Axios
             .delete(`/api/lawyers/${id}`)
+            .then(alert('You deleted the user with id : ' + id))
             .then(res =>{
              this.setState({users:res.data.remaining})}) 
             .catch(err => this.setState({error:true}))
