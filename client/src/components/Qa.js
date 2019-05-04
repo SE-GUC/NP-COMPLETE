@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { Collapse, Button, CardBody, Card } from 'reactstrap'
+import { Collapse, Button } from 'reactstrap'
+import { Card } from 'semantic-ui-react'
 
 class Qa extends Component {
   constructor (props) {
@@ -20,10 +21,12 @@ class Qa extends Component {
   render () {
     return (
       <div>
-        <Button color='primary' onClick={this.toggle} style={{ marginBottom: '1rem' }}>{this.state.title}</Button>
+        <Button outline color='secondary' onClick={this.toggle} style={{ marginBottom: '1rem' }}>{this.state.title}</Button>
         <Collapse isOpen={this.state.collapse}>
-          <Card>
-            <CardBody>{this.state.body}</CardBody>
+          <Card centered>
+            <Card.Content>
+              <Card.Description>{this.state.body}</Card.Description>
+            </Card.Content>
           </Card>
         </Collapse>
       </div>

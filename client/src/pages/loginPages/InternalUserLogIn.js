@@ -32,10 +32,10 @@ class InternalUserLogIn extends Component {
     `}
           </style>
           <Header inverted as='h1'>Internal Portal Login</Header>
-          <Card.Group>
-            <DisplayCard title='Admin' text='Log in as an admin' buttonText='I am an admin' id='admins' click={e => this.pickType(e)} />
-            <DisplayCard title='Lawyer' text='Log in as a lawyer' buttonText='I am a lawyer' id='lawyers' click={e => this.pickType(e)} />
-            <DisplayCard title='Reviewer' text='Log in as a reviewer' buttonText='I am a reviewer' id='reviewers' click={e => this.pickType(e)} />
+          <Card.Group centered>
+            <DisplayCard title='Log in as an Admin' buttonText='I am an admin' id='admins' click={e => this.pickType(e)} />
+            <DisplayCard title='Log in as a Lawyer' buttonText='I am a lawyer' id='lawyers' click={e => this.pickType(e)} />
+            <DisplayCard title='Log in as a Reviewer' buttonText='I am a reviewer' id='reviewers' click={e => this.pickType(e)} />
           </Card.Group>
         </Container>
       )

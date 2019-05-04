@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Card from 'react-bootstrap/Card'
+import { Card, CardBody, CardText, CardTitle } from 'reactstrap'
 import CardDeck from 'react-bootstrap/CardDeck'
 export class EjournalCard extends Component {
   constructor (props) {
@@ -16,22 +16,22 @@ export class EjournalCard extends Component {
     return (
 
       <CardDeck>
-        <Card>
-          <Card.Body>
-            <Card.Title>{this.state.name}</Card.Title>
+        <Card className='text-muted' body inverse>
+          <CardBody>
+            <CardTitle>{this.state.name}</CardTitle>
             {/* {
                 Object.keys(this.props.data).map(item =>
                   <Card.Text>
                     {this.props.data[item]}
                   </Card.Text>
                 )} */}
-            <Card.Text>
+            <CardText>
               {this.state.type}
-            </Card.Text>
-            <Card.Text>
+            </CardText>
+            <CardText>
               {this.state.establishmentDate}
-            </Card.Text>
-          </Card.Body>
+            </CardText>
+          </CardBody>
         </Card>
       </CardDeck>
 

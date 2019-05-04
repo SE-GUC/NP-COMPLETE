@@ -33,7 +33,7 @@ class LogIn extends Component {
     `}
           </style>
           <Header inverted as='h1'>Log In</Header>
-          <Card.Group>
+          <Card.Group centered>
             <DisplayCard title='Log in to Investor Portal:' buttonText='I am an Investor' id='InvestorPortal' click={e => this.pickType(e)} />
             <DisplayCard title='Log in to Internal Portal:' buttonText='I am an Internal User' id='InternalPortal' click={e => this.pickType(e)} />
           </Card.Group>
