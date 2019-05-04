@@ -5,7 +5,7 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import '../../App.css'
 import Axios from 'axios'
-import Spinner from 'react-bootstrap/Spinner'
+import { Spinner, Alert } from 'react-bootstrap'
 
 class ViewForm extends Component {
   constructor (props) {
@@ -20,7 +20,7 @@ class ViewForm extends Component {
 
   componentDidMount () {
     const id = localStorage.getItem('id')
-    this.setState({ loading: true })
+    this.setState({ loading: true, error: false })
     Axios
       .get('/api/investors/viewRejected/' + id)
       .then(
@@ -49,6 +49,7 @@ class ViewForm extends Component {
           this.setState({ error: true, loading: false, errorMessage: error['response'].data.message })
         } else {
           console.log(error)
+          this.setState({ error: true, loading: false })
         }
       })
   }
@@ -58,21 +59,12 @@ class ViewForm extends Component {
         return <div className='App'><Spinner animation='border' variant='primary' /></div>
       }
       if (this.state.loading === false && this.state.error) {
-        return (
-          <div>
-            <div>
-              <h1>Error </h1>
-            </div>
-            <div>
-              <h1> {this.state.errorMessage} </h1>
-            </div>
-          </div>
-        )
+        return <Alert className='App' variant='danger'>Looks like something has gone wrong</Alert>
       }
 
       if (this.state.loading === false && this.state.formItems.length === 0) {
         return (
-          <h1> No companies to display</h1>
+          <Alert className='App' variant='danger'>No companies to display</Alert>
         )
       }
       return (
@@ -93,16 +85,7 @@ class ViewForm extends Component {
         return <div className='App'><Spinner animation='border' variant='primary' /></div>
       }
       if (this.state.loading === false && this.state.error) {
-        return (
-          <div>
-            <div>
-              <h1>Error </h1>
-            </div>
-            <div>
-              <h1> {this.state.errorMessage} </h1>
-            </div>
-          </div>
-        )
+        return <Alert className='App' variant='danger'>يبدو ان ثمة مشكلة الرجاء حاول مجددا</Alert>
       }
 
       if (this.state.loading === false && this.state.formItems.length === 0) {

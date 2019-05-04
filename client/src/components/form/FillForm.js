@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import Section from './Section'
-import { Form, Button } from 'reactstrap'
-import { Container } from 'semantic-ui-react'
+import { Form, Button, Container } from 'reactstrap'
 import Axios from 'axios';
 import '../../layout/fillform.css'
 
@@ -79,7 +78,7 @@ class FillForm extends Component {
     return this.state.error? <h1>and error has occured please try again!</h1>:(
       <div>
        <h1>Fill Form</h1>
-        <Container className="FormContainer" style={{ minHeight: 700, padding: '1em 0em', top: '0', bottom: '0', left: '0', right: '0', position: 'absolute' }}>
+        <Container className="FormContainer" >
           <h1> {this.state.type} </h1>
           <Form className="form" onSubmit={(e) => this.submitForm(e)}>
             {renderSections}

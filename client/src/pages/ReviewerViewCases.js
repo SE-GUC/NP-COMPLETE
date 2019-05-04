@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import Axios from 'axios'
 import PropTypes from 'prop-types'
 import MapCases from '../components/MapCases'
-import Spinner from 'react-bootstrap/Spinner'
+import {Spinner , Alert} from 'react-bootstrap'
 import Button from 'react-bootstrap/Button'
 
 export class ReviewerViewCases extends Component {
@@ -12,14 +12,15 @@ export class ReviewerViewCases extends Component {
         this.state={
           loading: true ,
           cases:[],
-          walkIn: props.walkIn
+          walkIn: props.walkIn,
+          error: false
         }
       }
 
     componentDidMount() {
         const id = localStorage.getItem('id')
         this._isMounted = true
-        this.setState({loading: true})
+        this.setState({loading: true , error: false})
         Axios.get('/api/reviewers/casesPage/'+ id)
         .then(res => this.setState({ cases: res.data.data, loading: false }))
         .catch(err => this.setState({ error: true, loading: false }))
@@ -30,7 +31,7 @@ export class ReviewerViewCases extends Component {
       }
       render() {
         if (localStorage.getItem('language') === 'English') {
-        return this.state.error? <h1>process could not be completed</h1>:this.state.loading?
+        return this.state.error? <Alert className='App' variant='danger'>Looks like something has gone wrong</Alert>:this.state.loading?
         <div className='App'><Spinner animation="border" variant= "primary" /></div>
         :
         ( <div>
@@ -41,7 +42,7 @@ export class ReviewerViewCases extends Component {
           </div>
         )
       } else{
-        return this.state.error? <h1>process could not be completed</h1>:this.state.loading?
+        return this.state.error? <Alert className='App' variant='danger'>يبدو ان ثمة مشكلة الرجاء حاول مجددا</Alert>:this.state.loading?
         <div className='App'><Spinner animation="border" variant= "primary" /></div>
         :
         ( <div>
