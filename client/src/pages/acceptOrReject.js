@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import DecisionForms from '../components/DecisionForms'
 import Axios from 'axios';
 import ShowCompanies from '../components/fees/ShowCompanies';
-import Spinner from 'react-bootstrap/Spinner'
+import {Spinner , Alert} from 'react-bootstrap/Spinner'
 
 
 class acceptOrReject extends Component {
@@ -13,11 +13,11 @@ class acceptOrReject extends Component {
     companyId: "",
     error:false,
     idEntered:false,
-    allForms:[],
-    loading:true
+    allForms:[]
   }
 
   componentDidMount() {
+    this.setState({error: false , loading: true})
     if (this.state.idEntered) {
       this._isMounted = true
     Axios
@@ -28,7 +28,7 @@ class acceptOrReject extends Component {
       :
     (res.data.data.form ), loading:false}))
     .catch(err => {
-      this.setState({error:true})
+      this.setState({error:true , loading: false})
     })}
     else{
       Axios
@@ -43,27 +43,24 @@ class acceptOrReject extends Component {
   accept = (e , root) =>{
     e.preventDefault()
     const reviewerId= localStorage.getItem('id')
+    this.setState({error: false ,loading: true})
     Axios
     .put(`/api/reviewers/decideAnApplication/${reviewerId}/${this.state.companyId}`  , {decision: true})
     .then(res => {
-      this.setState({ forms: [] })
+      this.setState({ forms: [] , loading: false})
     })
-    .catch(err => {
-      console.log(err)
-    })
+    .catch( err => this.setState({error: true , loading :false}))
   }
   reject = (e , root) =>{
     e.preventDefault()
     const reviewerId= localStorage.getItem('id')
-
+    this.setState({error: false , loading: true})
     Axios
     .put(`/api/reviewers/decideAnApplication/${reviewerId}/${this.state.companyId}`  , {decision: false})
     .then(res => {
-      this.setState({ forms: [] })
+      this.setState({ forms: [] , loading: false})
     })
-    .catch(err => {
-      console.log(err)
-    })
+    .catch(err => this.setState({error: true , loading: false}))
   }
 
   render() {
@@ -71,7 +68,7 @@ class acceptOrReject extends Component {
       <div className="App">
       {this.state.loading? <Spinner animation="border" variant= "primary" />:
       this.state.error?
-      <h1>Error has occured please try again</h1>
+      <Alert className='App' variant='danger'>Looks like something has gone wrong</Alert>
       :
       !this.state.idEntered? 
       <ShowCompanies Forms={this.state.allForms} chooseForm={this.chooseForm}/>

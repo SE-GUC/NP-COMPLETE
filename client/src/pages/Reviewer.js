@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import Axios from 'axios'
 import DeleteAccounts from '../components/DeleteAccounts'
 import PropTypes from 'prop-types'
-import Spinner from 'react-bootstrap/Spinner'
+import {Spinner , Alert} from 'react-bootstrap'
 
 
 export class Reviewer extends Component {
@@ -11,32 +11,35 @@ export class Reviewer extends Component {
         super(props)
         this.state={
           loading: true,
+          error: false,
           users:[]
         }
       }
       deleteMe =id =>{
+        this.setState({loading :true , error: false})
             Axios
             .delete(`/api/reviewers/${id}`)
             .then(alert('You deleted the user with id : ' + id))
             .then(res =>{
-             this.setState({users:res.data.remaining})}) 
-            .catch(err => this.setState({error:true}))
+             this.setState({users:res.data.remaining , loading: false})}) 
+            .catch(err => this.setState({error:true , loading: false}))
       }
 
     componentDidMount() {
         this._isMounted = true
-        this.setState({loading: true})
+        this.setState({loading: true , error: false})
         Axios
         .get('/api/reviewers')
         .then(res => this.setState({ users: res.data.data , loading: false }))
-        .catch(err => this.setState({ error: true }))
+        .catch(err => this.setState({ error: true, loading: false }))
     }
 
     componentWillUnmount() {
         this._isMounted = false
       }
   render() {
-    return this.state.error? <h1>process could not be completed</h1>:this.state.loading?
+    return this.state.error? <Alert className='App' variant='danger'>Looks like something has gone wrong</Alert>
+    :this.state.loading?
     <div className='App'><Spinner animation="border" variant= "primary" /></div>
     :
     ( <div className='Investor'>

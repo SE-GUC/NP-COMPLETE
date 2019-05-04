@@ -3,6 +3,8 @@ import { StripeProvider, Elements } from 'react-stripe-elements'
 import Form from '../../components/fees/Form'
 import Axios from 'axios';
 import ShowCompanies from '../../components/fees/ShowCompanies';
+import {Spinner} from 'react-bootstrap'
+
 class Money extends React.Component {
   state = {
     companyID:"",
@@ -10,7 +12,8 @@ class Money extends React.Component {
     loading:true,
     allForms:[],
     fees:0,
-    myID: localStorage.getItem('id')
+    myID: localStorage.getItem('id'),
+    error: false
 
   }
 
@@ -37,7 +40,7 @@ class Money extends React.Component {
   render () {
     return (
       this.state.loading?
-      <h1>Loading please wait</h1>
+      <div className='App'><Spinner animation="border" variant= "primary" /></div>
       :
       !this.state.FormChosen?
       <ShowCompanies Forms={this.state.allForms} chooseForm={this.chooseForm}/>

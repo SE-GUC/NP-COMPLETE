@@ -165,7 +165,7 @@ class App extends Component {
 
               <Route exact path='/lawyers/CalcFees' component={GuardRoute(CalcFees, 'Lawyer')} />
 
-              <Route exact path='users/reviewForm' component={GuardRoute(ReviewForm)} />
+              <Route exact path='/users/reviewForm' component={GuardRoute(ReviewForm)} />
               {/* users? */}
 
               <Route exact path='/confirmation/:model/:emailToken' component={confirmation} />
