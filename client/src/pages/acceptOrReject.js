@@ -13,7 +13,8 @@ class acceptOrReject extends Component {
     companyId: "",
     error:false,
     idEntered:false,
-    allForms:[]
+    allForms:[],
+    loading: true
   }
 
   componentDidMount() {

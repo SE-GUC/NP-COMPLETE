@@ -4,15 +4,15 @@ import { Card, Button } from 'semantic-ui-react'
 const DisplayCard = (props) => {
   if (props.text) {
     return (
-      <Card>
+      <Card centered>
         <Card.Content>
-          <Card.Header>{props.title}</Card.Header>
+          <Card.Header textAlign='center' centered>{props.title}</Card.Header>
 
-          <Card.Description>
+          <Card.Description textAlign='center' centered>
             {props.text}
           </Card.Description>
         </Card.Content>
-        <Card.Content extra>
+        <Card.Content extra textAlign='center' centered>
           <Button basic color='grey' id={props.id} onClick={e => props.click(e)}>
             {props.buttonText}
           </Button>
@@ -23,17 +23,17 @@ const DisplayCard = (props) => {
   }
 
   return (
-    <Card>
-    <Card.Content>
-      <Card.Header>{props.title}</Card.Header>
-    </Card.Content>
-    <Card.Content extra>
-      <Button basic color='grey' id={props.id} onClick={e => props.click(e)}>
-        {props.buttonText}
-      </Button>
+    <Card centered padded='horizontally'>
+      <Card.Content textAlign='center' centered>
+        <Card.Header textAlign='center' centered>{props.title}</Card.Header>
+      </Card.Content>
+      <Card.Content extra textAlign='center' centered>
+        <Button basic color='grey' id={props.id} onClick={e => props.click(e)}>
+          {props.buttonText}
+        </Button>
 
-    </Card.Content>
-  </Card>
+      </Card.Content>
+    </Card>
   )
 }
 

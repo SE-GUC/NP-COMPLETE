@@ -24,7 +24,7 @@ export class Admin extends Component {
       }
 
     componentDidMount() {
-        this._isMounted = false
+        this._isMounted = true
         this.setState({loading: true , error: false})
         Axios
         .get('/api/admins')

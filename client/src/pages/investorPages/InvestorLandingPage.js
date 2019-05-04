@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
-import { Row, Col } from 'reactstrap'
-import Header2 from '../../components/Header2'
-import { Container, Header } from 'semantic-ui-react'
+import { Container, Header, Card, Grid } from 'semantic-ui-react'
 import '../../layout/styles.css'
 import DisplayCard from '../../components/generic/DisplayCard'
 import Faqs from './Faqs'
@@ -17,12 +15,10 @@ class InvestorLandingPage extends Component {
     }
   }
 
-
   click = (e) => {
     const type = e.target.id
     this.setState({type:type})
   }
- 
 
   render () {
     console.log(this.state.type)
@@ -30,23 +26,37 @@ class InvestorLandingPage extends Component {
 
       return (
         <Container>
+        <Grid padded='horizontally' textAlign='center' centered>
+        <Grid.Row columns={1}>
           <Header inverted as='h1'>Welcome Investor </ Header>
-          <Row>
-            <Col sm='6'>
-              <DisplayCard title="Establish a company" text="Start your investments" buttonText="fill form" id="fillForm" click={this.click} />
-            </Col>
-            <Col sm='6'>
-            <DisplayCard title="FAQ" text="Need help? check our helpful documentations" buttonText="help" id="faq" click={this.click} />
-            </Col>
-          </Row>
-          <Row>
-            <Col sm='6'>
-            <DisplayCard title="My Companies" text="Keep track of your companies" buttonText="show companies" id="company" click={this.click} />
-            </Col>
-            <Col sm='6'>
-            <DisplayCard title="Additional functionality" text="Coming soon..." buttonText="show companies" id="company" click={this.click} />
-            </Col>
-          </Row>
+
+        </Grid.Row>
+        </Grid>
+        <Grid relaxed textAlign='center' centered>
+          <Card.Group itemsPerRow={2} padded centered textAlign='center'>
+           
+           <Grid.Row relaxed>
+
+              <Grid.Column>
+                <DisplayCard title="Establish a company" text="Start your investments" buttonText="fill form" id="fillForm" click={this.click} />
+              </Grid.Column>
+
+              <Grid.Column >
+              <DisplayCard title="FAQ" text="Need help? check our FAQ" buttonText="help" id="faq" click={this.click} />
+              </Grid.Column>
+           </Grid.Row>
+           <Grid.Row relaxed>
+              <Grid.Column >
+              <DisplayCard title="My Companies" text="Keep track of your companies" buttonText="show companies" id="company" click={this.click} />
+              </Grid.Column>
+              
+              <Grid.Column >
+              <DisplayCard title="Additional functionality" text="Coming soon..." buttonText="show companies" id="company" click={this.click} />
+              </Grid.Column>
+           </Grid.Row>
+
+          </Card.Group>
+        </Grid>
   
         </Container>
   
