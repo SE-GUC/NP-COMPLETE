@@ -56,7 +56,6 @@ import Money from './pages/investorPages/Money'
 import Navbar from './components/generic/NavbarGafi'
 import { NoMatch } from './pages/defaultPages/NoMatch'
 import { UnAuth } from './pages/defaultPages/UnAuth'
-import NavBar from './components/generic/NavBar'
 import { Layout } from './components/generic/Layout'
 
 if (localStorage.jwtToken) {
