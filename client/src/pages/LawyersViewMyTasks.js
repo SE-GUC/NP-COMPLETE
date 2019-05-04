@@ -20,10 +20,10 @@ export class LawyersViewMyTasks extends Component {
         //const id = localStorage.getItem('id')
         this.setState({error: false , loading: true})
         Axios.get('/api/lawyers/allowedCompanies')
-        // Axios.get('/api/lawyers/workPage/'+ id)
-        // old url from buffer branch
         .then(res => this.setState({ tasks: res.data.data , loading: false }))
         .catch(err => this.setState({ error: true, loading: false }))
+        // Axios.get('/api/lawyers/workPage/'+ id)
+        // old url from buffer branch
     }
     componentWillUnmount() {
         this._isMounted = false
