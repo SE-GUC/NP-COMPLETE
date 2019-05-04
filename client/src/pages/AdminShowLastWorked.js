@@ -32,6 +32,13 @@ class AdminShowLastWorked extends Component {
       axios
       .get('api/companies/')
       .then(res=>this.setState({allForms:res.data.data,loading:false}))
+      .catch(err => {
+        if (err.response && err.response.data) {
+          this.setState({ response: err.response.data })
+        } else {
+          console.log(err)
+        }
+      })
     }
   }
   chooseForm = (id,F) =>{ //dont remove the F
