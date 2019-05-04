@@ -4,16 +4,31 @@ import PropTypes from 'prop-types'
 import { login } from '../actions/authActions'
 import { addFlashMessage } from '../actions/flashMessageActions'
 
-export default function (ComposedComponent) {
+export default function (ComposedComponent, type) {
+
   class GuardRoute extends React.Component {
     componentWillMount () {
-      console.log(this.props)
+      var matches = false
+      if (type !== undefined && type !== null && this.props.loggedUser !== undefined) {
+        if (type === this.props.loggedUser.type) {
+          matches = true
+        } else if (type === 'InternalPortal' && (this.props.loggedUser.type === 'Lawyer' || this.props.loggedUser.type === 'Reviewer' || this.props.loggedUser.type === 'Admin')) {
+          matches = true
+        }
+      }
+
       if (!this.props.isLoggedIn) {
         this.props.addFlashMessage({
           type: 'error',
           text: 'You need to login to access this page'
         })
         this.props.history.push('/login')
+      } else if (this.props.isLoggedIn && !matches) {
+        this.props.addFlashMessage({
+          type: 'error',
+          text: 'Unathorized Action'
+        })
+        this.props.history.push('/unauth')
       }
     }
 

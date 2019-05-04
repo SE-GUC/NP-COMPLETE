@@ -1,4 +1,5 @@
 import React from 'react'
+import {Link} from 'react-router-dom'
 import { connect } from 'react-redux'
 import { login } from '../actions/authActions'
 import PropTypes from 'prop-types'
@@ -80,9 +81,11 @@ class LoginForm extends React.Component {
                   </Button>
                 </Segment>
               </Form>
-              <Message>
-              New to us? <a href='#'>Sign Up</a>
+             
+              <Message as={Link} to="/investors/Register">
+              New to us? Sign Up
               </Message>
+              
             </Grid.Column>
           </Grid>
         </div>

@@ -35,7 +35,7 @@ const ReviewerSchema = new Schema({
   },
   acceptedByAdmin: {
     type: Boolean,
-    default: false
+    default: true
   }
 })
 

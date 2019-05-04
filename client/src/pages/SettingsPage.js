@@ -2,6 +2,7 @@ import React from 'react'
 import { Button } from 'react-bootstrap'
 import axios from 'axios'
 import {ListGroup,Collapse, CardBody, Card} from 'reactstrap'
+import { Link } from 'react-router-dom'
 
 export default class SettingsPage extends React.Component {
 
@@ -39,9 +40,9 @@ export default class SettingsPage extends React.Component {
       <div>
         <h3>Settings </h3>
         <ListGroup >
-          <Button href='/user/UpdateProfile'> Update Profile </Button>
+        <Link to='/user/UpdateProfile'><Button> Update Profile </Button></Link>
           <br />
-          <Button href='/ForgetPassword'> Reset Password</Button>
+          <Link to='/ForgetPassword'><Button> Reset Password </Button></Link>
           <br />
           <Button color="primary" onClick={this.toggle} style={{ marginBottom: '1rem' }}>Delete Account</Button>
         <Collapse isOpen={this.state.collapse}>

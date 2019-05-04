@@ -34,7 +34,7 @@ const AdminSchema = new Schema({
   },
   acceptedByAdmin: {
     type: Boolean,
-    default: false
+    default: true
   }
 })
 
