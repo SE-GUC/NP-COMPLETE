@@ -23,13 +23,14 @@ export default function (ComposedComponent, type) {
           text: 'You need to login to access this page'
         })
         this.props.history.push('/login')
-      } else if (this.props.isLoggedIn && !matches) {
-        this.props.addFlashMessage({
-          type: 'error',
-          text: 'Unathorized Action'
-        })
-        this.props.history.push('/unauth')
       }
+      // else if (this.props.isLoggedIn && !matches) {
+      //   this.props.addFlashMessage({
+      //     type: 'error',
+      //     text: 'Unathorized Action'
+      //   })
+      //   this.props.history.push('/unauth')
+      // }
     }
 
     componentWillUpdate (nextProps) {
