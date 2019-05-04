@@ -24,24 +24,16 @@ const DisplayCard = (props) => {
 
   return (
     <Card>
-      <Card.Content>
-        <Card.Header>Steve Sanders</Card.Header>
-        <Card.Meta>Friends of Elliot</Card.Meta>
-        <Card.Description>
-          Steve wants to add you to the group <strong>best friends</strong>
-        </Card.Description>
-      </Card.Content>
-      <Card.Content extra>
-        <div className='ui two buttons'>
-          <Button basic color='green'>
-            Approve
-          </Button>
-          <Button basic color='red'>
-            Decline
-          </Button>
-        </div>
-      </Card.Content>
-    </Card>
+    <Card.Content>
+      <Card.Header>{props.title}</Card.Header>
+    </Card.Content>
+    <Card.Content extra>
+      <Button basic color='grey' id={props.id} onClick={e => props.click(e)}>
+        {props.buttonText}
+      </Button>
+
+    </Card.Content>
+  </Card>
   )
 }
 
