@@ -20,7 +20,7 @@ class AdminShowLastWorked extends Component {
   componentDidMount () {
     if (this.state.idEntered) {
       axios.get(`/api/admins/showLastWorked/${this.state.companyId}/${this.state.adminId}`)
-        .then(res => { this.setState({ response: res.data }) })
+        .then(res => { this.setState({ response: res.data, loading: false }) })
         .catch(err => {
           if (err.response && err.response.data) {
             this.setState({ response: err.response.data })
@@ -29,13 +29,22 @@ class AdminShowLastWorked extends Component {
           }
         })
     } else {
-      axios
-      .get('/api/companies/')
-      .then(res=>this.setState({allForms:res.data.data,loading:false}))
+      axios.get('/api/companies/')
+        .then(res => {
+          this.setState({ allForms: res.data.data, loading: false })
+          this.componentDidMount()
+        })
+        .catch(err => {
+          if (err.response && err.response.data) {
+            this.setState({ response: err.response.data })
+          } else {
+            console.log(err)
+          }
+        })
     }
   }
   chooseForm = (id,F) =>{ //dont remove the F
-    this.setState({companyId:id,idEntered:true})
+    this.setState({ companyId: id, idEntered: true, loading: true })
   }
   render () {
     if (localStorage.getItem('language') === 'English') {
@@ -70,7 +79,7 @@ class AdminShowLastWorked extends Component {
                   : <div> {
                     this.state.response.data.map(res =>
                       <Card bg='dark' border='warning' text='white'>
-                        <Card.Text>{res}</Card.Text>
+                        <Card.Header>{res}</Card.Header>
                       </Card>
                     )
                   }
