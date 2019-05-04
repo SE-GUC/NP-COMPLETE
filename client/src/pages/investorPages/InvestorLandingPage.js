@@ -17,12 +17,10 @@ class InvestorLandingPage extends Component {
     }
   }
 
-
   click = (e) => {
     const type = e.target.id
     this.setState({type:type})
   }
- 
 
   render () {
     console.log(this.state.type)
@@ -36,7 +34,7 @@ class InvestorLandingPage extends Component {
               <DisplayCard title="Establish a company" text="Start your investments" buttonText="fill form" id="fillForm" click={this.click} />
             </Col>
             <Col sm='6'>
-            <DisplayCard title="FAQ" text="Need help? check our helpful documentations" buttonText="help" id="faq" click={this.click} />
+            <DisplayCard title="FAQ" text="Need help? check our FAQ" buttonText="help" id="faq" click={this.click} />
             </Col>
           </Row>
           <Row>
