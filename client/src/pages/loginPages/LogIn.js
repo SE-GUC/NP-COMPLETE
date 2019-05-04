@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import '../../App.css'
 import LoginForm from '../../pages/LoginForm'
 import InternalUserLogIn from './InternalUserLogIn'
-import { Button, Card, CardTitle, Col, Row } from 'reactstrap'
+import { Container, Button, Card, CardTitle, Col, Row } from 'reactstrap'
+import { Header } from 'semantic-ui-react'
 import Header2 from '../../components/Header2'
 import { Link } from 'react-router-dom'
 class LogIn extends Component {
@@ -22,7 +23,8 @@ class LogIn extends Component {
   render () {
     if (this.state.portal === '') {
       return (
-        <div>
+        <Container>
+          <Header>Login </Header>
           <Header2 title='Login' />
           <Row>
             <Col sm='6'>
@@ -38,23 +40,12 @@ class LogIn extends Component {
               </Card>
             </Col>
           </Row>
-        </div>
+        </Container>
       )
     }
 
     if (this.state.portal === 'InvestorPortal') {
-      return (
-        <div className='App-header'>
-          <div className='box-controller'>
-            <div className='box-container'>
-              <LoginForm type='investors' />
-            </div>
-            <ul>
-            <li><Link to="../forgetPassword">Forget your password?</Link></li>
-          </ul>
-          </div>
-        </div>
-      )
+      return <LoginForm type='investors' />
     }
     return <InternalUserLogIn />
   }

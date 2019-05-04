@@ -1,21 +1,46 @@
 import React from 'react'
-import { Card, Button, CardTitle, CardText } from 'reactstrap'
+import { Card, Button } from 'semantic-ui-react'
 
 const DisplayCard = (props) => {
   if (props.text) {
     return (
-      <Card body>
-        <CardTitle>{props.title}</CardTitle>
-        <CardText>{props.text}</CardText>
-        <Button id={props.id} className='acceptBtn' onClick={e => props.click(e)}>{props.buttonText}</Button>
+      <Card>
+        <Card.Content>
+          <Card.Header>{props.title}</Card.Header>
+
+          <Card.Description>
+            {props.text}
+          </Card.Description>
+        </Card.Content>
+        <Card.Content extra>
+          <Button basic color='grey' id={props.id} onClick={e => props.click(e)}>
+            {props.buttonText}
+          </Button>
+
+        </Card.Content>
       </Card>
     )
   }
 
   return (
-    <Card body>
-      <CardTitle>{props.title}</CardTitle>
-      <Button class='acceptBtn' onClick={props.click}>{props.buttonText}</Button>
+    <Card>
+      <Card.Content>
+        <Card.Header>Steve Sanders</Card.Header>
+        <Card.Meta>Friends of Elliot</Card.Meta>
+        <Card.Description>
+          Steve wants to add you to the group <strong>best friends</strong>
+        </Card.Description>
+      </Card.Content>
+      <Card.Content extra>
+        <div className='ui two buttons'>
+          <Button basic color='green'>
+            Approve
+          </Button>
+          <Button basic color='red'>
+            Decline
+          </Button>
+        </div>
+      </Card.Content>
     </Card>
   )
 }
