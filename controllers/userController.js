@@ -142,11 +142,11 @@ exports.register = async (req, res, validator, Model) => {
       const salt = bcrypt.genSaltSync(10)
       const hashedPassword = bcrypt.hashSync(data.password, salt)
       data.password = hashedPassword
-      const newUser = await Model.create(data)
-      res.json({
-        status: 'Success',
-        message: `User created successfully`,
-        data: newUser })
+      // const newUser = await Model.create(data)
+      // res.json({
+      //   status: 'Success',
+      //   message: `User created successfully`,
+      //   data: newUser })
     } else {
       const errors = vaildatePassword(password)
       return res.status(400).json({
