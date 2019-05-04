@@ -18,13 +18,10 @@ class acceptOrReject extends Component {
   }
 
   componentDidMount() {
-    console.log("mostafa")
     if (this.state.idEntered) {
-      alert("be555")
       Axios
       .get(`/api/companies/${this.state.companyId}`)
       .then(res => {
-        alert(res.data.data.name)
         this.setState({forms : res.data.data.form , loading:false})
       })
         .catch(err => {
@@ -50,29 +47,30 @@ class acceptOrReject extends Component {
 
   chooseForm = async (id, F)=>{
     await this.setState({companyId:id,idEntered:true,loading:false})
+    await this.componentDidMount()
     await this.setState({ready:true})
   }
   accept = (e , root) =>{
     e.preventDefault()
     const reviewerId= localStorage.getItem('id')
-    this.setState({error: false ,loading: true})
+    this.setState({error: false ,loading: true,ready:false})
     Axios
     .put(`/api/reviewers/decideAnApplication/${reviewerId}/${this.state.companyId}`  , {decision: true})
     .then(res => {
-      this.setState({ forms: [] , loading: false})
+      this.setState({ forms: [] , loading: true})
     })
-    .catch( err => this.setState({error: true , loading :false}))
+    .catch( err => this.setState({error: true , loading :true}))
   }
   reject = (e , root) =>{
     e.preventDefault()
     const reviewerId= localStorage.getItem('id')
-    this.setState({error: false , loading: true})
+    this.setState({error: false , loading: true,ready:false})
     Axios
     .put(`/api/reviewers/decideAnApplication/${reviewerId}/${this.state.companyId}`  , {decision: false})
     .then(res => {
-      this.setState({ forms: [] , loading: false})
+      this.setState({ forms: [] , loading: true})
     })
-    .catch(err => this.setState({error: true , loading: false}))
+    .catch(err => this.setState({error: true , loading: true}))
   }
 
   render() {
