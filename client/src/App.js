@@ -69,7 +69,7 @@ class App extends Component {
         <Segment
           inverted
           textAlign='center'
-          style={{ minHeight: 700, padding: '1em 0em', top: '0', bottom: '0', left: '0', right: '0', position: 'absolute' }}
+          style={{ overflow: 'scroll', minHeight: 700, padding: '1em 0em', top: '0', bottom: '0', left: '0', right: '0', position: 'absolute' }}
           vertical
         >
 

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Card, Button, CardTitle, CardText, Row, Col } from 'reactstrap'
+import { Row, Col } from 'reactstrap'
 import Header2 from '../../components/Header2'
 import { Container, Header } from 'semantic-ui-react'
 import '../../layout/styles.css'
@@ -30,7 +30,7 @@ class InvestorLandingPage extends Component {
 
       return (
         <Container>
-          <Header>Welcome Investor </ Header>
+          <Header inverted as='h1'>Welcome Investor </ Header>
           <Row>
             <Col sm='6'>
               <DisplayCard title="Establish a company" text="Start your investments" buttonText="fill form" id="fillForm" click={this.click} />
