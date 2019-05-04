@@ -33,7 +33,7 @@ class AdminShowLastWorked extends Component {
     } else {
       this.setState({error: false , loading: true})
       axios
-      .get('api/companies/')
+      .get('/api/companies/')
       .then(res=>this.setState({allForms:res.data.data , loading:false}))
       .catch(err => this.setState({ error: true , loading : false}))
     }
