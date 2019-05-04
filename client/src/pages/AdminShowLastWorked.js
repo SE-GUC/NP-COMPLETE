@@ -21,7 +21,7 @@ class AdminShowLastWorked extends Component {
     if (this.state.idEntered) {
       this.setState({error: false , loading: true})
       axios.get(`/api/admins/showLastWorked/${this.state.companyId}/${this.state.adminId}`)
-        .then(res => { this.setState({ response: res.data , loading: false }) })
+        .then(res => { this.setState({ response: res.data, loading: false }) })
         .catch(err => {
           if (err.response && err.response.data) {
             this.setState({ response: err.response.data , error: true ,loading: false })
@@ -31,15 +31,23 @@ class AdminShowLastWorked extends Component {
           }
         })
     } else {
-      this.setState({error: false , loading: true})
-      axios
-      .get('/api/companies/')
-      .then(res=>this.setState({allForms:res.data.data , loading:false}))
-      .catch(err => this.setState({ error: true , loading : false}))
+      axios.get('/api/companies/')
+        .then(res => {
+          this.setState({ allForms: res.data.data, loading: false })
+          this.componentDidMount()
+        })
+        .catch(err => {
+          if (err.response && err.response.data) {
+            this.setState({ response: err.response.data , error: true ,loading: false })
+          } else {
+            console.log(err)
+            this.setState({error: true , loading: false})
+          }
+        })
     }
   }
   chooseForm = (id,F) =>{ //dont remove the F
-    this.setState({companyId:id,idEntered:true})
+    this.setState({ companyId: id, idEntered: true, loading: true })
   }
   render () {
     if (localStorage.getItem('language') === 'English') {
@@ -75,7 +83,7 @@ class AdminShowLastWorked extends Component {
                   : <div> {
                     this.state.response.data.map(res =>
                       <Card bg='dark' border='warning' text='white'>
-                        <Card.Text>{res}</Card.Text>
+                        <Card.Header>{res}</Card.Header>
                       </Card>
                     )
                   }
