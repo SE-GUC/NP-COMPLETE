@@ -24,7 +24,7 @@ export class Admin extends Component {
       }
 
     componentDidMount() {
-        this._isMounted = false
+        this._isMounted = true
         this.setState({loading: true , error: false})
         Axios
         .get('/api/admins')
@@ -33,8 +33,9 @@ export class Admin extends Component {
     }
 
     componentWillUnmount() {
-        this._isMounted = false
-      }
+      this._isMounted = false
+    }
+
   render() {
     return this.state.error? <Alert className='App' variant='danger'>Looks like something has gone wrong</Alert>:this.state.loading?
     <div className='App'><Spinner animation="border" variant= "primary" /></div>

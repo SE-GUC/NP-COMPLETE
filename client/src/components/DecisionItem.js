@@ -16,7 +16,7 @@ export class DecisionItem extends Component {
           <p>
           {
             (this.props.form.length !==0)?
-            <h1> {this.props.form.data}</h1>
+            <h1> {this.props.form.name}</h1>
           :
           <h1>You have reviewed this form</h1>
           }

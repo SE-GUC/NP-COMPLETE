@@ -31,11 +31,11 @@ const ReviewerSchema = new Schema({
   },
   confirmed: {
     type: Boolean,
-    default: false
+    default: true
   },
   acceptedByAdmin: {
     type: Boolean,
-    default: true
+    default: false
   }
 })
 

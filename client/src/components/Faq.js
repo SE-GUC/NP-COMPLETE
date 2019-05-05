@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import Qa from './Qa'
+import { Header } from 'semantic-ui-react'
 
 class Faq extends Component {
   constructor (props) {
@@ -34,7 +35,7 @@ class Faq extends Component {
       <div>
         <div className='container'>
           <section className='section'>
-            <h1 className='title'>FAQ</h1>
+            <Header inverted as='h1'>FAQ</Header>
 
             <div className='columns'>
               {this.state.faqs.map(faq => (
