@@ -25,7 +25,7 @@ class WorkPage extends Component {
       { title: 'Edit Walk in App', link: '/lawyers/editForm', id: 'lawEditForm' },
       { title: 'Calculate Fees', link: '/lawyers/CalcFees', id: 'lawCalc' },
       { title: 'Decide an application', link: '/lawyers/review', id: 'lawReview' },
-      { title: 'Add a comment on a rejected application', link: '/lawyers/addComment', id: 'lawComm' },
+      { title: 'Add comment on form', link: '/lawyers/addComment', id: 'lawComm' },
       { title: 'Show last worked', link: '/lawyers/showLastWorked', id: 'lawLast' }
     ]
     const adminWorkList = [
