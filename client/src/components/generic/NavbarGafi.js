@@ -59,14 +59,12 @@ class NavbarGafi extends React.Component {
                 <NavLink href='/'>Home</NavLink>
               </NavItem>
               <NavItem>
-                <NavLink href='/About'>About</NavLink>
-              </NavItem>
-              <NavItem>
+
                 <NavLink href='/investors/Faqs'>FAQ</NavLink>
               </NavItem>
               <NavItem>
-                <NavLink href='https://github.com/SE-GUC/NP-COMPLETE'>
-                  GitHub
+                <NavLink href='/companies/Ejournals'>
+                  EJournal
                 </NavLink>
               </NavItem>
               <NavItem>
@@ -78,29 +76,21 @@ class NavbarGafi extends React.Component {
                 </NavLink>
               </NavItem>
               <NavItem>
-                <Button onClick={()=>this.onClick()}>العربية</Button>
+                <Button color='secondary' onClick={()=>this.onClick()}>العربية</Button>
               </NavItem>
-              <Form inline>
-                <FormControl
-                  type='text'
-                  placeholder='Search'
-                  className='mr-sm-2'
-                />
-                <Button variant='outline-primary'>Search</Button>
-              </Form>
+              <NavItem>
+                <Logout />
+              </NavItem>
               <UncontrolledDropdown nav inNavbar>
                 <DropdownToggle nav caret />
                 <DropdownMenu right>
-                  <DropdownItem>My profile</DropdownItem>
-                  <DropdownItem divider />
-                  <DropdownItem>Help</DropdownItem>
+                 
                   <Link to='/user/settings'><DropdownItem>Settings</DropdownItem></Link>
-                  <DropdownItem>Sign out</DropdownItem>
                 </DropdownMenu>
               </UncontrolledDropdown>
             </Nav>
           </Collapse>
-          <Logout />
+          
         </Navbar>
       </div>
     )
@@ -117,38 +107,27 @@ class NavbarGafi extends React.Component {
                 <NavLink href='/'>الرئيسية</NavLink>
               </NavItem>
               <NavItem>
-                <NavLink href='/About'>عن جافي</NavLink>
-              </NavItem>
-              <NavItem>
                 <NavLink href='/investors/Faqs'>الاسئلة الشائعة</NavLink>
               </NavItem>
               <NavItem>
                 <NavLink href='https://github.com/SE-GUC/NP-COMPLETE'>
-                  GitHub
+                جريدة إلكترونية
                 </NavLink>
               </NavItem>
               <NavItem>
-                <NavLink href='/admins/ContactUs'>اتصل بنا</NavLink>
+                <NavLink href='/companies/Ejournals'>اتصل بنا</NavLink>
               </NavItem>
               <NavItem>
-                <Button onClick={()=>this.onClick()}>English</Button>
+                <Button color='secondary' onClick={()=>this.onClick()}>English</Button>
               </NavItem>
-              <Form inline>
-                <FormControl
-                  type='text'
-                  placeholder='المراد البحث عنه'
-                  className='mr-sm-2'
-                />
-                <Button variant='outline-primary'>ابحث</Button>
-              </Form>
+              <NavItem>
+                <Logout />
+              </NavItem>
+              
               <UncontrolledDropdown nav inNavbar>
                 <DropdownToggle nav caret />
                 <DropdownMenu right>
-                  <DropdownItem>صفحتك</DropdownItem>
-                  <DropdownItem divider />
-                  <DropdownItem>المساعدة</DropdownItem>
                   <DropdownItem>الاعدادات</DropdownItem>
-                  <DropdownItem>تسجيل الخروج</DropdownItem>
                 </DropdownMenu>
               </UncontrolledDropdown>
             </Nav>
