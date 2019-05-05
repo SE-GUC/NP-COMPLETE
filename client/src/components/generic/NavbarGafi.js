@@ -50,42 +50,42 @@ class NavbarGafi extends React.Component {
     if(localStorage.getItem('language') === 'English'){
     return (
       <div>
-        <Navbar color='light' light expand='md'>
-          <NavbarBrand href='/'>GAFI Web</NavbarBrand>
+        <Navbar color='dark' className='text-muted' light expand='md'>
+          <NavbarBrand style={{color: 'white', textDecoration: 'none'}} href='/'>GAFI Web</NavbarBrand>
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className='ml-auto' navbar>
               <NavItem>
-                <NavLink href='/'>Home</NavLink>
+                <NavLink style={{color: 'white', textDecoration: 'none'}} href='/'>Home</NavLink>
               </NavItem>
               <NavItem>
 
-                <NavLink href='/investors/Faqs'>FAQ</NavLink>
+                <NavLink style={{color: 'white', textDecoration: 'none'}} href='/investors/Faqs'>FAQ</NavLink>
               </NavItem>
               <NavItem>
-                <NavLink href='/companies/Ejournals'>
+                <NavLink style={{color: 'white', textDecoration: 'none'}} href='/companies/Ejournals'>
                   EJournal
                 </NavLink>
               </NavItem>
               <NavItem>
-                <NavLink href='/admins/ContactUs'>Contact Us</NavLink>
+                <NavLink style={{color: 'white', textDecoration: 'none'}} href='/admins/ContactUs'>Contact Us</NavLink>
               </NavItem>
               <NavItem>
-                <NavLink href='https://web.facebook.com/GAFI-WEB-171892003742314/?modal=admin_todo_tour'>
+                <NavLink style={{color: 'white', textDecoration: 'none'}} href='https://web.facebook.com/GAFI-WEB-171892003742314/?modal=admin_todo_tour'>
                   Facebook
                 </NavLink>
               </NavItem>
               <NavItem>
-                <Button color='secondary' onClick={()=>this.onClick()}>العربية</Button>
+                <Button color="secondary" onClick={()=>this.onClick()}>العربية</Button>
               </NavItem>
               <NavItem>
                 <Logout />
               </NavItem>
               <UncontrolledDropdown nav inNavbar>
                 <DropdownToggle nav caret />
-                <DropdownMenu right>
+                <DropdownMenu  right>
                  
-                  <Link to='/user/settings'><DropdownItem>Settings</DropdownItem></Link>
+                  <Link to='/user/settings'><DropdownItem >Settings</DropdownItem></Link>
                 </DropdownMenu>
               </UncontrolledDropdown>
             </Nav>
@@ -98,27 +98,27 @@ class NavbarGafi extends React.Component {
   else{
     return (
       <div>
-        <Navbar color='light' light expand='md'>
-          <NavbarBrand href='/'>موقع جافي</NavbarBrand>
+        <Navbar color='dark'  light expand='md'>
+          <NavbarBrand style={{color: 'white', textDecoration: 'none'}} href='/'>موقع جافي</NavbarBrand>
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className='ml-auto' navbar>
-              <NavItem>
-                <NavLink href='/'>الرئيسية</NavLink>
+              <NavItem style={{color: 'white'}}>
+                <NavLink style={{color: 'white', textDecoration: 'none'}} href='/'>الرئيسية</NavLink>
               </NavItem>
               <NavItem>
-                <NavLink href='/investors/Faqs'>الاسئلة الشائعة</NavLink>
+                <NavLink style={{color: 'white', textDecoration: 'none'}} href='/investors/Faqs'>الاسئلة الشائعة</NavLink>
               </NavItem>
               <NavItem>
-                <NavLink href='https://github.com/SE-GUC/NP-COMPLETE'>
+                <NavLink style={{color: 'white', textDecoration: 'none'}} href='https://github.com/SE-GUC/NP-COMPLETE'>
                 جريدة إلكترونية
                 </NavLink>
               </NavItem>
               <NavItem>
-                <NavLink href='/companies/Ejournals'>اتصل بنا</NavLink>
+                <NavLink style={{color: 'white', textDecoration: 'none'}} href='/companies/Ejournals'>اتصل بنا</NavLink>
               </NavItem>
               <NavItem>
-                <Button color='secondary' onClick={()=>this.onClick()}>English</Button>
+                <Button color="secondary" onClick={()=>this.onClick()}>English</Button>
               </NavItem>
               <NavItem>
                 <Logout />
@@ -127,7 +127,9 @@ class NavbarGafi extends React.Component {
               <UncontrolledDropdown nav inNavbar>
                 <DropdownToggle nav caret />
                 <DropdownMenu right>
-                  <DropdownItem>الاعدادات</DropdownItem>
+                <Link to='/user/settings'>
+                  <DropdownItem >الاعدادات</DropdownItem>
+                </Link>
                 </DropdownMenu>
               </UncontrolledDropdown>
             </Nav>
