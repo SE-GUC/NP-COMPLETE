@@ -67,7 +67,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 app.get('/', (req, res) => {
-  res.send('Homepage')
+  res.send('homepage')
 })
 
 /* app.get('/', (req, res) => {
