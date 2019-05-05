@@ -54,7 +54,9 @@ const sampleAdmins = async () => {
       email: 'andrew@alex.com',
       password: 'passwordstrong',
       startDate: '2012-02-03T00:00:00.000+00:00',
-      workingHours: 8
+      workingHours: 8,
+      confirmed: true,
+      acceptedByAdmin: true
     }
   ]
 
@@ -73,7 +75,9 @@ const sampleReviewers = async () => {
       email: 'robert@remon.com',
       password: 'strong1234',
       startDate: '2013-01-03T00:00:00.000+00:00',
-      workingHours: 5
+      workingHours: 5,
+      confirmed: true,
+      acceptedByAdmin: true
     },
     {
       fullName: 'Rama Richard',
@@ -81,7 +85,9 @@ const sampleReviewers = async () => {
       email: 'rama@richard.com',
       password: 'hardtobreak',
       startDate: '2017-07-07T00:00:00.000+00:00',
-      salary: 1000
+      salary: 1000,
+      confirmed: true,
+      acceptedByAdmin: true
     }
   ]
 
@@ -99,14 +105,18 @@ const sampleLawyers = async () => {
       birthdate: '1999-01-03T00:00:00.000+00:00',
       email: 'liam@lee.com',
       password: 'sunlight',
-      startDate: '2015-02-05T00:00:00.000+00:00'
+      startDate: '2015-02-05T00:00:00.000+00:00',
+      confirmed: true,
+      acceptedByAdmin: true
     },
     {
       fullName: 'Leo Lukas',
       birthdate: '1997-05-02T00:00:00.000+00:00',
       email: 'leo@lukas.com',
       password: 'goodpassword',
-      startDate: '2017-04-15T00:00:00.000+00:00'
+      startDate: '2017-04-15T00:00:00.000+00:00',
+      confirmed: true,
+      acceptedByAdmin: true
     },
     {
       fullName: 'Lila Leonard',
@@ -115,7 +125,9 @@ const sampleLawyers = async () => {
       password: 'verystrongpassword',
       startDate: '2014-03-03T00:00:00.000+00:00',
       workingHours: 7,
-      salary: 3000
+      salary: 3000,
+      confirmed: true,
+      acceptedByAdmin: true
     },
     {
       fullName: 'Laura Louis',
@@ -124,7 +136,9 @@ const sampleLawyers = async () => {
       password: 'mystrongword',
       startDate: '2018-05-02T00:00:00.000+00:00',
       workingHours: 9,
-      salary: 5000
+      salary: 5000,
+      confirmed: true,
+      acceptedByAdmin: true
     }
   ]
 
@@ -141,31 +155,36 @@ const sampleInvestors = async () => {
       fullName: 'Bill Gates',
       birthdate: '1955-10-28T00:00:00.000+00:00',
       email: 'bill@gates.com',
-      password: 'richguy'
+      password: 'richguy',
+      confirmed: true
     },
     {
       fullName: 'Warren Buffett',
       birthdate: '1930-08-30T00:00:00.000+00:00',
       email: 'warren@buffett.com',
-      password: 'stocksguy'
+      password: 'stocksguy',
+      confirmed: true
     },
     {
       fullName: 'Jeff Bezos',
       birthdate: '1964-12-01T00:00:00.000+00:00',
       email: 'jeff@bezos.com',
-      password: 'amazonguy'
+      password: 'amazonguy',
+      confirmed: true
     },
     {
       fullName: 'Mark Zuckerberg',
       birthdate: '1984-05-14T00:00:00.000+00:00',
       email: 'mark@zuckerberg.com',
-      password: 'facebookguy'
+      password: 'facebookguy',
+      confirmed: true
     },
     {
       fullName: 'Elon Musk',
       birthdate: '1971-06-28T00:00:00.000+00:00',
       email: 'elon@musk.com',
-      password: 'rocketman'
+      password: 'rocketman',
+      confirmed: true
     }
   ]
 

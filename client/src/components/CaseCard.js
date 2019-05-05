@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import Card from 'react-bootstrap/Card'
-import Button from 'react-bootstrap/Button'
 import CardDeck from 'react-bootstrap/CardDeck'
-import { Collapse } from 'reactstrap'
+import { Collapse, Button } from 'reactstrap'
 export class CaseCard extends Component {
   constructor (props) {
     super(props)
@@ -21,8 +20,8 @@ export class CaseCard extends Component {
       return (
         // <div>
         <CardDeck>
-          <Card >
-            <Button onClick={this.toggle} >{this.props.data.name}</Button>
+          <Card className='text-muted' >
+            <Button color='secondary' onClick={this.toggle} >{this.props.data.name}</Button>
             <Collapse isOpen={this.state.collapse}>
               <Card.Body>
                 <Card.Title><h4>Name : {this.props.data.name}</h4></Card.Title>
@@ -43,8 +42,8 @@ export class CaseCard extends Component {
       return (
         // <div>
         <CardDeck>
-          <Card >
-            <Button onClick={this.toggle} >{this.props.data.name}</Button>
+          <Card className='text-muted'>
+            <Button variant='secondary' onClick={this.toggle} >{this.props.data.name}</Button>
             <Collapse isOpen={this.state.collapse}>
               <Card.Body>
                 <Card.Title><h4>الاسم : {this.props.data.name}</h4></Card.Title>

@@ -21,8 +21,7 @@ class FormItem extends Component {
       </Row>
 
     )
-    
-    }
+  }
 }
 
 export default FormItem

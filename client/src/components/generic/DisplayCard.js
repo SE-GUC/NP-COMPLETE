@@ -1,21 +1,38 @@
 import React from 'react'
-import { Card, Button, CardTitle, CardText } from 'reactstrap'
+import { Card, Button } from 'semantic-ui-react'
 
 const DisplayCard = (props) => {
   if (props.text) {
     return (
-      <Card body>
-        <CardTitle>{props.title}</CardTitle>
-        <CardText>{props.text}</CardText>
-        <Button id={props.id} className='acceptBtn' onClick={e => props.click(e)}>{props.buttonText}</Button>
+      <Card centered>
+        <Card.Content>
+          <Card.Header textAlign='center' centered>{props.title}</Card.Header>
+
+          <Card.Description textAlign='center' centered>
+            {props.text}
+          </Card.Description>
+        </Card.Content>
+        <Card.Content extra textAlign='center' centered>
+          <Button basic color='grey' id={props.id} onClick={e => props.click(e)}>
+            {props.buttonText}
+          </Button>
+
+        </Card.Content>
       </Card>
     )
   }
 
   return (
-    <Card body>
-      <CardTitle>{props.title}</CardTitle>
-      <Button class='acceptBtn' onClick={props.click}>{props.buttonText}</Button>
+    <Card centered padded='horizontally'>
+      <Card.Content textAlign='center' centered>
+        <Card.Header textAlign='center' centered>{props.title}</Card.Header>
+      </Card.Content>
+      <Card.Content extra textAlign='center' centered>
+        <Button basic color='grey' id={props.id} onClick={e => props.click(e)}>
+          {props.buttonText}
+        </Button>
+
+      </Card.Content>
     </Card>
   )
 }

@@ -13,19 +13,21 @@ class ReviewerShowLastWorked extends Component {
       companyId: '',
       idEntered: false,
       loading: true,
+      error: false,
       allForms: []
     }
   }
   componentDidMount () {
+    this.setState({error: false , loading: true})
     if (this.state.idEntered) {
       axios.get(`/api/reviewers/showLastWorked/${this.state.companyId}/${this.state.lawyerId}`)
         .then(res => { this.setState({ response: res.data, loading: false }) })
         .catch(err => {
           if (err.response && err.response.data) {
-            this.setState({ response: err.response.data })
+            this.setState({ response: err.response.data , error: true, loading: false})
           } else {
             console.log(err)
-            this.setState({ idEntered: false })
+            this.setState({ idEntered: false , loading: false , error: true })
           }
         })
     }else {
@@ -34,6 +36,7 @@ class ReviewerShowLastWorked extends Component {
       .then(res=>{
         return this.setState({ allForms: res.data.data, loading: false });
       })
+      .catch(err => this.setState({error: true , loading: false}))
     }
 
   }
@@ -60,13 +63,14 @@ class ReviewerShowLastWorked extends Component {
         </head>
 
         <body> {
+          this.state.error? <Alert className='App' variant='danger'>Looks like something has gone wrong</Alert> :
           this.state.loading ? <div className='App'><Spinner animation='border' variant='primary' /></div>
           : (
           !this.state.idEntered
             ? <ShowCompanies Forms={this.state.allForms} chooseForm={this.chooseForm}/>
             : this.state.response && this.state.response.data
               ? !this.state.response.data[0]
-                ? <Alert key='1' variant='warning'>
+                ? <Alert className='App' key='1' variant='warning'>
                 No one has worked on this form yet
                 </Alert>
 
@@ -80,7 +84,7 @@ class ReviewerShowLastWorked extends Component {
                 </div>
 
               : this.state.response && this.state.response.status === 'Error'
-                ? <Alert key='2' variant='danger'>
+                ? <Alert className='App' key='2' variant='danger'>
                   {this.state.response.message}
                 </Alert>
 
@@ -109,11 +113,12 @@ class ReviewerShowLastWorked extends Component {
         </head>
 
         <body> {
+          this.state.error? <Alert className='App' variant='danger'>يبدو ان ثمة مشكلة الرجاء حاول مجددا</Alert> :
           this.state.loading ? <div className='App'><Spinner animation='border' variant='primary' /></div>
             : (
               this.state.response && this.state.response.data
                 ? !this.state.response.data[0]
-                  ? <Alert key='1' variant='warning'>
+                  ? <Alert className='App' key='1' variant='warning'>
                 لم يعمل احد علي هذه الاستماره الي الان
                   </Alert>
 
@@ -127,7 +132,7 @@ class ReviewerShowLastWorked extends Component {
                   </div>
 
                 : this.state.response && this.state.response.status === 'Error'
-                  ? <Alert key='2' variant='danger'>
+                  ? <Alert className='App' key='2' variant='danger'>
                     {this.state.response.message}
                   </Alert>
 

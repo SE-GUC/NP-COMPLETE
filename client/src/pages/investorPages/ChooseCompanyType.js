@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import Button from 'react-bootstrap/Button'
 import FillForm from '../../components/form/FillForm'
+import { Container, Header, Card } from 'semantic-ui-react'
+import DisplayCard from '../../components/generic/DisplayCard'
 const form = require('../../components/form/DynamicForm.json')
 
 export class ChooseCompanyType extends Component {
@@ -27,11 +29,21 @@ export class ChooseCompanyType extends Component {
     if (localStorage.getItem('language') === 'English') {
       if (this.state.showOptions) {
         return (
-          <div className='App'>
-            <h1>Choose your company type</h1>
-            <Button style={btnStyle} onClick={this.clickSSC}>SSC</Button>
-            <Button style={btnStyle} onClick={this.clickSPC}>SPC</Button>
-          </div>
+          <Container fluid >
+            <style>{`
+          body > div,
+          body > div > div,
+          body > div > div > div.login-form {
+            height: 100%;
+          }
+        `}
+            </style>
+            <Header inverted as='h1'>Choose your company type</Header>
+            <Card.Group>
+              <DisplayCard title='Type:' text='A Single Share Holder Company' buttonText='SSC' id='btn' click={this.clickSSC} />
+              <DisplayCard title='Type:' text='Sole Proprietorship Company' buttonText='SPC' id='btn' click={this.clickSPC} />
+            </Card.Group>
+          </Container>
 
         )
       }
@@ -44,11 +56,21 @@ export class ChooseCompanyType extends Component {
     } else {
       if (this.state.showOptions) {
         return (
-          <div className='App'>
-            <h1>اختار نوع شركتك</h1>
-            <Button style={btnStyle} onClick={this.clickSSC} lawyer={this.state.lawyer}>SSC</Button>
-            <Button style={btnStyle} onClick={this.clickSPC} lawyer={this.state.lawyer}>SPC</Button>
-          </div>
+          <Container fluid >
+            <style>{`
+          body > div,
+          body > div > div,
+          body > div > div > div.login-form {
+            height: 100%;
+          }
+        `}
+            </style>
+            <Header inverted as='h1'>اختار نوع شركتك</Header>
+            <Card.Group>
+              <DisplayCard title='Type:' text='A Single Share Holder Company' buttonText='SSC' id='btn' click={this.clickSSC} />
+              <DisplayCard title='Type:' text='Sole Proprietorship Company' buttonText='SPC' id='btn' click={this.clickSPC} />
+            </Card.Group>
+          </Container>
 
         )
       }
@@ -60,18 +82,6 @@ export class ChooseCompanyType extends Component {
       }
     }
   }
-}
-
-const btnStyle = {
-  background: '#00a0ff',
-  color: 'fff',
-  border: 'none',
-  padding: '10px 90px',
-  cursor: 'pointer',
-  float: 'center',
-  fontSize: 20,
-  margin: '20px',
-  hover: true
 }
 
 export default ChooseCompanyType

@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 import '../../App.css'
 import LoginForm from '../../pages/LoginForm'
 import InternalUserLogIn from './InternalUserLogIn'
-import { Button, Card, CardTitle, Col, Row } from 'reactstrap'
-import Header2 from '../../components/Header2'
-import { Link } from 'react-router-dom'
+import { Container, Card, Header } from 'semantic-ui-react'
+import DisplayCard from '../../components/generic/DisplayCard'
+
 class LogIn extends Component {
   constructor (props) {
     super(props)
@@ -22,39 +22,27 @@ class LogIn extends Component {
   render () {
     if (this.state.portal === '') {
       return (
-        <div>
-          <Header2 title='Login' />
-          <Row>
-            <Col sm='6'>
-              <Card body>
-                <CardTitle>Log in to Investor Portal</CardTitle>
-                <Button id='InvestorPortal' variant='primary' onClick={e => this.pickType(e)} >I am an Investor</Button>
-              </Card>
-            </Col>
-            <Col sm='6'>
-              <Card body>
-                <CardTitle>Log in to Internal Portal</CardTitle>
-                <Button id='InternalPortal' variant='primary' onClick={e => this.pickType(e)}>I am an Internal User</Button>
-              </Card>
-            </Col>
-          </Row>
-        </div>
+
+        <Container fluid >
+          <style>{`
+      body > div,
+      body > div > div,
+      body > div > div > div.login-form {
+        height: 100%;
+      }
+    `}
+          </style>
+          <Header inverted as='h1'>Log In</Header>
+          <Card.Group centered>
+            <DisplayCard title='Log in to Investor Portal:' buttonText='I am an Investor' id='InvestorPortal' click={e => this.pickType(e)} />
+            <DisplayCard title='Log in to Internal Portal:' buttonText='I am an Internal User' id='InternalPortal' click={e => this.pickType(e)} />
+          </Card.Group>
+        </Container>
       )
     }
 
     if (this.state.portal === 'InvestorPortal') {
-      return (
-        <div className='App-header'>
-          <div className='box-controller'>
-            <div className='box-container'>
-              <LoginForm type='investors' />
-            </div>
-            <ul>
-            <li><Link to="../forgetPassword">Forget your password?</Link></li>
-          </ul>
-          </div>
-        </div>
-      )
+      return <LoginForm type='investors' />
     }
     return <InternalUserLogIn />
   }

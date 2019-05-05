@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
 import '../../App.css'
 import LoginForm from '../../pages/LoginForm'
-import { Button, Card, CardTitle, Col, Row } from 'reactstrap'
-import Header2 from '../../components/Header2'
-import { Link } from 'react-router-dom'
+import { Card, Container, Header } from 'semantic-ui-react'
+import DisplayCard from '../../components/generic/DisplayCard'
 
 class InternalUserLogIn extends Component {
   constructor (props) {
@@ -23,46 +22,26 @@ class InternalUserLogIn extends Component {
     if (this.state.type === '') {
       return (
 
-        <div>
-          <Header2 title='Internal Portal Login' />
-          <Row>
-            <Col sm='6'>
-              <Card body>
-                <CardTitle>Admin</CardTitle>
-                <Button id='admins' variant='primary' onClick={e => this.pickType(e)}>I am an Admin</Button>
-              </Card>
-            </Col>
-          </Row>
-          <Row>
-            <Col sm='6'>
-              <Card body>
-                <CardTitle>Lawyer</CardTitle>
-                <Button id='lawyers' variant='primary' onClick={e => this.pickType(e)} >I am a Lawyer</Button>
-              </Card>
-            </Col>
-            <Col sm='6'>
-              <Card body>
-                <CardTitle>Reviewer</CardTitle>
-                <Button id='reviewers' variant='primary' onClick={e => this.pickType(e)}>I am a Reviewer</Button>
-              </Card>
-            </Col>
-          </Row>
-        </div>
+        <Container fluid >
+          <style>{`
+      body > div,
+      body > div > div,
+      body > div > div > div.login-form {
+        height: 100%;
+      }
+    `}
+          </style>
+          <Header inverted as='h1'>Internal Portal Login</Header>
+          <Card.Group centered>
+            <DisplayCard title='Log in as an Admin' buttonText='I am an admin' id='admins' click={e => this.pickType(e)} />
+            <DisplayCard title='Log in as a Lawyer' buttonText='I am a lawyer' id='lawyers' click={e => this.pickType(e)} />
+            <DisplayCard title='Log in as a Reviewer' buttonText='I am a reviewer' id='reviewers' click={e => this.pickType(e)} />
+          </Card.Group>
+        </Container>
       )
     }
 
-    return (
-      <div className='App-header'>
-        <div className='box-controller'>
-          <div className='box-container'>
-            <LoginForm type={this.state.type} />
-          </div>
-          <ul>
-            <li><Link to="../forgetPassword">Forget your password?</Link></li>
-          </ul>
-        </div>
-      </div>
-    )
+    return <LoginForm type={this.state.type} />
   }
 }
 
