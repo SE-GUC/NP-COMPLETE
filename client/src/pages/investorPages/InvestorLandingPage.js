@@ -38,20 +38,41 @@ class InvestorLandingPage extends Component {
            <Grid.Row relaxed>
 
               <Grid.Column>
-                <DisplayCard title="Establish a company" text="Start your investments" buttonText="fill form" id="fillForm" click={this.click} />
+                <DisplayCard title="Establish a company" text="Start your investments" buttonText="start now" id="fillForm" click={this.click} />
               </Grid.Column>
 
               <Grid.Column >
-              <DisplayCard title="FAQ" text="Need help? check our FAQ" buttonText="help" id="faq" click={this.click} />
+              <DisplayCard title="FAQ" text="Need help? check our FAQ" buttonText="Help" id="faq" click={this.click} />
               </Grid.Column>
            </Grid.Row>
+
            <Grid.Row relaxed>
               <Grid.Column >
-              <DisplayCard title="My Companies" text="Keep track of your companies" buttonText="show companies" id="company" click={this.click} />
+              <DisplayCard title="My Companies" text="Keep track of your companies" buttonText="Take me there" id="company" click={this.click} />
               </Grid.Column>
               
               <Grid.Column >
-              <DisplayCard title="Additional functionality" text="Coming soon..." buttonText="show companies" id="company" click={this.click} />
+              <DisplayCard title="Tracker" text="Track the progress of your company" buttonText="Take me there" id="tracker" click={this.click} />
+              </Grid.Column>
+           </Grid.Row>
+
+           <Grid.Row relaxed>
+              <Grid.Column >
+              <DisplayCard title="Rejected Companies" text="View Rejected Companies" buttonText="Take me there" id="rejected" click={this.click} />
+              </Grid.Column>
+              
+              <Grid.Column >
+              <DisplayCard title="Pay Fees" text="Last step to establish your company" buttonText="Take me there" id="pay" click={this.click} />
+              </Grid.Column>
+           </Grid.Row>
+
+           <Grid.Row relaxed>
+              <Grid.Column >
+              <DisplayCard title="Cnacel my Application" text="You can cancel unreviewed applications" buttonText="Take me there" id="cancel" click={this.click} />
+              </Grid.Column>
+              
+              <Grid.Column >
+              <DisplayCard title="Edit Application" text="Edit the details of your rejected application" buttonText="Take me there" id="edit" click={this.click} />
               </Grid.Column>
            </Grid.Row>
 
@@ -71,6 +92,24 @@ class InvestorLandingPage extends Component {
     if(this.state.type === 'fillForm') {
       return <Redirect to='/investors/fillForm' />
     }
+    if(this.state.type === 'tracker') {
+      return <Redirect to='/investors/tracker' />
+    }
+    if(this.state.type === 'rejected') {
+      return <Redirect to='/investors/viewRejected' />
+    }
+    if(this.state.type === 'pay') {
+      return <Redirect to='/investors/payFees' />
+    }
+    if(this.state.type === 'cancel') {
+      return <Redirect to='/investors/cancelApplication' />
+    }
+    if(this.state.type === 'edit') {
+      return <Redirect to='/investors/editForm' />
+    }
+    
+    
+    
   }
 }
 
