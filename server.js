@@ -67,6 +67,10 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 app.get('/', (req, res) => {
+  res.send('Homepage')
+})
+
+/* app.get('/', (req, res) => {
   res.send(`<h1>Welcome</h1>
   <a href="/api/admins">Admins</a></br>
   <a href="/api/companies">Companies</a></br>
@@ -75,7 +79,7 @@ app.get('/', (req, res) => {
   <a href="/api/lawyers">lawyers</a></br>
   <a href="/api/reviewers">Reviewers</a></br>
 <a href="/api/tasks">Tasks</a></br>`)
-})
+}) */
 
 // 500 internal server error handler
 app.use((err, _req, res, next) => {
