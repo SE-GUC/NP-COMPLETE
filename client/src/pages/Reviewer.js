@@ -3,6 +3,7 @@ import Axios from 'axios'
 import DeleteAccounts from '../components/DeleteAccounts'
 import PropTypes from 'prop-types'
 import {Spinner , Alert} from 'react-bootstrap'
+import {Header} from 'semantic-ui-react'
 
 
 export class Reviewer extends Component {
@@ -43,6 +44,7 @@ export class Reviewer extends Component {
     <div className='App'><Spinner animation="border" variant= "primary" /></div>
     :
     ( <div className='Investor'>
+      <Header inverted centered as='h1'>Delete an Reviewer Account</Header>
         <DeleteAccounts users = {this.state.users} deleteMe = {this.deleteMe} />
       </div>
     )

@@ -3,7 +3,7 @@ import Axios from 'axios'
 import PropTypes from 'prop-types'
 import MapCases from '../components/MapCases'
 import {Spinner , Alert} from 'react-bootstrap'
-import Button from 'react-bootstrap/Button'
+import { Header, Button } from 'semantic-ui-react'
 
 export class ReviewerViewCases extends Component {
     _isMounted = false
@@ -35,9 +35,11 @@ export class ReviewerViewCases extends Component {
         <div className='App'><Spinner animation="border" variant= "primary" /></div>
         :
         ( <div>
-          <Button variant='danger' onClick={()=>this.setState({cases:this.state.cases.sort((a,b) => (a.establishmentDate > b.establishmentDate) ? 1 : ((b.establishmentDate > a.establishmentDate) ? -1 : 0))})}>Sort by Establishment Date</Button>
-          <Button variant='danger' onClick={()=>this.setState({cases:this.state.cases.sort((a,b) => (a._id > b._id) ? 1 : ((b._id > a._id) ? -1 : 0))})}>Sort by ID</Button>
-          <h1>if green then filled by an ivestor else filled by a lawyer</h1>
+          {this.state.walkIn === true?
+          <Header inverted centered as='h1'>Walk In Cases</Header>
+          : <Header inverted centered as='h1'>Portal Cases</Header>}
+          <Button onClick={()=>this.setState({cases:this.state.cases.sort((a,b) => (a.establishmentDate > b.establishmentDate) ? 1 : ((b.establishmentDate > a.establishmentDate) ? -1 : 0))})}>Sort by Establishment Date</Button>
+          <Button onClick={()=>this.setState({cases:this.state.cases.sort((a,b) => (a._id > b._id) ? 1 : ((b._id > a._id) ? -1 : 0))})}>Sort by ID</Button>
           <MapCases cases = {this.state.cases} walkIn={this.state.walkIn} />
           </div>
         )
@@ -46,8 +48,11 @@ export class ReviewerViewCases extends Component {
         <div className='App'><Spinner animation="border" variant= "primary" /></div>
         :
         ( <div>
-          <Button variant='danger' onClick={()=>this.setState({cases:this.state.cases.sort((a,b) => (a.establishmentDate > b.establishmentDate) ? 1 : ((b.establishmentDate > a.establishmentDate) ? -1 : 0))})}>>رتب بتاريخ التاسيس</Button>
-          <Button variant='danger' onClick={()=>this.setState({cases:this.state.cases.sort((a,b) => (a._id > b._id) ? 1 : ((b._id > a._id) ? -1 : 0))})}>IDرتب بال</Button>
+          {this.state.walkIn === true?
+          <Header inverted centered as='h1'>Walk In Cases</Header>
+          : <Header inverted centered as='h1'>Portal Cases</Header>}
+          <Button onClick={()=>this.setState({cases:this.state.cases.sort((a,b) => (a.establishmentDate > b.establishmentDate) ? 1 : ((b.establishmentDate > a.establishmentDate) ? -1 : 0))})}>>رتب بتاريخ التاسيس</Button>
+          <Button onClick={()=>this.setState({cases:this.state.cases.sort((a,b) => (a._id > b._id) ? 1 : ((b._id > a._id) ? -1 : 0))})}>IDرتب بال</Button>
           <h1>if green then filled by an ivestor else filled by a lawyer</h1>
           <MapCases cases = {this.state.cases} walkIn={this.state.walkIn} />
           </div>

@@ -1,7 +1,8 @@
 import React from 'react'
+import { Header } from 'semantic-ui-react'
 
 export const UnAuth = () => (
   <div>
-    <h2>401 Unauthorized</h2>
+    <Header inverted centered as='h1'>401 Unauthorized</Header>
   </div>
 )

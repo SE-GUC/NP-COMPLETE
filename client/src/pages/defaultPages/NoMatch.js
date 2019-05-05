@@ -1,7 +1,8 @@
 import React from 'react'
+import { Header } from 'semantic-ui-react'
 
 export const NoMatch = () => (
   <div>
-    <h2>404 Page not found</h2>
+    <Header inverted centered as='h2'>404 Page not found</Header>
   </div>
 )

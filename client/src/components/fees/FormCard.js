@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Card from 'react-bootstrap/Card'
-import Button from 'react-bootstrap/Button'
+import { Button } from 'semantic-ui-react'
 import CardDeck from 'react-bootstrap/CardDeck'
 import { Collapse } from 'reactstrap'
 export class FormCard extends Component {
@@ -21,8 +21,8 @@ export class FormCard extends Component {
     return (
       // <div>
       <CardDeck>
-        <Card bg='dark' text='white' style={{ width: '18rem' }}>
-          <Button variant ='primary' onClick={this.toggle}>{this.props.data.name}</Button>
+        <Card className='text-muted' style={{ width: '18rem' }}>
+          <Button onClick={this.toggle}>{this.props.data.name}</Button>
           <Collapse isOpen={this.state.collapse}>
             <Card.Body>
               <Card.Title><h4 >Name : {this.props.data.name}</h4></Card.Title>
@@ -32,7 +32,7 @@ export class FormCard extends Component {
               <Card.Text>
                 Fees : {this.props.data.fees}
               </Card.Text>
-              <Button variant = 'primary' onClick={() => this.props.chooseForm(this.props.data._id, this.props.data.fees)}>Choose form</Button>
+              <Button onClick={() => this.props.chooseForm(this.props.data._id, this.props.data.fees)}>Choose form</Button>
             </Card.Body>
           </Collapse>
         </Card>

@@ -137,8 +137,6 @@ class App extends Component {
 
                 {/* <Route exact path='/investors/payFees/:investorId/:companyId' component={payFees} /> */}
 
-                <Route exact path='/investors/MyCompanies' component={GuardRoute(AllMyCompanies, 'Investor')} />
-
                 <Route exact path='/reviewers/showLastWorked' component={GuardRoute(ReviewerShowLastWorked, 'Reviewer')} />
 
                 <Route exact path='/lawyers/addComment' component={GuardRoute(LawyerAddComment, 'Lawyer')} />

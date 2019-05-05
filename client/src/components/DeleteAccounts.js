@@ -8,7 +8,7 @@ export class DeleteAccounts extends react.Component {
         ? this.props.users.map(user => {
           return <UserCard data={user} ondelete={this.props.deleteMe} />
         })
-        : <h1>koko wawa</h1>
+        : <h1>It looks like something went wrong</h1>
     )
   }
 }

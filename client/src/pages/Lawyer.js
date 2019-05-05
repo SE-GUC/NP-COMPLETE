@@ -5,6 +5,7 @@ import DeleteAccounts from '../components/DeleteAccounts'
 import PropTypes from 'prop-types'
 import {Spinner , Alert} from 'react-bootstrap'
 import { resolve } from 'dns';
+import {Header} from 'semantic-ui-react'
 
 export class Lawyer extends Component {
     _isMounted = false
@@ -59,6 +60,7 @@ export class Lawyer extends Component {
 
     ( <div className='Lawyer'>
           {console.log("data:" + this.state.users)}
+          <Header inverted centered as='h1'>Delete a Lawyer Account</Header>
         <DeleteAccounts users = {this.state.users} deleteMe = {this.deleteMe} />
       </div>
     )

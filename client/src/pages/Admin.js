@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import Axios from 'axios'
 import DeleteAccounts from '../components/DeleteAccounts'
 import {Spinner , Alert} from 'react-bootstrap'
+import { Header } from 'semantic-ui-react'
 
 export class Admin extends Component {
     _isMounted = false
@@ -41,6 +42,7 @@ export class Admin extends Component {
     <div className='App'><Spinner animation="border" variant= "primary" /></div>
     : 
     ( <div className='Admin'>
+        <Header inverted centered as='h1'>Delete an Admin Account</Header>
         <DeleteAccounts users = {this.state.users} deleteMe = {this.deleteMe} />
       </div>
     )

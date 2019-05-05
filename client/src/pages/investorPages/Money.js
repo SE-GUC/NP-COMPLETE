@@ -4,6 +4,7 @@ import Form from '../../components/fees/Form'
 import Axios from 'axios';
 import ShowCompanies from '../../components/fees/ShowCompanies';
 import {Spinner} from 'react-bootstrap'
+import {Header} from 'semantic-ui-react'
 
 class Money extends React.Component {
   state = {
@@ -46,12 +47,14 @@ class Money extends React.Component {
       <ShowCompanies Forms={this.state.allForms} chooseForm={this.chooseForm}/>
       
       :
-
-      <StripeProvider apiKey='pk_test_gXEdE7jVq08xnKlW6KmsumaF00advWYnHN'>
-        <Elements>
-          <Form fees={this.state.fees}/>
-        </Elements>
-      </StripeProvider>
+      <div>
+        <Header inverted centered as='h1'>Pay your Fees</Header>
+        <StripeProvider apiKey='pk_test_gXEdE7jVq08xnKlW6KmsumaF00advWYnHN'>
+          <Elements>
+            <Form fees={this.state.fees}/>
+          </Elements>
+        </StripeProvider>
+      </div>
     )
   }
 }

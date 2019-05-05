@@ -16,7 +16,7 @@ router.post('/', passport.authenticate('jwt', { session: false }), controller.cr
 router.get('/:id', passport.authenticate('jwt', { session: false }), controller.read)
 
 // Update an existing Lawyer given id in URL
-router.put('/:id', passport.authenticate('jwt', { session: false }), controller.update)
+router.put('/:id', controller.update)
 
 // Delete a specific Lawyer given ID in URL
 router.delete('/:id', passport.authenticate('jwt', { session: false }), controller.delete)

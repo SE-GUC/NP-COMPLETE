@@ -6,6 +6,7 @@ import Col from 'react-bootstrap/Col'
 import '../../App.css'
 import Axios from 'axios'
 import { Spinner, Alert } from 'react-bootstrap'
+import { Divider, Header } from 'semantic-ui-react'
 
 class ViewForm extends Component {
   constructor (props) {
@@ -70,13 +71,13 @@ class ViewForm extends Component {
       return (
         this.state.formItems.map((x, i) => (
           <Container>
-            <h1> {x.companyNames} </h1>
+            <Header inverted as='h1'>Company: {x.companyNames} </Header>
             <FormDisplay form={x.data} fields={x.fields} key={i} />
             <Row>
               <Col> Comment: </Col>
               <Col> {x.comment} </Col>
             </Row>
-            <hr />
+            <Divider inverted />
           </Container>
         ))
       )
@@ -90,13 +91,13 @@ class ViewForm extends Component {
 
       if (this.state.loading === false && this.state.formItems.length === 0) {
         return (
-          <h1>لا يوجد شركات لعرضها</h1>
+          <Alert className='App' variant='danger'>لا يوجد شركات لعرضها</Alert>
         )
       }
       return (
         this.state.formItems.map((x, i) => (
           <Container>
-            <h1> {x.companyNames} </h1>
+            <h1> {x.companyNames} :الشركة</h1>
             <FormDisplay form={x.data} fields={x.fields} key={i} />
             <Row>
               <Col>: تعليق</Col>

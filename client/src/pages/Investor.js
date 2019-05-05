@@ -3,6 +3,7 @@ import Axios from 'axios'
 import DeleteAccounts from '../components/DeleteAccounts'
 import PropTypes from 'prop-types'
 import {Spinner , Alert} from 'react-bootstrap'
+import {Header} from 'semantic-ui-react'
 
 
 export class Investor extends Component {
@@ -43,6 +44,7 @@ export class Investor extends Component {
     <div className='App'><Spinner animation="border" variant= "primary" /></div>
     :
     ( <div className='Investor'>
+      <Header inverted centered as='h1'>Delete an Investor Account</Header>
         <DeleteAccounts users = {this.state.users} deleteMe = {this.deleteMe} />
       </div>
     )
