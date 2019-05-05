@@ -46,6 +46,18 @@ app.use((req, res, next) => {
   next()
 })
 
+// Direct routes to appropriate files
+app.use('/api/externalEntities', externalEntities)
+app.use('/api/admins', admins)
+app.use('/api/investors', investors)
+app.use('/api/reviewers', reviewers)
+app.use('/api/lawyers', lawyers)
+app.use('/api/companies', companies)
+app.use('/api/tasks', tasks)
+app.use('/api/companyTypes', companyTypes)
+app.use('/api/users', users)
+app.use('/api/user', user)
+
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static('client/build'))
 
@@ -64,18 +76,6 @@ app.get('/', (req, res) => {
   <a href="/api/reviewers">Reviewers</a></br>
 <a href="/api/tasks">Tasks</a></br>`)
 })
-
-// Direct routes to appropriate files
-app.use('/api/externalEntities', externalEntities)
-app.use('/api/admins', admins)
-app.use('/api/investors', investors)
-app.use('/api/reviewers', reviewers)
-app.use('/api/lawyers', lawyers)
-app.use('/api/companies', companies)
-app.use('/api/tasks', tasks)
-app.use('/api/companyTypes', companyTypes)
-app.use('/api/users', users)
-app.use('/api/user', user)
 
 // 500 internal server error handler
 app.use((err, _req, res, next) => {
