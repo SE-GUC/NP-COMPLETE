@@ -16,6 +16,7 @@ import {
 } from 'reactstrap'
 import { Form, FormControl, Button } from 'react-bootstrap'
 import Logout from './Logout'
+import { Link } from 'react-router-dom'
 import { func } from 'prop-types'
 
 class NavbarGafi extends React.Component {
@@ -35,7 +36,8 @@ class NavbarGafi extends React.Component {
   this.props.changeLanguage(
     {
       language : localStorage.getItem('language')
-    }
+    },
+    window.location.reload()
   )
 }
   toggle () {
@@ -89,10 +91,10 @@ class NavbarGafi extends React.Component {
               <UncontrolledDropdown nav inNavbar>
                 <DropdownToggle nav caret />
                 <DropdownMenu right>
-                  <DropdownItem>Your profile</DropdownItem>
+                  <DropdownItem>My profile</DropdownItem>
                   <DropdownItem divider />
                   <DropdownItem>Help</DropdownItem>
-                  <DropdownItem href='/user/settings'>Settings</DropdownItem>
+                  <Link to='/user/settings'><DropdownItem>Settings</DropdownItem></Link>
                   <DropdownItem>Sign out</DropdownItem>
                 </DropdownMenu>
               </UncontrolledDropdown>

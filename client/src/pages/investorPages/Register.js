@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Form from 'react-bootstrap/Form'
-import Button from 'react-bootstrap/Button'
+import { Container, Col } from 'reactstrap'
+import { Button, Header } from 'semantic-ui-react'
 import RegisterField from '../../components/form/RegisterField'
 import axios from 'axios'
 
@@ -9,6 +10,9 @@ export class Register extends Component {
   render () {
     if (localStorage.getItem('language') === 'English') {
     return (
+      <Container className='App'>
+      <Col sm="12" md={{ size: 6, offset: 3 }}>
+      <Header inverted centered as='h1'>Sign up to Gafi Web</Header>
       <Form>
         <RegisterField
           label='Email address'
@@ -39,6 +43,8 @@ export class Register extends Component {
           Submit
         </Button>
       </Form>
+      </Col>
+      </Container>
     )
   }else{
     return (
@@ -68,7 +74,7 @@ export class Register extends Component {
           placeholder='ادخل تاريخ الميلاد'
           onChange={e => this.setState({birthdate: e.target.value})} />
 
-        <Button variant='primary' type='submit' onClick={e => this.clicked(e)}>
+        <Button inverted type='submit' onClick={e => this.clicked(e)}>
           سجل
         </Button>
       </Form>

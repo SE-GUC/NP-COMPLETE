@@ -3,6 +3,8 @@ import Section from '../components/form/Section'
 import { Form, Container, Button } from 'reactstrap'
 import Axios from 'axios'
 import ShowCompanies from '../components/fees/ShowCompanies'
+import {Spinner , Alert} from 'react-bootstrap'
+
 const form = require('../components/form/DynamicForm.json')
 
 class UpdateForm extends Component {
@@ -25,6 +27,7 @@ class UpdateForm extends Component {
     }
   }
   submitForm = (e)=>{
+    this.setState({error: false , loading: true})
     e.preventDefault()
     var sentData={data:this.state.filledform}
    if(!this.state.lawyer)
@@ -32,13 +35,15 @@ class UpdateForm extends Component {
       Axios
       .put(`/api/investors/editForm/${this.state.companyID}`, sentData)
       .then(res=>alert(res.data.message))
-      .catch(error=>console.log(error))
+      .then(res => this.setState({loading: false}))
+      .catch(err => this.setState({loading: false , error: true}))
     }
     else {
       Axios
       .put(`/api/lawyers/editForm/${this.state.lawyerID}/${this.state.companyID}`, sentData)
       .then(res=>alert(res.data.message))
-      .catch(error=>console.log(error))
+      .then(res => this.setState({loading: false}))
+      .catch(err => this.setState({loading: false , error: true}))
     }
   }
   handleChange = (e, index,section)=>
@@ -69,18 +74,18 @@ class UpdateForm extends Component {
   }
   componentDidMount(){
     if(window.location.pathname.includes('lawyers')){
-      this.setState({lawyer:true,lawyerID:localStorage.getItem('id')})
+      this.setState({error: false , loading: true, lawyer:true,lawyerID:localStorage.getItem('id')})
       Axios
       .get(`/api/lawyers/casesPage/${localStorage.getItem('id')} `)
       .then(res=>this.setState({allForms:res.data.data,loading:false}))
-      .catch(error=>this.setState({error:true}))
+      .catch(error=>this.setState({error:true , loading: false}))
     }else
     {
-      this.setState({lawyer:false,investorID:localStorage.getItem('id')})
+      this.setState({error: false , loading: true , lawyer:false,investorID:localStorage.getItem('id')})
       Axios
       .get(`/api/investors/getCompanies/${localStorage.getItem('id')} `)
       .then(res=>this.setState({allForms:res.data.data,loading:false}))
-      .catch(error=>this.setState({error:true}))
+      .catch(error=>this.setState({error:true , loading: false}))
     }
     
 
@@ -96,13 +101,13 @@ class UpdateForm extends Component {
       )
     })
 
-    return this.state.error? <h1>an error has occured please try again!</h1>
+    return this.state.error? <Alert className='App' variant='danger'>Looks like something has gone wrong</Alert>
     :
     this.state.loading?
-      <h1>Loading please be patient</h1>
+    <div className='App'><Spinner animation="border" variant= "primary" /></div>
     : (!this.state.idEntered?
     (   this.state.allForms.length===0?
-          <h1>you currently have no Forms to edit</h1>
+          <Alert className='App' variant='danger'>you currently have no Forms to edit</Alert>
       :  
           <div>
             <h1>Choose form</h1>
@@ -129,7 +134,7 @@ class UpdateForm extends Component {
       )
     })
 
-    return this.state.error? <h1>and error has occured please try again!</h1>: (!this.state.idEntered?
+    return this.state.error? <Alert className='App' variant='danger'>Looks like something has gone wrong</Alert>: (!this.state.idEntered?
     (     
         <div>
           {

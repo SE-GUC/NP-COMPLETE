@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
-import { Alert, Card } from 'react-bootstrap'
+import { Alert, Card ,Spinner } from 'react-bootstrap'
 import axios from 'axios'
 import ShowCompanies from '../components/fees/ShowCompanies'
-import Spinner from 'react-bootstrap/Spinner'
 
 class AdminShowLastWorked extends Component {
   constructor (props) {
@@ -14,28 +13,41 @@ class AdminShowLastWorked extends Component {
       companyId: '',
       idEntered: false,
       loading: true,
+      error: false,
       allForms: []
     }
   }
   componentDidMount () {
     if (this.state.idEntered) {
+      this.setState({error: false , loading: true})
       axios.get(`/api/admins/showLastWorked/${this.state.companyId}/${this.state.adminId}`)
-        .then(res => { this.setState({ response: res.data }) })
+        .then(res => { this.setState({ response: res.data, loading: false }) })
         .catch(err => {
           if (err.response && err.response.data) {
-            this.setState({ response: err.response.data })
+            this.setState({ response: err.response.data , error: true ,loading: false })
           } else {
             console.log(err)
+            this.setState({error: true , loading: false})
           }
         })
     } else {
-      axios
-      .get('api/companies/')
-      .then(res=>this.setState({allForms:res.data.data,loading:false}))
+      axios.get('/api/companies/')
+        .then(res => {
+          this.setState({ allForms: res.data.data, loading: false })
+          this.componentDidMount()
+        })
+        .catch(err => {
+          if (err.response && err.response.data) {
+            this.setState({ response: err.response.data , error: true ,loading: false })
+          } else {
+            console.log(err)
+            this.setState({error: true , loading: false})
+          }
+        })
     }
   }
   chooseForm = (id,F) =>{ //dont remove the F
-    this.setState({companyId:id,idEntered:true})
+    this.setState({ companyId: id, idEntered: true, loading: true })
   }
   render () {
     if (localStorage.getItem('language') === 'English') {
@@ -57,27 +69,28 @@ class AdminShowLastWorked extends Component {
         </head>
 
         <body> {
+          this.state.error? <Alert className='App' variant='danger'>Looks like something has gone wrong</Alert> :
           this.state.loading ? <div className='App'><Spinner animation='border' variant='primary' /></div>
           : (
             !this.state.idEntered
               ? <ShowCompanies Forms={this.state.allForms} chooseForm={this.chooseForm} />
               : this.state.response && this.state.response.data
                 ? !this.state.response.data[0]
-                  ? <Alert key='1' variant='warning'>
+                  ? <Alert className='App' key='1' variant='warning'>
                   No one has worked on this form yet
                   </Alert>
 
                   : <div> {
                     this.state.response.data.map(res =>
                       <Card bg='dark' border='warning' text='white'>
-                        <Card.Text>{res}</Card.Text>
+                        <Card.Header>{res}</Card.Header>
                       </Card>
                     )
                   }
                   </div>
 
                 : this.state.response && this.state.response.status === 'Error'
-                  ? <Alert key='2' variant='danger'>
+                  ? <Alert className='App' key='2' variant='danger'>
                     {this.state.response.message}
                   </Alert>
 
@@ -106,11 +119,12 @@ class AdminShowLastWorked extends Component {
         </head>
 
         <body> {
+          this.state.error? <Alert className='App' variant='danger'>يبدو ان ثمة مشكلة الرجاء حاول مجددا</Alert> :
           this.state.loading ? <div className='App'><Spinner animation='border' variant='primary' /></div>
             : (
               this.state.response && this.state.response.data
                 ? !this.state.response.data[0]
-                  ? <Alert key='1' variant='warning'>
+                  ? <Alert className='App' key='1' variant='warning'>
                 لم يعمل احد علي هذه الاستماره الي الان
                   </Alert>
 
@@ -124,7 +138,7 @@ class AdminShowLastWorked extends Component {
                   </div>
 
                 : this.state.response && this.state.response.status === 'Error'
-                  ? <Alert key='2' variant='danger'>
+                  ? <Alert className='App' key='2' variant='danger'>
                     {this.state.response.message}
                   </Alert>
 

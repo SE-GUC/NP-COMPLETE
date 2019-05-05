@@ -1,6 +1,7 @@
 import React from 'react'
 import { CardElement, injectStripe, ReactStripeElements } from 'react-stripe-elements'
 import Axios from 'axios';
+import {Button} from 'semantic-ui-react'
 
 class Form extends React.Component {
   constructor (props) {
@@ -60,7 +61,7 @@ class Form extends React.Component {
         
           <label>Credit Card number-- EXP Date --CVC</label>
           <CardElement className='p-2 border border-dark' />
-          <button className='btn btn-primary border border-dark shadow'>Charge it</button>
+          <Button inverted>Pay Fees</Button>
         </form>
       </main>
     )

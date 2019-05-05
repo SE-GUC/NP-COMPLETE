@@ -1,11 +1,13 @@
 import React from 'react'
+import {Link} from 'react-router-dom'
 import { connect } from 'react-redux'
 import { login } from '../actions/authActions'
 import PropTypes from 'prop-types'
 import { Redirect } from 'react-router-dom'
 import store from '../store'
+import {Alert} from 'react-bootstrap'
 
-import { Button, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui-react'
+import { Button, Form, Grid, Header, Icon, Message, Segment } from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css'
 
 class LoginForm extends React.Component {
@@ -14,7 +16,8 @@ class LoginForm extends React.Component {
     this.state = {
       email: '',
       password: '', 
-      type: props.type
+      type: props.type,
+      error: false
     }
   }
 
@@ -30,18 +33,20 @@ class LoginForm extends React.Component {
       }, 
       this.state.type
     )
+    this.setState({ loading : false})
   }
 
   render(){
+    if(this.state.error){
+      return (<Alert className='App' variant='danger'>Looks like something has gone wrong</Alert> )
+    }
+    else{
+      
     if(!this.props.isLoggedIn) {
     return(
 
         <div className='login-form'>
-          {/*
-          Heads up! The styles below are necessary for the correct render of this example.
-          You can do same with CSS, the main idea is that all the elements up to the `Grid`
-          below must have a height of 100%.
-        */}
+
           <style>{`
           body > div,
           body > div > div,
@@ -52,37 +57,41 @@ class LoginForm extends React.Component {
           </style>
           <Grid textAlign='center' style={{ height: '100%' }} verticalAlign='middle'>
             <Grid.Column style={{ maxWidth: 450 }}>
-              <Header as='h2' color='teal' textAlign='center'>
-                <Image src='/logo.png' /> Log-in to your account
+              <Header as='h2' color='grey' textAlign='center'>
+              <Icon name='sign in' /> Log-in to your account
               </Header>
               <Form size='large'>
                 <Segment stacked>
                   <Form.Input 
+                    fluid
                     name='email'
-                    fluid icon='user' iconPosition='left'
+                    icon='user' iconPosition='left'
                     placeholder='E-mail address'
-                    value={this.state.email} 
                     onChange={this.onChange} 
                   />
                   <Form.Input
                     fluid
                     name='password'
-                    icon='lock'
-                    iconPosition='left'
+                    icon='lock' iconPosition='left'
                     placeholder='Password'
                     type='password'
-                    value={this.state.password}
                     onChange={this.onChange}
                   />
 
-                  <Button color='teal' fluid size='large' onClick= { this.onClick}>
+                  <Button basic color='grey' fluid size='large' onClick= { this.onClick}>
                   Login
                   </Button>
                 </Segment>
               </Form>
-              <Message>
-              New to us? <a href='#'>Sign Up</a>
+             
+              <Message as={Link} to="/investors/Register">
+                New to us? Sign Up
               </Message>
+             
+              <Message as={Link} to="/forgetPassword">
+                Forget Password
+              </Message>
+              
             </Grid.Column>
           </Grid>
         </div>
@@ -96,7 +105,7 @@ class LoginForm extends React.Component {
     }
 
   }
-
+  }
 }
 
 LoginForm.propTypes = {
@@ -105,7 +114,8 @@ LoginForm.propTypes = {
 
 const mapStateToProps = state => ({
 	isLoggedIn: state.auth.isLoggedIn,
-	loggedUser: state.auth.loggedUser,
+  loggedUser: state.auth.loggedUser,
+  error: state.auth.error
 })
 
 export default connect(mapStateToProps,{ login })(LoginForm);

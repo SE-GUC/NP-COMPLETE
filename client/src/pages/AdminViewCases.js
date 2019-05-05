@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import Axios from 'axios'
 import PropTypes from 'prop-types'
 import MapCases from '../components/MapCases'
-import Spinner from 'react-bootstrap/Spinner'
-import Button from 'react-bootstrap/Button'
+import {Spinner , Alert} from 'react-bootstrap'
+import { Header, Button } from 'semantic-ui-react'
 import SearchCases from '../components/SearchCases';
 
 export class AdminViewCases extends Component {
@@ -15,7 +15,8 @@ export class AdminViewCases extends Component {
           searchedCases:[],
           ID:[],
           loading:true,
-          walkIn: props.walkIn
+          walkIn: props.walkIn,
+          error: false
         }
       }
       handleInputChange = evt => {
@@ -36,9 +37,10 @@ export class AdminViewCases extends Component {
     componentDidMount() {
         this._isMounted = true
         const id = localStorage.getItem('id')
+        this.setState({loading: true , error: false})
         Axios.get('/api/admins/viewCases/'+ id)
         .then(res => this.setState({ cases: res.data.data,loading:false }))
-        .catch(err => this.setState({ error: true }))
+        .catch(err => this.setState({ error: true , loading: false}))
     }
 
     componentWillUnmount() {
@@ -47,15 +49,18 @@ export class AdminViewCases extends Component {
     
   render() {
     if (localStorage.getItem('language') === 'English') {
-    return this.state.error? <h1>process could not be completed</h1>:this.state.loading?
+    return this.state.error? <Alert className='App' variant='danger'>Looks like something has gone wrong</Alert>:this.state.loading?
     <div className='App'>
       <Spinner animation="border" variant= "primary" />
     </div>
     :
     ( 
       <div>
-        <Button variant='danger' onClick={()=>this.setState({cases:this.state.cases.sort((a,b) => (a.establishmentDate > b.establishmentDate) ? 1 : ((b.establishmentDate > a.establishmentDate) ? -1 : 0))})}>Sort by Establishment Date</Button>
-        <Button variant='danger' onClick={()=>this.setState({cases:this.state.cases.sort((a,b) => (a._id > b._id) ? 1 : ((b._id > a._id) ? -1 : 0))})}>Sort by ID</Button>
+        {this.state.walkIn === true?
+        <Header inverted centered as='h1'>Walk In Cases</Header>
+        : <Header inverted centered as='h1'>Portal Cases</Header>}
+        <Button onClick={()=>this.setState({cases:this.state.cases.sort((a,b) => (a.establishmentDate > b.establishmentDate) ? 1 : ((b.establishmentDate > a.establishmentDate) ? -1 : 0))})}>Sort by Establishment Date</Button> {' '}
+        <Button onClick={()=>this.setState({cases:this.state.cases.sort((a,b) => (a._id > b._id) ? 1 : ((b._id > a._id) ? -1 : 0))})}>Sort by ID</Button>
         <br/><br/>
         <input
               type="text"
@@ -65,22 +70,24 @@ export class AdminViewCases extends Component {
             <br/>
             <SearchCases cases = {this.state.searchedCases}/>
         <div>
-        <h1>if green then filled by an investor else filled by a lawyer</h1>
         <MapCases cases = {this.state.cases} walkIn={this.state.walkIn}/>
         </div>
       </div>  
     )
   }
   else{
-    return this.state.error? <h1>process could not be completed</h1>:this.state.loading?
+    return this.state.error? <Alert className='App' variant='danger'>يبدو ان ثمة مشكلة الرجاء حاول مجددا</Alert>:this.state.loading?
     <div className='App'>
       <Spinner animation="border" variant= "primary" />
     </div>
     :
     ( 
       <div>
-        <Button variant='danger' onClick={()=>this.setState({cases:this.state.cases.sort((a,b) => (a.establishmentDate > b.establishmentDate) ? 1 : ((b.establishmentDate > a.establishmentDate) ? -1 : 0))})}>رتب بتاريخ التاسيس</Button>
-        <Button variant='danger' onClick={()=>this.setState({cases:this.state.cases.sort((a,b) => (a._id > b._id) ? 1 : ((b._id > a._id) ? -1 : 0))})}>IDرتب بال</Button>
+        {this.state.walkIn === true?
+        <Header inverted centered as='h1'>Walk In Cases</Header>
+        : <Header inverted centered as='h1'>Portal Cases</Header>}
+        <Button onClick={()=>this.setState({cases:this.state.cases.sort((a,b) => (a.establishmentDate > b.establishmentDate) ? 1 : ((b.establishmentDate > a.establishmentDate) ? -1 : 0))})}>رتب بتاريخ التاسيس</Button>{' '}
+        <Button onClick={()=>this.setState({cases:this.state.cases.sort((a,b) => (a._id > b._id) ? 1 : ((b._id > a._id) ? -1 : 0))})}>IDرتب بال</Button>
         <br/><br/>
         <input
               type="text"

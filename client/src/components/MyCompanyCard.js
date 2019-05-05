@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
-import Card from 'react-bootstrap/Card'
-import CardDeck from 'react-bootstrap/CardDeck'
+import { Card } from 'semantic-ui-react'
 export class MyCompaniesCard extends Component {
   constructor (props) {
     super(props)
@@ -14,22 +13,20 @@ export class MyCompaniesCard extends Component {
   }
   render () {
     return (
-      <CardDeck>
-        <Card>
-          <Card.Body>
-            <Card.Title>{this.state.name}</Card.Title>
-            <Card.Text>
-              {this.state.type}
-            </Card.Text>
-            <Card.Text>
-              {this.state.establishmentDate}
-            </Card.Text>
-            <Card.Text>
-              {this.state.feedback}
-            </Card.Text>
-          </Card.Body>
-        </Card>
-      </CardDeck>
+      <Card fluid>
+        <Card.Content>
+          <Card.Header>{this.state.name}</Card.Header>
+          <Card.Description>
+            {this.state.type}
+          </Card.Description>
+          <Card.Description>
+            {this.state.establishmentDate}
+          </Card.Description>
+          <Card.Description>
+            {this.state.feedback}
+          </Card.Description>
+        </Card.Content>
+      </Card>
 
     )
   }

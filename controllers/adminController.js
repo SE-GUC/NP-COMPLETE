@@ -354,11 +354,11 @@ exports.showLastWorked = async (req, res) => {
     const result = []
     if (requestedCase.form.acceptedByLawyer !== -1) {
       const lawyer = await Lawyer.findById(requestedCase.form.lawyerID)
-      result.push('Lawyer: ' + lawyer.fullName)
+      result.push(`Lawyer: ${lawyer && lawyer !== null ? lawyer.fullName : 'Unregistered'}`)
     }
     if (requestedCase.form.acceptedByReviewer !== -1) {
       const reviewer = await Reviewer.findById(requestedCase.form.reviewerID)
-      result.push('Reviewer: ' + reviewer.fullName)
+      result.push(`Reviewer: ${reviewer && reviewer !== null ? reviewer.fullName : 'Unregistered'}`)
     }
     return res.json({
       status: 'Success',

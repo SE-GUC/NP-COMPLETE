@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Section from './Section'
-import { Form, Container, Button } from 'reactstrap'
+import { Form, Button, Container } from 'reactstrap'
 import Axios from 'axios';
 import '../../layout/fillform.css'
 
@@ -66,7 +66,6 @@ class FillForm extends Component {
     }
   }
   render () {
-    console.log(this.state.lawyer)
     const renderSections = this.state.form.sections.map((section, i) => {
       return (
         <Container className="Section">
@@ -79,7 +78,7 @@ class FillForm extends Component {
     return this.state.error? <h1>and error has occured please try again!</h1>:(
       <div>
        <h1>Fill Form</h1>
-        <Container className="FormContainer">
+        <Container className="FormContainer" >
           <h1> {this.state.type} </h1>
           <Form className="form" onSubmit={(e) => this.submitForm(e)}>
             {renderSections}

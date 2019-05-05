@@ -8,11 +8,12 @@ class ReviewSection extends Component {
       number: props.number,
       sectionName: props.section.sectionName,
       fields: props.section.fields,
-      oldData: props.oldData
+      oldData: props.oldData.data
     }
   }
 
   render () {
+    console.log(this.state.oldData)
     return (
       this.state.fields.map((fields, i) => {
         return <ReviewField form={this.props.form} index={i} fields={fields} edit={this.props.edit} oldData={this.state.oldData} number={this.props.number} change={this.props.change} />
