@@ -25,6 +25,7 @@ const companyValidator = require('../validations/companyValidations')
 
 exports.default = async (req, res) => {
   await main.default(res, Model)
+  console.log('arrived here')
 }
 exports.resetPassword = async (req, res) => {
   await userController.resetPassword(req, res, Model)
