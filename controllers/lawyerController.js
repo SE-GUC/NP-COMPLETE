@@ -235,7 +235,7 @@ exports.review = async (req, res) => {
     const Investorr = await Investor.findById(company.investorId)
     console.log(Investorr)
     const investorrEmail = Investorr.email
-    if(review === 0){
+    if (review === 0) {
       transporter.sendMail({
         to: investorrEmail,
         subject: 'Form rejection by lawyer',
@@ -243,7 +243,7 @@ exports.review = async (req, res) => {
         html: `Your form has been rejected by the lawyer ${lawyer.fullName}`
       })
     }
-    if(review === 1){
+    if (review === 1) {
       transporter.sendMail({
         to: investorrEmail,
         subject: 'Form acceptance by lawyer',
